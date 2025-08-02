@@ -1,0 +1,52 @@
+/*
+=============================================
+TREE VIEW
+=============================================
+*/
+.wt-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wt-tree-item {
+    margin: var(--space-1) 0;
+}
+
+.wt-tree-toggle {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast) var(--ease-out);
+    font-size: var(--text-sm);
+}
+
+.wt-tree-toggle:hover {
+    background-color: var(--color-gray-100);
+}
+
+.wt-tree-toggle-icon {
+    margin-right: var(--space-2);
+    transition: transform var(--transition-fast) var(--ease-out);
+}
+
+.wt-tree-toggle-expanded .wt-tree-toggle-icon {
+    transform: rotate(90deg);
+}
+
+.wt-tree-item-active > .wt-tree-toggle {
+    background-color: var(--color-gray-100);
+    color: var(--color-secondary-600);
+    font-weight: var(--font-medium);
+    border-left: 2px solid var(--color-secondary-600);
+}
+
+.wt-tree-children {
+    list-style: none;
+    padding-left: var(--space-6);
+    margin: 0;
+    overflow: hidden;
+}
+

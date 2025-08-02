@@ -1,0 +1,50 @@
+/* Sidebar layouts for detail views */
+.sidebar-layout {
+    display: grid;
+    gap: @relativeBig;                                                   // 32px (was var(--spacing-8))
+
+    &.left {
+        grid-template-columns: 300px 1fr;
+    }
+
+    &.right {
+        grid-template-columns: 1fr 300px;
+    }
+
+    &.wide-sidebar {
+        &.left {
+            grid-template-columns: @sidebarWidthWide 1fr;               // 400px (was var(--sidebar-width-wide))
+        }
+
+        &.right {
+            grid-template-columns: 1fr @sidebarWidthWide;               // 400px (was var(--sidebar-width-wide))
+        }
+    }
+
+    &.narrow-sidebar {
+        &.left {
+            grid-template-columns: @sidebarWidthNarrow 1fr;             // 250px (was var(--sidebar-width-narrow))
+        }
+
+        &.right {
+            grid-template-columns: 1fr @sidebarWidthNarrow;             // 250px (was var(--sidebar-width-narrow))
+        }
+    }
+
+    .sidebar-content {
+        background: @primaryBackground;                                  // (was var(--color-sidebar-bg))
+        border: 1px solid @borderColor;                                // (was var(--color-border-primary))
+        border-radius: @borderRadiusLG;                                 // 8px (was var(--radius-lg))
+        padding: @relativeLarge;                                         // 24px (was var(--spacing-6))
+        height: fit-content;
+        position: sticky;
+        top: @relativeMedium;                                            // 16px (was var(--spacing-4))
+    }
+
+    .main-content {
+        min-width: 0; /* Prevents overflow in grid */
+    }
+
+
+
+}

@@ -1,0 +1,186 @@
+/*
+=============================================
+HEADER & NAVIGATION
+=============================================
+*/
+/* Main Header */
+.wt-header {
+    background-color: var(--bg-header);
+    color: var(--text-white);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 50;
+
+    a {
+        color: var(--text-white);
+    }
+}
+
+.wt-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.wt-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.wt-logo {
+    display: flex;
+    align-items: center;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xl);
+    margin-right: var(--space-4);
+}
+
+.wt-logo img {
+    height: 32px;
+    width: 32px;
+    margin-right: var(--space-2);
+}
+
+/* Header Search */
+.wt-header-search {
+    position: relative;
+}
+
+.wt-header-search-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-white);
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-8);
+    border-radius: var(--radius-md);
+    width: 240px;
+    font-size: var(--text-sm);
+}
+
+.wt-header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.wt-header-search-icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Sub Header / Breadcrumb */
+.wt-subheader {
+    background-color: var(--bg-subheader);
+    border-bottom: 1px solid var(--border-light);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+}
+
+.wt-breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-sm);
+
+    .item {
+        color: var(--color-secondary-600);
+        text-decoration: none;
+    }
+
+    .item:hover {
+        color: var(--color-secondary-700);
+        text-decoration: underline;
+    }
+
+    .separator {
+        color: var(--text-light);
+        margin: 0 var(--space-2);
+    }
+
+    .active {
+        color: var(--text-muted);
+        font-weight: var(--font-medium);
+    }
+
+}
+
+
+/* Sidebar Navigation */
+.wt-sidebar {
+    width: 240px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-light);
+    overflow-y: auto;
+    transition: transform var(--transition-normal) var(--ease-in-out);
+    z-index: 40;
+}
+
+.wt-sidebar-header {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-light);
+    font-weight: var(--font-semibold);
+    color: var(--text-muted);
+}
+
+.wt-menu {
+    height:100%;
+
+    .section {
+        padding: var(--space-2) 0;
+        .title {
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+        }
+    }
+    .item {
+        display: block;
+        padding: var(--space-2) var(--space-4) var(--space-2) var(--space-6);
+        color: var(--text-default);
+        text-decoration: none;
+        font-size: var(--text-sm);
+        border-left: 2px solid transparent;
+        transition: background-color var(--transition-fast) var(--ease-out),
+        color var(--transition-fast) var(--ease-out);
+
+        :hover {
+            background-color: var(--color-gray-100);
+            color: var(--color-secondary-600);
+        }
+
+        .active {
+            color: var(--color-secondary-600);
+            background-color: var(--color-gray-100);
+            border-left-color: var(--color-secondary-600);
+            font-weight: var(--font-medium);
+        }
+
+    }
+
+}
+
+/* Mobile Menu Toggle */
+.wt-menu-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: var(--text-xl);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1);
+    margin-right: var(--space-2);
+}
+
+.wt-menu-toggle:hover {
+    color: var(--text-default);
+}
+

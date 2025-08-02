@@ -1,0 +1,42 @@
+
+.page-header {
+    flex-shrink: 0;
+    padding: @relativeBig;
+    border-bottom: 1px solid @borderColor;
+    background: @primaryBackground;
+
+    .page-header-content {
+        .page-area {
+            font-weight: @headerFontWeight;
+        }
+
+        .page-title {
+            font-family: @fontFamily;
+            font-size: @relativeMassive;
+            font-weight: @headerFontWeight;
+            line-height: @headerLineHeight;
+            color: @textColor;
+            padding: 0 0 @relative4px 0;
+        }
+
+        .page-subtitle {
+
+        }
+
+    }
+}
+
+.page-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0; /* Container handles padding */
+
+
+        scroll-behavior: smooth;
+        scroll-padding-top: 1rem;
+
+}
+
+.page-breadcrumb {
+    padding: @relativeMedium 0 0 @relativeMedium;
+}

@@ -1,0 +1,8 @@
+// Alternative: flex centering container
+.center-container-with-sidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: calc(@sidebarWidth / -2) !important; // Using Fomantic variable
+    // margin-top: calc(@headerHeight / -2);            // Commented as in original
+}

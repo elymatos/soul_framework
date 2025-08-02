@@ -1,0 +1,865 @@
+/*******************************
+    WebTool Complete Site Variables
+    Single source of truth using Fomantic-UI variable system
+*******************************/
+
+@imagePath: "/scripts/fomantic-ui/assets/images";
+@fontPath: "/scripts/fomantic-ui/assets/fonts";
+
+/*-------------------
+    Font System
+-------------------*/
+
+@fontName: 'Noto Sans';
+@fontFamily: 'Noto Sans','Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+@fallbackFonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+@codeFont: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+@headerFont: @fontName, @fallbackFonts;
+@pageFont: @fontName, @fallbackFonts;
+@textFont: @fontName, @fallbackFonts;
+
+// Disable Google Fonts
+@importGoogleFonts: true;
+@importFonts: true;
+
+/*-------------------
+    Base Sizing System
+-------------------*/
+
+// Core sizing (this controls everything) - WebTool uses 14px base
+// Primary base (your app standard)
+@appBaseFontSize: 14px;
+@emSize: @appBaseFontSize;
+@fontSize: @appBaseFontSize;
+
+// Semantic base (for web standards compatibility)
+@webBaseFontSize: 16px;
+@fontSizeBase: @appBaseFontSize; // Keep your 14px as base
+
+// Body text default
+@bodyFontSize: @fontSizeBase;
+
+// Harmonic scale raw values (for Fomantic override)
+//@harmonicMiniRaw: 0.5;       // 7px
+//@harmonicTinyRaw: 0.625;     // 8.75px
+//@harmonicSmallRaw: 0.75;     // 10.5px
+//@harmonicMediumRaw: 1.0;     // 14px (base)
+//@harmonicLargeRaw: 1.25;     // 17.5px
+//@harmonicBigRaw: 1.5;        // 21px
+//@harmonicHugeRaw: 1.875;     // 26.25px
+//@harmonicMassiveRaw: 2.25;   // 31.5px
+
+@harmonicMiniRaw: 0.579;     // 8.1px
+@harmonicTinyRaw: 0.694;     // 9.7px
+@harmonicSmallRaw: 0.833;    // 11.7px
+@harmonicMediumRaw: 1.0;     // 14px
+@harmonicLargeRaw: 1.2;      // 16.8px
+@harmonicBigRaw: 1.44;       // 20.2px
+@harmonicHugeRaw: 1.728;     // 24.2px
+@harmonicMassiveRaw: 2.074;  // 29px
+
+// Override Fomantic's core size variables
+@miniRaw: @harmonicMiniRaw;
+@tinyRaw: @harmonicTinyRaw;
+@smallRaw: @harmonicSmallRaw;
+@mediumRaw: @harmonicMediumRaw;
+@largeRaw: @harmonicLargeRaw;
+@bigRaw: @harmonicBigRaw;
+@hugeRaw: @harmonicHugeRaw;
+@massiveRaw: @harmonicMassiveRaw;
+
+//// Semantic size names (now harmonic)
+@relativeMini: unit(@miniRaw, em);
+@relativeTiny: unit(@tinyRaw, em);
+@relativeSmall: unit(@smallRaw, em);
+@relativeMedium: unit(@mediumRaw, em);
+@relativeLarge: unit(@largeRaw, em);
+@relativeBig: unit(@bigRaw, em);
+@relativeHuge: unit(@hugeRaw, em);
+@relativeMassive: unit(@massiveRaw, em);
+
+@mini: unit(@miniRaw, rem);
+@tiny: unit(@tinyRaw, rem);
+@small: unit(@smallRaw, rem);
+@medium: unit(@mediumRaw, rem);
+@large: unit(@largeRaw, rem);
+@big: unit(@bigRaw, rem);
+@huge: unit(@hugeRaw, rem);
+@massive: unit(@massiveRaw, rem);
+
+// Pixel equivalents for reference (these will be automatic via em conversion)
+@relative8px: @relativeMini;
+@relative10px: @relativeTiny;
+@relative12px: @relativeSmall;
+@relative16px: @relativeMedium;
+@relative20px: @relativeLarge;
+@relative24px: @relativeBig;
+@relative30px: @relativeHuge;
+@relative36px: @relativeMassive;
+
+// Keep your existing absolute spacing for layouts (these are fine)
+//@relative1px: 1px;
+//@relative2px: 2px;
+//@relative4px: 4px;
+//@relative6px: 6px;
+//@relative16px: 16px;
+//@relative20px: 20px;
+//@relative24px: 24px;
+//@relative32px: 32px;
+//@relative40px: 40px;
+//@relative48px: 48px;
+//@relative64px: 64px;
+//@relative80px: 80px;
+//@relative96px: 96px;
+
+//// Semantic size names (now harmonic)
+//@relativeMini: unit(@miniRaw, em);      // 0.571em ≈ 8px
+//@relativeTiny: unit(@tinyRaw, em);      // 0.714em ≈ 10px
+//@relativeSmall: unit(@smallRaw, em);    // 0.857em ≈ 12px
+//@relativeMedium: unit(@mediumRaw, em);  // 1em = 14px
+//@relativeLarge: unit(@largeRaw, em);    // 1.214em ≈ 17px
+//@relativeBig: unit(@bigRaw, em);        // 1.571em ≈ 22px
+//@relativeHuge: unit(@hugeRaw, em);      // 1.929em ≈ 27px
+//@relativeMassive: unit(@massiveRaw, em); // 2.429em ≈ 34px
+//
+//@mini: unit(@miniRaw, rem);      // 0.571em ≈ 8px
+//@tiny: unit(@tinyRaw, rem);      // 0.714em ≈ 10px
+//@small: unit(@smallRaw, rem);    // 0.857em ≈ 12px
+//@medium: unit(@mediumRaw, rem);  // 1em = 14px
+//@large: unit(@largeRaw, rem);    // 1.214em ≈ 17px
+//@big: unit(@bigRaw, rem);        // 1.571em ≈ 22px
+//@huge: unit(@hugeRaw, rem);      // 1.929em ≈ 27px
+//@massive: unit(@massiveRaw, rem); // 2.429em ≈ 34px
+
+/*-------------------
+    Harmonic Typography Scale
+-------------------*/
+
+// Font sizes using harmonic scale (based on 14px base)
+@fontSizeXXS: @relativeMini;    // 0.5rem = 7px Micro text, icons
+@fontSizeXS: @relativeTiny;     // 0.625rem = 8.75px Small labels, captions
+@fontSizeSM: @relativeSmall;    // 0.75rem = 10.5px Secondary text, metadata
+@fontSizeBase: @relativeMedium; // 1rem = 14px Body text
+@fontSizeLG: @relativeLarge;    // 1.25rem = 17.5px Emphasized text, small headings
+@fontSizeXL: @relativeBig;      // 1.5rem = 22px Subheadings
+@fontSize2XL: @relativeHuge;    // 1.875rem = 26.25px Section headings
+@fontSize3XL: @relativeMassive; // 2.25rem = 31.5px Page titles, hero text
+
+// Extended harmonic progression
+@fontSize4XL: 2.8125rem;        // 39.375px (31.5px × 1.25)
+@fontSize5XL: 3.515625rem;      // 49.21875px (39.375px × 1.25)
+@fontSize6XL: 4.39453125rem;    // 61.5234375px (49.21875px × 1.25)
+
+// Font weights
+@thin: 300;
+@normal: 400;
+@bold: 700;
+
+// Semantic text sizes
+@textMicro: @fontSizeXXS;
+@textSmall: @fontSizeXS;
+@textBody: @fontSizeBase;
+@textBodyLarge: @fontSizeLG;
+@textSubheading: @fontSizeXL;
+@textHeading: @fontSize2XL;
+@textTitle: @fontSize3XL;
+@textDisplay: @fontSize3XL;
+@textHero: @fontSize4XL;
+
+// Component-specific sizes
+@cardTitleSize: @textSubheading;
+@cardMetaSize: @textSmall;
+@cardBodySize: @textBody;
+@buttonTextSize: @textBody;
+@inputTextSize: @textBody;
+@labelTextSize: @textSmall;
+
+@h1: @relativeHuge;
+@h2: @relativeBig;
+@h3: @relativeLarge;
+@h4: @relativeMedium;
+
+// Line heights
+// Line heights matched to content types
+@lineHeightMicro: 1.2;      // For small text, labels
+@lineHeightBody: 1.5;       // For body text (14-18px)
+@lineHeightHeading: 1.25;   // For headings
+@lineHeightDisplay: 1.1;    // For large display text
+@lineHeightCode: 1.4;       // For code blocks
+
+// Apply systematically
+@bodyLineHeight: @lineHeightBody;
+@headerLineHeight: @lineHeightHeading;
+
+@lineHeightNone: 1;
+@lineHeightTight: 1.25;
+@lineHeightSnug: 1.375;
+@lineHeightNormal: 1.5;
+@lineHeightRelaxed: 1.625;
+@lineHeightLoose: 2;
+
+// Letter spacing
+@letterSpacingTighter: -0.05em;
+@letterSpacingTight: -0.025em;
+@letterSpacingNormal: 0;
+@letterSpacingWide: 0.025em;
+@letterSpacingWider: 0.05em;
+@letterSpacingWidest: 0.1em;
+
+// Font weights (extended)
+@fontWeightThin: 100;
+@fontWeightExtraLight: 200;
+@fontWeightLight: 300;
+@fontWeightNormal: 400;
+@fontWeightMedium: 500;
+@fontWeightSemibold: 600;
+@fontWeightBold: 700;
+@fontWeightExtrabold: 800;
+@fontWeightBlack: 900;
+
+// Semantic font weights
+@fontWeightLabel: @fontWeightMedium;     // 500 for labels
+@fontWeightBody: @fontWeightNormal;      // 400 for body text
+@fontWeightEmphasis: @fontWeightSemibold; // 600 for emphasis
+@fontWeightHeading: @fontWeightBold;     // 700 for headings
+@fontWeightDisplay: @fontWeightExtrabold; // 800 for hero text
+
+/*-------------------
+    Border Radius Scale
+-------------------*/
+
+@borderRadiusNone: 0;
+@borderRadiusSM: 0.25rem;    // 4px
+@borderRadiusMD: 0.375rem;   // 6px (default)
+@borderRadiusLG: 0.5rem;     // 8px
+@borderRadiusXL: 0.75rem;    // 12px
+@borderRadius2XL: 1rem;      // 16px
+@borderRadius3XL: 1.5rem;    // 24px
+@borderRadiusFull: 9999px;   // Full rounding
+
+@defaultBorderRadius: @borderRadiusMD;
+@borderRadius: @defaultBorderRadius;
+
+/*-------------------
+    Color System (Your Brand Colors)
+-------------------*/
+
+// Primary brand colors
+@primaryColor: #5E6AD2;
+@primaryColorHover: #4C51BF;
+@primaryColorFocus: #4338CA;
+@primaryColorDown: #3730A3;
+@primaryColorActive: #312E81;
+
+// Primary color variations (50-950 scale)
+@primary50: #EEF2FF;
+@primary100: #E0E7FF;
+@primary200: #C7D2FE;
+@primary300: #A5B4FC;
+@primary400: #818CF8;
+@primary500: @primaryColor;  // Base
+@primary600: @primaryColorHover;
+@primary700: @primaryColorFocus;
+@primary800: @primaryColorDown;
+@primary900: @primaryColorActive;
+@primary950: #1E1B4B;
+
+// Secondary color
+@secondaryColor: #6B7280;
+
+// Tertiary color
+@tertiaryColor: #9CA3AF;
+
+// Success colors
+@green: #10B981;
+@positiveColor: @green;
+@positiveColorHover: #059669;
+@positiveColorFocus: #047857;
+@positiveColorDown: #065F46;
+@positiveColorActive: #064E3B;
+
+@success50: #ECFDF5;
+@success100: #D1FAE5;
+@success200: #A7F3D0;
+@success300: #6EE7B7;
+@success400: #34D399;
+@success500: @green;
+@success600: @positiveColorHover;
+@success700: @positiveColorFocus;
+@success800: @positiveColorDown;
+@success900: @positiveColorActive;
+@success950: #022C22;
+
+// Error colors
+@red: #EF4444;
+@negativeColor: @red;
+@negativeColorHover: #DC2626;
+@negativeColorFocus: #B91C1C;
+@negativeColorDown: #991B1B;
+@negativeColorActive: #7F1D1D;
+
+@error50: #FEF2F2;
+@error100: #FEE2E2;
+@error200: #FECACA;
+@error300: #FCA5A5;
+@error400: #F87171;
+@error500: @red;
+@error600: @negativeColorHover;
+@error700: @negativeColorFocus;
+@error800: @negativeColorDown;
+@error900: @negativeColorActive;
+@error950: #450A0A;
+
+// Warning colors
+@orange: #F59E0B;
+@warningColor: @orange;
+@warningColorHover: #D97706;
+@warningColorFocus: #B45309;
+@warningColorDown: #92400E;
+@warningColorActive: #78350F;
+
+@warning50: #FFFBEB;
+@warning100: #FEF3C7;
+@warning200: #FDE68A;
+@warning300: #FCD34D;
+@warning400: #FBBF24;
+@warning500: @orange;
+@warning600: @warningColorHover;
+@warning700: @warningColorFocus;
+@warning800: @warningColorDown;
+@warning900: @warningColorActive;
+@warning950: #451A03;
+
+// Info colors
+@blue: #3B82F6;
+@infoColor: @blue;
+@infoColorHover: #2563EB;
+@infoColorFocus: #1D4ED8;
+@infoColorDown: #1E40AF;
+@infoColorActive: #1E3A8A;
+
+@info50: #EFF6FF;
+@info100: #DBEAFE;
+@info200: #BFDBFE;
+@info300: #93C5FD;
+@info400: #60A5FA;
+@info500: @blue;
+@info600: @infoColorHover;
+@info700: @infoColorFocus;
+@info800: @infoColorDown;
+@info900: @infoColorActive;
+@info950: #172554;
+
+// Neutral colors (grayscale)
+@white: #FFFFFF;
+@neutral25: #FCFCFD;
+@neutral50: #F9FAFB;
+@neutral100: #F3F4F6;
+@neutral200: #E5E7EB;
+@neutral300: #D1D5DB;
+@neutral400: #9CA3AF;
+@neutral500: #6B7280;
+@neutral600: #4B5563;
+@neutral700: #374151;
+@neutral800: #1F2937;
+@neutral900: #111827;
+@neutral950: #030712;
+@black: #000000;
+
+// Map to Fomantic's gray system
+@lightGrey: @neutral100;
+@grey: @neutral500;
+@darkGrey: @neutral700;
+@offWhite: @neutral50;
+@darkWhite: @neutral100;
+@midWhite: @neutral400;
+
+// Extended color palette
+@yellow: #EAB308;
+@olive: #84CC16;
+@teal: #14B8A6;
+@violet: #8B5CF6;
+@purple: #8B5CF6;
+@pink: #EC4899;
+@brown: #92400E;
+
+/*-------------------
+    Background Colors
+-------------------*/
+
+@pageBackground: @white;
+@bodyBackground: @pageBackground;
+
+// Surface colors
+@surfacePrimary: @white;
+@surfaceSecondary: @neutral50;
+@surfaceTertiary: @neutral100;
+@surfaceQuaternary: @neutral200;
+@surfaceInverse: @neutral900;
+
+@primaryBackground: @surfacePrimary;
+@secondaryBackground: @surfaceSecondary;
+
+/*-------------------
+    Text Colors
+-------------------*/
+
+@textColor: @neutral900;
+@headerColor: @textColor;
+@metaColor: @neutral700;
+@mutedTextColor: @neutral500;
+@disabledTextColor: @neutral300;
+@invertedTextColor: @white;
+
+// Semantic text colors
+@textPrimary: @neutral900;
+@textSecondary: @neutral600;
+@textTertiary: @neutral400;
+@textSuccess: @success700;
+@textWarning: @warning700;
+@textError: @error700;
+@textInfo: @info700;
+
+
+/*-------------------
+    Border Colors
+-------------------*/
+
+@borderColor: @neutral300;
+@strongBorderColor: @neutral400;
+@internalBorderColor: @borderColor;
+@selectedBorderColor: @primaryColor;
+
+// Semantic border colors
+@borderSubtle: @neutral200;
+@borderDefault: @neutral300;
+@borderStrong: @neutral400;
+@borderInverse: @neutral600;
+
+/*-------------------
+    Link Colors
+-------------------*/
+
+@linkColor: @primaryColor;
+@linkHoverColor: @primaryColorHover;
+@linkDownColor: @primaryColorDown;
+
+/*-------------------
+    Shadow System
+-------------------*/
+
+@shadowXS: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+@shadowSM: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+////@shadowMD: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+////@shadowLG: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+////@shadowXL: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+////@shadow2XL: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+@shadowMD: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
+@shadowLG: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+@shadowXL: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+@shadow2XL: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+@shadowInner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+// Map to Fomantic shadows
+@subtleShadow: @shadowXS;
+@defaultShadow: @shadowMD;
+@floatingShadow: @shadowLG;
+@boxShadow: @defaultShadow;
+
+/*-------------------
+    Transition System
+-------------------*/
+
+@transitionDuration: 200ms;
+@transitionEasing: ease-out;
+
+@transitionFast: 150ms @transitionEasing;
+@transitionNormal: @transitionDuration @transitionEasing;
+@transitionSlow: 300ms @transitionEasing;
+
+@defaultDuration: @transitionDuration;
+//
+/*-------------------
+    Z-Index Scale
+-------------------*/
+
+@zIndexDropdown: 1000;
+@zIndexSticky: 1010;
+@zIndexFixed: 1020;
+@zIndexModal: 1030;
+@zIndexPopup: 1040;
+@zIndexTooltip: 1050;
+@zIndexNotification: 1060;
+
+///*-------------------
+//    Layout Variables (WebTool Specific)
+//-------------------*/
+//
+// Sidebar dimensions
+@sidebarWidth: 280px;
+@sidebarWidthNarrow: 250px;
+@sidebarWidthWide: 400px;
+
+// Header and toolbar
+@headerHeight: @relative64px;
+@headerFontSize: @large;
+@headerFontWeight: @fontWeightSemibold;
+@toolbarHeight: @relative64px;
+
+//// Timeline
+//@timelineHeight: 120px;
+//
+// Tools panel
+@toolsPanelWidth: 320px;
+@toolsPanelWidthNarrow: 280px;
+
+/*-------------------
+    Semantic Spacing Variables
+-------------------*/
+
+// Layout spacing
+@layoutGap: @relativeLarge;          // 24px - Grid gaps
+@layoutMargin: @relativeBig;         // 32px - Section margins
+@layoutPadding: @relativeBig;        // 32px - Container padding
+
+// Component spacing
+@componentGap: @relativeMedium;      // 16px - Component internal gaps
+@componentMargin: @relativeMedium;   // 16px - Component margins
+@componentPadding: @relativeMedium;  // 16px - Component padding
+
+// Content spacing
+@contentGap: @relativeSmall;         // 12px - Content gaps
+@contentMargin: @relativeSmall;      // 12px - Content margins
+@textMargin: @relativeTiny;          // 8px - Text element margins
+
+// Interactive spacing
+@interactivePaddingX: @relativeMedium; // 16px - Horizontal padding
+@interactivePaddingY: @relativeTiny;   // 8px - Vertical padding
+@interactiveGap: @relativeTiny;        // 8px - Between interactive elements
+
+/*-------------------
+    Form System Variables
+-------------------*/
+
+/* Form Label */
+@labelDistance: @4px;
+@labelMargin: 0 0 @labelDistance 0;
+@labelFontSize: @relativeMedium;
+@labelFontWeight: @bold;
+@labelTextTransform: none;
+@labelColor: @textColor;
+
+// Form field spacing
+@formFieldGap: @relativeMedium;      // 16px - Between form fields
+@formGroupGap: @relativeLarge;       // 24px - Between form groups
+@formSectionGap: @relativeBig;       // 32px - Between form sections
+@formLabelGap: @relativeTiny;        // 8px - Label to input
+@formHelpGap: @relative4px;          // 4px - Input to help text
+@formErrorGap: @relative4px;         // 4px - Input to error text
+
+
+/* --------------
+   Form Input
+--------------- */
+
+/* This adjusts the default form input across all elements */
+@inputBackground: @surfacePrimary;
+@inputVerticalPadding:unit((6.5 / 14), em);// @relative8px;
+@inputHorizontalPadding: @relative12px;
+@inputPadding: @inputVerticalPadding @inputHorizontalPadding;
+
+/* Input Text Color */
+@inputColor: @textColor;
+@inputPlaceholderColor: if(iscolor(@inputColor), lighten(@inputColor, 75), @inputColor);
+@inputPlaceholderFocusColor: if(iscolor(@inputColor), lighten(@inputColor, 45), @inputColor);
+
+/* Line Height Default For Inputs in Browser (Descenders are 17px at 14px base em) */
+@inputLineHeight: unit((17 / 14), em);
+
+// Input styling (14px base)
+@inputBorder: 1px solid @borderDefault;
+@inputColor: @textPrimary;
+@inputFontSize: @fontSizeBase;
+@inputPlaceholderColor: @neutral400;
+@inputPlaceholderFocusColor: @neutral500;
+
+// Input states
+@inputFocusBorderColor: @primaryColor;
+@inputFocusColor: @inputColor;
+@inputErrorBorderColor: @error500;
+@inputSuccessBorderColor: @success500;
+@inputWarningBorderColor: @warning500;
+
+// Disabled states
+@disabledOpacity: 0.6;
+@disabledBackground: @neutral100;
+@disabledColor: @neutral400;
+@disabledBorderColor: @borderDefault;
+@disabledPointerEvents: none;
+
+@selectionLineHeight: @lineHeight;
+
+/*-------------------
+    Card System Variables
+-------------------*/
+
+@cardPadding: @relativeLarge;        // 24px - Card content padding
+@cardHeaderPadding: @relativeMedium; // 16px - Card header padding
+@cardFooterPadding: @relativeMedium; // 16px - Card footer padding
+@cardGap: @relativeMedium;           // 16px - Between cards
+@cardContentGap: @relativeMedium;    // 16px - Within card content
+@cardBackground: @surfacePrimary;
+@cardBorder: @borderSubtle;
+@cardBorderRadius: @borderRadiusLG;
+@cardShadow: @defaultShadow;
+
+/*-------------------
+    Navigation Variables
+-------------------*/
+
+@navItemPadding: @relativeSmall @relativeMedium; // 12px 16px - Nav item padding
+@navItemGap: @relativeTiny;          // 8px - Between nav items
+@navSectionGap: @relativeLarge;      // 24px - Between nav sections
+@navIndent: @relativeLarge;          // 24px - Sub-navigation indent
+
+// Menu styling
+@menuBackground: @surfacePrimary;
+@menuBorder: @borderSubtle;
+@menuItemColor: @textPrimary;
+@menuItemHoverBackground: @surfaceSecondary;
+@menuItemActiveBackground: @primary100;
+@menuItemActiveColor: @primaryColor;
+
+/*-------------------
+    Modal Variables
+-------------------*/
+
+//@modalPadding: @relativeBig;         // 32px - Modal content padding
+//@modalHeaderPadding: @relativeLarge; // 24px - Modal header padding
+//@modalFooterPadding: @relativeLarge; // 24px - Modal footer padding
+//@modalBackdropPadding: @relativeMedium; // 16px - Modal backdrop padding
+//@modalBackground: @surfacePrimary;
+//@modalBorderRadius: @borderRadiusXL;
+//@modalShadow: @shadow2XL;
+
+/*-------------------
+    Sidebar Variables
+-------------------*/
+
+@sidebarPadding: @relativeLarge;     // 24px - Sidebar content padding
+@sidebarItemPadding: @relativeTiny @relativeMedium; // 8px 16px - Sidebar item padding
+@sidebarSectionGap: @relativeLarge;  // 24px - Between sidebar sections
+@sidebarBackground: @neutral50;
+@sidebarBorder: @borderSubtle;
+@sidebarItemHoverBackground: @neutral100;
+@sidebarItemActiveBackground: @primary100;
+
+/*-------------------
+    Table Variables
+-------------------*/
+
+@tableCellPadding: @relativeSmall @relativeMedium; // 12px 16px - Table cell padding
+@tableHeaderPadding: @relativeMedium; // 16px - Table header padding
+@tableRowGap: @relativeTiny;         // 8px - Visual row separation
+@tableBackground: @surfacePrimary;
+@tableBorder: @borderSubtle;
+@tableHeaderBackground: @surfaceSecondary;
+@tableHeaderColor: @textSecondary;
+@tableHoverBackground: @surfaceSecondary;
+
+/*-------------------
+    Tree Variables
+-------------------*/
+
+@treeCellPadding: @relativeSmall @relativeMedium; // 12px 16px - Table cell padding
+@treeHeaderPadding: @relativeMedium; // 16px - Table header padding
+@treeRowGap: @relativeTiny;         // 8px - Visual row separation
+@treeBackground: @surfacePrimary;
+@treeBorder: @borderSubtle;
+@treeHeaderBackground: @surfaceSecondary;
+@treeHeaderColor: @textSecondary;
+@treeHoverBackground: @surfaceTertiary;
+
+
+///*-------------------
+//    Annotation System (WebTool Specific)
+//-------------------*/
+//
+//@annotationPrimaryColor: @blue;
+//@annotationSelectedColor: @red;
+//@annotationHoverColor: @green;
+//@annotationBackground: fade(@blue, 10%);
+//@annotationSelectedBackground: fade(@red, 10%);
+//@annotationHoverBackground: fade(@green, 10%);
+//
+///*-------------------
+//    Timeline System (WebTool Specific)
+//-------------------*/
+//
+//@timelineSegmentColor: @primaryColor;
+//@timelineSelectedColor: @red;
+//@timelinePlayheadColor: @red;
+//@timelineRulerColor: @neutral400;
+//@timelineLabelColor: @neutral500;
+//@timelineBackground: @surfacePrimary;
+//
+/*-------------------
+    Status System Variables
+-------------------*/
+
+// Success status
+@statusSuccessBackground: @success50;
+@statusSuccessText: @success800;
+@statusSuccessBorder: @success200;
+@statusSuccessDot: @success500;
+
+// Warning status
+@statusWarningBackground: @warning50;
+@statusWarningText: @warning800;
+@statusWarningBorder: @warning200;
+@statusWarningDot: @warning500;
+
+// Error status
+@statusErrorBackground: @error50;
+@statusErrorText: @error800;
+@statusErrorBorder: @error200;
+@statusErrorDot: @error500;
+
+// Info status
+@statusInfoBackground: @info50;
+@statusInfoText: @info800;
+@statusInfoBorder: @info200;
+@statusInfoDot: @info500;
+
+// Neutral status
+@statusNeutralBackground: @neutral50;
+@statusNeutralText: @neutral700;
+@statusNeutralBorder: @neutral200;
+@statusNeutralDot: @neutral500;
+
+/*-------------------
+    Badge Variables
+-------------------*/
+
+@badgePrimaryBackground: @primary100;
+@badgePrimaryText: @primary700;
+@badgePrimaryBorder: @primary200;
+
+@badgeSuccessBackground: @success100;
+@badgeSuccessText: @success700;
+@badgeSuccessBorder: @success200;
+
+@badgeWarningBackground: @warning100;
+@badgeWarningText: @warning700;
+@badgeWarningBorder: @warning200;
+
+@badgeErrorBackground: @error100;
+@badgeErrorText: @error700;
+@badgeErrorBorder: @error200;
+
+@badgeNeutralBackground: @neutral100;
+@badgeNeutralText: @neutral700;
+@badgeNeutralBorder: @neutral200;
+
+/*-------------------
+    Loading Variables
+-------------------*/
+
+@loadingSpinnerColor: @primaryColor;
+@loadingBackground: @primaryBackground;
+@loadingOverlay: fade(@white, 80%);
+@loadingOverlayDark: fade(@black, 50%);
+
+/*-------------------
+    Focus System
+-------------------*/
+
+@focusRingColor: @primaryColor;
+@focusRingWidth: 3px;
+@focusRingOffset: 2px;
+@focusRingOpacity: 20%;
+
+/*-------------------
+    Content Sizing
+-------------------*/
+
+@contentMaxWidth: 1200px;
+@contentSidePadding: @relativeLarge;
+@sectionVerticalGap: @relativeHuge;
+@paragraphGap: @relativeMedium;
+@headingGap: @relativeLarge @relativeMedium;
+
+/*-------------------
+    Responsive Breakpoints
+-------------------*/
+
+@mobileBreakpoint: 768px;
+@tabletBreakpoint: 992px;
+@computerBreakpoint: 1200px;
+@largeMonitorBreakpoint: 1920px;
+@widescreenMonitorBreakpoint: 2560px;
+
+/*-------------------
+    Animation Variables
+-------------------*/
+
+@animationDuration: @transitionDuration;
+@animationEasing: @transitionEasing;
+@animationStaggerDelay: 50ms;
+@animationSequenceGap: 100ms;
+
+// Hover effects
+@hoverLiftDistance: @relative4px;
+@hoverShadowSpread: @relativeTiny;
+
+/*-------------------
+    Overlay System
+-------------------*/
+
+// Dark overlays
+@overlayDark5: rgba(0, 0, 0, 0.05);
+@overlayDark10: rgba(0, 0, 0, 0.10);
+@overlayDark15: rgba(0, 0, 0, 0.15);
+@overlayDark20: rgba(0, 0, 0, 0.20);
+@overlayDark30: rgba(0, 0, 0, 0.30);
+@overlayDark50: rgba(0, 0, 0, 0.50);
+@overlayDark80: rgba(0, 0, 0, 0.80);
+
+// Light overlays
+@overlayLight5: rgba(255, 255, 255, 0.05);
+@overlayLight10: rgba(255, 255, 255, 0.10);
+@overlayLight20: rgba(255, 255, 255, 0.20);
+@overlayLight50: rgba(255, 255, 255, 0.50);
+@overlayLight80: rgba(255, 255, 255, 0.80);
+
+// Primary overlays
+@overlayPrimary5: fade(@primaryColor, 5%);
+@overlayPrimary10: fade(@primaryColor, 10%);
+@overlayPrimary15: fade(@primaryColor, 15%);
+@overlayPrimary20: fade(@primaryColor, 20%);
+
+/*-------------------
+    Print Variables
+-------------------*/
+
+@printMargin: @relativeMedium;
+@printPadding: @relativeMedium;
+@printSectionGap: @relativeLarge;
+
+
+/*-------------------
+    Dark Theme Variables (Optional)
+-------------------*/
+
+// Uncomment and use these for dark theme support
+/*
+@darkPageBackground: @neutral900;
+@darkSurfacePrimary: @neutral800;
+@darkSurfaceSecondary: @neutral700;
+@darkTextPrimary: @neutral50;
+@darkTextSecondary: @neutral200;
+@darkBorderDefault: @neutral600;
+@darkMenuBackground: @neutral800;
+@darkModalBackground: @neutral800;
+*/

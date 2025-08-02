@@ -1,0 +1,49 @@
+.annotation-player {
+    grid-area: player;
+    height: 100%;
+
+    //.vjs-control-bar {
+    //    bottom: -30px;
+    //    opacity: 1 !important;
+    //    display: flex !important;
+    //}
+    //
+    //.vjs-playback-rate {
+    //    z-index: 10;
+    //}
+
+
+    .progress-container {
+        position: relative;
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 4px 0 8px 0;
+    }
+
+    .progress-bar {
+        top:0;
+        left:0;
+        height: 100%;
+        background: #007bff;
+        border-radius: 4px;
+        transition: width 0.1s;
+    }
+
+    .buffer-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: rgba(0,123,255,0.3);
+        border-radius: 4px;
+    }
+
+    .control-bar {
+        position: relative;
+        background-color: @neutral300;
+        width: 853px;
+        margin-top: 24px;
+    }
+}

@@ -1,0 +1,368 @@
+/* ===========================================
+   SPACING TOKENS
+   Spacing scale and semantic spacing values
+   =========================================== */
+
+/* Import root variables if not already imported */
+//@import './_root-variables.css';
+// Design System Spacing Variables
+:root {
+    // Base spacing scale (8px increments)
+    --spacing-0: 0;                 // 0px   - No spacing
+    --spacing-1: 0.25rem;           // 4px   - Micro (borders, fine details)
+    --spacing-2: 0.5rem;            // 8px   - Tiny (tight spacing)
+    --spacing-3: 0.75rem;           // 12px  - Small (compact layouts)
+    --spacing-4: 1rem;              // 16px  - Base (standard spacing)
+    --spacing-5: 1.25rem;           // 20px  - Medium-large
+    --spacing-6: 1.5rem;            // 24px  - Large (section spacing)
+    --spacing-8: 2rem;              // 32px  - XL (major sections)
+    --spacing-10: 2.5rem;           // 40px  - XXL (page sections)
+    --spacing-12: 3rem;             // 48px  - Huge (major layout)
+    --spacing-16: 4rem;             // 64px  - Massive (hero sections)
+    --spacing-20: 5rem;             // 80px  - Ultra (rare usage)
+    --spacing-24: 6rem;             // 96px  - Maximum (special cases)
+
+    // Semantic spacing aliases
+    --spacing-xs: var(--spacing-1); // Extra small
+    --spacing-sm: var(--spacing-2); // Small
+    --spacing-md: var(--spacing-4); // Medium (default)
+    --spacing-lg: var(--spacing-6); // Large
+    --spacing-xl: var(--spacing-8); // Extra large
+    --spacing-xxl: var(--spacing-12); // Extra extra large
+}
+
+// Layout Spacing (Between major sections)
+:root {
+    --layout-gap: var(--spacing-6);      // 24px - Grid gaps
+    --layout-margin: var(--spacing-8);   // 32px - Section margins
+    --layout-padding: var(--spacing-8);  // 32px - Container padding
+}
+
+// Component Spacing (Within components)
+:root {
+    --component-gap: var(--spacing-4);       // 16px - Component internal gaps
+    --component-margin: var(--spacing-4);    // 16px - Component margins
+    --component-padding: var(--spacing-4);   // 16px - Component padding
+}
+
+// Content Spacing (Text and media)
+:root {
+    --content-gap: var(--spacing-3);      // 12px - Content gaps
+    --content-margin: var(--spacing-3);   // 12px - Content margins
+    --text-margin: var(--spacing-2);      // 8px  - Text element margins
+}
+
+// Interactive Spacing (Buttons, inputs, clickable areas)
+:root {
+    --interactive-padding-x: var(--spacing-4); // 16px - Horizontal padding
+    --interactive-padding-y: var(--spacing-2); // 8px  - Vertical padding
+    --interactive-gap: var(--spacing-2);       // 8px  - Between interactive elements
+}
+
+/* ===========================================
+   SPACING SCALE EXTENSIONS
+   Additional spacing values for specific use cases
+   =========================================== */
+
+:root {
+    /* Extended spacing scale for edge cases */
+    --spacing-0-5: 0.125rem;           /* 2px  - Hair-thin spacing */
+    --spacing-1-5: 0.375rem;           /* 6px  - Between tiny and small */
+    --spacing-2-5: 0.625rem;           /* 10px - Between small and medium */
+    --spacing-7: 1.75rem;              /* 28px - Between medium-large and large */
+    --spacing-9: 2.25rem;              /* 36px - Between large and XL */
+    --spacing-11: 2.75rem;             /* 44px - Between XL and XXL */
+    --spacing-14: 3.5rem;              /* 56px - Between XXL and huge */
+    --spacing-18: 4.5rem;              /* 72px - Between huge and massive */
+    --spacing-32: 8rem;                /* 128px - Ultra-wide spacing */
+    --spacing-40: 10rem;               /* 160px - Maximum layout spacing */
+    --spacing-48: 12rem;               /* 192px - Extreme spacing */
+    --spacing-64: 16rem;               /* 256px - Hero section spacing */
+
+    /* Fractional spacing for fine-tuning */
+    --spacing-px: 1px;                 /* 1px - Hairline */
+}
+
+/* ===========================================
+   CONTEXTUAL SPACING
+   Spacing values for specific contexts
+   =========================================== */
+
+:root {
+    /* Form spacing */
+    --form-field-gap: var(--spacing-4);          /* Between form fields */
+    --form-group-gap: var(--spacing-6);          /* Between form groups */
+    --form-section-gap: var(--spacing-8);        /* Between form sections */
+    --form-label-gap: var(--spacing-2);          /* Label to input */
+    --form-help-gap: var(--spacing-1);           /* Input to help text */
+    --form-error-gap: var(--spacing-1);          /* Input to error text */
+
+    /* Card spacing */
+    --card-padding: var(--spacing-6);            /* Card content padding */
+    --card-header-padding: var(--spacing-4);     /* Card header padding */
+    --card-footer-padding: var(--spacing-4);     /* Card footer padding */
+    --card-gap: var(--spacing-4);                /* Between cards */
+    --card-content-gap: var(--spacing-4);        /* Within card content */
+
+    /* Navigation spacing */
+    --nav-item-padding: var(--spacing-3) var(--spacing-4);  /* Nav item padding */
+    --nav-item-gap: var(--spacing-2);            /* Between nav items */
+    --nav-section-gap: var(--spacing-6);         /* Between nav sections */
+    --nav-indent: var(--spacing-6);              /* Sub-navigation indent */
+
+    /* List spacing */
+    --list-item-gap: var(--spacing-3);           /* Between list items */
+    --list-nested-indent: var(--spacing-6);      /* Nested list indent */
+    --list-icon-gap: var(--spacing-3);           /* Icon to text in lists */
+
+    /* Table spacing */
+    --table-cell-padding: var(--spacing-3) var(--spacing-4);  /* Table cell padding */
+    --table-header-padding: var(--spacing-4);    /* Table header padding */
+    --table-row-gap: var(--spacing-2);           /* Visual row separation */
+
+    /* Modal spacing */
+    --modal-padding: var(--spacing-8);           /* Modal content padding */
+    --modal-header-padding: var(--spacing-6);    /* Modal header padding */
+    --modal-footer-padding: var(--spacing-6);    /* Modal footer padding */
+    --modal-backdrop-padding: var(--spacing-4);  /* Modal backdrop padding */
+
+    /* Sidebar spacing */
+    --sidebar-padding: var(--spacing-6);         /* Sidebar content padding */
+    --sidebar-item-padding: var(--spacing-2) var(--spacing-4);  /* Sidebar item padding */
+    --sidebar-section-gap: var(--spacing-6);     /* Between sidebar sections */
+
+    /* Header/Footer spacing */
+    --header-padding: var(--spacing-4) var(--spacing-6);  /* Header padding */
+    --footer-padding: var(--spacing-8) var(--spacing-6);  /* Footer padding */
+    --header-nav-gap: var(--spacing-8);          /* Header navigation gap */
+
+    /* Content area spacing */
+    --content-max-width: 1200px;                 /* Max content width */
+    --content-side-padding: var(--spacing-6);    /* Side padding for content */
+    --section-vertical-gap: var(--spacing-12);   /* Between major sections */
+    --paragraph-gap: var(--spacing-4);           /* Between paragraphs */
+    --heading-gap: var(--spacing-6) var(--spacing-4);  /* Heading top/bottom margin */
+}
+
+/* ===========================================
+   RESPONSIVE SPACING MODIFIERS
+   Spacing adjustments for different screen sizes
+   =========================================== */
+
+/* Large screens - increase spacing for better visual hierarchy */
+@media (min-width: 1200px) {
+    :root {
+        --layout-margin: var(--spacing-12);
+        --layout-padding: var(--spacing-12);
+        --section-vertical-gap: var(--spacing-16);
+        --card-padding: var(--spacing-8);
+        --modal-padding: var(--spacing-12);
+    }
+}
+
+/* Medium screens - standard spacing */
+@media (min-width: 768px) and (max-width: 1199px) {
+    :root {
+        --layout-margin: var(--spacing-8);
+        --layout-padding: var(--spacing-8);
+        --section-vertical-gap: var(--spacing-12);
+    }
+}
+
+/* Small screens - reduce spacing to maximize content area */
+@media (max-width: 767px) {
+    :root {
+        --layout-margin: var(--spacing-4);
+        --layout-padding: var(--spacing-4);
+        --component-padding: var(--spacing-4);
+        --card-padding: var(--spacing-4);
+        --modal-padding: var(--spacing-4);
+        --sidebar-padding: var(--spacing-4);
+        --section-vertical-gap: var(--spacing-8);
+        --content-side-padding: var(--spacing-4);
+    }
+}
+
+/* Extra small screens - minimal spacing */
+@media (max-width: 480px) {
+    :root {
+        --layout-margin: var(--spacing-3);
+        --layout-padding: var(--spacing-3);
+        --component-padding: var(--spacing-3);
+        --card-padding: var(--spacing-3);
+        --modal-padding: var(--spacing-3);
+        --section-vertical-gap: var(--spacing-6);
+        --content-side-padding: var(--spacing-3);
+        --form-field-gap: var(--spacing-3);
+        --form-group-gap: var(--spacing-4);
+    }
+}
+
+/* ===========================================
+   SPACING UTILITY CLASSES
+   Utility classes for common spacing patterns
+   =========================================== */
+
+/* Margin utilities */
+.m-auto { margin: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+
+/* Responsive margin utilities */
+@media (max-width: 768px) {
+    .m-responsive { margin: var(--spacing-4); }
+    .mx-responsive { margin-left: var(--spacing-4); margin-right: var(--spacing-4); }
+    .my-responsive { margin-top: var(--spacing-4); margin-bottom: var(--spacing-4); }
+}
+
+@media (min-width: 769px) {
+    .m-responsive { margin: var(--spacing-8); }
+    .mx-responsive { margin-left: var(--spacing-8); margin-right: var(--spacing-8); }
+    .my-responsive { margin-top: var(--spacing-8); margin-bottom: var(--spacing-8); }
+}
+
+/* Container spacing utilities */
+.container-spacing {
+    padding-left: var(--content-side-padding);
+    padding-right: var(--content-side-padding);
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-spacing {
+    margin-top: var(--section-vertical-gap);
+    margin-bottom: var(--section-vertical-gap);
+}
+
+/* ===========================================
+   SPACING DEBUGGING
+   Visual helpers for spacing development
+   =========================================== */
+
+/* Debug spacing - shows all spacing tokens */
+.debug-spacing-all * {
+    outline: 1px solid rgba(255, 0, 0, 0.3);
+    position: relative;
+}
+
+.debug-spacing-all *::before {
+    content: attr(class);
+    position: absolute;
+    top: -1em;
+    left: 0;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    font-size: 0.6em;
+    padding: 0.2em;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Spacing scale visualization */
+.spacing-scale {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    padding: var(--spacing-4);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.spacing-scale-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+}
+
+.spacing-scale-item::before {
+    content: '';
+    background: var(--color-primary);
+    border-radius: var(--radius-sm);
+}
+
+/* Generate spacing scale items */
+.spacing-0::before { width: var(--spacing-0); height: var(--spacing-2); }
+.spacing-1::before { width: var(--spacing-1); height: var(--spacing-2); }
+.spacing-2::before { width: var(--spacing-2); height: var(--spacing-2); }
+.spacing-3::before { width: var(--spacing-3); height: var(--spacing-2); }
+.spacing-4::before { width: var(--spacing-4); height: var(--spacing-2); }
+.spacing-6::before { width: var(--spacing-6); height: var(--spacing-2); }
+.spacing-8::before { width: var(--spacing-8); height: var(--spacing-2); }
+.spacing-12::before { width: var(--spacing-12); height: var(--spacing-2); }
+.spacing-16::before { width: var(--spacing-16); height: var(--spacing-2); }
+
+/* ===========================================
+   ANIMATION SPACING
+   Spacing values for animations and transitions
+   =========================================== */
+
+:root {
+    /* Animation spacing - for staggered animations */
+    --animation-stagger-delay: 50ms;              /* Delay between staggered items */
+    --animation-sequence-gap: 100ms;              /* Gap in animation sequences */
+
+    /* Hover effect spacing */
+    --hover-lift-distance: var(--spacing-1);     /* How much elements lift on hover */
+    --hover-shadow-spread: var(--spacing-2);     /* Shadow spread on hover */
+
+    /* Focus ring spacing */
+    --focus-ring-offset: 2px;                    /* Focus ring offset */
+    --focus-ring-width: 2px;                     /* Focus ring width */
+}
+
+/* ===========================================
+   PRINT SPACING
+   Spacing adjustments for print media
+   =========================================== */
+
+@media print {
+    :root {
+        /* Optimize spacing for print */
+        --layout-margin: var(--spacing-4);
+        --layout-padding: var(--spacing-4);
+        --section-vertical-gap: var(--spacing-6);
+        --card-padding: var(--spacing-4);
+        --paragraph-gap: var(--spacing-2);
+    }
+
+    /* Remove unnecessary spacing for print */
+    .no-print-spacing {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/* ===========================================
+   ACCESSIBILITY SPACING
+   Spacing considerations for accessibility
+   =========================================== */
+
+/* Ensure minimum touch targets on touch devices */
+@media (pointer: coarse) {
+    :root {
+        --interactive-padding-y: var(--spacing-3);
+        --interactive-padding-x: var(--spacing-4);
+        --interactive-gap: var(--spacing-3);
+    }
+}
+
+/* Increase spacing for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --hover-lift-distance: 0;
+        --animation-stagger-delay: 0ms;
+        --animation-sequence-gap: 0ms;
+    }
+}
+
+/* High contrast mode spacing adjustments */
+@media (prefers-contrast: high) {
+    :root {
+        --focus-ring-width: 3px;
+        --focus-ring-offset: 3px;
+    }
+}

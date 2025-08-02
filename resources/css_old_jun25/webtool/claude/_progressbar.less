@@ -1,0 +1,43 @@
+/*
+=============================================
+PROGRESS BAR
+=============================================
+*/
+.wt-progress {
+    height: 8px;
+    background-color: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+}
+
+.wt-progress-bar {
+    height: 100%;
+    background-color: var(--color-secondary-500);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal) var(--ease-out);
+}
+
+.wt-progress-striped .wt-progress-bar {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 16px 16px;
+}
+
+.wt-progress-animated .wt-progress-bar {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    from { background-position: 16px 0; }
+    to { background-position: 0 0; }
+}
+

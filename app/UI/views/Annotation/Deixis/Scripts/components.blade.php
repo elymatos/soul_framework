@@ -1,0 +1,6 @@
+@include("Annotation.Deixis.Scripts.components.videoComponent")
+@include("Annotation.Deixis.Scripts.components.navigationComponent")
+@include("Annotation.Deixis.Scripts.components.formsComponent")
+@include("Annotation.Deixis.Scripts.components.timelineComponent")
+@include("Annotation.Deixis.Scripts.components.objectComponent")
+@include("Annotation.Deixis.Scripts.components.searchObjectComponent")

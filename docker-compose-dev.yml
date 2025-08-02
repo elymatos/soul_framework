@@ -1,0 +1,42 @@
+services:
+    php: &laravel
+        build:
+            context: .
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        volumes:
+            - '.:/www'
+            - ./php.dev.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        command: php artisan serve --host=0.0.0.0
+        user: 'sail'
+        working_dir: /www
+        environment:
+            - 'PHP_IDE_CONFIG=${PHP_IDE_CONFIG}'
+        ports:
+          - '${FORWARD_PHP_PORT}:8000'
+    reverb:
+        <<: *laravel
+        command: 'php artisan reverb:start'
+        ports:
+            - '${FORWARD_REVERB_PORT}:8080'
+    queue:
+        <<: *laravel
+        command: 'php artisan queue:work'
+        ports:
+            - '0:8080'
+    node:
+        image: node:21-alpine3.18
+        user: node
+        working_dir: /frontend
+        environment:
+            - NODE_ENV=development
+        volumes:
+            - '.:/frontend'
+        command: 'npm run dev -- --host=0.0.0.0 --port=${FORWARD_NODE_PORT}'
+        ports:
+            - ${FORWARD_NODE_PORT}:${FORWARD_NODE_PORT}
+
+    redis:
+        image: redis:7.2-alpine
+        ports:
+            - '${FORWARD_REDIS_PORT}:6379'

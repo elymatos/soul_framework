@@ -1,0 +1,54 @@
+/*
+=============================================
+TOOLTIPS
+=============================================
+*/
+.wt-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.wt-tooltip-content {
+    position: absolute;
+    z-index: 60;
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-gray-800);
+    color: white;
+    font-size: var(--text-xs);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-fast) var(--ease-out),
+    visibility var(--transition-fast) var(--ease-out);
+}
+
+.wt-tooltip:hover .wt-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wt-tooltip-top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-var(--space-2));
+}
+
+.wt-tooltip-bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--space-2));
+}
+
+.wt-tooltip-left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-var(--space-2));
+}
+
+.wt-tooltip-right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(var(--space-2));
+}
+

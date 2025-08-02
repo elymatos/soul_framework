@@ -1,0 +1,495 @@
+/*******************************
+    Annotation Interface Styling
+    Updated to use Fomantic-UI variables
+*******************************/
+
+.annotation-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .annotation-header {
+        padding: @relativeMedium @relativeMedium;
+    }
+        /* Annotation toolbar */
+    .annotation-toolbar {
+        display: flex;
+        align-items: center;
+        background: @neutral800;
+        color: @invertedTextColor;
+        padding: @relativeSmall @relativeLarge;
+        border-bottom: 1px solid @textPrimary;
+        flex-shrink: 0;
+
+        .toolbar-section {
+            display: flex;
+            align-items: center;
+            gap: @relativeTiny;
+
+            &:not(:last-child) {
+                margin-right: @relativeLarge;
+                padding-right: @relativeLarge;
+                border-right: 1px solid @textSecondary;
+            }
+
+            .section-label {
+                color: @textTertiary;
+                font-size: @fontSizeXS;
+                text-transform: uppercase;
+                letter-spacing: @letterSpacingWide;
+                margin-right: @relativeTiny;
+            }
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: @relativeMini;
+
+            .tool-button {
+                padding: @relativeTiny;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: @borderRadiusSM;
+                color: @textTertiary;
+                cursor: pointer;
+                transition: all @transitionFast;
+
+                &:hover {
+                    background: @overlayLight10;
+                    color: @neutral300;
+                }
+
+                &.active {
+                    background: @primaryColor;
+                    border-color: @primaryColor;
+                    color: @invertedTextColor;
+                }
+
+                &.disabled {
+                    opacity: @disabledOpacity;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background: transparent;
+                        color: @textTertiary;
+                    }
+                }
+            }
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: @relativeTiny;
+
+            .zoom-level {
+                min-width: @relativeBig;
+                text-align: center;
+                font-size: @fontSizeSM;
+                color: @neutral300;
+            }
+        }
+
+        .playback-controls {
+            display: flex;
+            align-items: center;
+            gap: @relativeSmall;
+
+            .play-button {
+                width: @relative40px;
+                height: @relative40px;
+                border-radius: @borderRadiusFull;
+                background: @primaryColor;
+                border: none;
+                color: @invertedTextColor;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    background: @primaryColorHover;
+                }
+            }
+
+            .time-display {
+                font-family: @codeFont;
+                font-size: @fontSizeSM;
+                color: @neutral300;
+                min-width: @relative80px + @relative16px;
+                text-align: center;
+            }
+        }
+
+        .annotation-info {
+            margin-left: auto;
+
+            .info-item {
+                display: inline-flex;
+                align-items: center;
+                gap: @relativeTiny;
+                margin-left: @relativeMedium;
+
+                .info-label {
+                    color: @textTertiary;
+                    font-size: @fontSizeSM;
+                }
+
+                .info-value {
+                    color: @neutral300;
+                    font-weight: @fontWeightMedium;
+                    font-size: @fontSizeSM;
+                }
+            }
+        }
+    }
+
+    /* Main annotation area */
+    .annotation-workspace {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+
+        /* Canvas area */
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            background: @surfaceSecondary;
+            overflow: hidden;
+
+            .media-canvas {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                cursor: crosshair;
+
+                &.panning {
+                    cursor: grab;
+                }
+
+                &.pan-active {
+                    cursor: grabbing;
+                }
+            }
+
+            /* Overlay for annotations */
+            .annotation-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+
+                .bounding-box {
+                    position: absolute;
+                    border: 2px solid @annotationPrimaryColor;
+                    background: @annotationBackground;
+                    pointer-events: all;
+                    cursor: move;
+
+                    &.selected {
+                        border-color: @annotationSelectedColor;
+                        background: @annotationSelectedBackground;
+                    }
+
+                    &.hover {
+                        border-color: @annotationHoverColor;
+                        background: @annotationHoverBackground;
+                    }
+
+                    .resize-handle {
+                        position: absolute;
+                        width: @relativeTiny;
+                        height: @relativeTiny;
+                        background: @invertedTextColor;
+                        border: 1px solid @annotationPrimaryColor;
+
+                        &.nw { top: -@relativeMini; left: -@relativeMini; cursor: nw-resize; }
+                        &.ne { top: -@relativeMini; right: -@relativeMini; cursor: ne-resize; }
+                        &.sw { bottom: -@relativeMini; left: -@relativeMini; cursor: sw-resize; }
+                        &.se { bottom: -@relativeMini; right: -@relativeMini; cursor: se-resize; }
+                        &.n { top: -@relativeMini; left: 50%; margin-left: -@relativeMini; cursor: n-resize; }
+                        &.s { bottom: -@relativeMini; left: 50%; margin-left: -@relativeMini; cursor: s-resize; }
+                        &.w { top: 50%; left: -@relativeMini; margin-top: -@relativeMini; cursor: w-resize; }
+                        &.e { top: 50%; right: -@relativeMini; margin-top: -@relativeMini; cursor: e-resize; }
+                    }
+
+                    .box-label {
+                        position: absolute;
+                        top: -@relativeLarge;
+                        left: 0;
+                        background: @overlayDark80;
+                        color: @invertedTextColor;
+                        padding: @relativeMini @relativeTiny;
+                        border-radius: @borderRadiusSM;
+                        font-size: @fontSizeXS;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            /* Canvas controls */
+            .canvas-controls {
+                position: absolute;
+                bottom: @relativeMedium;
+                right: @relativeMedium;
+                display: flex;
+                flex-direction: column;
+                gap: @relativeTiny;
+
+                .control-group {
+                    background: @overlayLight80;
+                    border: 1px solid @borderColor;
+                    border-radius: @borderRadiusMD;
+                    padding: @relativeTiny;
+                    backdrop-filter: blur(@relativeMini);
+
+                    .control-button {
+                        display: block;
+                        width: @relative40px;
+                        height: @relative40px;
+                        border: none;
+                        background: transparent;
+                        color: @textSecondary;
+                        cursor: pointer;
+                        border-radius: @borderRadiusSM;
+
+                        &:hover {
+                            background: @surfaceTertiary;
+                            color: @textPrimary;
+                        }
+
+                        &:not(:last-child) {
+                            margin-bottom: @relativeMini;
+                        }
+                    }
+                }
+            }
+        }
+
+        /* Properties panel */
+        .properties-panel {
+            width: @toolsPanelWidth;
+            background: @sidebarBackground;
+            border-left: 1px solid @borderColor;
+            display: flex;
+            flex-direction: column;
+
+            .panel-header {
+                padding: @relativeMedium @relativeLarge;
+                border-bottom: 1px solid @borderColor;
+                background: @surfacePrimary;
+
+                .panel-title {
+                    font-weight: @fontWeightSemibold;
+                    color: @textPrimary;
+                    margin: 0;
+                }
+            }
+
+            .panel-content {
+                flex: 1;
+                overflow-y: auto;
+
+                .property-section {
+                    padding: @relativeLarge;
+                    border-bottom: 1px solid @borderColor;
+
+                    .section-title {
+                        font-size: @fontSizeSM;
+                        font-weight: @fontWeightSemibold;
+                        color: @textPrimary;
+                        margin-bottom: @relativeMedium;
+                        text-transform: uppercase;
+                        letter-spacing: @letterSpacingWide;
+                    }
+
+                    .property-field {
+                        margin-bottom: @relativeMedium;
+
+                        label {
+                            display: block;
+                            font-size: @fontSizeSM;
+                            font-weight: @fontWeightMedium;
+                            color: @textPrimary;
+                            margin-bottom: @relativeTiny;
+                        }
+
+                        .ui.input,
+                        .ui.dropdown {
+                            width: 100%;
+                        }
+                    }
+
+                    .color-picker {
+                        display: flex;
+                        gap: @relativeTiny;
+                        flex-wrap: wrap;
+
+                        .color-option {
+                            width: @relativeBig;
+                            height: @relativeBig;
+                            border-radius: @borderRadiusSM;
+                            border: 2px solid transparent;
+                            cursor: pointer;
+
+                            &.selected {
+                                border-color: @textPrimary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* Timeline for video annotation */
+    .annotation-timeline {
+        height: @timelineHeight;
+        background: @sidebarBackground;
+        border-top: 1px solid @borderColor;
+        display: flex;
+        flex-direction: column;
+
+        .timeline-header {
+            padding: @relativeSmall @relativeMedium;
+            border-bottom: 1px solid @borderColor;
+            background: @surfacePrimary;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .timeline-title {
+                font-size: @fontSizeSM;
+                font-weight: @fontWeightSemibold;
+                color: @textPrimary;
+            }
+
+            .timeline-controls {
+                display: flex;
+                gap: @relativeTiny;
+
+                .timeline-zoom {
+                    display: flex;
+                    gap: @relativeMini;
+
+                    button {
+                        padding: @relativeMini @relativeTiny;
+                        background: @surfacePrimary;
+                        border: 1px solid @borderColor;
+                        border-radius: @borderRadiusSM;
+                        font-size: @fontSizeXS;
+                        cursor: pointer;
+
+                        &:hover {
+                            background: @sidebarBackground;
+                        }
+                    }
+                }
+            }
+        }
+
+        .timeline-track {
+            flex: 1;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            .track-ruler {
+                height: @relative20px;
+                background: @surfacePrimary;
+                border-bottom: 1px solid @borderColor;
+                position: relative;
+
+                .time-marker {
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    border-left: 1px solid @timelineRulerColor;
+
+                    .time-label {
+                        position: absolute;
+                        top: @relative2px;
+                        left: @relativeMini;
+                        font-size: @fontSizeXS;
+                        color: @timelineLabelColor;
+                    }
+                }
+            }
+
+            .track-content {
+                flex: 1;
+                position: relative;
+
+                .annotation-segment {
+                    position: absolute;
+                    height: @relative32px - @relative2px;
+                    background: @timelineSegmentColor;
+                    border-radius: @borderRadiusSM;
+                    color: @invertedTextColor;
+                    font-size: @fontSizeXS;
+                    padding: @relativeMini @relativeTiny;
+                    cursor: pointer;
+
+                    &.selected {
+                        background: @timelineSelectedColor;
+                    }
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+
+                    .segment-label {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .playhead {
+                    position: absolute;
+                    top: 0;
+                    width: @relative2px;
+                    height: 100%;
+                    background: @timelinePlayheadColor;
+                    z-index: @zIndexSticky;
+                    pointer-events: none;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: -@relativeMini - @relative2px;
+                        left: -@relativeMini - @relative2px;
+                        width: @fontSizeSM;
+                        height: @fontSizeSM;
+                        background: @timelinePlayheadColor;
+                        border-radius: @borderRadiusFull;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Annotation modes */
+.annotation-page {
+    &.mode-select .media-canvas {
+        cursor: default;
+    }
+
+    &.mode-draw .media-canvas {
+        cursor: crosshair;
+    }
+
+    &.mode-pan .media-canvas {
+        cursor: grab;
+    }
+
+    &.mode-zoom .media-canvas {
+        cursor: zoom-in;
+    }
+}

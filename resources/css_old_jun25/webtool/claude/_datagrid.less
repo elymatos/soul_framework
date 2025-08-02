@@ -1,0 +1,104 @@
+.wt-datagrid {
+    overflow-y: auto;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--border-light);
+
+    .header {
+        padding: var(--space-4) var(--space-6);
+        border-bottom: 1px solid var(--border-light);
+
+        .title {
+            margin: 0;
+            font-size: var(--text-lg);
+            font-weight: var(--font-medium);
+            color: var(--text-default);
+        }
+    }
+
+    .header-search {
+        padding: var(--space-4) var(--space-6);
+        border-bottom: 1px solid var(--border-light);
+        height:3rem;
+    }
+
+
+    .table {
+        overflow-y:auto;
+        overflow-x:auto;
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed !important;
+
+            tbody{
+                display:block;
+                overflow:auto;
+                width:100%;
+            }
+
+            thead, tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;/* even columns width , fix width of table too*/
+            }
+            thead {
+                background-color: var(--bluegray-100);
+                border-bottom: 1px solid var(--border-light);
+            }
+        }
+
+        td {
+            padding: var(--space-1);
+        }
+
+        tr {
+        }
+
+        tr:last-child {
+            border-bottom: 0;
+        }
+
+        tr:nth-child(odd) {
+            background-color: white;
+            &.subheader {
+                background-color: var(--bluegray-100);
+            }
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--gray-100);
+            &.subheader {
+                background-color: var(--bluegray-100);
+            }
+        }
+
+        tr:hover {
+            background-color: var(--gray-200);
+        }
+
+        th {
+            top: 0;
+            position: sticky;
+            background-color: var(--color-gray-200);
+            text-align: left;
+            height: 2rem;
+            line-height: 2rem;
+            padding: var(--space-1);
+        }
+
+        .wt-datagrid-action {
+            cursor: pointer;
+            width: 1.5rem;
+        }
+    }
+}
+
+//.wt-datagrid-child {
+//    max-height: calc(32 * @wt-unit);
+//}
+

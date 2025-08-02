@@ -1,0 +1,93 @@
+/* Main Application Grid */
+.app-layout {
+    display: grid;
+    height: 100vh;
+
+    /* Default desktop layout */
+    grid-template-areas:
+        "header header header"
+        "sidebar main tools";
+    grid-template-columns: @sidebarWidth 1fr @toolsPanelWidth;           // (was var(--sidebar-width) var(--tools-panel-width))
+    grid-template-rows: @headerHeight 1fr;                              // (was var(--header-height))
+
+    /* Remove gaps for seamless layout */
+    gap: 0;
+}
+
+/* Layout Areas */
+.app-header {
+    grid-area: header;
+    background: @primaryBackground;                                         // (was var(--color-bg-primary))
+    border-bottom: 1px solid @borderColor;                             // (was var(--color-border-primary))
+    display: flex;
+    align-items: center;
+    padding: 0 @relativeLarge;                                           // 24px (was var(--spacing-6))
+    z-index: @zIndexSticky;                                              // (was var(--z-sticky))
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+    background: @primaryBackground;                                      // (was var(--color-sidebar-bg))
+    border-right: 1px solid @borderColor;                             // (was var(--color-sidebar-border))
+    overflow-y: auto;
+    z-index: @zIndexFixed;
+
+    .ui.vertical.menu {
+        background: @primaryBackground;                                      // (was var(--color-sidebar-bg))
+    }
+}
+
+.app-main {
+    grid-area: main;
+    background: @primaryBackground;                                         // (was var(--color-bg-primary))
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Page-level structure */
+.app-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.app-tools {
+    grid-area: tools;
+    background: @primaryBackground;                                      // (was var(--color-sidebar-bg))
+    border-left: 1px solid @borderColor;                               // (was var(--color-border-primary))
+    overflow-y: auto;
+}
+
+/* Alternative Layouts */
+.app-layout.no-tools {
+    grid-template-areas:
+        "header header"
+        "sidebar main";
+    grid-template-columns: @sidebarWidth 1fr;                           // (was var(--sidebar-width))
+}
+
+.app-layout.no-sidebar {
+    grid-template-areas:
+        "header header"
+        "main tools";
+    grid-template-columns: 1fr @toolsPanelWidth;                        // (was var(--tools-panel-width))
+}
+
+.app-layout.minimal {
+    grid-template-areas:
+        "header"
+        "main";
+    grid-template-columns: 1fr;
+}
+
+/* Full-screen layout for annotation */
+.app-layout.fullscreen {
+    grid-template-areas:
+        "header"
+        "toolbar"
+        "canvas";
+    grid-template-columns: 1fr;
+    grid-template-rows: 3em @toolbarHeight 1fr;                             // (was var(--toolbar-height))
+}

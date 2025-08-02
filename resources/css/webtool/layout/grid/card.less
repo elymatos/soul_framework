@@ -1,0 +1,58 @@
+/* Card grids for data display */
+.card-grid {
+    display: grid;
+    gap: @relativeMedium;                                                // 16px (was var(--spacing-4))
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+    // CRITICAL: Override Fomantic's margin system for grid layouts
+    .ui.card {
+        margin: 0 !important; // Reset all margins
+
+        // Override specific Fomantic rules
+        &:first-child {
+            margin-top: 0 !important;
+        }
+
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        // Ensure cards work properly in grid
+        width: 100%;
+        //height: fit-content;
+        height:auto;
+    }
+
+    // Grid variants
+    &.dense {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: @relativeSmall;
+    }
+
+    &.wide-cards {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: @relativeLarge;
+    }
+
+    &.small-cards {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: @relativeMedium;
+    }
+
+    &.single-row {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+        grid-template-rows: 1fr;
+    }
+
+    // Mobile responsiveness
+    @media (max-width: @mobileBreakpoint) {
+        grid-template-columns: 1fr;
+        gap: @relativeMedium;
+
+        &.dense,
+        &.wide-cards,
+        &.small-cards {
+            grid-template-columns: 1fr;
+        }
+    }
+}

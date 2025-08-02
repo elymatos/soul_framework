@@ -1,0 +1,40 @@
+/*
+=============================================
+TRANSITIONS & ANIMATIONS
+=============================================
+*/
+.wt-fade {
+    transition-property: opacity;
+    transition-duration: var(--transition-normal);
+    transition-timing-function: var(--ease-in-out);
+}
+
+.wt-fade-in {
+    opacity: 1;
+}
+
+.wt-fade-out {
+    opacity: 0;
+}
+
+.wt-slide {
+    transition-property: transform;
+    transition-duration: var(--transition-normal);
+    transition-timing-function: var(--ease-in-out);
+}
+
+.wt-slide-up {
+    transform: translateY(0);
+}
+
+.wt-slide-down {
+    transform: translateY(100%);
+}
+
+.wt-slide-left {
+    transform: translateX(-100%);
+}
+
+.wt-slide-right {
+    transform: translateX(100%);
+}

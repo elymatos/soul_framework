@@ -1,0 +1,5 @@
+*
+images/
+exports/
+!public/
+!.gitignore

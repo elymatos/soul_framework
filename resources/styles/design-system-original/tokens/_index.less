@@ -1,0 +1,56 @@
+//******************************
+//    Design System Tokens
+//    Barrel Export File
+//******************************
+
+/*
+  This file serves as the single entry point for all design tokens.
+  It imports and re-exports all token files in the correct order.
+
+  Import order is important:
+  1. Root variables (foundation)
+  2. Spacing tokens (layout foundation)
+  3. Typography tokens (text foundation)
+  4. Color tokens (visual foundation)
+  5. Component tokens (composed tokens)
+  6. Utility tokens (helpers)
+*/
+
+// ===== FOUNDATION TOKENS =====
+// Core CSS custom properties - must be imported first
+@import '_root-variables.less';
+
+@import '_layout-tokens.less';
+
+// ===== SPACING TOKENS =====
+// Spacing scale, semantic spacing, component spacing
+@import '_spacing-tokens.less';
+
+// ===== TYPOGRAPHY TOKENS =====
+// Font families, sizes, weights, line heights, semantic typography
+@import '_typography-tokens.less';
+
+// ===== COLOR TOKENS =====
+// Color scales, semantic colors, theme colors
+@import '_color-tokens.less';
+
+// ===== COMPONENT TOKENS =====
+// Composed tokens for specific components
+//@import 'x_component-tokens.less';
+
+// ===== UTILITY TOKENS =====
+// Shadows, borders, transitions, z-index
+@import '_utility-tokens.less';
+
+/*
+  All tokens are now available as both CSS custom properties and LESS variables.
+  Example usage:
+
+  .my-component {
+    padding: @spacing-4;                    // LESS variable
+    padding: var(--spacing-4);             // CSS custom property
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+  }
+*/

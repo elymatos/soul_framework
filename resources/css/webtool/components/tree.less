@@ -1,0 +1,117 @@
+.tree-container {
+
+    .tree-header {
+
+    }
+
+    .tree-body {
+
+        .tree-table {
+            border-collapse: collapse;
+            width: 100%;
+
+            .hidden {
+                display: none;
+            }
+
+            tr {
+
+
+                &.row-data {
+                    border-bottom: 1px dotted #ccc;
+
+                    &:hover {
+                        background-color: @treeHoverBackground
+                    }
+
+                    //&:last-child {
+                    //    border-bottom: none;
+                    //}
+                }
+
+                td {
+                    //border: 1px solid #ddd;
+                    //padding: @relativeMini;
+                    vertical-align: top;
+
+                    &.toggle {
+                        vertical-align: middle;
+                        width: 1em;
+                        text-align: center;
+                        cursor: pointer;
+                        user-select: none;
+
+                        .toggle-icon {
+                            display: inline-block;
+                            width: 16px;
+                            height: 18px;
+                            vertical-align: top;
+                            overflow: hidden;
+                            transition: transform 0.2s ease;
+
+                            &.collapsed {
+                                background: url(/images/easyui/tree_icons.png) no-repeat 0 0;
+                            }
+
+                            &.expanded {
+                                background: url(/images/easyui/tree_icons.png) no-repeat -18px 0px;
+                            }
+                        }
+                    }
+
+                    &.content-cell {
+                        min-height: 1em;
+                        line-height: 1;
+                        vertical-align: middle;
+                        padding: @relativeMini @relativeMini;
+
+                        .tree-item-text {
+                            cursor: pointer;
+                            //padding: 2px 4px;
+                            border-radius: 3px;
+                            transition: background-color 0.2s ease;
+
+                        }
+                    }
+
+                    .loading {
+                        height: 2em;
+                    }
+                }
+            }
+
+
+            .tree-content {
+                //margin-top: 10px;
+                //padding-left: 20px;
+                //border-left: 2px solid #ccc;
+
+                &.hidden {
+                    display: none;
+                }
+
+                table {
+                    width: 100%;
+                    //margin-top: 5px;
+                }
+
+                .tree-table td {
+                    //border: 1px solid #eee;
+                    //padding: 6px;
+
+                    .text-time {
+                        white-space: nowrap;
+                        text-align: right;
+                        display: inline-block;
+                        width: 72px;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}

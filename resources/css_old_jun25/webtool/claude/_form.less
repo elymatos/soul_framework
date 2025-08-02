@@ -1,0 +1,169 @@
+/*
+=============================================
+FORM ELEMENTS
+=============================================
+*/
+/* Form Groups */
+.wt-form-group {
+    margin-bottom: var(--space-4);
+}
+
+.wt-form-inline {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+/* Labels */
+.wt-label {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-muted);
+}
+
+/* Inputs */
+.wt-input {
+    display: block;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--text-default);
+    background-color: var(--bg-white);
+    background-clip: padding-box;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast) ease-in-out,
+    box-shadow var(--transition-fast) ease-in-out;
+}
+
+.wt-input:focus {
+    border-color: var(--border-focus);
+    outline: 0;
+    box-shadow: var(--shadow-focus);
+}
+
+.wt-input::placeholder {
+    color: var(--text-light);
+    opacity: 1;
+}
+
+.wt-input-sm {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+}
+
+/* Search Input */
+.wt-search-input {
+    position: relative;
+}
+
+.wt-search-input input {
+    padding-left: var(--space-8);
+}
+
+.wt-search-icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+}
+
+/* Select Dropdown */
+.wt-select {
+    display: block;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--text-default);
+    background-color: var(--bg-white);
+    background-clip: padding-box;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast) ease-in-out,
+    box-shadow var(--transition-fast) ease-in-out;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-3) center;
+    background-size: 16px;
+    padding-right: var(--space-8);
+}
+
+.wt-select:focus {
+    border-color: var(--border-focus);
+    outline: 0;
+    box-shadow: var(--shadow-focus);
+}
+
+/* Textarea */
+.wt-textarea {
+    display: block;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--text-default);
+    background-color: var(--bg-white);
+    background-clip: padding-box;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast) ease-in-out,
+    box-shadow var(--transition-fast) ease-in-out;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.wt-textarea:focus {
+    border-color: var(--border-focus);
+    outline: 0;
+    box-shadow: var(--shadow-focus);
+}
+
+/* Checkboxes & Radio Buttons */
+.wt-checkbox,
+.wt-radio {
+    display: flex;
+    align-items: flex-start;
+    padding-left: var(--space-1);
+    margin-bottom: var(--space-2);
+}
+
+.wt-checkbox-input,
+.wt-radio-input {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-right: var(--space-2);
+    margin-top: 3px;
+}
+
+.wt-checkbox-label,
+.wt-radio-label {
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+/* Help Text */
+.wt-form-help {
+    margin-top: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--text-light);
+}
+
+/* Error State */
+.wt-input-error {
+    border-color: var(--color-error-500);
+}
+
+.wt-error-message {
+    margin-top: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-error-500);
+}

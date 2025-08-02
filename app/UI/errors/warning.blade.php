@@ -1,0 +1,27 @@
+<x-layout::index>
+    <div class="app-layout no-tools">
+        @include('layouts.header')
+        @include("layouts.sidebar")
+        <main class="app-main">
+            <div class="m-2">
+                <div class="ui warning attached message">
+                    <div class="header">
+                        Error
+                    </div>
+                    <p>
+                        {{$message}}
+                    </p>
+                </div>
+                <div class="ui bottom attached warning message">
+                    <a href="{{$goto}}">
+                        <button
+                            class="ui button yellow"
+                            type="button"
+                        >{{$gotoLabel}}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</x-layout::index>

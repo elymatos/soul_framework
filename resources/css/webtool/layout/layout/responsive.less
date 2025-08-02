@@ -1,0 +1,19 @@
+/* Responsive breakpoints using design system values */
+@media (max-width: @mobileBreakpoint) {                                 // 768px
+    .app-layout {
+        grid-template-areas:
+            "header"
+            "main";
+        grid-template-columns: 1fr;
+        grid-template-rows: @headerHeight 1fr;                          // (was var(--header-height))
+    }
+
+    .sidebar-layout {
+        grid-template-columns: 1fr;
+        gap: @relativeMedium;                                            // 16px (was var(--spacing-4))
+
+        .sidebar-content {
+            position: static;
+        }
+    }
+}

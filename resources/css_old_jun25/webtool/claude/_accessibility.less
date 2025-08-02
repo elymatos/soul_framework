@@ -1,0 +1,55 @@
+/*
+=============================================
+ACCESSIBILITY
+=============================================
+*/
+.wt-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.wt-focus-visible:focus {
+    outline: 2px solid var(--color-secondary-500);
+    outline-offset: 2px;
+}
+
+.wt-focus-within:focus-within {
+    outline: 2px solid var(--color-secondary-500);
+    outline-offset: 2px;
+}
+
+/* High contrast mode improvements */
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary-600: #003366;
+        --color-secondary-600: #006666;
+        --color-accent-600: #993300;
+        --border-light: #000000;
+        --text-muted: #444444;
+    }
+
+    .wt-btn,
+    .wt-tab-item-active,
+    .wt-badge {
+        border: 1px solid black;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

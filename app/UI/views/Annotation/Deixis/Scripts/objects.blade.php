@@ -1,0 +1,7 @@
+@include("Annotation.Deixis.Scripts.objects.vaticObject")
+@include("Annotation.Deixis.Scripts.objects.drawBoxObject")
+@include("Annotation.Deixis.Scripts.objects.bboxObject")
+@include("Annotation.Deixis.Scripts.objects.dynamicObject")
+@include("Annotation.Deixis.Scripts.objects.framesManagerObject")
+@include("Annotation.Deixis.Scripts.objects.objectTrackerObject")
+@include("Annotation.Deixis.Scripts.objects.opticalFlowObject")

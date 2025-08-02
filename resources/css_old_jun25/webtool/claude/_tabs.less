@@ -1,0 +1,33 @@
+/*
+=============================================
+TABS
+=============================================
+*/
+.wt-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--space-6);
+}
+
+.wt-tab-item {
+    padding: var(--space-3) var(--space-4);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast) var(--ease-out);
+}
+
+.wt-tab-item:hover {
+    color: var(--text-default);
+}
+
+.wt-tab-item-active {
+    color: var(--color-secondary-600);
+    border-bottom-color: var(--color-secondary-600);
+}
+
+.wt-tab-content {
+    padding-top: var(--space-4);
+}
