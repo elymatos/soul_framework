@@ -4504,6 +4504,62 @@ $router->delete('lexicon3/feature/{idLexicon}/{idUDFeature}', [
 	'domain' => NULL,
 ]);
 
+$router->get('soul/browse/script/{file}', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@scripts',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/browse', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@main',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/browse/grid', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@grid',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/browse/{conceptName}', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@concept',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/browse/{conceptName}/graph', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@conceptGraph',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/browse/{conceptName}/activation', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@spreadingActivation',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/browse/initialize', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@initialize',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
 $router->get('frame/{id}/semanticTypes', [
 	'uses' => 'App\Http\Controllers\Frame\SemanticTypeController@semanticTypes',
 	'as' => NULL,

@@ -1,0 +1,5 @@
+// Create a uniqueness constraint on the 'name' property for all nodes with the 'Concept' label.
+CREATE CONSTRAINT FOR (c:Concept) REQUIRE c.name IS UNIQUE;
+
+// Create an index on the 'type' property of all nodes with the 'Concept' label.
+CREATE INDEX FOR (c:Concept) ON (c.type);

@@ -147,6 +147,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AnnotationsServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        App\Providers\Neo4jServiceProvider::class,
     ])->toArray(),
 
 
