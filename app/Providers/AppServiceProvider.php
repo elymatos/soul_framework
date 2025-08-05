@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Soul\Contracts\FrameDefinitionRegistry;
+use App\Soul\Contracts\Neo4jService;
+use App\Soul\Services\FrameDefinitionRegistryService;
+use App\Soul\Services\Neo4jFrameService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
                 debugQuery($query->sql, $query->bindings);
             });
         }
+
+        // Register SOUL Framework contract implementations
+        $this->app->singleton(FrameDefinitionRegistry::class, FrameDefinitionRegistryService::class);
+        $this->app->singleton(Neo4jService::class, Neo4jFrameService::class);
     }
 
     /**

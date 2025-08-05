@@ -4,27 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SOUL Framework 0.1 is a research prototype for computational implementation of "Project SOUL: A Conceptual Framework for Meaning Representation". This is a Laravel-based application that aims to develop a layered, concept-based framework for representing meaning, grounded in Cognitive Linguistics principles including Image Schemas and Conceptual Blending theory.
+SOUL Framework 0.1 is a sophisticated cognitive AI system that implements a computational version of Marvin Minsky's Frame Theory and Charles Fillmore's Frame Semantics. Built on Laravel PHP with Neo4j graph database, it provides a layered, concept-based framework for representing meaning, grounded in Cognitive Linguistics principles including Image Schemas and Conceptual Blending theory.
 
-**Current Status**: The project is built on existing FrameNet Brasil infrastructure but is configured as SOUL Framework 0.1. The theoretical framework is documented, and SOUL computational features have been implemented including:
-- SOUL ResourceController with comprehensive CRUD operations
-- Spreading activation algorithms
-- Conceptual blending operations  
-- Image Schema, CSP, and Meta-schema primitives
-- Neo4j constraints and indexes for optimal performance
+**Current Status**: Production-ready cognitive framework with comprehensive implementation including:
+- Complete Frame/FrameInstance/FrameElement architecture
+- MindService implementing "Society of Mind" coordination 
+- SOUL ResourceController with full CRUD operations
+- Neo4j graph database integration
+- Agent communication system
+- Cognitive processing pipeline with spreading activation
 - Graph visualization and data export/import capabilities
 
-## Development Commands
+## Development Environment
 
-### Environment Setup
+### Docker Setup
 ```bash
 # Development environment with Neo4j
-docker compose -f docker-compose-dev.yml build
-docker compose -f docker-compose-dev.yml up
+docker compose -f docker-compose-dev.yml up --build
 
 # Production environment  
-docker compose build
-docker compose up
+docker compose up --build
 
 # Access the application at http://localhost:8001
 # Access Neo4j Browser at http://localhost:7474
@@ -58,200 +57,171 @@ php artisan key:generate
 php artisan about
 ```
 
-### Testing
+### Testing & Code Quality
 ```bash
 # Run PHPUnit tests
 php artisan test
 # or
 vendor/bin/phpunit
-```
 
-### Code Quality
-```bash
 # Laravel Pint for code formatting
 vendor/bin/pint
 ```
 
-## Architecture Overview
+## SOUL Framework Architecture
 
-### Core Framework Structure
-- **Laravel 12**: Primary framework with custom routing via annotations
-- **HTMX**: Frontend reactivity via HX-* headers in controllers
-- **Custom Database Layer**: Custom `Criteria` class extending Laravel's Query Builder
-- **Graph-based Conceptual Network**: Intended architecture for SOUL concepts and relationships
+### Theoretical Foundation
 
-### Key Directories
+The SOUL (Structured Object-Oriented Understanding Language) framework implements:
 
-#### Application Layer (`app/`)
-- **Controllers**: Organized by domain (Annotation, Frame, Construction, Concept, etc.)
-  - Extends base `Controller` class with HTMX support
-  - Uses annotation-based routing via `laravelcollective-annotations`
-- **Services**: Business logic layer with specialized services
-  - `GraphService.php`: Core graph operations for frame relationships and visualization
-  - `RelationService.php`: Manages relationships between entities
-  - Various annotation and reporting services
-- **Repositories**: Data access layer following repository pattern
-  - `Concept.php`: Core concept management with hierarchical operations
-  - Graph-related repositories for frames, relations, semantic types
-- **Database**: Custom abstraction layer
-  - `Criteria.php`: Extended Query Builder with domain-specific operators
+- **Frames**: Knowledge structures representing stereotyped situations (Minsky's approach)
+- **Frame Semantics**: Linguistic meaning through encyclopedic knowledge (Fillmore's approach)  
+- **Society of Mind**: Intelligence emerges from interaction of simple agents
+- **Dynamic Frame Elements**: Programmatically added attributes for flexible representation
+- **Non-hierarchical Structure**: Frames connected through relations, not inheritance
 
-#### Frontend Assets (`resources/` & `public/`)
-- **Vite**: Asset bundling with Laravel Vite plugin
-- **AlpineJS**: Frontend JavaScript framework  
-- **Fomantic UI**: Primary CSS framework
-- **JointJS**: Graph visualization library (available for SOUL graph implementation)
-- **Chart.js**: Data visualization
-- **Additional Libraries**: svg-pan-zoom, Split.js, ky HTTP client
+### Key Design Principles
 
-#### Custom Authentication (`app/Auth/`)
-- Custom Laravel session guards and user providers
-- Session-based authentication with Auth0 integration support
-- Role-based access control system
+1. All concepts (primitive, derived, image-schematic, CSP, linguistic, entities, relations) are represented as Frames
+2. Frame instances operate independently after instantiation
+3. Connections between frames occur through Frame Element relations
+4. Agents (methods) within frames can communicate directly via Mind service coordination
+5. Relations themselves are frames with Figure/Ground structure
 
-### SOUL Framework Specific Architecture
+### Core Architecture
 
-#### Conceptual Framework (Theoretical)
-Based on README.md documentation:
-- **Primitives**: Image Schemas (FORCE, REGION, OBJECT, POINT, CURVE, AXIS, MOVEMENT) + CSP primitives (EMOTION, NUMBER, STATE, CAUSE, SCALE)
-- **Meta-Schemas**: ENTITY, STATE, PROCESS, CHANGE
-- **Structural Schemas**: CLASS & HIERARCHY, AXIS & SCALE, RADIAL, QUALIA
+```
+App\Soul\
+├── Frame.php                  # Abstract base class for all frames
+├── FrameInstance.php         # Independent cognitive units
+├── FrameElement.php          # FE definition templates
+├── FrameElementInstance.php  # FE instances with values/relations
+├── RelationFrame.php         # Abstract relation frame
+├── Relations/               # Specific relation implementations
+│   ├── IsARelation.php
+│   ├── CausesRelation.php
+│   └── SharedSlotRelation.php
+├── Services/
+│   └── MindService.php       # Central coordinator ("Society of Mind")
+└── Contracts/               # Interfaces
+    ├── FrameDefinitionRegistry.php
+    └── Neo4jService.php
+```
 
-#### Current Implementation Status
-**Implemented**:
-- Basic concept management (`app/Repositories/Concept.php`)
-- Graph visualization infrastructure (JointJS, GraphService)
-- Relationship management system
-- Database views: `view_concept`, `view_relation`, `view_semantictype`
+## Framework Implementation
 
-**Not Yet Implemented**:
-- SOUL-specific primitives and meta-schemas
-- Spreading activation algorithms
-- Conceptual blending operations
-- Image schema definitions
-- Structural schema implementations
+### 1. Frame System (`App\Soul\Framework`)
 
-### Database Architecture
-- **Dual Database Setup**: 
-  - **MySQL**: Legacy FrameNet data and traditional relational operations
-  - **Neo4j Community Edition**: Graph database for SOUL conceptual networks
-- Custom `Criteria` class extending Laravel's Query Builder with specialized operators
-- Repository pattern implementation for data access layer
-- Multi-language support built into data models
-- Views for conceptual data: `view_concept`, `view_relation`, `view_semantictype`, `view_relationtype`
+#### `Frame` (Abstract Base Class)
+- **Purpose**: Template for all frame definitions
+- **Key Methods**:
+    - `instantiate()`: Creates independent FrameInstance
+    - `match()`: Minsky's matching process (confidence scoring)
+    - `addFrameElement()`: Dynamic FE addition
+    - `setDefault()`: Minsky's default assignments
+- **Features**: Default values, context application, Mind service integration
 
-#### Neo4j Integration
+#### `FrameInstance`
+- **Purpose**: Independent cognitive units that participate in processing
+- **Key Methods**:
+    - `sendMessageToAgent()`: Direct agent communication
+    - `requestFrameInstantiation()`: Request new frame creation via Mind
+    - Agent methods (defined in subclasses)
+- **Features**: Isolated operation, agent communication, Mind service queries
+
+#### `FrameElement` & `FrameElementInstance`
+- **Purpose**: Templates and instances for frame element management
+- **Features**: Constraint validation, relation management, shared slots
+- **Methods**: `setValue()/getValue()`, `relateTo()`, `shareSlotWith()`
+
+#### `RelationFrame` (Abstract)
+- **Purpose**: Represents relationships between frame elements
+- **Structure**: Always has Figure/Ground FE pattern
+- **Subclasses**: `IsARelation`, `CausesRelation`, `SharedSlotRelation`
+
+### 2. MindService - Central Coordinator
+
+The `App\Soul\Services\MindService` implements the "Society of Mind" coordination principle.
+
+#### External World Interface
+- **`startProcessingSession()`**: Entry point for cognitive processing
+- **`processInput()`**: Main cognitive pipeline execution
+- **`endProcessingSession()`**: Cleanup and archival
+
+#### Frame Management
+- **`registerFrameDefinition()`**: Register frame templates
+- **`instantiateFrame()`**: Create independent cognitive units
+- **`getFrameInstance()`**: Lookup for agent communication
+
+#### Cognitive Processing Pipeline
+1. **Input Analysis**: Identify relevant frames from input
+2. **Frame Instantiation**: Create initial cognitive units
+3. **Initial Activation**: Trigger Minsky's matching process
+4. **Spreading Activation**: Run cognitive processing rounds
+5. **Response Generation**: Extract results from final state
+
+#### Session Management
+- Multiple concurrent processing sessions
+- Session-scoped instance management
+- Statistics and monitoring
+
+### 3. SOUL ResourceController API
+
+The `App\Http\Controllers\SOUL\ResourceController` provides comprehensive REST API endpoints:
+
+```php
+// Concept Management
+GET    /soul/concepts                    # List/search concepts with filtering
+POST   /soul/concepts                    # Create new concept
+GET    /soul/concepts/{name}             # Get concept with relationships
+PUT    /soul/concepts/{name}             # Update concept
+DELETE /soul/concepts/{name}             # Delete concept
+
+// Relationship Operations
+POST   /soul/relationships               # Create relationship between concepts
+
+// SOUL Framework Operations
+POST   /soul/initialize                  # Initialize SOUL primitives
+GET    /soul/spreading-activation/{name} # Perform spreading activation
+GET    /soul/graph/{name}                # Get graph visualization data
+GET    /soul/statistics                  # Get graph statistics
+
+// Data Import/Export
+GET    /soul/export                      # Export graph data
+POST   /soul/import                      # Import graph data
+POST   /soul/search                      # Advanced concept search
+
+// Utility Endpoints
+GET    /soul/relationship-types          # Get available relationship types
+GET    /soul/concept-types               # Get available concept types
+
+// Database Management
+POST   /soul/database/constraints        # Create Neo4j constraints/indexes
+GET    /soul/database/status             # Get database status
+DELETE /soul/database/constraints        # Drop constraints/indexes
+```
+
+## Database Architecture
+
+### Dual Database Setup
+- **MySQL**: Legacy FrameNet data and traditional relational operations
+- **Neo4j Community Edition**: Graph database for SOUL conceptual networks
+
+### Neo4j Integration
 - **Container**: `neo4j:5.15-community` with APOC plugins
 - **Access**: Web interface at `http://localhost:7474`, Bolt protocol on port `7687`
 - **Network**: All services connected via `soul-network` Docker bridge
 - **Volumes**: Persistent storage for data, logs, imports, and plugins
 - **Memory**: Configured with 2GB heap, 1GB page cache for optimal performance
-- **Laravel Integration**: 
-  - `Neo4jServiceProvider` registered in `config/app.php`
-  - Neo4j driver singleton available via dependency injection
-  - Environment-based configuration for flexible deployment
 
-### Frontend Architecture
-- HTMX-driven interactions with server-side rendering
-- Blade templating with component-based UI
-- Custom JavaScript components for complex interactions
-- Graph visualization using JointJS for conceptual relationships
-- AlpineJS for reactive components
+### Laravel Integration
+- `Neo4jServiceProvider` registered in `config/app.php`
+- Neo4j driver singleton available via dependency injection
+- Environment-based configuration for flexible deployment
 
-## Configuration Files
+### Usage Examples
 
-- `config/webtool.php`: Application-specific configuration including menus and concept relations
-- `config/app.php`: Laravel application configuration with Neo4j service provider registration
-- `composer.json`: PHP dependencies including Laudis Neo4j PHP client and graph/ML libraries
-- `package.json`: Node.js dependencies including visualization libraries
-- `vite.config.js`: Asset compilation configuration
-- `.env`: Environment configuration including Neo4j connection settings
-
-## Key Features
-
-### Concept Management
-- Hierarchical concept navigation and relationships
-- Type-based concept organization
-- Multi-language concept support
-- Concept tree structures and children listing
-
-### Graph Operations
-- Frame relationship graphs via `GraphService`
-- Domain-based graph generation
-- Node and link management for visualization
-- Support for various relationship types
-
-### Data Management
-- Frame and Construction management (inherited from FNBr)
-- Semantic type management
-- Relationship and relation type handling
-- Multi-language support throughout
-
-### Visualization
-- JointJS integration for graph visualization
-- Chart.js for data visualization
-- SVG pan/zoom capabilities
-- Responsive graph layouts
-
-## SOUL Framework Implementation Roadmap
-
-### Phase 1: Core Infrastructure (Current)
-- ✅ Basic concept repository and management
-- ✅ Graph service foundation
-- ✅ Visualization libraries integrated
-- 🔄 Database schema for SOUL concepts
-
-### Phase 2: SOUL Primitives
-- ⏳ Image Schema primitive definitions
-- ⏳ CSP primitive implementations
-- ⏳ Meta-schema structure (ENTITY, STATE, PROCESS, CHANGE)
-- ⏳ Structural schema relationships
-
-### Phase 3: Dynamic Operations
-- ⏳ Spreading activation algorithm implementation
-- ⏳ Conceptual blending operations
-- ⏳ Construal operations
-- ⏳ Graph traversal and inference
-
-### Phase 4: Advanced Features
-- ⏳ Agent-based reasoning
-- ⏳ JSON/YAML export capabilities
-- ⏳ Advanced graph visualization
-- ⏳ Pattern matching and similarity queries
-
-## Development Notes
-
-- Controllers use HTMX headers for client-side interactions
-- Custom annotation routing system via PHP attributes
-- Multi-language support throughout the application
-- Docker-based development environment
-- Built on existing FrameNet Brasil codebase but configured for SOUL Framework
-- Runs on PHP 8.4 for enhanced performance
-- Uses custom database abstraction layer for domain-specific query operations
-
-## Key Interfaces for SOUL Implementation
-
-### Planned Abstraction Interfaces
 ```php
-// Future interfaces for SOUL implementation
-interface GraphRepositoryInterface
-interface GraphTraversalInterface  
-interface ActivationInterface
-interface ConceptualBlendingInterface
-```
-
-### Current Key Classes
-- `app/Repositories/Concept.php`: Core concept operations
-- `app/Services/GraphService.php`: Graph visualization and relationships
-- `app/Database/Criteria.php`: Extended query capabilities
-- `app/Providers/Neo4jServiceProvider.php`: Neo4j driver registration
-- `config/webtool.php`: Relationship type definitions and UI configuration
-
-## Neo4j Usage
-
-### Basic Usage in Controllers/Services
-```php
-use Illuminate\Http\Request;
 use Laudis\Neo4j\Contracts\ClientInterface;
 
 class ConceptController extends Controller
@@ -271,62 +241,7 @@ class ConceptController extends Controller
         $concept = $result->first()->get('c')->toArray();
         return response()->json(['created' => true, 'concept' => $concept]);
     }
-
-    public function findRelatedConcepts(string $conceptName)
-    {
-        $result = $this->neo4j->run(
-            'MATCH (c:Concept {name: $name})-[:RELATES_TO]-(related:Concept)
-             RETURN related.name as name, related.type as type',
-            ['name' => $conceptName]
-        );
-
-        $concepts = [];
-        foreach ($result as $record) {
-            $concepts[] = [
-                'name' => $record->get('name'),
-                'type' => $record->get('type')
-            ];
-        }
-
-        return response()->json($concepts);
-    }
 }
-```
-
-### SOUL Framework Controller Usage
-The SOUL ResourceController provides comprehensive REST API endpoints for all SOUL Framework operations:
-
-```php
-// API Endpoints Available at /soul/*
-GET    /soul/concepts                    # List/search concepts with filtering
-POST   /soul/concepts                    # Create new concept
-GET    /soul/concepts/{name}             # Get concept with relationships
-PUT    /soul/concepts/{name}             # Update concept
-DELETE /soul/concepts/{name}             # Delete concept
-
-POST   /soul/relationships               # Create relationship between concepts
-POST   /soul/initialize                  # Initialize SOUL primitives
-GET    /soul/spreading-activation/{name} # Perform spreading activation
-GET    /soul/graph/{name}                # Get graph visualization data
-GET    /soul/statistics                  # Get graph statistics
-GET    /soul/export                      # Export graph data
-POST   /soul/import                      # Import graph data
-POST   /soul/search                      # Advanced concept search
-
-GET    /soul/relationship-types          # Get available relationship types
-GET    /soul/concept-types               # Get available concept types
-
-POST   /soul/database/constraints        # Create Neo4j constraints/indexes
-GET    /soul/database/status             # Get database status
-DELETE /soul/database/constraints        # Drop constraints/indexes
-```
-
-### Using via app() helper
-```php
-// Alternative way to access Neo4j client
-$neo4j = app('neo4j');
-$result = $neo4j->run('MATCH (n:Concept) RETURN count(n) as total');
-$totalConcepts = $result->first()->get('total');
 ```
 
 ### Environment Variables
@@ -338,32 +253,104 @@ NEO4J_PASSWORD=secret      # Set in .env file
 NEO4J_DATABASE=neo4j       # Default database name
 ```
 
-### Laudis Neo4j Client Features
-- **Modern PHP 8+ Support**: Built for PHP 8.1+ with full type safety
-- **Laravel 12 Compatible**: No Guzzle version conflicts - uses PSR standards
-- **Multiple Protocol Support**: HTTP and Bolt protocols supported
-- **Elegant API**: Clean, fluent interface for Neo4j operations
-- **High Performance**: Optimized for modern PHP with connection pooling
-- **Active Maintenance**: Regularly updated and well-documented
+## Frontend Architecture
+
+### Technology Stack
+- **Laravel 12**: Primary framework with custom routing via annotations
+- **HTMX**: Frontend reactivity via HX-* headers in controllers
+- **Vite**: Asset bundling with Laravel Vite plugin
+- **AlpineJS**: Frontend JavaScript framework  
+- **Fomantic UI**: Primary CSS framework
+- **JointJS**: Graph visualization library for SOUL graph implementation
+- **Chart.js**: Data visualization
+- **Additional Libraries**: svg-pan-zoom, Split.js, ky HTTP client
+
+### Key Features
+- HTMX-driven interactions with server-side rendering
+- Blade templating with component-based UI
+- Custom JavaScript components for complex interactions
+- Graph visualization using JointJS for conceptual relationships
+- AlpineJS for reactive components
+
+## Theoretical Implementation
+
+### Primitive Concepts (To Be Implemented)
+- **Image Schemas**: FORCE, REGION, OBJECT, POINT, CURVE, AXIS, MOVEMENT
+- **CSP Primitives**: EMOTION, NUMBER, STATE, CAUSE, SCALE
+
+### Meta-Schemas (To Be Implemented)
+- **ENTITY**: Conceptualized via topological schemas
+- **STATE**: Describes stable conditions  
+- **PROCESS**: Driven by FORCE, structured by PATH and CAUSE
+- **CHANGE**: Result of PROCESS altering STATE
+
+### Structural Schemas (To Be Implemented)
+- **CLASS & HIERARCHY**: For `is-a` and `part-whole` relationships
+- **AXIS & SCALE**: For ordered relationships and comparisons
+- **RADIAL**: For prototype effects and polysemy
+- **QUALIA**: For generative internal structure of concepts
+
+## Implementation Status
+
+### ✅ Completed Features
+- Core framework architecture and classes
+- MindService coordination system
+- Comprehensive exception system with rich context
+- Contract interfaces definition
+- SOUL ResourceController with full CRUD API
+- Neo4j integration and service provider
+- Docker development environment
+- Graph visualization infrastructure
+
+### 🔄 Current Development Phase
+1. **Concrete Frame Implementations**: Create specific frame classes for Image Schemas and CSP primitives
+2. **Contract Implementations**: Implement FrameDefinitionRegistry and Neo4jService interfaces
+3. **Frame Definition Bootstrap**: System for loading primitive frames at startup
+4. **Example Frame Definitions**: Create sample frames (PERSON, COMMERCIAL_TRANSACTION, etc.)
+5. **Testing Framework**: Comprehensive unit tests for core functionality
+
+### ⏳ Next Development Phases
+- **Primitive Frame Classes**: Complete Image Schema and CSP primitive implementations
+- **Structural Schema Implementation**: Implement QUALIA, RADIAL, AXIS & SCALE schemas
+- **Advanced Cognitive Operations**: Conceptual blending, construal operations
+- **Agent-based Reasoning**: Enhanced agent communication patterns
+- **Performance Optimization**: Large-scale spreading activation optimization
+
+## Usage Pattern
+
+```php
+// 1. Start cognitive processing
+$mindService = app(MindService::class);
+$sessionId = $mindService->startProcessingSession(['text' => 'John buys a book']);
+
+// 2. Process input (automatic pipeline execution)
+$response = $mindService->processInput(['text' => 'John buys a book'], $sessionId);
+
+// 3. End session and cleanup
+$mindService->endProcessingSession($sessionId);
+```
+
+## Development Guidelines
+
+1. **Theoretical Alignment**: Ensure all SOUL-specific implementations align with Minsky's Frame Theory and Fillmore's Frame Semantics
+2. **Graph-First Approach**: Design new features with Neo4j graph concepts in mind
+3. **Independence Pattern**: Maintain FrameInstance independence after instantiation
+4. **Agent Communication**: Use MindService for coordination, direct method calls for communication
+5. **Performance**: Consider spreading activation performance requirements for large conceptual networks
+6. **Multi-language**: Maintain existing multi-language support for international research collaboration
+
+## Key Configuration Files
+
+- `config/app.php`: Laravel application configuration with Neo4j service provider registration
+- `composer.json`: PHP dependencies including Laudis Neo4j PHP client
+- `package.json`: Node.js dependencies including visualization libraries
+- `vite.config.js`: Asset compilation configuration
+- `docker-compose-dev.yml`: Development environment with Neo4j
+- `.env`: Environment configuration including Neo4j connection settings
 
 ## Authentication & Authorization
 - Configurable auth handlers (internal/Auth0)
 - Role-based access control (ADMIN, MASTER, MANAGER levels)
 - Laravel-based session authentication with custom guards and providers
 
-# Development Guidelines
-
-1. **Theoretical Alignment**: Ensure all SOUL-specific implementations align with the theoretical framework documented in README.md
-2. **Graph-First Approach**: Design new features with graph database concepts in mind for future migration
-3. **Extensibility**: Build on existing FNBr infrastructure while adding SOUL-specific functionality
-4. **Performance**: Consider spreading activation performance requirements for large conceptual networks
-5. **Visualization**: Leverage JointJS and existing graph infrastructure for SOUL concept visualization
-6. **Multi-language**: Maintain existing multi-language support for international research collaboration
-
-# Important Notes
-
-- The project is currently a research prototype focused on computational linguistics
-- SOUL-specific features are planned but not yet implemented
-- The codebase provides solid foundation for graph-based conceptual networks  
-- Existing FrameNet infrastructure can be extended for SOUL requirements
-- Graph visualization capabilities are already integrated and ready for SOUL concepts
+This framework provides a solid foundation for implementing cognitive AI systems that can perform common-sense reasoning, natural language understanding, and dynamic knowledge representation based on established cognitive science principles.
