@@ -6,11 +6,14 @@ import Chart from 'chart.js/auto';
 import svgPanZoom from "svg-pan-zoom";
 import ky from 'ky';
 import Split from 'split.js';
+import { Network, DataSet } from 'vis-network/standalone';
 
 import './components/messengerComponent.js';
 import browseSearchComponent from './components/browseSearchComponent.js';
 import searchComponent from './components/searchComponent.js';
 import treeComponent from './components/treeComponent.js';
+import SoulGraphVisualization from './soul/visualization/SoulGraphVisualization.js';
+import ActivationVisualizer from './soul/components/ActivationVisualizer.js';
 
 import '../css/app.less';
 
@@ -18,6 +21,9 @@ window.Chart = Chart;
 window.svgPanZoom = svgPanZoom;
 window.ky = ky;
 window.Split = Split;
+window.vis = { Network, DataSet };
+window.SoulGraphVisualization = SoulGraphVisualization;
+window.ActivationVisualizer = ActivationVisualizer;
 
 document.addEventListener("DOMContentLoaded", () => {
     Alpine.data('searchComponent', searchComponent);

@@ -125,7 +125,7 @@
 
                         <div id="gridArea" class="h-full">
                             @fragment("search")
-                                <div class="results-container view-cards">
+                                <div class="results-container view-cards" x-data="soulBrowseResults()">
                                     <div class="results-header">
                                         <div class="results-info">
                                             <div class="results-count" id="resultsCount">{{ count($concepts) }} concepts</div>
@@ -137,6 +137,18 @@
                                                         @endforeach
                                                     </div>
                                                 @endif
+                                            </div>
+                                        </div>
+                                        <div class="results-controls">
+                                            <div class="ui buttons">
+                                                <button class="ui button" :class="{ 'active blue': viewMode === 'cards' }" @click="switchViewMode('cards')">
+                                                    <i class="grid layout icon"></i>
+                                                    Cards
+                                                </button>
+                                                <button class="ui button" :class="{ 'active blue': viewMode === 'graph' }" @click="switchViewMode('graph')">
+                                                    <i class="project diagram icon"></i>
+                                                    Graph
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +178,7 @@
 
                                     @if(count($concepts) > 0)
                                         <!-- Card View -->
-                                        <div class="card-view" x-transition>
+                                        <div class="card-view" x-show="viewMode === 'cards'" x-transition>
                                             <div class="search-results-grid">
                                                 @foreach($concepts as $concept)
                                                     <div class="ui card fluid result-card {{ $concept['typeClass'] ?? '' }}"
@@ -210,6 +222,47 @@
                                                     </div>
                                                 @endforeach
                                             </div>
+                                        </div>
+
+                                        <!-- Graph View -->
+                                        <div class="graph-view" x-show="viewMode === 'graph'" x-transition>
+                                            <div class="graph-controls">
+                                                <div class="ui mini form">
+                                                    <div class="inline fields">
+                                                        <div class="field">
+                                                            <label>Focus Concept:</label>
+                                                            <input type="text" x-model="graphFocusConcept" placeholder="Enter concept name" @keyup.enter="loadGraphForConcept()">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Depth:</label>
+                                                            <select x-model="graphDepth" @change="refreshGraph()" class="ui dropdown">
+                                                                <option value="1">1</option>
+                                                                <option value="2" selected>2</option>
+                                                                <option value="3">3</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="field">
+                                                            <button class="ui primary button" @click="loadGraphForConcept()" :disabled="!graphFocusConcept">
+                                                                <i class="play icon"></i>
+                                                                Load Graph
+                                                            </button>
+                                                        </div>
+                                                        <div class="field">
+                                                            <button class="ui button" @click="clearGraph()">
+                                                                <i class="trash icon"></i>
+                                                                Clear
+                                                            </button>
+                                                        </div>
+                                                        <div class="field">
+                                                            <button class="ui button" @click="exportGraph()">
+                                                                <i class="download icon"></i>
+                                                                Export
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="soul-graph-container" style="height: 70vh; border: 1px solid #e1e1e1; border-radius: 4px; margin-top: 1rem;"></div>
                                         </div>
                                     @endif
                                 </div>
@@ -276,6 +329,44 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .graph-controls {
+            padding: 1rem;
+            background: #fafafa;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .graph-controls .field {
+            margin-right: 1rem;
+        }
+        
+        .graph-controls .field:last-child {
+            margin-right: 0;
+        }
+        
+        /* Graph tooltip styling */
+        .soul-tooltip {
+            max-width: 300px;
+            padding: 0.5rem;
+        }
+        
+        .soul-tooltip h4 {
+            margin: 0 0 0.5rem 0;
+            color: #2185d0;
+        }
+        
+        .soul-tooltip p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+        }
     </style>
 
     <script>
@@ -283,6 +374,105 @@
             document.querySelector('form').reset();
             document.querySelector('input[name="concept"]').value = '';
             document.querySelector('form').dispatchEvent(new Event('submit'));
+        }
+        
+        function soulBrowseResults() {
+            return {
+                viewMode: localStorage.getItem('soul-browse-view-mode') || 'cards',
+                graphFocusConcept: '',
+                graphDepth: 2,
+                soulGraph: null,
+                
+                switchViewMode(mode) {
+                    this.viewMode = mode;
+                    localStorage.setItem('soul-browse-view-mode', mode);
+                    
+                    if (mode === 'graph' && !this.soulGraph) {
+                        this.initializeGraph();
+                    }
+                },
+                
+                initializeGraph() {
+                    this.$nextTick(() => {
+                        try {
+                            this.soulGraph = new window.SoulGraphVisualization('soul-graph-container', {
+                                height: '70vh',
+                                physics: true,
+                                stabilization: true
+                            });
+                            
+                            // Set up event handlers
+                            this.soulGraph.on('selectNode', (node) => {
+                                console.log('Node selected:', node.label);
+                            });
+                            
+                            this.soulGraph.on('doubleClick', (node) => {
+                                // Navigate to concept details on double click
+                                window.location.assign(`/soul/browse/${encodeURIComponent(node.label)}`);
+                            });
+                            
+                            // Auto-load first available concept if any
+                            this.autoLoadInitialGraph();
+                            
+                        } catch (error) {
+                            console.error('Failed to initialize graph:', error);
+                            this.showGraphError('Failed to initialize graph visualization: ' + error.message);
+                        }
+                    });
+                },
+                
+                autoLoadInitialGraph() {
+                    // Try to load graph for the first concept in the results
+                    const firstConcept = document.querySelector('[data-name]');
+                    if (firstConcept && this.soulGraph) {
+                        const conceptName = firstConcept.getAttribute('data-name');
+                        this.graphFocusConcept = conceptName;
+                        this.loadGraphForConcept();
+                    }
+                },
+                
+                loadGraphForConcept() {
+                    if (!this.graphFocusConcept || !this.soulGraph) return;
+                    
+                    this.soulGraph.loadConceptGraph(this.graphFocusConcept, parseInt(this.graphDepth))
+                        .then(() => {
+                            console.log(`Graph loaded for concept: ${this.graphFocusConcept}`);
+                        })
+                        .catch(error => {
+                            console.error('Failed to load graph:', error);
+                            this.showGraphError('Failed to load graph for concept: ' + error.message);
+                        });
+                },
+                
+                refreshGraph() {
+                    if (this.graphFocusConcept) {
+                        this.loadGraphForConcept();
+                    }
+                },
+                
+                clearGraph() {
+                    if (this.soulGraph) {
+                        this.soulGraph.clear();
+                        this.graphFocusConcept = '';
+                    }
+                },
+                
+                exportGraph() {
+                    if (this.soulGraph) {
+                        this.soulGraph.exportAsImage('png');
+                    }
+                },
+                
+                showGraphError(message) {
+                    $("body").toast({
+                        message: message,
+                        class: "error",
+                        showIcon: "exclamation triangle",
+                        displayTime: 5000,
+                        position: "top center"
+                    });
+                }
+            }
         }
         
         $(function() {

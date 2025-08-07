@@ -91,6 +91,45 @@ class BrowseController extends Controller
         }
     }
 
+    #[Get(path: '/soul/graph/visualization-data')]
+    public function visualizationData()
+    {
+        try {
+            $conceptName = request('concept');
+            $depth = request('depth', 2);
+
+            if (!$conceptName) {
+                return response()->json(['error' => 'Concept parameter is required'], 400);
+            }
+
+            // Validate depth parameter
+            $depth = max(1, min(5, intval($depth)));
+            
+            $graphData = $this->graphService->getConceptGraphVisualization($conceptName, $depth);
+
+            // Transform data for Vis.js format if needed
+            $response = [
+                'nodes' => $graphData['nodes'],
+                'links' => $graphData['links'],
+                'metadata' => [
+                    'centerConcept' => $conceptName,
+                    'depth' => $depth,
+                    'timestamp' => now()->toISOString(),
+                    'nodeCount' => count($graphData['nodes']),
+                    'linkCount' => count($graphData['links'])
+                ]
+            ];
+
+            return response()->json($response);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to load graph visualization data',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     #[Get(path: '/soul/browse/initialize')]
     public function initialize()
     {

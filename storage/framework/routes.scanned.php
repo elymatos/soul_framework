@@ -3032,6 +3032,174 @@ $router->get('report/multimodal/{idDocument?}/{view?}', [
 	'domain' => NULL,
 ]);
 
+$router->get('soul/knowledge', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@index',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/knowledge/scripts/{file}', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@scripts',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/knowledge/file-tree', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@getFileTree',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/knowledge/file/{filename}', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@loadFile',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/knowledge/file', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@saveFile',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/knowledge/validate', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@validateFile',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/knowledge/dependency-graph', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@getDependencyGraph',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/knowledge/preview-changes', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@previewChanges',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/knowledge/upload', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@uploadFile',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/knowledge/export', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@exportFiles',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->delete('soul/knowledge/file/{filename}', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@deleteFile',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/knowledge/load-yaml', [
+	'uses' => 'App\Http\Controllers\SOUL\KnowledgeController@loadYaml',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@index',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/data', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@getData',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/status', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@getStatus',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/session/{sessionId}', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@getSessionStatus',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/dashboard/test-session', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@startTestSession',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('soul/dashboard/session/{sessionId}/terminate', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@terminateSession',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/activation/{concept}', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@getActivationData',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/klines', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@getKlineStats',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/dashboard/export', [
+	'uses' => 'App\Http\Controllers\SOUL\DashboardController@exportData',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
 $router->get('soul/browse/script/{file}', [
 	'uses' => 'App\Http\Controllers\SOUL\BrowseController@scripts',
 	'as' => NULL,
@@ -3074,6 +3242,14 @@ $router->get('soul/browse/{conceptName}/graph', [
 
 $router->get('soul/browse/{conceptName}/activation', [
 	'uses' => 'App\Http\Controllers\SOUL\BrowseController@spreadingActivation',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('soul/graph/visualization-data', [
+	'uses' => 'App\Http\Controllers\SOUL\BrowseController@visualizationData',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
