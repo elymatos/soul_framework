@@ -2,54 +2,49 @@
 
 namespace App\Soul\Services;
 
+use App\Soul\Contracts\GraphServiceInterface;
+use App\Soul\Contracts\AgentServiceInterface;
+use App\Soul\Contracts\Neo4jService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use App\Soul\Frame;
-use App\Soul\FrameInstance;
-use App\Soul\Contracts\FrameDefinitionRegistry;
-use App\Soul\Contracts\Neo4jService;
-use App\Soul\Exceptions\FrameNotFoundException;
-use App\Soul\Exceptions\FrameInstanceNotFoundException;
-use App\Soul\Exceptions\FrameInstantiationException;
+use Illuminate\Support\Facades\Config;
+use App\Soul\Exceptions\ProcessingSessionException;
+use App\Soul\Exceptions\AgentCommunicationException;
+use App\Soul\Exceptions\CognitiveProcessingException;
+use App\Soul\Exceptions\ProcessingTimeoutException;
+use App\Soul\Exceptions\ActivationConvergenceException;
 
 /**
- * MindService - The central coordinator of the SOUL framework
+ * MindService - Complete replacement implementing Society of Mind principles
  *
- * Responsibilities:
- * 1. Interface between external world and cognitive system
- * 2. Frame definition registry and instantiation
- * 3. Frame instance lifecycle management
- * 4. Agent communication facilitation
- * 5. Processing session coordination
+ * This service coordinates the entire cognitive architecture using:
+ * - Dual representation (graph nodes + executable agents)
+ * - Spreading activation for conceptual processing
+ * - K-line learning for successful path strengthening
+ * - Microservice-oriented agent execution
+ * - Fail-fast error handling with rich exceptions
  */
 class MindService
 {
-    protected Collection $frameDefinitions;
-    protected Collection $activeInstances;
-    protected Collection $processingSessions;
+    protected GraphServiceInterface $graphService;
+    protected Collection $agentServices;
+    protected Collection $activeSessions;
+    protected array $config;
     protected Neo4jService $neo4jService;
-    protected FrameDefinitionRegistry $frameRegistry;
-    protected string $currentSessionId;
-    protected array $statistics;
 
     public function __construct(
-        Neo4jService $neo4jService,
-        FrameDefinitionRegistry $frameRegistry
+        GraphServiceInterface $graphService,
+        Neo4jService $neo4jService
     ) {
-        $this->frameDefinitions = new Collection();
-        $this->activeInstances = new Collection();
-        $this->processingSessions = new Collection();
+        $this->graphService = $graphService;
         $this->neo4jService = $neo4jService;
-        $this->frameRegistry = $frameRegistry;
-        $this->currentSessionId = null;
-        $this->statistics = [
-            'instances_created' => 0,
-            'instances_destroyed' => 0,
-            'agent_communications' => 0,
-            'sessions_started' => 0
-        ];
-
-        $this->loadFrameDefinitions();
+        $this->agentServices = new Collection();
+        $this->activeSessions = new Collection();
+        $this->config = Config::get('soul', []);
+        
+        Log::info("Society of Mind service initialized", [
+            'max_sessions' => $this->config['processing']['max_concurrent_sessions'] ?? 10
+        ]);
     }
 
     // ===========================================
@@ -57,186 +52,105 @@ class MindService
     // ===========================================
 
     /**
-     * Start a new cognitive processing session
-     * This is the main entry point from the external world
+     * Start cognitive processing session - main entry point
      */
     public function startProcessingSession(array $input, ?string $sessionId = null): string
     {
         $sessionId = $sessionId ?? $this->generateSessionId();
-        $this->currentSessionId = $sessionId;
+        
+        // Check session limits
+        if ($this->activeSessions->count() >= ($this->config['processing']['max_concurrent_sessions'] ?? 10)) {
+            throw new ProcessingSessionException("Maximum concurrent sessions exceeded");
+        }
 
         $session = [
             'id' => $sessionId,
             'started_at' => now(),
             'input' => $input,
-            'instances' => new Collection(),
-            'status' => 'active'
+            'status' => 'initializing',
+            'activation_history' => [],
+            'agent_executions' => [],
+            'klines_used' => [],
+            'statistics' => [
+                'nodes_activated' => 0,
+                'agents_executed' => 0,
+                'processing_rounds' => 0
+            ]
         ];
 
-        $this->processingSessions->put($sessionId, $session);
-        $this->statistics['sessions_started']++;
+        $this->activeSessions->put($sessionId, $session);
 
-        Log::info("SOUL: Started processing session", ['session_id' => $sessionId]);
+        Log::info("Society of Mind: Processing session started", [
+            'session_id' => $sessionId,
+            'input_keys' => array_keys($input),
+            'active_sessions_count' => $this->activeSessions->count()
+        ]);
 
         return $sessionId;
     }
 
     /**
-     * Process input and return cognitive response
      * Main cognitive processing pipeline
      */
-    public function processInput(array $input, ?string $sessionId = null): array
+    public function processInput(array $input, string $sessionId): array
     {
-        $sessionId = $sessionId ?? $this->currentSessionId;
-
-        if (!$sessionId || !$this->processingSessions->has($sessionId)) {
-            throw new \Exception("No active processing session found");
+        if (!$this->activeSessions->has($sessionId)) {
+            throw new ProcessingSessionException("Session not found: {$sessionId}");
         }
 
+        $session = $this->activeSessions->get($sessionId);
+        $session['status'] = 'processing';
+        $startTime = microtime(true);
+
         try {
-            // 1. Analyze input and identify relevant frames
-            $relevantFrames = $this->analyzeInput($input);
+            Log::info("Society of Mind: Starting cognitive pipeline", [
+                'session_id' => $sessionId,
+                'input_size' => count($input)
+            ]);
 
-            // 2. Instantiate initial frames
-            $initialInstances = $this->instantiateInitialFrames($relevantFrames, $input, $sessionId);
+            // Phase 1: Conceptual Analysis & Initial Activation
+            $initialConcepts = $this->extractInitialConcepts($input, $sessionId);
+            $activationResult = $this->performSpreadingActivation($initialConcepts, $sessionId);
 
-            // 3. Activate initial agents (Minsky's frame matching process)
-            $activationResults = $this->activateInitialAgents($initialInstances);
+            // Phase 2: Agent Discovery & Execution
+            $agentResults = $this->discoverAndExecuteAgents($activationResult, $input, $sessionId);
 
-            // 4. Let the cognitive network process (spreading activation)
-            $processingResults = $this->runCognitiveProcessing($sessionId);
+            // Phase 3: Iterative Processing Rounds
+            $convergenceResult = $this->runProcessingRounds($activationResult, $agentResults, $sessionId);
 
-            // 5. Extract final state and generate response
-            $response = $this->generateResponse($sessionId);
+            // Phase 4: Response Generation & Learning
+            $response = $this->generateCognitiveResponse($convergenceResult, $sessionId);
+            $this->performLearning($convergenceResult, $sessionId);
+
+            // Update session
+            $session['status'] = 'completed';
+            $session['processing_time_ms'] = round((microtime(true) - $startTime) * 1000, 2);
+            $session['final_result'] = $response;
+            $this->activeSessions->put($sessionId, $session);
+
+            Log::info("Society of Mind: Processing completed", [
+                'session_id' => $sessionId,
+                'processing_time_ms' => $session['processing_time_ms'],
+                'nodes_activated' => $session['statistics']['nodes_activated'],
+                'agents_executed' => $session['statistics']['agents_executed']
+            ]);
 
             return $response;
 
         } catch (\Exception $e) {
-            Log::error("SOUL: Processing error", [
+            $session['status'] = 'failed';
+            $session['error'] = $e->getMessage();
+            $session['processing_time_ms'] = round((microtime(true) - $startTime) * 1000, 2);
+            $this->activeSessions->put($sessionId, $session);
+
+            Log::error("Society of Mind: Processing failed", [
                 'session_id' => $sessionId,
-                'error' => $e->getMessage()
-            ]);
-            throw $e;
-        }
-    }
-
-    /**
-     * End processing session and cleanup
-     */
-    public function endProcessingSession(?string $sessionId = null): array
-    {
-        $sessionId = $sessionId ?? $this->currentSessionId;
-
-        if (!$this->processingSessions->has($sessionId)) {
-            throw new \Exception("Session not found: {$sessionId}");
-        }
-
-        $session = $this->processingSessions->get($sessionId);
-        $session['ended_at'] = now();
-        $session['status'] = 'completed';
-
-        // Cleanup session instances
-        $this->cleanupSessionInstances($sessionId);
-
-        // Archive session in Neo4j if needed
-        $this->archiveSession($session);
-
-        $this->processingSessions->forget($sessionId);
-
-        if ($this->currentSessionId === $sessionId) {
-            $this->currentSessionId = null;
-        }
-
-        Log::info("SOUL: Ended processing session", ['session_id' => $sessionId]);
-
-        return $session;
-    }
-
-    // ===========================================
-    // FRAME DEFINITION MANAGEMENT
-    // ===========================================
-
-    /**
-     * Register a frame definition
-     */
-    public function registerFrameDefinition(Frame $frame): void
-    {
-        $this->frameDefinitions->put($frame->getId(), $frame);
-        Log::debug("SOUL: Registered frame definition", ['frame_id' => $frame->getId()]);
-    }
-
-    /**
-     * Get frame definition by ID
-     */
-    public function getFrameDefinition(string $frameId): Frame
-    {
-        if (!$this->frameDefinitions->has($frameId)) {
-            throw new FrameNotFoundException("Frame definition not found: {$frameId}");
-        }
-
-        return $this->frameDefinitions->get($frameId);
-    }
-
-    /**
-     * Check if frame definition exists
-     */
-    public function hasFrameDefinition(string $frameId): bool
-    {
-        return $this->frameDefinitions->has($frameId);
-    }
-
-    /**
-     * Get all frame definitions of a specific type
-     */
-    public function getFrameDefinitionsByType(string $type): Collection
-    {
-        return $this->frameDefinitions->filter(function($frame) use ($type) {
-            return $frame->getType() === $type;
-        });
-    }
-
-    // ===========================================
-    // FRAME INSTANCE MANAGEMENT
-    // ===========================================
-
-    /**
-     * Instantiate a frame - main method used by agents
-     */
-    public function instantiateFrame(
-        string $frameId,
-        array $context = [],
-        ?string $sessionId = null,
-        ?string $instanceId = null
-    ): FrameInstance {
-        $sessionId = $sessionId ?? $this->currentSessionId;
-
-        if (!$this->hasFrameDefinition($frameId)) {
-            throw new FrameNotFoundException("Cannot instantiate unknown frame: {$frameId}");
-        }
-
-        try {
-            $frameDefinition = $this->getFrameDefinition($frameId);
-            $instance = $frameDefinition->instantiate($context, $instanceId);
-
-            // Register instance
-            $this->registerFrameInstance($instance, $sessionId);
-
-            // Store in Neo4j for this session
-            $this->persistInstanceToNeo4j($instance, $sessionId);
-
-            $this->statistics['instances_created']++;
-
-            Log::debug("SOUL: Instantiated frame", [
-                'frame_id' => $frameId,
-                'instance_id' => $instance->getInstanceId(),
-                'session_id' => $sessionId
+                'error' => $e->getMessage(),
+                'processing_time_ms' => $session['processing_time_ms']
             ]);
 
-            return $instance;
-
-        } catch (\Exception $e) {
-            throw new FrameInstantiationException(
-                "Failed to instantiate frame {$frameId}: " . $e->getMessage(),
+            throw new CognitiveProcessingException(
+                "Cognitive processing failed for session {$sessionId}: " . $e->getMessage(),
                 0,
                 $e
             );
@@ -244,118 +158,32 @@ class MindService
     }
 
     /**
-     * Register a frame instance (called by Frame::instantiate)
+     * End processing session with cleanup
      */
-    public function registerFrameInstance(FrameInstance $instance, ?string $sessionId = null): void
+    public function endProcessingSession(string $sessionId): array
     {
-        $sessionId = $sessionId ?? $this->currentSessionId;
-
-        // Add to global registry
-        $this->activeInstances->put($instance->getInstanceId(), $instance);
-
-        // Add to session registry
-        if ($sessionId && $this->processingSessions->has($sessionId)) {
-            $session = $this->processingSessions->get($sessionId);
-            $session['instances']->put($instance->getInstanceId(), $instance);
-        }
-    }
-
-    /**
-     * Get frame instance by ID - used by agents for communication
-     */
-    public function getFrameInstance(string $instanceId): ?FrameInstance
-    {
-        return $this->activeInstances->get($instanceId);
-    }
-
-    /**
-     * Check if frame instance exists
-     */
-    public function hasFrameInstance(string $instanceId): bool
-    {
-        return $this->activeInstances->has($instanceId);
-    }
-
-    /**
-     * Get all instances of a specific frame type
-     */
-    public function getInstancesByFrameId(string $frameId, ?string $sessionId = null): Collection
-    {
-        $instances = $sessionId && $this->processingSessions->has($sessionId)
-            ? $this->processingSessions->get($sessionId)['instances']
-            : $this->activeInstances;
-
-        return $instances->filter(function($instance) use ($frameId) {
-            return $instance->getFrameId() === $frameId;
-        });
-    }
-
-    /**
-     * Remove frame instance
-     */
-    public function destroyFrameInstance(string $instanceId): bool
-    {
-        if (!$this->activeInstances->has($instanceId)) {
-            return false;
+        if (!$this->activeSessions->has($sessionId)) {
+            throw new ProcessingSessionException("Session not found: {$sessionId}");
         }
 
-        $instance = $this->activeInstances->get($instanceId);
-
-        // Remove from Neo4j
-        $this->removeInstanceFromNeo4j($instanceId);
-
-        // Remove from all session registries
-        foreach ($this->processingSessions as $session) {
-            $session['instances']->forget($instanceId);
+        $session = $this->activeSessions->get($sessionId);
+        $session['ended_at'] = now();
+        
+        // Archive session if configured
+        if ($this->config['processing']['archive_sessions'] ?? true) {
+            $this->archiveSession($session);
         }
 
-        // Remove from global registry
-        $this->activeInstances->forget($instanceId);
+        $sessionData = $session;
+        $this->activeSessions->forget($sessionId);
 
-        $this->statistics['instances_destroyed']++;
-
-        Log::debug("SOUL: Destroyed frame instance", ['instance_id' => $instanceId]);
-
-        return true;
-    }
-
-    // ===========================================
-    // AGENT COMMUNICATION SUPPORT
-    // ===========================================
-
-    /**
-     * Facilitate agent communication - called by FrameInstance::sendMessageToAgent
-     */
-    public function facilitateAgentCommunication(
-        string $fromInstanceId,
-        string $toInstanceId,
-        string $method,
-        array $params = []
-    ): mixed {
-        $this->statistics['agent_communications']++;
-
-        $fromInstance = $this->getFrameInstance($fromInstanceId);
-        $toInstance = $this->getFrameInstance($toInstanceId);
-
-        if (!$fromInstance || !$toInstance) {
-            throw new FrameInstanceNotFoundException(
-                "Cannot facilitate communication: instance not found"
-            );
-        }
-
-        Log::debug("SOUL: Agent communication", [
-            'from' => $fromInstanceId,
-            'to' => $toInstanceId,
-            'method' => $method
+        Log::info("Society of Mind: Session ended", [
+            'session_id' => $sessionId,
+            'total_duration_ms' => $session['processing_time_ms'] ?? 0,
+            'final_status' => $session['status']
         ]);
 
-        // Validate method exists
-        if (!method_exists($toInstance, $method)) {
-            throw new \Exception("Method {$method} not found in {$toInstanceId}");
-        }
-
-        // Execute the method call
-        return $toInstance->$method($fromInstance, ...$params);
+        return $sessionData;
     }
 
     // ===========================================
@@ -363,167 +191,456 @@ class MindService
     // ===========================================
 
     /**
-     * Analyze input to identify relevant frames
+     * Extract initial concepts from input for activation
      */
-    protected function analyzeInput(array $input): array
+    protected function extractInitialConcepts(array $input, string $sessionId): array
     {
-        $relevantFrames = [];
+        $concepts = [];
 
-        // Simple keyword-based frame identification
-        // In a full implementation, this would be much more sophisticated
-        foreach ($input as $key => $value) {
-            if ($key === 'text' && is_string($value)) {
-                // Analyze text for frame triggers
-                $words = explode(' ', strtolower($value));
-                foreach ($words as $word) {
-                    $frameId = $this->findFrameByTrigger($word);
-                    if ($frameId) {
-                        $relevantFrames[] = $frameId;
-                    }
-                }
-            }
+        // Text analysis
+        if (isset($input['text']) && is_string($input['text'])) {
+            $words = $this->analyzeTextForConcepts($input['text']);
+            $concepts = array_merge($concepts, $words);
         }
 
-        return array_unique($relevantFrames);
+        // Direct concept specification
+        if (isset($input['concepts']) && is_array($input['concepts'])) {
+            $concepts = array_merge($concepts, $input['concepts']);
+        }
+
+        // Context-based concepts
+        if (isset($input['context'])) {
+            $contextConcepts = $this->extractContextConcepts($input['context']);
+            $concepts = array_merge($concepts, $contextConcepts);
+        }
+
+        $uniqueConcepts = array_unique(array_filter($concepts));
+
+        Log::debug("Society of Mind: Initial concepts extracted", [
+            'session_id' => $sessionId,
+            'concepts' => $uniqueConcepts,
+            'concepts_count' => count($uniqueConcepts)
+        ]);
+
+        return $uniqueConcepts;
     }
 
     /**
-     * Instantiate initial frames for processing
+     * Perform spreading activation from initial concepts
      */
-    protected function instantiateInitialFrames(array $frameIds, array $context, string $sessionId): Collection
+    protected function performSpreadingActivation(array $initialConcepts, string $sessionId): array
     {
-        $instances = new Collection();
+        if (empty($initialConcepts)) {
+            Log::warning("Society of Mind: No initial concepts for activation", [
+                'session_id' => $sessionId
+            ]);
+            
+            return [
+                'activated_nodes' => [],
+                'initial_concepts' => [],
+                'total_nodes' => 0,
+                'analysis' => 'no_activation'
+            ];
+        }
 
-        foreach ($frameIds as $frameId) {
+        $activationOptions = [
+            'max_depth' => $this->config['graph']['spreading_activation']['max_depth'] ?? 3,
+            'activation_threshold' => $this->config['graph']['spreading_activation']['threshold'] ?? 0.1,
+            'include_procedural_agents' => true
+        ];
+
+        $activationResult = $this->graphService->runSpreadingActivation($initialConcepts, $activationOptions);
+        
+        // Analyze results
+        $analysis = $this->graphService->analyzeActivationResults($activationResult);
+        $activationResult['analysis'] = $analysis;
+
+        // Update session statistics
+        $session = $this->activeSessions->get($sessionId);
+        $session['statistics']['nodes_activated'] = $activationResult['total_nodes'] ?? 0;
+        $session['activation_history'][] = $activationResult;
+        $this->activeSessions->put($sessionId, $session);
+
+        Log::info("Society of Mind: Spreading activation completed", [
+            'session_id' => $sessionId,
+            'initial_concepts' => $initialConcepts,
+            'nodes_activated' => $activationResult['total_nodes'] ?? 0,
+            'analysis_type' => $analysis['analysis'] ?? 'unknown'
+        ]);
+
+        return $activationResult;
+    }
+
+    /**
+     * Discover and execute relevant procedural agents
+     */
+    protected function discoverAndExecuteAgents(array $activationResult, array $input, string $sessionId): array
+    {
+        $agentResults = [];
+        $proceduralAgents = $this->extractProceduralAgents($activationResult);
+
+        if (empty($proceduralAgents)) {
+            Log::debug("Society of Mind: No procedural agents found", [
+                'session_id' => $sessionId
+            ]);
+            return $agentResults;
+        }
+
+        foreach ($proceduralAgents as $agent) {
             try {
-                $instance = $this->instantiateFrame($frameId, $context, $sessionId);
-                $instances->put($instance->getInstanceId(), $instance);
+                $result = $this->executeProceduralAgent($agent, $input, $sessionId);
+                $agentResults[$agent['code_reference']] = $result;
+                
+                // Update session statistics
+                $session = $this->activeSessions->get($sessionId);
+                $session['statistics']['agents_executed']++;
+                $session['agent_executions'][] = [
+                    'agent' => $agent['name'],
+                    'code_reference' => $agent['code_reference'],
+                    'result' => $result,
+                    'executed_at' => now()
+                ];
+                $this->activeSessions->put($sessionId, $session);
+
             } catch (\Exception $e) {
-                Log::warning("SOUL: Failed to instantiate initial frame", [
-                    'frame_id' => $frameId,
+                Log::error("Society of Mind: Agent execution failed", [
+                    'session_id' => $sessionId,
+                    'agent' => $agent['name'],
+                    'code_reference' => $agent['code_reference'],
                     'error' => $e->getMessage()
                 ]);
+
+                throw new AgentCommunicationException(
+                    "Failed to execute agent {$agent['name']}: " . $e->getMessage(),
+                    0,
+                    $e
+                );
             }
         }
 
-        return $instances;
+        Log::info("Society of Mind: Agent execution phase completed", [
+            'session_id' => $sessionId,
+            'agents_executed' => count($agentResults),
+            'successful_executions' => count(array_filter($agentResults, fn($r) => $r['status'] === 'success'))
+        ]);
+
+        return $agentResults;
     }
 
     /**
-     * Activate initial agents (Minsky's matching process)
+     * Run iterative processing rounds until convergence
      */
-    protected function activateInitialAgents(Collection $instances): array
+    protected function runProcessingRounds(array $activationResult, array $agentResults, string $sessionId): array
     {
-        $results = [];
+        $maxRounds = $this->config['processing']['max_processing_rounds'] ?? 5;
+        $convergenceThreshold = $this->config['processing']['convergence_threshold'] ?? 0.1;
+        
+        $round = 0;
+        $converged = false;
+        $roundResults = [];
+        $lastActivationLevel = $this->calculateActivationLevel($activationResult);
 
-        foreach ($instances as $instance) {
-            // Call the instance's initial activation method if it exists
-            if (method_exists($instance, 'initialActivation')) {
-                try {
-                    $result = $instance->initialActivation();
-                    $results[$instance->getInstanceId()] = $result;
-                } catch (\Exception $e) {
-                    Log::warning("SOUL: Initial activation failed", [
-                        'instance_id' => $instance->getInstanceId(),
-                        'error' => $e->getMessage()
+        while (!$converged && $round < $maxRounds) {
+            $round++;
+            
+            Log::debug("Society of Mind: Processing round started", [
+                'session_id' => $sessionId,
+                'round' => $round,
+                'max_rounds' => $maxRounds
+            ]);
+
+            // Re-run activation based on agent results
+            $newConcepts = $this->extractConceptsFromAgentResults($agentResults);
+            if (!empty($newConcepts)) {
+                $roundActivation = $this->graphService->runSpreadingActivation($newConcepts);
+                $currentActivationLevel = $this->calculateActivationLevel($roundActivation);
+                
+                // Check for convergence
+                $change = abs($currentActivationLevel - $lastActivationLevel);
+                if ($change < $convergenceThreshold) {
+                    $converged = true;
+                    Log::debug("Society of Mind: Convergence achieved", [
+                        'session_id' => $sessionId,
+                        'round' => $round,
+                        'change' => $change,
+                        'threshold' => $convergenceThreshold
                     ]);
                 }
+                
+                $lastActivationLevel = $currentActivationLevel;
+                $roundResults[] = $roundActivation;
+            } else {
+                // No new concepts, consider converged
+                $converged = true;
             }
         }
 
-        return $results;
-    }
+        // Update session statistics
+        $session = $this->activeSessions->get($sessionId);
+        $session['statistics']['processing_rounds'] = $round;
+        $this->activeSessions->put($sessionId, $session);
 
-    /**
-     * Run cognitive processing (spreading activation)
-     */
-    protected function runCognitiveProcessing(string $sessionId): array
-    {
-        $session = $this->processingSessions->get($sessionId);
-        $instances = $session['instances'];
-
-        $processingRounds = 0;
-        $maxRounds = 10; // Prevent infinite loops
-        $hasActivity = true;
-
-        while ($hasActivity && $processingRounds < $maxRounds) {
-            $hasActivity = false;
-            $processingRounds++;
-
-            foreach ($instances as $instance) {
-                // Call the instance's processing method if it exists
-                if (method_exists($instance, 'cognitiveProcess')) {
-                    try {
-                        $activity = $instance->cognitiveProcess();
-                        if ($activity) {
-                            $hasActivity = true;
-                        }
-                    } catch (\Exception $e) {
-                        Log::warning("SOUL: Cognitive processing error", [
-                            'instance_id' => $instance->getInstanceId(),
-                            'round' => $processingRounds,
-                            'error' => $e->getMessage()
-                        ]);
-                    }
-                }
-            }
+        if (!$converged) {
+            Log::warning("Society of Mind: Failed to converge", [
+                'session_id' => $sessionId,
+                'rounds_completed' => $round,
+                'max_rounds' => $maxRounds
+            ]);
+            
+            throw new ActivationConvergenceException(
+                "Processing failed to converge within {$maxRounds} rounds for session {$sessionId}"
+            );
         }
 
         return [
-            'rounds' => $processingRounds,
-            'completed' => !$hasActivity
+            'converged' => $converged,
+            'rounds' => $round,
+            'final_activation' => end($roundResults) ?: $activationResult,
+            'round_history' => $roundResults
         ];
     }
 
     /**
-     * Generate response from final cognitive state
+     * Generate final cognitive response
      */
-    protected function generateResponse(string $sessionId): array
+    protected function generateCognitiveResponse(array $convergenceResult, string $sessionId): array
     {
-        $session = $this->processingSessions->get($sessionId);
+        $session = $this->activeSessions->get($sessionId);
+        $finalActivation = $convergenceResult['final_activation'];
 
         return [
             'session_id' => $sessionId,
-            'instances_count' => $session['instances']->count(),
-            'processing_time' => now()->diffInMilliseconds($session['started_at']),
-            'result' => 'processed', // Placeholder for actual results
-            'statistics' => $this->getSessionStatistics($sessionId)
+            'status' => 'success',
+            'processing_summary' => [
+                'nodes_activated' => $session['statistics']['nodes_activated'],
+                'agents_executed' => $session['statistics']['agents_executed'],
+                'processing_rounds' => $session['statistics']['processing_rounds'],
+                'converged' => $convergenceResult['converged']
+            ],
+            'activated_concepts' => array_slice(
+                $finalActivation['activated_nodes'] ?? [], 
+                0, 
+                10
+            ), // Top 10 most activated
+            'agent_results' => $session['agent_executions'],
+            'insights' => $finalActivation['analysis']['insights'] ?? [],
+            'recommendations' => $finalActivation['analysis']['recommendations'] ?? [],
+            'processing_time_ms' => $session['processing_time_ms'] ?? 0
         ];
     }
 
-    // ===========================================
-    // SUPPORT METHODS
-    // ===========================================
-
     /**
-     * Load frame definitions from registry
+     * Perform K-line learning from successful processing
      */
-    protected function loadFrameDefinitions(): void
+    protected function performLearning(array $convergenceResult, string $sessionId): void
     {
-        $definitions = $this->frameRegistry->getAllFrameDefinitions();
-
-        foreach ($definitions as $frame) {
-            $this->registerFrameDefinition($frame);
+        if (!$convergenceResult['converged']) {
+            Log::debug("Society of Mind: Skipping learning - no convergence", [
+                'session_id' => $sessionId
+            ]);
+            return;
         }
 
-        Log::info("SOUL: Loaded frame definitions", ['count' => $definitions->count()]);
+        $session = $this->activeSessions->get($sessionId);
+        $context = json_encode($session['input']);
+
+        // Create K-line from successful activation path
+        $klineData = [
+            'activation_pattern' => $convergenceResult['final_activation'],
+            'agent_sequence' => array_column($session['agent_executions'], 'code_reference'),
+            'success_metrics' => [
+                'processing_rounds' => $convergenceResult['rounds'],
+                'success_rate' => 1.0 // Successful completion
+            ]
+        ];
+
+        try {
+            $klineId = $this->graphService->recordKLine($klineData, $context);
+            
+            $session['klines_used'][] = $klineId;
+            $this->activeSessions->put($sessionId, $session);
+
+            Log::info("Society of Mind: K-line recorded for learning", [
+                'session_id' => $sessionId,
+                'kline_id' => $klineId,
+                'context' => substr($context, 0, 100) . '...'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::warning("Society of Mind: Failed to record K-line", [
+                'session_id' => $sessionId,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    // ===========================================
+    // AGENT SERVICE MANAGEMENT
+    // ===========================================
+
+    /**
+     * Register an agent service
+     */
+    public function registerAgentService(string $serviceKey, AgentServiceInterface $service): void
+    {
+        $this->agentServices->put($serviceKey, $service);
+        
+        Log::debug("Society of Mind: Agent service registered", [
+            'service_key' => $serviceKey,
+            'available_agents' => $service->getAvailableAgents()
+        ]);
     }
 
     /**
-     * Find frame by trigger word (simple implementation)
+     * Execute a specific agent via registered services
      */
-    protected function findFrameByTrigger(string $word): ?string
+    protected function executeProceduralAgent(array $agent, array $input, string $sessionId): array
     {
-        // This is a placeholder - in reality, this would be much more sophisticated
-        $triggers = [
-            'buy' => 'COMMERCIAL_TRANSACTION',
-            'sell' => 'COMMERCIAL_TRANSACTION',
-            'person' => 'PERSON',
-            'walk' => 'MOTION',
-            'container' => 'CONTAINER'
-        ];
+        $codeRef = $agent['code_reference'];
+        $parts = explode('::', $codeRef);
+        
+        if (count($parts) !== 2) {
+            throw new AgentCommunicationException("Invalid code reference format: {$codeRef}");
+        }
 
-        return $triggers[$word] ?? null;
+        [$serviceKey, $method] = $parts;
+        
+        if (!$this->agentServices->has($serviceKey)) {
+            throw new AgentCommunicationException("Agent service not found: {$serviceKey}");
+        }
+
+        $service = $this->agentServices->get($serviceKey);
+        $parameters = array_merge($input, ['session_id' => $sessionId]);
+
+        $timeout = $this->config['agents']['execution_timeout'] ?? 30;
+        
+        Log::debug("Society of Mind: Executing procedural agent", [
+            'session_id' => $sessionId,
+            'agent' => $agent['name'],
+            'service' => $serviceKey,
+            'method' => $method,
+            'timeout' => $timeout
+        ]);
+
+        // Execute with timeout protection
+        $startTime = microtime(true);
+        try {
+            $result = $service->executeAgent($method, $parameters);
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+            
+            if ($executionTime > ($timeout * 1000)) {
+                throw new ProcessingTimeoutException(
+                    "Agent execution timeout: {$codeRef} took {$executionTime}ms"
+                );
+            }
+            
+            return [
+                'status' => 'success',
+                'result' => $result,
+                'execution_time_ms' => $executionTime,
+                'agent' => $agent['name']
+            ];
+
+        } catch (\Exception $e) {
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+            
+            Log::error("Society of Mind: Agent execution failed", [
+                'session_id' => $sessionId,
+                'agent' => $agent['name'],
+                'service' => $serviceKey,
+                'method' => $method,
+                'execution_time_ms' => $executionTime,
+                'error' => $e->getMessage()
+            ]);
+            
+            throw $e;
+        }
+    }
+
+    // ===========================================
+    // UTILITY METHODS
+    // ===========================================
+
+    /**
+     * Extract procedural agents from activation results
+     */
+    protected function extractProceduralAgents(array $activationResult): array
+    {
+        $agents = [];
+        $activatedNodes = $activationResult['activated_nodes'] ?? [];
+
+        foreach ($activatedNodes as $node) {
+            if (($node['type'] ?? '') === 'PROCEDURAL_AGENT') {
+                $agents[] = $node;
+            }
+        }
+
+        return $agents;
+    }
+
+    /**
+     * Analyze text for conceptual content
+     */
+    protected function analyzeTextForConcepts(string $text): array
+    {
+        // Simple word extraction - in practice, would use NLP
+        $words = array_filter(
+            array_map('trim', 
+                explode(' ', strtolower($text))
+            ),
+            fn($word) => strlen($word) > 2
+        );
+
+        return array_slice($words, 0, 10); // Limit initial concepts
+    }
+
+    /**
+     * Extract context-based concepts
+     */
+    protected function extractContextConcepts(mixed $context): array
+    {
+        if (is_string($context)) {
+            return [$context];
+        }
+        
+        if (is_array($context)) {
+            return array_values($context);
+        }
+        
+        return [];
+    }
+
+    /**
+     * Calculate activation level for convergence detection
+     */
+    protected function calculateActivationLevel(array $activationResult): float
+    {
+        $nodes = $activationResult['activated_nodes'] ?? [];
+        if (empty($nodes)) {
+            return 0.0;
+        }
+
+        $totalActivation = array_sum(
+            array_column($nodes, 'activation_strength')
+        );
+
+        return $totalActivation / count($nodes);
+    }
+
+    /**
+     * Extract concepts from agent execution results
+     */
+    protected function extractConceptsFromAgentResults(array $agentResults): array
+    {
+        $concepts = [];
+        
+        foreach ($agentResults as $result) {
+            if (isset($result['result']['concepts']) && is_array($result['result']['concepts'])) {
+                $concepts = array_merge($concepts, $result['result']['concepts']);
+            }
+        }
+
+        return array_unique($concepts);
     }
 
     /**
@@ -535,71 +652,6 @@ class MindService
     }
 
     /**
-     * Cleanup instances for a session
-     */
-    protected function cleanupSessionInstances(string $sessionId): void
-    {
-        if (!$this->processingSessions->has($sessionId)) {
-            return;
-        }
-
-        $session = $this->processingSessions->get($sessionId);
-        $instances = $session['instances'];
-
-        foreach ($instances as $instance) {
-            $this->destroyFrameInstance($instance->getInstanceId());
-        }
-    }
-
-    /**
-     * Get statistics for a session
-     */
-    protected function getSessionStatistics(string $sessionId): array
-    {
-        $session = $this->processingSessions->get($sessionId);
-
-        return [
-            'instances_created' => $session['instances']->count(),
-            'duration_ms' => now()->diffInMilliseconds($session['started_at']),
-            'status' => $session['status']
-        ];
-    }
-
-    // ===========================================
-    // NEO4J INTEGRATION METHODS
-    // ===========================================
-
-    /**
-     * Persist frame instance to Neo4j
-     */
-    protected function persistInstanceToNeo4j(FrameInstance $instance, string $sessionId): void
-    {
-        try {
-            $this->neo4jService->createFrameInstanceNode($instance, $sessionId);
-        } catch (\Exception $e) {
-            Log::warning("SOUL: Failed to persist instance to Neo4j", [
-                'instance_id' => $instance->getInstanceId(),
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    /**
-     * Remove instance from Neo4j
-     */
-    protected function removeInstanceFromNeo4j(string $instanceId): void
-    {
-        try {
-            $this->neo4jService->deleteFrameInstanceNode($instanceId);
-        } catch (\Exception $e) {
-            Log::warning("SOUL: Failed to remove instance from Neo4j", [
-                'instance_id' => $instanceId,
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    /**
      * Archive completed session
      */
     protected function archiveSession(array $session): void
@@ -607,7 +659,7 @@ class MindService
         try {
             $this->neo4jService->archiveProcessingSession($session);
         } catch (\Exception $e) {
-            Log::warning("SOUL: Failed to archive session", [
+            Log::warning("Society of Mind: Failed to archive session", [
                 'session_id' => $session['id'],
                 'error' => $e->getMessage()
             ]);
@@ -615,35 +667,32 @@ class MindService
     }
 
     // ===========================================
-    // PUBLIC GETTERS & STATISTICS
+    // PUBLIC GETTERS & MONITORING
     // ===========================================
 
-    public function getCurrentSessionId(): ?string
+    public function getActiveSessionsCount(): int
     {
-        return $this->currentSessionId;
+        return $this->activeSessions->count();
     }
 
-    public function getStatistics(): array
+    public function getSessionStatus(string $sessionId): ?array
     {
-        return array_merge($this->statistics, [
-            'active_instances' => $this->activeInstances->count(),
-            'active_sessions' => $this->processingSessions->count(),
-            'registered_frames' => $this->frameDefinitions->count()
-        ]);
+        return $this->activeSessions->get($sessionId);
     }
 
-    public function getActiveInstances(): Collection
+    public function getSystemStatistics(): array
     {
-        return $this->activeInstances;
-    }
-
-    public function getFrameDefinitions(): Collection
-    {
-        return $this->frameDefinitions;
-    }
-
-    public function getProcessingSessions(): Collection
-    {
-        return $this->processingSessions;
+        $graphStats = $this->graphService->getGraphStatistics();
+        
+        return [
+            'active_sessions' => $this->activeSessions->count(),
+            'registered_agent_services' => $this->agentServices->count(),
+            'graph_statistics' => $graphStats,
+            'config' => [
+                'max_sessions' => $this->config['processing']['max_concurrent_sessions'] ?? 10,
+                'session_timeout' => $this->config['processing']['session_timeout'] ?? 300,
+                'max_activation_depth' => $this->config['graph']['spreading_activation']['max_depth'] ?? 3
+            ]
+        ];
     }
 }

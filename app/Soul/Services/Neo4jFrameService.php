@@ -445,6 +445,224 @@ class Neo4jFrameService implements Neo4jService
     }
 
     /**
+     * Run spreading activation from initial concepts
+     */
+    public function runSpreadingActivation(array $initialConcepts, array $options = []): array
+    {
+        $maxDepth = $options['max_depth'] ?? 3;
+        $threshold = $options['activation_threshold'] ?? 0.1;
+        $includeProcAgents = $options['include_procedural_agents'] ?? false;
+        
+        try {
+            $query = "
+                WITH \$concepts AS initial_concepts
+                UNWIND initial_concepts AS concept_name
+                MATCH (start:Concept {name: concept_name})
+                
+                CALL apoc.path.subgraphAll(start, {
+                    maxLevel: \$maxDepth,
+                    relationshipFilter: 'IS_A|PART_OF|CAUSES|SIMILAR_TO|HAS_FE',
+                    labelFilter: '" . ($includeProcAgents ? 'Concept|PROCEDURAL_AGENT' : 'Concept') . "'
+                })
+                YIELD nodes, relationships
+                
+                UNWIND nodes AS node
+                WITH node, 
+                     CASE 
+                         WHEN node IN [start] THEN 1.0
+                         ELSE 1.0 / (apoc.node.degree(node) + 1.0)
+                     END AS activation_strength
+                WHERE activation_strength >= \$threshold
+                
+                RETURN collect({
+                    id: id(node),
+                    name: node.name,
+                    type: labels(node)[0],
+                    properties: properties(node),
+                    activation_strength: activation_strength
+                }) AS activated_nodes
+            ";
+            
+            $result = $this->neo4j->run($query, [
+                'concepts' => $initialConcepts,
+                'maxDepth' => $maxDepth,
+                'threshold' => $threshold
+            ]);
+            
+            $activatedNodes = $result->first()->get('activated_nodes');
+            
+            return [
+                'activated_nodes' => $activatedNodes,
+                'initial_concepts' => $initialConcepts,
+                'total_nodes' => count($activatedNodes),
+                'max_depth' => $maxDepth
+            ];
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to run spreading activation");
+            return [
+                'activated_nodes' => [],
+                'initial_concepts' => $initialConcepts,
+                'total_nodes' => 0,
+                'max_depth' => $maxDepth
+            ];
+        }
+    }
+    
+    /**
+     * Find procedural agent nodes by code reference
+     */
+    public function findProceduralAgent(string $codeReference): ?array
+    {
+        try {
+            $query = "
+                MATCH (agent:PROCEDURAL_AGENT {code_reference: \$codeRef})
+                RETURN {
+                    id: id(agent),
+                    name: agent.name,
+                    code_reference: agent.code_reference,
+                    properties: properties(agent)
+                } AS agent
+            ";
+            
+            $result = $this->neo4j->run($query, ['codeRef' => $codeReference]);
+            
+            return $result->first()?->get('agent');
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to find procedural agent");
+            return null;
+        }
+    }
+    
+    /**
+     * Record successful activation path as K-line
+     */
+    public function recordKLine(array $activationPath, string $context): string
+    {
+        $klineId = 'kline_' . uniqid();
+        
+        try {
+            $query = "
+                CREATE (kline:KLine {
+                    id: \$klineId,
+                    context: \$context,
+                    activation_pattern: \$activationPattern,
+                    agent_sequence: \$agentSequence,
+                    success_rate: \$successRate,
+                    usage_count: 1,
+                    created_at: datetime(),
+                    last_used: datetime()
+                })
+                
+                WITH kline
+                UNWIND \$nodeIds AS nodeId
+                MATCH (node) WHERE id(node) = nodeId
+                CREATE (kline)-[:ACTIVATES {strength: 1.0}]->(node)
+                
+                RETURN kline.id AS id
+            ";
+            
+            $nodeIds = array_column($activationPath['activation_pattern']['activated_nodes'] ?? [], 'id');
+            
+            $result = $this->neo4j->run($query, [
+                'klineId' => $klineId,
+                'context' => $context,
+                'activationPattern' => json_encode($activationPath['activation_pattern']),
+                'agentSequence' => $activationPath['agent_sequence'],
+                'successRate' => $activationPath['success_metrics']['success_rate'],
+                'nodeIds' => $nodeIds
+            ]);
+            
+            return $result->first()->get('id');
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to record K-line");
+            return $klineId; // Return ID even if failed
+        }
+    }
+    
+    /**
+     * Create concept node
+     */
+    public function createConceptNode(array $conceptData): string
+    {
+        try {
+            $labels = $conceptData['labels'] ?? ['Concept'];
+            $properties = $conceptData['properties'] ?? [];
+            $properties['created_at'] = now()->toISOString();
+            
+            $labelStr = ':' . implode(':', $labels);
+            $query = "
+                CREATE (c{$labelStr} \$properties)
+                RETURN id(c) AS id, c.name AS name
+            ";
+            
+            $result = $this->neo4j->run($query, ['properties' => $properties]);
+            
+            return $result->first()->get('id');
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to create concept node");
+            throw $e;
+        }
+    }
+    
+    /**
+     * Create procedural agent node
+     */
+    public function createProceduralAgent(array $agentData): string
+    {
+        try {
+            $query = "
+                CREATE (agent:PROCEDURAL_AGENT:Concept {
+                    name: \$name,
+                    code_reference: \$codeReference,
+                    description: \$description,
+                    priority: \$priority,
+                    created_at: datetime()
+                })
+                RETURN id(agent) AS id
+            ";
+            
+            $result = $this->neo4j->run($query, [
+                'name' => $agentData['name'],
+                'codeReference' => $agentData['code_reference'],
+                'description' => $agentData['description'] ?? '',
+                'priority' => $agentData['priority'] ?? 1
+            ]);
+            
+            return $result->first()->get('id');
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to create procedural agent");
+            throw $e;
+        }
+    }
+    
+    /**
+     * Strengthen K-line based on usage
+     */
+    public function strengthenKLine(string $klineId): void
+    {
+        try {
+            $query = "
+                MATCH (kline:KLine {id: \$klineId})
+                SET kline.usage_count = kline.usage_count + 1,
+                    kline.last_used = datetime()
+                
+                MATCH (kline)-[r:ACTIVATES]->(node)
+                SET r.strength = r.strength * 1.1
+            ";
+            
+            $this->neo4j->run($query, ['klineId' => $klineId]);
+            
+        } catch (LaudisNeo4jException $e) {
+            $this->handleNeo4jException($e, "Failed to strengthen K-line");
+        }
+    }
+
+    /**
      * Handle Neo4j exceptions with proper SOUL exception types
      */
     protected function handleNeo4jException(LaudisNeo4jException $e, string $operation): void
