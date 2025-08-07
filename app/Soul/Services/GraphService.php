@@ -68,6 +68,25 @@ class GraphService implements GraphServiceInterface
     }
 
     /**
+     * Find procedural agent by exact code reference
+     */
+    public function findProceduralAgent(string $codeReference): ?array
+    {
+        Log::debug("Finding procedural agent", ['code_reference' => $codeReference]);
+        
+        try {
+            return $this->neo4jService->findProceduralAgent($codeReference);
+
+        } catch (\Exception $e) {
+            Log::error("Failed to find procedural agent", [
+                'code_reference' => $codeReference,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
+
+    /**
      * Find procedural agents by code reference pattern
      */
     public function findProceduralAgents(string $pattern): array
@@ -185,7 +204,7 @@ class GraphService implements GraphServiceInterface
     /**
      * Strengthen K-line based on successful reuse
      */
-    public function strengthenKLine(string $klineId): bool
+    public function strengthenKLine(string $klineId): void
     {
         $minUsageForStrengthening = $this->config['graph']['klines']['min_usage_for_strengthening'] ?? 3;
         
@@ -198,15 +217,13 @@ class GraphService implements GraphServiceInterface
             $this->neo4jService->strengthenKLine($klineId);
             
             Log::debug("K-line strengthened", ['kline_id' => $klineId]);
-            
-            return true;
 
         } catch (\Exception $e) {
             Log::error("Failed to strengthen K-line", [
                 'kline_id' => $klineId,
                 'error' => $e->getMessage()
             ]);
-            return false;
+            throw $e;
         }
     }
 

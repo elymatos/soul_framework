@@ -1,0 +1,45 @@
+metadata:
+  title: "Spatial Domain Concepts"
+  version: "1.0"
+  description: "Concepts related to spatial reasoning and navigation"
+
+concepts:
+  - name: "LOCATION"
+    labels: ["Concept", "SpatialEntity"]
+    properties:
+      type: "spatial_entity"
+      description: "A place or position in space"
+      domain: "spatial"
+
+  - name: "BUILDING"
+    labels: ["Concept", "SpatialEntity", "Container"]
+    properties:
+      type: "spatial_entity"
+      description: "Structure that contains spaces and rooms"
+      domain: "spatial"
+
+  - name: "ROOM"
+    labels: ["Concept", "SpatialEntity", "Container"]
+    properties:
+      type: "spatial_entity"
+      description: "Enclosed space within a building"
+      domain: "spatial"
+
+procedural_agents:
+  - name: "SpatialReasoningAgent"
+    code_reference: "ImageSchemaService::activateContainerSchema"
+    description: "Performs spatial reasoning for location concepts"
+    priority: 2
+
+relationships:
+  - from: "ROOM"
+    to: "BUILDING"
+    type: "PART_OF"
+    properties:
+      strength: 1.0
+
+  - from: "BUILDING"
+    to: "LOCATION"
+    type: "LOCATED_AT"
+    properties:
+      strength: 0.9

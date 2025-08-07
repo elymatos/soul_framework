@@ -17,6 +17,7 @@ use App\Soul\Services\ImageSchemaService;
 use App\Soul\Services\YamlLoaderService;
 use App\Soul\Services\MindService;
 use App\Console\Commands\Soul\ApplyNeo4jConstraints;
+use App\Console\Commands\Soul\LoadYamlCommand;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ApplyNeo4jConstraints::class,
+                LoadYamlCommand::class,
             ]);
         }
     }

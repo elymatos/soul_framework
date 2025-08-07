@@ -1,0 +1,54 @@
+metadata:
+  title: "Commercial Transaction Frames"
+  version: "1.0"
+  description: "Frames for commercial and economic interactions"
+
+concepts:
+  - name: "COMMERCIAL_TRANSACTION"
+    labels: ["Concept", "Frame"]
+    properties:
+      type: "frame"
+      description: "Frame for buying and selling interactions"
+      domain: "commerce"
+      frame_elements:
+        buyer: "Entity acquiring goods or services"
+        seller: "Entity providing goods or services"
+        goods: "Items or services being transacted"
+        money: "Payment or consideration"
+      core_elements: ["buyer", "seller", "goods"]
+      peripheral_elements: ["money"]
+
+  - name: "BUYER"
+    labels: ["Concept", "Role"]
+    properties:
+      type: "role"
+      description: "Entity that acquires goods in transaction"
+      domain: "commerce"
+
+  - name: "SELLER"  
+    labels: ["Concept", "Role"]
+    properties:
+      type: "role"
+      description: "Entity that provides goods in transaction"
+      domain: "commerce"
+
+procedural_agents:
+  - name: "CommercialTransactionMatcher"
+    code_reference: "FrameService::matchFrame"
+    description: "Identifies commercial transaction patterns in input"
+    priority: 1
+
+relationships:
+  - from: "BUYER"
+    to: "PERSON"
+    type: "IS_A"
+    properties:
+      strength: 0.9
+      context: "commercial"
+
+  - from: "SELLER"
+    to: "PERSON"
+    type: "IS_A"
+    properties:
+      strength: 0.9
+      context: "commercial"

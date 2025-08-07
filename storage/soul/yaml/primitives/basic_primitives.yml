@@ -1,0 +1,67 @@
+metadata:
+  title: "SOUL Framework Basic Primitives"
+  version: "1.0"
+  description: "Core primitive concepts for cognitive processing"
+  author: "SOUL Framework"
+
+concepts:
+  # Image Schema Primitives
+  - name: "CONTAINER"
+    labels: ["Concept", "ImageSchema", "SpatialPrimitive"]
+    properties:
+      type: "image_schema"
+      description: "Bounded region with interior and exterior"
+      domain: "spatial"
+      primitive: true
+      image_schema: true
+
+  - name: "PATH"
+    labels: ["Concept", "ImageSchema", "SpatialPrimitive"]
+    properties:
+      type: "image_schema"
+      description: "Trajectory from source to goal"
+      domain: "spatial"
+      primitive: true
+      image_schema: true
+
+  - name: "FORCE"
+    labels: ["Concept", "ImageSchema", "SpatialPrimitive"]
+    properties:
+      type: "image_schema"
+      description: "Causal force and agency relationships"
+      domain: "causal"
+      primitive: true
+      image_schema: true
+
+  # Basic Entities
+  - name: "PERSON"
+    labels: ["Concept", "Entity"]
+    properties:
+      type: "entity"
+      description: "Human individual with agency"
+      domain: "social"
+
+  - name: "OBJECT"
+    labels: ["Concept", "Entity"]
+    properties:
+      type: "entity"
+      description: "Physical thing with properties"
+      domain: "physical"
+
+procedural_agents:
+  - name: "ContainerActivationAgent"
+    code_reference: "ImageSchemaService::activateContainerSchema"
+    description: "Activates CONTAINER schema for spatial reasoning"
+    priority: 1
+
+  - name: "PathActivationAgent"
+    code_reference: "ImageSchemaService::activatePathSchema"
+    description: "Activates PATH schema for motion reasoning"
+    priority: 1
+
+relationships:
+  - from: "PERSON"
+    to: "OBJECT"
+    type: "CAN_INTERACT_WITH"
+    properties:
+      strength: 0.8

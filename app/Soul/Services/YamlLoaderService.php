@@ -453,6 +453,14 @@ class YamlLoaderService
     }
 
     /**
+     * Check if a file has already been loaded
+     */
+    public function isFileLoaded(string $filePath): bool
+    {
+        return in_array($filePath, $this->loadedFiles);
+    }
+
+    /**
      * Clear loaded files cache
      */
     public function clearLoadedFilesCache(): void
