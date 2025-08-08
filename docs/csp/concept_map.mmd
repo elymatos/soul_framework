@@ -1,0 +1,156 @@
+
+graph LR
+%% === LANGUAGE LAYER ===
+subgraph L[Language Layer: Mental State Vocabulary]
+    L1["Knowledge Mgmt\n(suppose, know, realize)"]
+    L2["Memory\n(remember, forget)"]
+    L3["Envisioning\n(imagine, visualize)"]
+    L4["Explanation\n(explain, justify)"]
+    L5["Managing Expectations\n(expect, anticipate)"]
+    L6["Other-Agent Reasoning\n(suspect, trust)"]
+    L7["Goals & Planning\n(plan, aim)"]
+    L8["Decision Making\n(choose, decide)"]
+    L9["Intention\n(intend, mean)"]
+    L10["Trying\n(attempt, strive)"]
+    L11["Emotion: Positive\n(like, enjoy)"]
+    L12["Emotion: Negative\n(dislike, fear)"]
+    L13["Evaluation\n(judge, approve)"]
+    L14["Obligation\n(should, ought)"]
+    L15["Permission\n(allow, forbid)"]
+    L16["Communication Acts\n(warn, inform)"]
+    L17["Questioning\n(ask, inquire)"]
+    L18["Commitment\n(promise, swear)"]
+    L19["Agreement\n(agree, consent)"]
+    L20["Disagreement\n(dispute, deny)"]
+    L21["Perception\n(see, hear)"]
+    L22["Attention\n(notice, focus)"]
+    L23["Control\n(manage, regulate)"]
+    L24["Capability\n(can, able)"]
+    L25["Causation\n(make, cause)"]
+    L26["Hindrance\n(prevent, block)"]
+    L27["Movement & Action\n(go, move)"]
+    L28["Temporal Reference\n(wait, delay)"]
+    L29["Uncertainty\n(doubt, hesitate)"]
+end
+
+%% === FORMAL PREDICATE LAYER ===
+subgraph F[Formal Predicate Layer]
+    F1["Belief(agent, proposition, t)"]
+    F2["Know(agent, proposition, t)"]
+    F3["Remember(agent, fact, t)"]
+    F4["Imagine(agent, scenario)"]
+    F5["Explain(agent, cause, effect)"]
+    F6["Expect(agent, event)"]
+    F7["Trust(agent, target)"]
+    F8["Goal(agent, state)"]
+    F9["Decide(agent, option)"]
+    F10["Intend(agent, action, goal)"]
+    F11["Try(agent, action)"]
+    F12["Like(agent, entity)"]
+    F13["Dislike(agent, entity)"]
+    F14["Evaluate(agent, entity, value)"]
+    F15["Ought(agent, action)"]
+    F16["Permit(agent, action)"]
+    F17["Inform(agent, listener, proposition)"]
+    F18["Ask(agent, listener, question)"]
+    F19["Promise(agent, listener, action)"]
+    F20["Agree(agent, other, proposition)"]
+    F21["Disagree(agent, other, proposition)"]
+    F22["Perceive(agent, stimulus)"]
+    F23["Attend(agent, stimulus)"]
+    F24["Can(agent, action)"]
+    F25["Cause(agent, effect)"]
+    F26["Prevent(agent, event)"]
+    F27["Act(agent, action)"]
+    F28["Wait(agent, duration/event)"]
+    F29["Doubt(agent, proposition)"]
+end
+
+%% === COGNITION LAYER ===
+subgraph C[Cognition Layer: Reasoning Functions]
+    C1["Theory of Mind Inference"]
+    C2["Memory Retrieval"]
+    C3["Counterfactual Reasoning"]
+    C4["Causal Attribution"]
+    C5["Expectation Formation"]
+    C6["Trust Modeling"]
+    C7["Goal Generation & Planning"]
+    C8["Decision Heuristics"]
+    C9["Intention Recognition"]
+    C10["Effort Allocation"]
+    C11["Affective Valuation"]
+    C12["Norm Reasoning"]
+    C13["Communication Planning"]
+    C14["Perspective Taking"]
+    C15["Perceptual Processing"]
+    C16["Attention Control"]
+    C17["Ability Assessment"]
+    C18["Causal Modeling"]
+    C19["Obstacle Reasoning"]
+    C20["Action Sequencing"]
+    C21["Temporal Projection"]
+    C22["Uncertainty Management"]
+end
+
+%% === LINKS Language -> Predicates ===
+L1 --> F1
+L1 --> F2
+L2 --> F3
+L3 --> F4
+L4 --> F5
+L5 --> F6
+L6 --> F7
+L7 --> F8
+L8 --> F9
+L9 --> F10
+L10 --> F11
+L11 --> F12
+L12 --> F13
+L13 --> F14
+L14 --> F15
+L15 --> F16
+L16 --> F17
+L17 --> F18
+L18 --> F19
+L19 --> F20
+L20 --> F21
+L21 --> F22
+L22 --> F23
+L23 --> F23
+L24 --> F24
+L25 --> F25
+L26 --> F26
+L27 --> F27
+L28 --> F28
+L29 --> F29
+
+%% === LINKS Predicates -> Cognition ===
+F1 --> C1
+F2 --> C1
+F3 --> C2
+F4 --> C3
+F5 --> C4
+F6 --> C5
+F7 --> C6
+F8 --> C7
+F9 --> C8
+F10 --> C9
+F11 --> C10
+F12 --> C11
+F13 --> C11
+F14 --> C11
+F15 --> C12
+F16 --> C12
+F17 --> C13
+F18 --> C14
+F19 --> C13
+F20 --> C14
+F21 --> C14
+F22 --> C15
+F23 --> C16
+F24 --> C17
+F25 --> C18
+F26 --> C19
+F27 --> C20
+F28 --> C21
+F29 --> C22
