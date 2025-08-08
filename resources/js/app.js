@@ -14,6 +14,8 @@ import searchComponent from './components/searchComponent.js';
 import treeComponent from './components/treeComponent.js';
 import SoulGraphVisualization from './soul/visualization/SoulGraphVisualization.js';
 import ActivationVisualizer from './soul/components/ActivationVisualizer.js';
+import FrameVisualization from './soul/components/FrameVisualization.js';
+import FrameMatcher from './soul/components/FrameMatcher.js';
 
 import '../css/app.less';
 
@@ -24,6 +26,8 @@ window.Split = Split;
 window.vis = { Network, DataSet };
 window.SoulGraphVisualization = SoulGraphVisualization;
 window.ActivationVisualizer = ActivationVisualizer;
+window.FrameVisualization = FrameVisualization;
+window.FrameMatcher = FrameMatcher;
 
 document.addEventListener("DOMContentLoaded", () => {
     Alpine.data('searchComponent', searchComponent);

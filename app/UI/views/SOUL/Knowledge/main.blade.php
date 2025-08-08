@@ -428,7 +428,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/yaml/yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="{{ asset('build/js/soul/components/YamlEditor.js') }}"></script>
+    <script src="{{ asset('build/js/soul/components/YamlFileManager.js') }}"></script>
     <script src="{{ asset('build/js/soul/components/DependencyGraphVisualization.js') }}"></script>
     
     <script>
@@ -458,9 +461,69 @@
                 // CodeMirror instance
                 yamlEditor: null,
                 
+                // File manager instance
+                fileManager: null,
+                
+                // Modals state
+                modals: {
+                    fileUpload: {
+                        show: false,
+                        files: [],
+                        overwrite: false,
+                        validate: true
+                    },
+                    createFile: {
+                        show: false,
+                        filename: '',
+                        directory: '',
+                        template: '',
+                        templateContent: '',
+                        filenameError: ''
+                    },
+                    exportFiles: {
+                        show: false,
+                        exportAll: true,
+                        selectedFiles: [],
+                        format: 'zip',
+                        includeValidation: false
+                    },
+                    loadYaml: {
+                        show: false,
+                        loadAll: true,
+                        selectedFiles: [],
+                        force: false,
+                        inProgress: false,
+                        progress: 0,
+                        status: ''
+                    },
+                    previewChanges: {
+                        show: false,
+                        activeTab: 'concepts',
+                        changes: {}
+                    },
+                    confirm: {
+                        show: false,
+                        title: '',
+                        message: '',
+                        confirmText: 'Confirm',
+                        type: 'primary',
+                        callback: null
+                    }
+                },
+                
+                // Notification state
+                notification: {
+                    show: false,
+                    type: 'info',
+                    title: '',
+                    message: '',
+                    icon: 'info circle'
+                },
+                
                 init() {
                     this.filteredFileTree = this.fileTree;
                     this.initializeCodeMirror();
+                    this.initializeFileManager();
                 },
                 
                 initializeCodeMirror() {
@@ -493,80 +556,62 @@
                     });
                 },
                 
-                // File operations
-                async loadFile(filepath) {
-                    this.loading = true;
-                    this.loadingMessage = 'Loading file...';
+                initializeFileManager() {
+                    // Initialize the YAML file manager
+                    this.fileManager = new YamlFileManager({
+                        baseUrl: '/soul/knowledge',
+                        autoRefresh: true,
+                        refreshInterval: 30000
+                    });
                     
-                    try {
-                        const response = await fetch(`/soul/knowledge/file/${encodeURIComponent(filepath)}`);
-                        const data = await response.json();
-                        
-                        if (!response.ok) {
-                            throw new Error(data.error || 'Failed to load file');
-                        }
-                        
-                        this.currentFile = data;
-                        this.parsedYaml = data.parsed || {};
-                        this.validation = data.validation || { valid: null, errors: [], warnings: [] };
+                    // Setup event listeners
+                    this.fileManager.on('file-tree-loaded', (data) => {
+                        this.fileTree = data.fileTree;
+                        this.filteredFileTree = [...this.fileTree];
+                    });
+                    
+                    this.fileManager.on('file-loaded', (fileData) => {
+                        this.currentFile = fileData;
+                        this.parsedYaml = fileData.parsed || {};
+                        this.validation = fileData.validation || { valid: null, errors: [], warnings: [] };
                         this.hasUnsavedChanges = false;
                         
                         if (this.yamlEditor) {
-                            this.yamlEditor.setValue(data.content || '');
+                            this.yamlEditor.setValue(fileData.content || '');
                             this.yamlEditor.clearHistory();
                         }
                         
-                        // Switch to editor view
                         this.activeView = 'editor';
-                        
-                    } catch (error) {
-                        console.error('Failed to load file:', error);
-                        alert('Failed to load file: ' + error.message);
-                    } finally {
-                        this.loading = false;
-                    }
+                    });
+                    
+                    this.fileManager.on('file-saved', (data) => {
+                        this.hasUnsavedChanges = false;
+                        this.showNotification('Success', 'File saved successfully', 'success');
+                    });
+                    
+                    this.fileManager.on('error', (data) => {
+                        this.showNotification('Error', data.message, 'error');
+                    });
+                    
+                    this.fileManager.on('statistics-updated', (stats) => {
+                        this.statistics = stats;
+                    });
+                },
+                
+                // File operations
+                async loadFile(filepath) {
+                    return this.fileManager.loadFile(filepath);
                 },
                 
                 async saveCurrentFile() {
                     if (!this.currentFile || !this.hasUnsavedChanges) return;
                     
-                    this.loading = true;
-                    this.loadingMessage = 'Saving file...';
+                    const content = this.yamlEditor ? this.yamlEditor.getValue() : '';
                     
                     try {
-                        const content = this.yamlEditor ? this.yamlEditor.getValue() : '';
-                        
-                        const response = await fetch('/soul/knowledge/file', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                            },
-                            body: JSON.stringify({
-                                filename: this.currentFile.filename,
-                                content: content,
-                                createBackup: true
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (!response.ok) {
-                            throw new Error(data.error || 'Failed to save file');
-                        }
-                        
-                        this.hasUnsavedChanges = false;
-                        this.validation = data.validation;
-                        this.currentFile.lastModified = data.lastModified;
-                        
-                        // Show success message
-                        this.showNotification('File saved successfully', 'success');
-                        
+                        await this.fileManager.saveFile(this.currentFile.filename, content);
                     } catch (error) {
-                        console.error('Failed to save file:', error);
-                        alert('Failed to save file: ' + error.message);
-                    } finally {
-                        this.loading = false;
+                        // Error handling is done in the file manager event listener
                     }
                 },
                 
@@ -808,35 +853,250 @@
                     }, 1000);
                 },
                 
-                // Placeholder methods for menu actions
+                // Notification methods
+                showNotification(title, message, type = 'info') {
+                    const icons = {
+                        success: 'check circle',
+                        error: 'times circle',
+                        warning: 'warning sign',
+                        info: 'info circle'
+                    };
+                    
+                    this.notification = {
+                        show: true,
+                        type: type,
+                        title: title,
+                        message: message,
+                        icon: icons[type] || icons.info
+                    };
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        this.notification.show = false;
+                    }, 5000);
+                },
+                
+                showConfirmation(title, message, callback, type = 'primary', confirmText = 'Confirm') {
+                    this.modals.confirm = {
+                        show: true,
+                        title: title,
+                        message: message,
+                        confirmText: confirmText,
+                        type: type,
+                        callback: callback
+                    };
+                },
+                
+                confirmAction() {
+                    if (this.modals.confirm.callback) {
+                        this.modals.confirm.callback();
+                    }
+                    this.modals.confirm.show = false;
+                },
+                
+                // Modal action methods
                 createNewFile() {
-                    console.log('Create new file');
+                    this.modals.createFile = {
+                        show: true,
+                        filename: '',
+                        directory: '',
+                        template: '',
+                        templateContent: '',
+                        filenameError: ''
+                    };
+                },
+                
+                async performCreateFile() {
+                    if (!this.modals.createFile.filename) return;
+                    
+                    let filename = this.modals.createFile.filename;
+                    if (this.modals.createFile.directory) {
+                        filename = `${this.modals.createFile.directory}/${filename}`;
+                    }
+                    
+                    try {
+                        await this.fileManager.createFile(filename, this.modals.createFile.templateContent);
+                        this.modals.createFile.show = false;
+                        this.showNotification('Success', 'File created successfully', 'success');
+                    } catch (error) {
+                        this.showNotification('Error', `Failed to create file: ${error.message}`, 'error');
+                    }
                 },
                 
                 uploadFiles() {
-                    console.log('Upload files');
+                    this.modals.fileUpload = {
+                        show: true,
+                        files: [],
+                        overwrite: false,
+                        validate: true
+                    };
+                },
+                
+                handleFileSelection(event) {
+                    this.modals.fileUpload.files = Array.from(event.target.files);
+                },
+                
+                async performUpload() {
+                    if (this.modals.fileUpload.files.length === 0) return;
+                    
+                    try {
+                        await this.fileManager.uploadFiles(this.modals.fileUpload.files, {
+                            overwrite: this.modals.fileUpload.overwrite,
+                            validate: this.modals.fileUpload.validate
+                        });
+                        this.modals.fileUpload.show = false;
+                        this.showNotification('Success', 'Files uploaded successfully', 'success');
+                    } catch (error) {
+                        this.showNotification('Error', `Failed to upload files: ${error.message}`, 'error');
+                    }
                 },
                 
                 exportFiles() {
-                    console.log('Export files');
+                    this.modals.exportFiles = {
+                        show: true,
+                        exportAll: true,
+                        selectedFiles: [],
+                        format: 'zip',
+                        includeValidation: false
+                    };
+                },
+                
+                async performExport() {
+                    const files = this.modals.exportFiles.exportAll ? null : this.modals.exportFiles.selectedFiles;
+                    
+                    try {
+                        await this.fileManager.exportFiles(files);
+                        this.modals.exportFiles.show = false;
+                        this.showNotification('Success', 'Export started', 'success');
+                    } catch (error) {
+                        this.showNotification('Error', `Failed to export files: ${error.message}`, 'error');
+                    }
                 },
                 
                 loadAllYaml() {
-                    console.log('Load all YAML');
+                    this.modals.loadYaml = {
+                        show: true,
+                        loadAll: true,
+                        selectedFiles: [],
+                        force: false,
+                        inProgress: false,
+                        progress: 0,
+                        status: ''
+                    };
                 },
                 
-                previewChanges() {
-                    console.log('Preview changes');
+                async performLoadYaml() {
+                    const files = this.modals.loadYaml.loadAll ? null : this.modals.loadYaml.selectedFiles;
+                    
+                    this.modals.loadYaml.inProgress = true;
+                    this.modals.loadYaml.status = 'Loading YAML files...';
+                    
+                    try {
+                        await this.fileManager.loadYamlFiles(files, this.modals.loadYaml.force);
+                        this.modals.loadYaml.show = false;
+                        this.showNotification('Success', 'YAML files loaded successfully', 'success');
+                    } catch (error) {
+                        this.showNotification('Error', `Failed to load YAML files: ${error.message}`, 'error');
+                    } finally {
+                        this.modals.loadYaml.inProgress = false;
+                    }
+                },
+                
+                async previewChanges() {
+                    if (!this.currentFile || !this.yamlEditor) return;
+                    
+                    const content = this.yamlEditor.getValue();
+                    
+                    try {
+                        const changes = await this.fileManager.previewChanges(this.currentFile.filename, content);
+                        
+                        this.modals.previewChanges = {
+                            show: true,
+                            activeTab: 'concepts',
+                            changes: changes
+                        };
+                    } catch (error) {
+                        this.showNotification('Error', `Failed to preview changes: ${error.message}`, 'error');
+                    }
                 },
                 
                 formatYaml() {
-                    console.log('Format YAML');
+                    if (!this.yamlEditor) return;
+                    
+                    try {
+                        const content = this.yamlEditor.getValue();
+                        const parsed = jsyaml.load(content);
+                        const formatted = jsyaml.dump(parsed, {
+                            indent: 2,
+                            lineWidth: 80,
+                            noRefs: true,
+                            sortKeys: false
+                        });
+                        
+                        this.yamlEditor.setValue(formatted);
+                        this.markAsChanged();
+                        this.showNotification('Success', 'YAML formatted successfully', 'success');
+                    } catch (error) {
+                        this.showNotification('Error', 'Cannot format invalid YAML: ' + error.message, 'error');
+                    }
                 },
                 
                 deleteCurrentFile() {
-                    if (confirm('Are you sure you want to delete this file?')) {
-                        console.log('Delete current file');
+                    if (!this.currentFile) return;
+                    
+                    this.showConfirmation(
+                        'Delete File',
+                        `Are you sure you want to delete "${this.currentFile.filename}"? This action cannot be undone.`,
+                        async () => {
+                            try {
+                                await this.fileManager.deleteFile(this.currentFile.filename);
+                                this.currentFile = null;
+                                this.parsedYaml = {};
+                                this.hasUnsavedChanges = false;
+                                this.activeView = 'editor';
+                                this.showNotification('Success', 'File deleted successfully', 'success');
+                            } catch (error) {
+                                this.showNotification('Error', `Failed to delete file: ${error.message}`, 'error');
+                            }
+                        },
+                        'danger',
+                        'Delete'
+                    );
+                },
+                
+                // Utility methods
+                getAllFiles() {
+                    const files = [];
+                    const processNode = (node) => {
+                        if (node.type === 'file') {
+                            files.push(node);
+                        } else if (node.type === 'directory' && node.children) {
+                            node.children.forEach(processNode);
+                        }
+                    };
+                    
+                    this.fileTree.forEach(processNode);
+                    return files;
+                },
+                
+                validateFilename() {
+                    const filename = this.modals.createFile.filename;
+                    if (!filename) {
+                        this.modals.createFile.filenameError = '';
+                        return;
                     }
+                    
+                    if (!/^[a-zA-Z0-9._-]+$/.test(filename)) {
+                        this.modals.createFile.filenameError = 'Filename contains invalid characters';
+                        return;
+                    }
+                    
+                    if (filename.length > 100) {
+                        this.modals.createFile.filenameError = 'Filename is too long';
+                        return;
+                    }
+                    
+                    this.modals.createFile.filenameError = '';
                 }
             };
         }

@@ -13,7 +13,9 @@ class ApplyNeo4jConstraints extends Command
      */
     protected $signature = 'soul:neo4j-constraints 
                             {--drop : Drop existing constraints before creating new ones}
-                            {--check : Only check existing constraints and indexes}';
+                            {--check : Only check existing constraints and indexes}
+                            {--fol-only : Apply only FOL-related constraints}
+                            {--core-only : Apply only core SOUL constraints}';
 
     /**
      * The console command description.
@@ -75,22 +77,34 @@ class ApplyNeo4jConstraints extends Command
      */
     protected function applyConstraintsAndIndexes(): void
     {
-        $constraintsFile = database_path('migrations/neo4j_soul_constraints.cypher');
+        $constraintFiles = $this->getConstraintFiles();
         
-        if (!file_exists($constraintsFile)) {
-            throw new \Exception("Constraints file not found: {$constraintsFile}");
+        if (empty($constraintFiles)) {
+            throw new \Exception("No constraint files found");
         }
 
-        $cypherContent = file_get_contents($constraintsFile);
-        $statements = $this->parseCypherStatements($cypherContent);
+        $allStatements = [];
+        
+        // Collect all statements from relevant files
+        foreach ($constraintFiles as $file => $description) {
+            if (!file_exists($file)) {
+                $this->warn("Constraints file not found: {$file}");
+                continue;
+            }
 
-        $this->info("Found " . count($statements) . " Cypher statements to execute");
+            $this->info("Loading constraints from: {$description}");
+            $cypherContent = file_get_contents($file);
+            $statements = $this->parseCypherStatements($cypherContent);
+            $allStatements = array_merge($allStatements, $statements);
+        }
+
+        $this->info("Found " . count($allStatements) . " Cypher statements to execute");
 
         $successCount = 0;
         $skipCount = 0;
         $errorCount = 0;
 
-        foreach ($statements as $index => $statement) {
+        foreach ($allStatements as $index => $statement) {
             $trimmedStatement = trim($statement);
             
             // Skip empty statements and comments
@@ -255,5 +269,41 @@ class ApplyNeo4jConstraints extends Command
         return array_filter($statements, function($stmt) {
             return !empty(trim($stmt));
         });
+    }
+
+    /**
+     * Get the appropriate constraint files based on options
+     */
+    protected function getConstraintFiles(): array
+    {
+        $files = [];
+        
+        // Core SOUL constraints
+        $coreConstraintsFile = database_path('migrations/neo4j_soul_constraints.cypher');
+        
+        // FOL constraints
+        $folConstraintsFile = database_path('neo4j/constraints/fol_constraints.cypher');
+        
+        if ($this->option('fol-only')) {
+            // Only FOL constraints
+            if (file_exists($folConstraintsFile)) {
+                $files[$folConstraintsFile] = 'FOL Constraints';
+            }
+        } elseif ($this->option('core-only')) {
+            // Only core constraints
+            if (file_exists($coreConstraintsFile)) {
+                $files[$coreConstraintsFile] = 'Core SOUL Constraints';
+            }
+        } else {
+            // Both core and FOL constraints (default)
+            if (file_exists($coreConstraintsFile)) {
+                $files[$coreConstraintsFile] = 'Core SOUL Constraints';
+            }
+            if (file_exists($folConstraintsFile)) {
+                $files[$folConstraintsFile] = 'FOL Constraints';
+            }
+        }
+        
+        return $files;
     }
 }
