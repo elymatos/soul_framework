@@ -1,4 +1,4 @@
-# Chapter 23 Summary: Memory
+# Chapter 23: Memory
 
 **38 axioms total** covering memory storage, retrieval, accessibility, associations, multiple senses of remembering/forgetting, and psychological repression
 
