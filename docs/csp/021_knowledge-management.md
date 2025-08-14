@@ -1,4 +1,4 @@
-## Chapter 21: Knownledge management
+# Chapter 21: Knownledge management
 - **112 axioms total** covering belief, knowledge, inference, justification, graded belief, assumptions, and mutual belief
 - **13 main sections**: Objects of Belief, Belief, Belief Revision, Degrees of Belief, Assuming, Mind and Focus, Inference, Justification, Knowledge, Intelligence, Sentences/Domains, Expertise, Mutual Belief
 - **All psychology** - first chapter in Part III focusing specifically on cognitive psychological phenomena
