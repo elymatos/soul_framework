@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "title": "Sample Background Theories for FOL Infrastructure",
+    "description": "Example axioms demonstrating the JSON format for the Background Theories system",
+    "version": "1.0",
+    "domain": "background_theory",
+    "generated_date": "2025-01-11"
+  },
+  "axioms": [
+    {
+      "id": "5.1",
+      "chapter": 5,
+      "chapter_title": "Eventualities and Their Structure",
+      "section": "5.1",
+      "page": 94,
+      "axiom_number": "(5.1)",
+      "title": "Relation between primed and unprimed predicates",
+      "fol": "(forall (x) (iff (p x) (exists (e)(and (p' e x)(Rexist e)))))",
+      "english": "p is true of x if and only if there is an eventuality e that is the eventuality of p being true of x and e really exists",
+      "complexity": "moderate",
+      "pattern": "axiom_schema",
+      "predicates": ["p", "p'", "Rexist"],
+      "variables": ["x", "e"],
+      "quantifiers": ["forall", "exists"],
+      "defeasible": false,
+      "reified": true,
+      "domain": "background_theory",
+      "implementation_notes": "This is the fundamental connection between facts and eventualities"
+    },
+    {
+      "id": "6.13",
+      "chapter": 6,
+      "chapter_title": "Traditional Set Theory",
+      "section": "6.3",
+      "page": 108,
+      "axiom_number": "(6.13)",
+      "title": "Set Union Definition",
+      "fol": "(forall (s s1 s2) (iff (union s s1 s2) (forall (x) (iff (member x s) (or (member x s1) (member x s2))))))",
+      "english": "s is the union of s1 and s2 if and only if for all x, x is a member of s iff x is a member of s1 or x is a member of s2",
+      "complexity": "moderate", 
+      "pattern": "set_operation_definition",
+      "predicates": ["union", "member", "or"],
+      "variables": ["s", "s1", "s2", "x"],
+      "quantifiers": ["forall"],
+      "defeasible": false,
+      "reified": false,
+      "domain": "background_theory",
+      "implementation_notes": "Defines set union in terms of membership"
+    }
+  ],
+  "entities": [
+    {
+      "name": "eventuality",
+      "description": "Reified events, states, and situations",
+      "chapter": 5,
+      "attributes": [
+        {
+          "name": "predicate_name",
+          "type": "string",
+          "required": true,
+          "description": "The name of the predicate this eventuality represents"
+        },
+        {
+          "name": "arguments",
+          "type": "array",
+          "required": true,
+          "description": "The arguments to the predicate"
+        },
+        {
+          "name": "really_exists",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "description": "Whether this eventuality really exists (Rexist)"
+        }
+      ],
+      "operations": [
+        "validate",
+        "realize",
+        "getPredicateName",
+        "getArguments",
+        "getArg"
+      ]
+    },
+    {
+      "name": "set",
+      "description": "Mathematical sets from traditional set theory",
+      "chapter": 6,
+      "attributes": [
+        {
+          "name": "elements",
+          "type": "array",
+          "required": true,
+          "default": [],
+          "description": "The elements contained in this set"
+        }
+      ],
+      "operations": [
+        "contains",
+        "addElement",
+        "removeElement",
+        "union",
+        "intersection",
+        "isSubsetOf",
+        "cardinality"
+      ]
+    }
+  ],
+  "predicates": [
+    {
+      "name": "Rexist",
+      "arity": 1,
+      "description": "Entity really exists in the real world",
+      "chapter": 5,
+      "arguments": [
+        {
+          "position": 1,
+          "name": "e",
+          "type": "entity",
+          "description": "The entity that may really exist"
+        }
+      ],
+      "evaluation_logic": "Check if the entity has been marked as really existing",
+      "defeasible": true,
+      "fol_template": "(Rexist {e})"
+    },
+    {
+      "name": "member",
+      "arity": 2,
+      "description": "Element is a member of a set",
+      "chapter": 6,
+      "arguments": [
+        {
+          "position": 1,
+          "name": "x",
+          "type": "mixed",
+          "description": "The element that may be in the set"
+        },
+        {
+          "position": 2,
+          "name": "s",
+          "type": "set_entity",
+          "description": "The set that may contain the element"
+        }
+      ],
+      "evaluation_logic": "Check if the set contains the element",
+      "defeasible": false,
+      "fol_template": "(member {x} {s})"
+    },
+    {
+      "name": "union",
+      "arity": 3,
+      "description": "First set is the union of the second and third sets",
+      "chapter": 6,
+      "arguments": [
+        {
+          "position": 1,
+          "name": "s",
+          "type": "set_entity",
+          "description": "The union set"
+        },
+        {
+          "position": 2,
+          "name": "s1",
+          "type": "set_entity",
+          "description": "First component set"
+        },
+        {
+          "position": 3,
+          "name": "s2",
+          "type": "set_entity",
+          "description": "Second component set"
+        }
+      ],
+      "evaluation_logic": "Check if first set equals union of second and third sets",
+      "defeasible": false,
+      "fol_template": "(union {s} {s1} {s2})"
+    }
+  ],
+  "generation_settings": {
+    "namespace_prefix": "App\\Domain\\BackgroundTheories",
+    "generate_entities": true,
+    "generate_predicates": true,
+    "generate_axiom_executors": true,
+    "include_validation": true,
+    "include_documentation": true,
+    "php_version": "8.1"
+  },
+  "validation_rules": {
+    "required_fields": ["id", "fol", "english", "predicates"],
+    "valid_complexities": ["simple", "moderate", "complex"],
+    "valid_domains": ["background_theory", "psychology_theory"],
+    "max_predicates_per_axiom": 10,
+    "max_variables_per_axiom": 8
+  }
+}
