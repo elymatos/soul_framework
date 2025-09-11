@@ -1984,6 +1984,118 @@ $router->get('layers/layertype/{id}/entries', [
 	'domain' => NULL,
 ]);
 
+$router->get('facts', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@index',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/create', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@create',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@store',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@show',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}/edit', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@edit',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->put('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@update',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->delete('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@destroy',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/browse', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@browse',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/search', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@search',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}/network', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@network',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/concepts/available', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@availableConcepts',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/validate-triplet', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@validateTriplet',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/statistics', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@statistics',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/export', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@export',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
 $router->get('network', [
 	'uses' => 'App\Http\Controllers\Network\BrowseController@browse',
 	'as' => NULL,
