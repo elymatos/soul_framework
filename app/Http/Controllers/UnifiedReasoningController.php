@@ -267,18 +267,18 @@ class UnifiedReasoningController extends Controller
 /**
  * Laravel Service Provider for the Unified Background Theories
  */
-class BackgroundTheoriesServiceProvider extends ServiceProvider
-{
-    public function register(): void
-    {
-        // Register the unified system as singletons
-        $this->app->singleton(BackgroundRepository::class);
-        $this->app->singleton(BackgroundReasoningContext::class);
-        $this->app->singleton(BackgroundTheoriesService::class);
-    }
-
-    public function boot(): void
-    {
-        // No complex setup needed - the unified system handles everything
-    }
-}
+//class BackgroundTheoriesServiceProvider extends ServiceProvider
+//{
+//    public function register(): void
+//    {
+//        // Register the unified system as singletons
+//        $this->app->singleton(BackgroundRepository::class);
+//        $this->app->singleton(BackgroundReasoningContext::class);
+//        $this->app->singleton(BackgroundTheoriesService::class);
+//    }
+//
+//    public function boot(): void
+//    {
+//        // No complex setup needed - the unified system handles everything
+//    }
+//}

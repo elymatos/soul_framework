@@ -1904,6 +1904,62 @@ $router->delete('sentence/{id}/document/{idDocument}', [
 	'domain' => NULL,
 ]);
 
+$router->get('graph-editor', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@index',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('graph-editor/data', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@getData',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('graph-editor/save', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@saveGraph',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('graph-editor/node', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@addNode',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('graph-editor/relation', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@addRelation',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('graph-editor/delete-node', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@deleteNode',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('graph-editor/reset', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@resetGraph',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
 $router->get('main/auth0Callback', [
 	'uses' => 'App\Http\Controllers\LoginController@auth0Callback',
 	'as' => NULL,
@@ -2994,6 +3050,118 @@ $router->post('grapher/framefe/graph/{idEntityRelation}', [
 
 $router->get('grapher/frame/report/{idEntityFrame}', [
 	'uses' => 'App\Http\Controllers\Grapher\FrameController@frameReport',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@index',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/create', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@create',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@store',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@show',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}/edit', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@edit',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->put('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@update',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->delete('facts/{fact_id}', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@destroy',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/browse', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@browse',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/search', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@search',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/{fact_id}/network', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@network',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/concepts/available', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@availableConcepts',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('facts/validate-triplet', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@validateTriplet',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/statistics', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@statistics',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->get('facts/export', [
+	'uses' => 'App\Http\Controllers\Facts\FactController@export',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
