@@ -138,12 +138,26 @@
                               hx-on::after-request="handleNodeResponse(event)">
                             @csrf
                             <div class="field">
-                                <label>Node Name</label>
-                                <input type="text" name="name" placeholder="Enter node name..." required>
+                                <label>Node Label</label>
+                                <input type="text" name="label" placeholder="Enter node label..." required>
                             </div>
                             <div class="field">
-                                <label>Display Label (optional)</label>
-                                <input type="text" name="label" placeholder="Leave empty to use name...">
+                                <label>Node Type</label>
+                                <div class="ui fluid selection dropdown" id="node-type-dropdown">
+                                    <input type="hidden" name="type" value="frame">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Select node type...</div>
+                                    <div class="menu">
+                                        <div class="item" data-value="frame">
+                                            <i class="square icon"></i>
+                                            Frame
+                                        </div>
+                                        <div class="item" data-value="slot">
+                                            <i class="circle icon"></i>
+                                            Slot
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="ui primary button">
                                 <i class="plus icon"></i>
@@ -288,7 +302,7 @@
             initializeGraph();
             loadGraphData();
             setupEventHandlers();
-            updateRelationLabelDropdown(); // Initialize dropdown
+            initializeDropdowns(); // Initialize all dropdowns
         });
 
         function initializeGraph() {
@@ -392,19 +406,69 @@
             });
         }
 
+        function initializeDropdowns() {
+            // Initialize node type dropdown
+            if (window.$) {
+                $('#node-type-dropdown').dropdown({
+                    onChange: function(value, text, $selectedItem) {
+                        console.log('Node type selected:', value);
+                    }
+                });
+            }
+            
+            // Initialize relation label dropdown
+            updateRelationLabelDropdown();
+        }
+
+        function applyNodeStyling(nodeData) {
+            if (nodeData.type === 'slot') {
+                // Slot nodes: half size (10 instead of 20) and light green
+                nodeData.size = 10;
+                nodeData.color = {
+                    background: '#90EE90', // Light green
+                    border: '#32CD32',     // Lime green border
+                    highlight: {
+                        background: '#98FB98', // Pale green when highlighted
+                        border: '#228B22'      // Forest green border when highlighted
+                    }
+                };
+            } else {
+                // Frame nodes: default styling
+                nodeData.size = 20;
+                nodeData.color = {
+                    background: '#97C2FC', // Default blue
+                    border: '#2B7CE9',
+                    highlight: {
+                        background: '#FFA500',
+                        border: '#FF8C00'
+                    }
+                };
+            }
+        }
+
         // HTMX Response Handlers
         function handleNodeResponse(event) {
             try {
                 console.log(event);
                 const response = JSON.parse(event.detail.xhr.responseText);
                 if (response.success) {
-                    graphNodes.add({
+                    const nodeData = {
                         id: response.node.id,
                         label: response.node.label,
-                        name: response.node.name
-                    });
+                        name: response.node.name,
+                        type: response.node.type
+                    };
+                    
+                    // Apply visual styling based on node type
+                    applyNodeStyling(nodeData);
+                    
+                    graphNodes.add(nodeData);
                     updateNodeDropdown();
                     document.getElementById('node-form').reset();
+                    // Reset dropdown to default value
+                    if (window.$) {
+                        $('#node-type-dropdown').dropdown('set selected', 'frame');
+                    }
                     showMessage('Node added successfully', 'success');
                     
                     // Refresh the network display and then stabilize
@@ -491,7 +555,18 @@
                     graphEdges.clear();
 
                     if (data.nodes) {
-                        graphNodes.add(data.nodes);
+                        // Apply styling to loaded nodes
+                        const styledNodes = data.nodes.map(node => {
+                            // Create a copy to avoid modifying the original
+                            const nodeData = { ...node };
+                            // Ensure type defaults to 'frame' for backward compatibility
+                            if (!nodeData.type) {
+                                nodeData.type = 'frame';
+                            }
+                            applyNodeStyling(nodeData);
+                            return nodeData;
+                        });
+                        graphNodes.add(styledNodes);
                     }
                     if (data.edges) {
                         graphEdges.add(data.edges);

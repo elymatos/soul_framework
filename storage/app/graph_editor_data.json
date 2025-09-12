@@ -1,0 +1,45 @@
+{
+    "nodes": [
+        {
+            "id": "node_68c490b74b727",
+            "label": "mode1",
+            "name": "n1"
+        },
+        {
+            "id": "node_68c490bf696c9",
+            "label": "node2",
+            "name": "n2"
+        },
+        {
+            "id": "node_68c4944c31c18",
+            "label": "node 3",
+            "name": "node 3"
+        },
+        {
+            "id": "node_68c4a77b08232",
+            "label": "slot1",
+            "name": "slot1",
+            "type": "slot"
+        }
+    ],
+    "edges": [
+        {
+            "id": "edge_68c490c8aeace",
+            "from": "node_68c490bf696c9",
+            "to": "node_68c490b74b727",
+            "label": "at"
+        },
+        {
+            "id": "edge_68c49456161c4",
+            "from": "node_68c4944c31c18",
+            "to": "node_68c490b74b727",
+            "label": "at"
+        },
+        {
+            "id": "edge_68c4a78c55583",
+            "from": "node_68c4a77b08232",
+            "to": "node_68c490b74b727",
+            "label": "slot"
+        }
+    ]
+}

@@ -23,6 +23,7 @@ return [
     ],
     'actions' => [
         'concept' => ['Concepts', '/concept', '', []],
+        'graph_editor' => ['Graph Editor', '/graph-editor', '', []],
 //        'dashboard' => ['Dashboard', '/dashboard', '', []],
 //        'grapher' => ['Grapher', '/grapher', '', []],
 //        'annotation' => ['Annotation', '/annotation', 'MASTER', []],

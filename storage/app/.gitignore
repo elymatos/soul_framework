@@ -3,3 +3,4 @@ images/
 exports/
 !public/
 !.gitignore
+!*.json

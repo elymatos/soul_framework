@@ -43,17 +43,20 @@ class GraphEditorController extends Controller
     public function addNode(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'label' => 'nullable|string|max:255'
+            'label' => 'required|string|max:255',
+            'type' => 'required|string|in:frame,slot'
         ]);
 
         $graphData = $this->loadGraphData();
         
         $nodeId = uniqid('node_');
+        $label = $request->input('label');
+        $type = $request->input('type');
         $newNode = [
             'id' => $nodeId,
-            'label' => $request->input('label', $request->input('name')),
-            'name' => $request->input('name')
+            'label' => $label,
+            'name' => $label, // Auto-generate name from label
+            'type' => $type
         ];
 
         $graphData['nodes'][] = $newNode;
