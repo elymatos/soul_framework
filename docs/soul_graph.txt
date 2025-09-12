@@ -1,0 +1,128 @@
+digraph SOUL_Conceptual_Framework {
+    rankdir=LR;
+
+    // Core Concepts Cluster
+    subgraph cluster_core {
+        label="Core Concepts";
+        node [shape=box, style="rounded,filled", fillcolor=lightblue];
+
+        Concept [label="Concept"];
+        Region [label="Region"];
+        Entity [label="Entity"];
+        Relation [label="Relation"];
+        Operation [label="Operation"];
+        Event [label="Event"];
+        Force [label="Force"];
+        Frame [label="Frame"];
+        Agent [label="Agent"];
+
+        // Core Relations
+        Region -> Concept [label="represents"];
+        Entity -> Region [label="corresponds to"];
+        Relation -> Concept [label="links"];
+        Operation -> Relation [label="is a type of"];
+        Event -> Relation [label="is a type of"];
+        State -> Relation [label="is a type of"];
+        Force -> Event [label="causes"];
+        Event -> State [label="changes"];
+        Agent -> Force [label="is a type of"];
+        Agent -> Frame [label="interprets/uses"];
+    }
+
+    // Conceptual Space and Dimensionality Cluster
+    subgraph cluster_space {
+        label="Conceptual Space & Dimensionality";
+        node [shape=oval, style="rounded", fillcolor=lightgreen];
+
+        ConceptualSpace [label="Conceptual Space"];
+        Point [label="Point (0D)"];
+        Curve [label="Curve (1D)"];
+        Area [label="Area (2D)"];
+        Object [label="Object (3D)"];
+
+        ConceptualSpace -> Region [label="is a Region, contains"];
+        Region -> Point [label="conceptualized as"];
+        Region -> Curve [label="conceptualized as"];
+        Region -> Area [label="conceptualized as"];
+        Region -> Object [label="conceptualized as"];
+
+        // Zoom Operations
+        ZoomIn [label="Zoom_In"];
+        ZoomOut [label="Zoom_Out"];
+        ZoomIn -> Point [label="transforms to", style=dashed, arrowhead=none];
+        Point -> ZoomIn [style=dashed, arrowhead=normal];
+        ZoomIn -> Curve [label="transforms to", style=dashed, arrowhead=none];
+        Curve -> ZoomIn [style=dashed, arrowhead=normal];
+        ZoomIn -> Area [label="transforms to", style=dashed, arrowhead=none];
+        Area -> ZoomIn [style=dashed, arrowhead=normal];
+        ZoomIn -> Object [label="transforms to", style=dashed, arrowhead=none];
+        Object -> ZoomIn [style=dashed, arrowhead=normal];
+
+        ZoomOut -> Object [label="transforms to", style=dashed, arrowhead=none];
+        Object -> ZoomOut [style=dashed, arrowhead=normal];
+        ZoomOut -> Area [label="transforms to", style=dashed, arrowhead=none];
+        Area -> ZoomOut [style=dashed, arrowhead=normal];
+        ZoomOut -> Curve [label="transforms to", style=dashed, arrowhead=none];
+        Curve -> ZoomOut [style=dashed, arrowhead=normal];
+        ZoomOut -> Point [label="transforms to", style=dashed, arrowhead=none];
+        Point -> ZoomOut [style=dashed, arrowhead=normal];
+
+        ZoomIn -> Operation [label="is a type of"];
+        ZoomOut -> Operation [label="is a type of"];
+    }
+
+    // Structural Schemas Cluster
+    subgraph cluster_schemas {
+        label="Structural Schemas";
+        node [shape=cylinder, style="filled", fillcolor=gold];
+
+        Class [label="Class"];
+        Axis [label="Axis"];
+        Genspec [label="Genspec"];
+        PartWhole [label="Part-Whole"];
+
+        // Relations between schemas and concepts
+        Class -> Concept [label="groups"];
+        Axis -> Concept [label="aligns"];
+        Genspec -> Concept [label="defines hierarchy"];
+        PartWhole -> Concept [label="defines merology"];
+
+        Class -> Relation [label="uses"];
+        Axis -> Relation [label="uses"];
+        Genspec -> Relation [label="uses is_a"];
+        PartWhole -> Relation [label="uses part_of"];
+    }
+
+    // Entity Types & their relations
+    subgraph cluster_entities {
+        label="Entity Types";
+        node [shape=doublecircle, style="filled", fillcolor=salmon];
+        PhysicalEntity [label="Physical Entity"];
+        AbstractEntity [label="Abstract Entity"];
+        SocialEntity [label="Social Entity"];
+
+        PhysicalEntity -> Entity [label="is a type of"];
+        AbstractEntity -> Entity [label="is a type of"];
+        SocialEntity -> Entity [label="is a type of"];
+    }
+
+    // Overall Framework Connections
+    Agent -> Frame [label="uses"];
+    Event -> Entity [label="involves"];
+    Force -> ConceptualSpace [label="operates in"];
+
+    // Event/Process specific relations
+    Process [label="Process"];
+    Process -> Curve [label="conceptualized as"];
+    Event -> Point [label="conceptualized as"];
+    Process -> Event [label="is a sequence of"];
+
+    // States
+    State [label="State"];
+    Entity -> State [label="has"];
+    Event -> State [label="causes change in"];
+
+    // Top-level organization
+    ConceptualSpace -> Frame [label="provides context for"];
+    ConceptualSpace -> Agent [label="houses"];
+}

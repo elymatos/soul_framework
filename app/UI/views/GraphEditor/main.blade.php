@@ -234,12 +234,7 @@
                                 <i class="expand arrows alternate icon"></i>
                                 Fit to Screen
                             </button>
-                            <button class="ui button"
-                                    hx-post="/graph-editor/save"
-                                    hx-target="#response-messages"
-                                    hx-swap="afterbegin"
-                                    hx-vals='js:{"nodes": getGraphData().nodes, "edges": getGraphData().edges}'
-                                    hx-on::after-request="handleSaveResponse(event)">
+                            <button class="ui button" onclick="saveGraph()">
                                 <i class="save icon"></i>
                                 Save Graph
                             </button>
@@ -463,19 +458,6 @@
             }
         }
 
-        function handleSaveResponse(event) {
-            try {
-                const response = JSON.parse(event.detail.xhr.responseText);
-                if (response.success) {
-                    showMessage('Graph saved successfully', 'success');
-                } else {
-                    showMessage('Failed to save graph: ' + (response.error || 'Unknown error'), 'error');
-                }
-            } catch (error) {
-                console.error('Error parsing response:', event.detail.xhr.responseText);
-                showMessage('Failed to save graph: Server error', 'error');
-            }
-        }
 
         function handleResetResponse(event) {
             try {
@@ -732,6 +714,35 @@
                     animation: { duration: 1000, easingFunction: 'easeInOutQuad' }
                 });
             }
+        }
+
+        function saveGraph() {
+            const graphData = {
+                nodes: graphNodes.get(),
+                edges: graphEdges.get()
+            };
+            
+            fetch('/graph-editor/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                                   document.querySelector('input[name="_token"]')?.value || ''
+                },
+                body: JSON.stringify(graphData)
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.success) {
+                    showMessage('Graph saved successfully', 'success');
+                } else {
+                    showMessage('Failed to save graph: ' + (response.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Save error:', error);
+                showMessage('Failed to save graph: Network error', 'error');
+            });
         }
 
         // resetGraph is now handled by HTMX button
