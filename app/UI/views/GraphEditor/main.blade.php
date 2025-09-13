@@ -90,20 +90,6 @@
             display: block;
         }
         
-        /* Message container - absolutely positioned to not affect layout */
-        #response-messages {
-            position: fixed !important;
-            top: 20px !important;
-            right: 20px !important;
-            z-index: 9999 !important;
-            max-width: 300px !important;
-            pointer-events: none;
-        }
-        
-        #response-messages > * {
-            pointer-events: auto;
-            margin-bottom: 10px;
-        }
     </style>
     <div class="graph-editor-container">
         <!-- Header -->
@@ -132,10 +118,7 @@
                         </h4>
                         <form class="ui form" id="node-form"
                               hx-post="/graph-editor/node"
-                              hx-target="#response-messages"
-                              hx-swap="afterbegin"
-                              hx-trigger="submit"
-                              hx-on::after-request="handleNodeResponse(event)">
+                              hx-trigger="submit">
                             @csrf
                             <div class="field">
                                 <label>Node Label</label>
@@ -181,10 +164,7 @@
 
                         <form class="ui form relation-form" id="relation-form"
                               hx-post="/graph-editor/relation"
-                              hx-target="#response-messages"
-                              hx-swap="afterbegin"
-                              hx-trigger="submit"
-                              hx-on::after-request="handleRelationResponse(event)">
+                              hx-trigger="submit">
                             @csrf
                             <input type="hidden" name="from" id="relation-from-id">
                             <div class="field">
@@ -254,10 +234,7 @@
                             </button>
                             <button class="ui orange button"
                                     hx-get="/graph-editor/reset"
-                                    hx-target="#response-messages"
-                                    hx-swap="afterbegin"
-                                    hx-confirm="Are you sure you want to clear the entire graph? This action cannot be undone."
-                                    hx-on::after-request="handleResetResponse(event)">
+                                    hx-confirm="Are you sure you want to clear the entire graph? This action cannot be undone.">
                                 <i class="trash alternate icon"></i>
                                 Clear All
                             </button>
@@ -266,8 +243,7 @@
                 </div>
             </div>
 
-            <!-- Response Messages Container -->
-            <div id="response-messages"></div>
+            <!-- Notifications are handled by the global messengerComponent.js -->
 
             <!-- Graph Visualization Area -->
             <div class="graph-container">
@@ -296,6 +272,12 @@
         let graphNodes;
         let graphEdges;
         let selectedNodeId = null;
+        
+        // Global graph reload handler
+        document.addEventListener('reload-graph-visualization', function(event) {
+            console.log('Reloading graph visualization...');
+            loadGraphData();
+        });
 
         // Initialize the graph editor when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
@@ -446,105 +428,20 @@
             }
         }
 
-        // HTMX Response Handlers
-        function handleNodeResponse(event) {
-            try {
-                console.log(event);
-                const response = JSON.parse(event.detail.xhr.responseText);
-                if (response.success) {
-                    const nodeData = {
-                        id: response.node.id,
-                        label: response.node.label,
-                        name: response.node.name,
-                        type: response.node.type
-                    };
-                    
-                    // Apply visual styling based on node type
-                    applyNodeStyling(nodeData);
-                    
-                    graphNodes.add(nodeData);
-                    updateNodeDropdown();
-                    document.getElementById('node-form').reset();
-                    // Reset dropdown to default value
-                    if (window.$) {
-                        $('#node-type-dropdown').dropdown('set selected', 'frame');
-                    }
-                    showMessage('Node added successfully', 'success');
-                    
-                    // Refresh the network display and then stabilize
-                    if (graphNetwork) {
-                        graphNetwork.redraw();
-                        graphNetwork.stabilize();
-                        setTimeout(() => {
-                            graphNetwork.stopSimulation();
-                        }, 100);
-                    }
-                } else {
-                    showMessage('Failed to add node: ' + (response.error || 'Unknown error'), 'error');
-                }
-            } catch (error) {
-                console.error('Error parsing response:', event.detail.xhr.responseText);
-                showMessage('Failed to add node: Server error', 'error');
+        // Form submission handlers (now use renderNotify system)
+        function handleFormSubmitSuccess() {
+            // Reset node form after successful submission
+            document.getElementById('node-form').reset();
+            // Reset dropdown to default value
+            if (window.$) {
+                $('#node-type-dropdown').dropdown('set selected', 'frame');
             }
         }
-
-        function handleRelationResponse(event) {
-            try {
-                const response = JSON.parse(event.detail.xhr.responseText);
-                if (response.success) {
-                    graphEdges.add({
-                        id: response.relation.id,
-                        from: response.relation.from,
-                        to: response.relation.to,
-                        label: response.relation.label
-                    });
-                    document.getElementById('relation-form').reset();
-                    cancelRelation();
-                    showMessage('Relation added successfully', 'success');
-                    
-                    // Update the relation label dropdown with new data
-                    updateRelationLabelDropdown();
-                    
-                    // Refresh the network display and then stabilize
-                    if (graphNetwork) {
-                        graphNetwork.redraw();
-                        graphNetwork.stabilize();
-                        setTimeout(() => {
-                            graphNetwork.stopSimulation();
-                        }, 100);
-                    }
-                } else {
-                    showMessage('Failed to add relation: ' + (response.error || 'Unknown error'), 'error');
-                }
-            } catch (error) {
-                console.error('Error parsing response:', event.detail.xhr.responseText);
-                showMessage('Failed to add relation: Server error', 'error');
-            }
-        }
-
-
-        function handleResetResponse(event) {
-            try {
-                const response = JSON.parse(event.detail.xhr.responseText);
-                if (response.success) {
-                    graphNodes.clear();
-                    graphEdges.clear();
-                    updateNodeDropdown();
-                    updateStats();
-                    updateRelationLabelDropdown(); // Clear relation labels dropdown
-                    showMessage('Graph cleared successfully', 'success');
-                    
-                    // Refresh the network display
-                    if (graphNetwork) {
-                        graphNetwork.redraw();
-                    }
-                } else {
-                    showMessage('Failed to clear graph: ' + (response.error || 'Unknown error'), 'error');
-                }
-            } catch (error) {
-                console.error('Error parsing response:', event.detail.xhr.responseText);
-                showMessage('Failed to clear graph: Server error', 'error');
-            }
+        
+        function handleRelationSubmitSuccess() {
+            // Reset relation form after successful submission
+            document.getElementById('relation-form').reset();
+            cancelRelation();
         }
 
         function loadGraphData() {
@@ -820,35 +717,14 @@
             });
         }
 
-        // resetGraph is now handled by HTMX button
-
+        // Legacy showMessage function for backward compatibility
         function showMessage(message, type) {
-            // Create a simple toast notification in the designated container to avoid layout issues
-            const alertClass = type === 'success' ? 'ui success message' : 'ui error message';
-            const toast = document.createElement('div');
-            toast.className = alertClass;
-            toast.style.cssText = 'margin-bottom: 10px; opacity: 1; transition: opacity 0.3s;';
-            toast.innerHTML = `
-                <i class="close icon"></i>
-                ${message}
-            `;
-
-            const container = document.getElementById('response-messages');
-            container.appendChild(toast);
-
-            const closeIcon = toast.querySelector('.close.icon');
-            closeIcon.addEventListener('click', function() {
-                toast.remove();
-            });
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.remove();
-                    }
-                }, 300);
-            }, 3000);
+            // Use the global messenger component for consistency
+            if (window.messenger) {
+                messenger.notify(type, message);
+            } else {
+                console.log(`${type.toUpperCase()}: ${message}`);
+            }
         }
     </script>
 </x-layout::index>

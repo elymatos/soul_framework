@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SOUL\GraphService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 #[Middleware(name: 'web')]
 class GraphEditorController extends Controller
 {
-    private const GRAPH_FILE = 'graph_editor_data.json';
+    public function __construct(
+        private GraphService $graphService
+    ) {}
 
     #[Get(path: '/graph-editor')]
     public function index()
@@ -22,7 +25,7 @@ class GraphEditorController extends Controller
     #[Get(path: '/graph-editor/data')]
     public function getData()
     {
-        $data = $this->loadGraphData();
+        $data = $this->graphService->loadEditorGraph();
         return response()->json($data);
     }
 
@@ -31,125 +34,120 @@ class GraphEditorController extends Controller
     {
         $graphData = $request->json()->all();
         
-        try {
-            Storage::put(self::GRAPH_FILE, json_encode($graphData, JSON_PRETTY_PRINT));
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        $result = $this->graphService->saveEditorGraph($graphData);
+        
+        if ($result['success']) {
+            $stats = $result['stats'];
+            $message = "Graph saved successfully! ({$stats['nodes']} nodes, {$stats['edges']} edges)";
+            if (!empty($stats['errors'])) {
+                $message .= " with " . count($stats['errors']) . " errors.";
+            }
+            return $this->renderNotify("success", $message);
+        } else {
+            return $this->renderNotify("error", "Failed to save graph: " . $result['error']);
         }
     }
 
     #[Post(path: '/graph-editor/node')]
     public function addNode(Request $request)
     {
-        $request->validate([
-            'label' => 'required|string|max:255',
-            'type' => 'required|string|in:frame,slot'
-        ]);
-
-        $graphData = $this->loadGraphData();
-        
-        $nodeId = uniqid('node_');
-        $label = $request->input('label');
-        $type = $request->input('type');
-        $newNode = [
-            'id' => $nodeId,
-            'label' => $label,
-            'name' => $label, // Auto-generate name from label
-            'type' => $type
-        ];
-
-        $graphData['nodes'][] = $newNode;
-        
         try {
-            Storage::put(self::GRAPH_FILE, json_encode($graphData, JSON_PRETTY_PRINT));
-            return response()->json(['success' => true, 'node' => $newNode]);
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'type' => 'required|string|in:frame,slot'
+            ]);
+            
+            $nodeId = uniqid('node_');
+            $label = $request->input('label');
+            $type = $request->input('type');
+            $nodeData = [
+                'id' => $nodeId,
+                'label' => $label,
+                'name' => $label, // Auto-generate name from label
+                'type' => $type
+            ];
+
+            $result = $this->graphService->addEditorNode($nodeData);
+            
+            if ($result['success']) {
+                $this->trigger('reload-graph-visualization');
+                return $this->renderNotify("success", "Node '{$label}' added successfully!");
+            } else {
+                return $this->renderNotify("error", "Failed to add node: " . $result['error']);
+            }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return $this->renderNotify("error", "Error adding node: " . $e->getMessage());
         }
     }
 
     #[Post(path: '/graph-editor/relation')]
     public function addRelation(Request $request)
     {
-        $request->validate([
-            'from' => 'required|string',
-            'to' => 'required|string',
-            'label' => 'nullable|string|max:255'
-        ]);
-
-        $graphData = $this->loadGraphData();
-        
-        $relationId = uniqid('edge_');
-        $newRelation = [
-            'id' => $relationId,
-            'from' => $request->input('from'),
-            'to' => $request->input('to'),
-            'label' => $request->input('label', '')
-        ];
-
-        $graphData['edges'][] = $newRelation;
-        
         try {
-            Storage::put(self::GRAPH_FILE, json_encode($graphData, JSON_PRETTY_PRINT));
-            return response()->json(['success' => true, 'relation' => $newRelation]);
+            $request->validate([
+                'from' => 'required|string',
+                'to' => 'required|string',
+                'label' => 'nullable|string|max:255'
+            ]);
+            
+            $relationId = uniqid('edge_');
+            $relationData = [
+                'id' => $relationId,
+                'from' => $request->input('from'),
+                'to' => $request->input('to'),
+                'label' => $request->input('label', '')
+            ];
+
+            $result = $this->graphService->addEditorRelation($relationData);
+            
+            if ($result['success']) {
+                $label = $relationData['label'] ?: 'unlabeled';
+                $this->trigger('reload-graph-visualization');
+                return $this->renderNotify("success", "Relation '$label' added successfully!");
+            } else {
+                return $this->renderNotify("error", "Failed to add relation: " . $result['error']);
+            }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return $this->renderNotify("error", "Error adding relation: " . $e->getMessage());
         }
     }
 
     #[Post(path: '/graph-editor/delete-node')]
     public function deleteNode(Request $request)
     {
-        $request->validate([
-            'nodeId' => 'required|string'
-        ]);
-
-        $nodeId = $request->input('nodeId');
-        $graphData = $this->loadGraphData();
-        
-        // Remove the node
-        $graphData['nodes'] = array_filter($graphData['nodes'], function($node) use ($nodeId) {
-            return $node['id'] !== $nodeId;
-        });
-        
-        // Remove related edges
-        $graphData['edges'] = array_filter($graphData['edges'], function($edge) use ($nodeId) {
-            return $edge['from'] !== $nodeId && $edge['to'] !== $nodeId;
-        });
-        
-        // Reindex arrays
-        $graphData['nodes'] = array_values($graphData['nodes']);
-        $graphData['edges'] = array_values($graphData['edges']);
-        
         try {
-            Storage::put(self::GRAPH_FILE, json_encode($graphData, JSON_PRETTY_PRINT));
-            return response()->json(['success' => true]);
+            $request->validate([
+                'nodeId' => 'required|string'
+            ]);
+
+            $nodeId = $request->input('nodeId');
+            $result = $this->graphService->deleteEditorNode($nodeId);
+            
+            if ($result['success']) {
+                $this->trigger('reload-graph-visualization');
+                return $this->renderNotify("success", "Node and its connections deleted successfully!");
+            } else {
+                return $this->renderNotify("error", "Failed to delete node: " . $result['error']);
+            }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return $this->renderNotify("error", "Error deleting node: " . $e->getMessage());
         }
     }
 
     #[Get(path: '/graph-editor/reset')]
     public function resetGraph()
     {
-        $emptyData = ['nodes' => [], 'edges' => []];
-        
         try {
-            Storage::put(self::GRAPH_FILE, json_encode($emptyData, JSON_PRETTY_PRINT));
-            return response()->json(['success' => true]);
+            $result = $this->graphService->resetEditorGraph();
+            
+            if ($result['success']) {
+                $this->trigger('reload-graph-visualization');
+                return $this->renderNotify("success", "Graph cleared successfully!");
+            } else {
+                return $this->renderNotify("error", "Failed to clear graph: " . $result['error']);
+            }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return $this->renderNotify("error", "Error clearing graph: " . $e->getMessage());
         }
-    }
-
-    private function loadGraphData(): array
-    {
-        if (Storage::exists(self::GRAPH_FILE)) {
-            $content = Storage::get(self::GRAPH_FILE);
-            return json_decode($content, true) ?: ['nodes' => [], 'edges' => []];
-        }
-        
-        return ['nodes' => [], 'edges' => []];
     }
 }

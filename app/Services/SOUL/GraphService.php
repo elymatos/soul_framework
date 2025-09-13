@@ -318,4 +318,265 @@ class GraphService
             default => 7
         };
     }
+
+    // ==========================================
+    // GRAPH EDITOR METHODS
+    // ==========================================
+
+    /**
+     * Load complete graph editor data from Neo4j
+     */
+    public function loadEditorGraph(): array
+    {
+        // Get all graph editor nodes
+        $nodesQuery = '
+            MATCH (n:GraphEditorNode)
+            RETURN n.editorId as id, n.label as label, n.name as name, n.type as type
+            ORDER BY n.label
+        ';
+
+        $nodesResult = $this->neo4j->run($nodesQuery);
+        $nodes = [];
+        foreach ($nodesResult as $record) {
+            $nodes[] = [
+                'id' => $record->get('id'),
+                'label' => $record->get('label'),
+                'name' => $record->get('name'),
+                'type' => $record->get('type') ?: 'frame' // Default to frame for backward compatibility
+            ];
+        }
+
+        // Get all relationships between graph editor nodes
+        $edgesQuery = '
+            MATCH (a:GraphEditorNode)-[r:EDITOR_RELATION]->(b:GraphEditorNode)
+            RETURN r.editorId as id, a.editorId as from, b.editorId as to, r.label as label
+            ORDER BY r.label
+        ';
+
+        $edgesResult = $this->neo4j->run($edgesQuery);
+        $edges = [];
+        foreach ($edgesResult as $record) {
+            $edges[] = [
+                'id' => $record->get('id'),
+                'from' => $record->get('from'),
+                'to' => $record->get('to'),
+                'label' => $record->get('label') ?: ''
+            ];
+        }
+
+        return [
+            'nodes' => $nodes,
+            'edges' => $edges
+        ];
+    }
+
+    /**
+     * Save complete graph editor data to Neo4j
+     */
+    public function saveEditorGraph(array $graphData): array
+    {
+        try {
+            // Clear existing graph editor data
+            $this->resetEditorGraph();
+
+            $stats = ['nodes' => 0, 'edges' => 0, 'errors' => []];
+
+            // Create nodes
+            if (isset($graphData['nodes'])) {
+                foreach ($graphData['nodes'] as $nodeData) {
+                    try {
+                        $query = '
+                            CREATE (n:GraphEditorNode {
+                                editorId: $id,
+                                label: $label,
+                                name: $name,
+                                type: $type
+                            })
+                        ';
+                        
+                        $this->neo4j->run($query, [
+                            'id' => $nodeData['id'],
+                            'label' => $nodeData['label'],
+                            'name' => $nodeData['name'] ?? $nodeData['label'],
+                            'type' => $nodeData['type'] ?? 'frame'
+                        ]);
+                        $stats['nodes']++;
+                    } catch (\Exception $e) {
+                        $stats['errors'][] = "Node '{$nodeData['id']}': " . $e->getMessage();
+                    }
+                }
+            }
+
+            // Create relationships
+            if (isset($graphData['edges'])) {
+                foreach ($graphData['edges'] as $edgeData) {
+                    try {
+                        $query = '
+                            MATCH (a:GraphEditorNode {editorId: $from}), (b:GraphEditorNode {editorId: $to})
+                            CREATE (a)-[:EDITOR_RELATION {
+                                editorId: $id,
+                                label: $label
+                            }]->(b)
+                        ';
+                        
+                        $this->neo4j->run($query, [
+                            'id' => $edgeData['id'],
+                            'from' => $edgeData['from'],
+                            'to' => $edgeData['to'],
+                            'label' => $edgeData['label'] ?? ''
+                        ]);
+                        $stats['edges']++;
+                    } catch (\Exception $e) {
+                        $stats['errors'][] = "Edge '{$edgeData['id']}': " . $e->getMessage();
+                    }
+                }
+            }
+
+            return ['success' => true, 'stats' => $stats];
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Add a single node to the graph editor
+     */
+    public function addEditorNode(array $nodeData): array
+    {
+        try {
+            $query = '
+                CREATE (n:GraphEditorNode {
+                    editorId: $id,
+                    label: $label,
+                    name: $name,
+                    type: $type
+                })
+                RETURN n
+            ';
+            
+            $result = $this->neo4j->run($query, [
+                'id' => $nodeData['id'],
+                'label' => $nodeData['label'],
+                'name' => $nodeData['name'] ?? $nodeData['label'],
+                'type' => $nodeData['type'] ?? 'frame'
+            ]);
+
+            return [
+                'success' => true,
+                'node' => [
+                    'id' => $nodeData['id'],
+                    'label' => $nodeData['label'],
+                    'name' => $nodeData['name'] ?? $nodeData['label'],
+                    'type' => $nodeData['type'] ?? 'frame'
+                ]
+            ];
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Add a single relationship to the graph editor
+     */
+    public function addEditorRelation(array $relationData): array
+    {
+        try {
+            $query = '
+                MATCH (a:GraphEditorNode {editorId: $from}), (b:GraphEditorNode {editorId: $to})
+                CREATE (a)-[:EDITOR_RELATION {
+                    editorId: $id,
+                    label: $label
+                }]->(b)
+            ';
+            
+            $this->neo4j->run($query, [
+                'id' => $relationData['id'],
+                'from' => $relationData['from'],
+                'to' => $relationData['to'],
+                'label' => $relationData['label'] ?? ''
+            ]);
+
+            return [
+                'success' => true,
+                'relation' => [
+                    'id' => $relationData['id'],
+                    'from' => $relationData['from'],
+                    'to' => $relationData['to'],
+                    'label' => $relationData['label'] ?? ''
+                ]
+            ];
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Delete a node and all its relationships from the graph editor
+     */
+    public function deleteEditorNode(string $nodeId): array
+    {
+        try {
+            $query = '
+                MATCH (n:GraphEditorNode {editorId: $nodeId})
+                DETACH DELETE n
+            ';
+            
+            $this->neo4j->run($query, ['nodeId' => $nodeId]);
+
+            return ['success' => true];
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Reset/clear all graph editor data
+     */
+    public function resetEditorGraph(): array
+    {
+        try {
+            $query = '
+                MATCH (n:GraphEditorNode)
+                DETACH DELETE n
+            ';
+            
+            $this->neo4j->run($query);
+
+            return ['success' => true];
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Get graph editor statistics
+     */
+    public function getEditorGraphStatistics(): array
+    {
+        $queries = [
+            'totalNodes' => 'MATCH (n:GraphEditorNode) RETURN count(n) as total',
+            'totalEdges' => 'MATCH ()-[r:EDITOR_RELATION]->() RETURN count(r) as total',
+            'nodesByType' => 'MATCH (n:GraphEditorNode) RETURN n.type as type, count(n) as count ORDER BY count DESC',
+            'relationsByLabel' => 'MATCH ()-[r:EDITOR_RELATION]->() RETURN r.label as label, count(r) as count ORDER BY count DESC'
+        ];
+
+        $stats = [];
+        foreach ($queries as $key => $query) {
+            $result = $this->neo4j->run($query);
+            
+            if (in_array($key, ['totalNodes', 'totalEdges'])) {
+                $stats[$key] = $result->first()->get('total');
+            } else {
+                $stats[$key] = [];
+                foreach ($result as $record) {
+                    $stats[$key][] = [
+                        'label' => $record->get($key === 'nodesByType' ? 'type' : 'label') ?? 'unlabeled',
+                        'count' => $record->get('count')
+                    ];
+                }
+            }
+        }
+
+        return $stats;
+    }
 }
