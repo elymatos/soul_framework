@@ -2168,6 +2168,14 @@ $router->post('graph-editor/delete-node', [
 	'domain' => NULL,
 ]);
 
+$router->post('graph-editor/import', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@importGraph',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
 $router->get('graph-editor/reset', [
 	'uses' => 'App\Http\Controllers\GraphEditorController@resetGraph',
 	'as' => NULL,

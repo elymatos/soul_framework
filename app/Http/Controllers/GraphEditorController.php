@@ -134,6 +134,45 @@ class GraphEditorController extends Controller
         }
     }
 
+    #[Post(path: '/graph-editor/import')]
+    public function importGraph(Request $request)
+    {
+        try {
+            $jsonData = $request->json()->all();
+            
+            // Validate JSON structure
+            if (!isset($jsonData['nodes']) || !is_array($jsonData['nodes'])) {
+                return $this->renderNotify("error", "Invalid JSON structure: missing or invalid nodes array");
+            }
+            if (!isset($jsonData['edges']) || !is_array($jsonData['edges'])) {
+                return $this->renderNotify("error", "Invalid JSON structure: missing or invalid edges array");
+            }
+            
+            // Clear existing graph first
+            $resetResult = $this->graphService->resetEditorGraph();
+            if (!$resetResult['success']) {
+                return $this->renderNotify("error", "Failed to clear existing graph: " . $resetResult['error']);
+            }
+            
+            // Import the new graph data
+            $result = $this->graphService->saveEditorGraph($jsonData);
+            
+            if ($result['success']) {
+                $stats = $result['stats'];
+                $message = "Graph imported successfully! ({$stats['nodes']} nodes, {$stats['edges']} edges)";
+                if (!empty($stats['errors'])) {
+                    $message .= " with " . count($stats['errors']) . " errors.";
+                }
+                $this->trigger('reload-graph-visualization');
+                return $this->renderNotify("success", $message);
+            } else {
+                return $this->renderNotify("error", "Failed to import graph: " . $result['error']);
+            }
+        } catch (\Exception $e) {
+            return $this->renderNotify("error", "Error importing graph: " . $e->getMessage());
+        }
+    }
+
     #[Get(path: '/graph-editor/reset')]
     public function resetGraph()
     {

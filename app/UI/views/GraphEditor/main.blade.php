@@ -228,10 +228,19 @@
                                 <i class="expand arrows alternate icon"></i>
                                 Fit to Screen
                             </button>
-                            <button class="ui button" onclick="saveGraph()">
-                                <i class="save icon"></i>
-                                Save Graph
+                            <button class="ui blue button" onclick="saveGraphToDatabase()">
+                                <i class="database icon"></i>
+                                Save to Database
                             </button>
+                            <button class="ui green button" onclick="exportGraphToJson()">
+                                <i class="download icon"></i>
+                                Export to JSON
+                            </button>
+                            <button class="ui purple button" onclick="document.getElementById('json-file-input').click()">
+                                <i class="upload icon"></i>
+                                Load from JSON
+                            </button>
+                            <input type="file" id="json-file-input" accept=".json" style="display: none;" onchange="importGraphFromJson(event)">
                             <button class="ui orange button"
                                     hx-get="/graph-editor/reset"
                                     hx-confirm="Are you sure you want to clear the entire graph? This action cannot be undone.">
@@ -688,7 +697,7 @@
             }
         }
 
-        function saveGraph() {
+        function saveGraphToDatabase() {
             const graphData = {
                 nodes: graphNodes.get(),
                 edges: graphEdges.get()
@@ -703,17 +712,161 @@
                 },
                 body: JSON.stringify(graphData)
             })
-            .then(response => response.json())
             .then(response => {
-                if (response.success) {
-                    showMessage('Graph saved successfully', 'success');
-                } else {
-                    showMessage('Failed to save graph: ' + (response.error || 'Unknown error'), 'error');
+                // Handle HTMX response format (204 No Content with HX-Trigger header)
+                if (response.status === 204) {
+                    const hxTrigger = response.headers.get('HX-Trigger');
+                    if (hxTrigger) {
+                        try {
+                            const triggers = JSON.parse(hxTrigger);
+                            if (triggers.notify) {
+                                showMessage(triggers.notify.message, triggers.notify.type);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing HX-Trigger:', e);
+                            showMessage('Graph operation completed', 'info');
+                        }
+                    } else {
+                        showMessage('Graph saved to database successfully', 'success');
+                    }
+                    return;
                 }
+                
+                // Fallback to JSON response handling
+                return response.json().then(data => {
+                    if (data.success) {
+                        showMessage('Graph saved to database successfully', 'success');
+                    } else {
+                        showMessage('Failed to save graph to database: ' + (data.error || 'Unknown error'), 'error');
+                    }
+                });
             })
             .catch(error => {
                 console.error('Save error:', error);
-                showMessage('Failed to save graph: Network error', 'error');
+                showMessage('Failed to save graph to database: Network error', 'error');
+            });
+        }
+
+        function exportGraphToJson() {
+            const graphData = {
+                nodes: graphNodes.get(),
+                edges: graphEdges.get(),
+                metadata: {
+                    exportedAt: new Date().toISOString(),
+                    nodeCount: graphNodes.length,
+                    edgeCount: graphEdges.length,
+                    soulFrameworkVersion: '1.0'
+                }
+            };
+            
+            const dataStr = JSON.stringify(graphData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `soul-graph-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showMessage('Graph exported to JSON file successfully', 'success');
+        }
+
+        function importGraphFromJson(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.name.endsWith('.json')) {
+                showMessage('Please select a JSON file', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    
+                    // Validate JSON structure
+                    if (!jsonData.nodes || !Array.isArray(jsonData.nodes)) {
+                        throw new Error('Invalid JSON structure: missing or invalid nodes array');
+                    }
+                    if (!jsonData.edges || !Array.isArray(jsonData.edges)) {
+                        throw new Error('Invalid JSON structure: missing or invalid edges array');
+                    }
+                    
+                    // Confirm before importing
+                    const nodeCount = jsonData.nodes.length;
+                    const edgeCount = jsonData.edges.length;
+                    const confirmMessage = `Import ${nodeCount} nodes and ${edgeCount} edges from JSON file? This will replace the current graph.`;
+                    
+                    if (confirm(confirmMessage)) {
+                        loadGraphFromJsonData(jsonData);
+                    }
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showMessage('Failed to import JSON file: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        function loadGraphFromJsonData(jsonData) {
+            // Send JSON data to server to load into database
+            fetch('/graph-editor/import', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                                   document.querySelector('input[name="_token"]')?.value || ''
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                // Handle HTMX response format (204 No Content with HX-Trigger header)
+                if (response.status === 204) {
+                    const hxTrigger = response.headers.get('HX-Trigger');
+                    if (hxTrigger) {
+                        try {
+                            const triggers = JSON.parse(hxTrigger);
+                            if (triggers.notify) {
+                                showMessage(triggers.notify.message, triggers.notify.type);
+                                if (triggers.notify.type === 'success') {
+                                    // Reload the graph visualization from the database
+                                    loadGraphData();
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Error parsing HX-Trigger:', e);
+                            showMessage('Graph import completed', 'info');
+                            loadGraphData();
+                        }
+                    } else {
+                        showMessage('Graph imported successfully from JSON file', 'success');
+                        loadGraphData();
+                    }
+                    return;
+                }
+                
+                // Fallback to JSON response handling
+                return response.json().then(data => {
+                    if (data.success) {
+                        // Reload the graph visualization from the database
+                        loadGraphData();
+                        showMessage('Graph imported successfully from JSON file', 'success');
+                    } else {
+                        showMessage('Failed to import graph: ' + (data.error || 'Unknown error'), 'error');
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Import error:', error);
+                showMessage('Failed to import graph: Network error', 'error');
             });
         }
 
