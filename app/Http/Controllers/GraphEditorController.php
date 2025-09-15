@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\LLM\OLLammaService;
 use App\Services\SOUL\GraphService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
@@ -19,6 +20,7 @@ class GraphEditorController extends Controller
     #[Get(path: '/graph-editor')]
     public function index()
     {
+        OLLammaService::test();
         return view('GraphEditor.main');
     }
 
@@ -33,9 +35,9 @@ class GraphEditorController extends Controller
     public function saveGraph(Request $request)
     {
         $graphData = $request->json()->all();
-        
+
         $result = $this->graphService->saveEditorGraph($graphData);
-        
+
         if ($result['success']) {
             $stats = $result['stats'];
             $message = "Graph saved successfully! ({$stats['nodes']} nodes, {$stats['edges']} edges)";
@@ -56,7 +58,7 @@ class GraphEditorController extends Controller
                 'label' => 'required|string|max:255',
                 'type' => 'required|string|in:frame,slot'
             ]);
-            
+
             $nodeId = uniqid('node_');
             $label = $request->input('label');
             $type = $request->input('type');
@@ -68,7 +70,7 @@ class GraphEditorController extends Controller
             ];
 
             $result = $this->graphService->addEditorNode($nodeData);
-            
+
             if ($result['success']) {
                 $this->trigger('reload-graph-visualization');
                 return $this->renderNotify("success", "Node '{$label}' added successfully!");
@@ -89,7 +91,7 @@ class GraphEditorController extends Controller
                 'to' => 'required|string',
                 'label' => 'nullable|string|max:255'
             ]);
-            
+
             $relationId = uniqid('edge_');
             $relationData = [
                 'id' => $relationId,
@@ -99,7 +101,7 @@ class GraphEditorController extends Controller
             ];
 
             $result = $this->graphService->addEditorRelation($relationData);
-            
+
             if ($result['success']) {
                 $label = $relationData['label'] ?: 'unlabeled';
                 $this->trigger('reload-graph-visualization');
@@ -122,7 +124,7 @@ class GraphEditorController extends Controller
 
             $nodeId = $request->input('nodeId');
             $result = $this->graphService->deleteEditorNode($nodeId);
-            
+
             if ($result['success']) {
                 $this->trigger('reload-graph-visualization');
                 return $this->renderNotify("success", "Node and its connections deleted successfully!");
@@ -139,7 +141,7 @@ class GraphEditorController extends Controller
     {
         try {
             $jsonData = $request->json()->all();
-            
+
             // Validate JSON structure
             if (!isset($jsonData['nodes']) || !is_array($jsonData['nodes'])) {
                 return $this->renderNotify("error", "Invalid JSON structure: missing or invalid nodes array");
@@ -147,16 +149,16 @@ class GraphEditorController extends Controller
             if (!isset($jsonData['edges']) || !is_array($jsonData['edges'])) {
                 return $this->renderNotify("error", "Invalid JSON structure: missing or invalid edges array");
             }
-            
+
             // Clear existing graph first
             $resetResult = $this->graphService->resetEditorGraph();
             if (!$resetResult['success']) {
                 return $this->renderNotify("error", "Failed to clear existing graph: " . $resetResult['error']);
             }
-            
+
             // Import the new graph data
             $result = $this->graphService->saveEditorGraph($jsonData);
-            
+
             if ($result['success']) {
                 $stats = $result['stats'];
                 $message = "Graph imported successfully! ({$stats['nodes']} nodes, {$stats['edges']} edges)";
@@ -178,7 +180,7 @@ class GraphEditorController extends Controller
     {
         try {
             $result = $this->graphService->resetEditorGraph();
-            
+
             if ($result['success']) {
                 $this->trigger('reload-graph-visualization');
                 return $this->renderNotify("success", "Graph cleared successfully!");

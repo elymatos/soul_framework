@@ -45,6 +45,7 @@
         "laravel/reverb": "@beta",
         "laravel/tinker": "^2.10",
         "laudis/neo4j-php-client": "^3.0",
+        "openai-php/laravel": "^0.16.0",
         "php-ffmpeg/php-ffmpeg": "^1.2",
         "phplrt/runtime": "^3.6",
         "rdx/laravelcollective-annotations": "dev-main",
