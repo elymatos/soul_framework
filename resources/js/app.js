@@ -4,6 +4,8 @@ import Alpine from 'alpinejs';
 
 
 import Chart from 'chart.js/auto';
+import { Network } from 'vis-network';
+import { DataSet } from 'vis-data';
 
 import svgPanZoom from "svg-pan-zoom";
 import ky from 'ky';
@@ -23,6 +25,7 @@ import '../css/app.less';
 // import '../css/webcomponents.scss';
 
 window.Chart = Chart;
+window.vis = { Network, DataSet };
 window.svgPanZoom = svgPanZoom;
 window.ky = ky;
 window.Split = Split;

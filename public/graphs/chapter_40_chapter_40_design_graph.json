@@ -1,0 +1,2381 @@
+{
+    "metadata": {
+        "chapter": 40,
+        "chapter_title": "Design",
+        "filename": "chapter_40_design",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 13,
+        "predicate_count": 38,
+        "variable_count": 20,
+        "frequent_variable_count": 13
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 5,
+            "simple": 5,
+            "moderate": 3
+        },
+        "pattern_counts": {
+            "definition": 12,
+            "ordering_relationship": 1
+        },
+        "top_predicates": {
+            "functionality0": 5,
+            "planFor": 5,
+            "plan": 4,
+            "design": 4,
+            "artifact": 3,
+            "subgoalIn": 3,
+            "arg*": 3,
+            "instance": 3,
+            "designing": 3,
+            "intendedUse": 2
+        },
+        "predicate_frequencies": {
+            "functionality0": 5,
+            "planFor": 5,
+            "plan": 4,
+            "design": 4,
+            "artifact": 3,
+            "subgoalIn": 3,
+            "arg*": 3,
+            "instance": 3,
+            "designing": 3,
+            "intendedUse": 2,
+            "agentOf": 2,
+            "notAchieve": 2,
+            "terminalSubgoalsOf": 2,
+            "member": 2,
+            "compositeEntity": 1,
+            "agent": 1,
+            "cause": 1,
+            "Rexist'": 1,
+            "componentOf": 1,
+            "relationOf": 1,
+            "artifact1": 1,
+            "physobj": 1,
+            "unintendedUse": 1,
+            "pattern": 1,
+            "Rexist": 1,
+            "subgoal": 1,
+            "flawedDesign": 1,
+            "planning": 1,
+            "inSeq": 1,
+            "designConstraint": 1,
+            "designAdaptation": 1,
+            "planAdaptation": 1,
+            "designFailure": 1,
+            "planningFailure": 1,
+            "incompleteInstance": 1,
+            "propOrRelOf": 1,
+            "patternInstance": 1,
+            "moreAdherentToDesign": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "40.1",
+                "type": "axiom",
+                "name": "Definition of artifact",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (x) (if (artifact x) (and (compositeEntity x) (exists (f p a1 a2) (and (functionality0 f x)(plan p a1 f)(agent a1) (planFor p x) (cause a2 e0)(Rexist' e0 x)(agent a2) (forall (y) (if (componentOf y x) (exists (e1) (and (subgoalIn e1 p)(arg* y e1))))) (forall (r) (if (relationOf r x) (subgoalIn r p))))))))",
+                "english": "Artifacts are composite entities with functionality. One can find a plan such that the components of the artifact are arguments of subgoals in the plan, and the relations among components are subgoals in the plan. There is an artificer - agents who designed the artifact and agents who brought it into existence. Coffee cup example: components (cup, handle) and relations (attached) occur in the plan for moving coffee.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "40.2",
+                "type": "axiom",
+                "name": "Definition of artifact1 (physical artifacts)",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (iff (artifact1 x)(and (artifact x)(physobj x))))",
+                "english": "A more specialized predicate for physical artifacts. Usually when we talk about artifacts, we have in mind physical objects, but as defined here, an artifact can be a physical object, an organization, a theory, or any other kind of human-made functional composite entity.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "40.3",
+                "type": "axiom",
+                "name": "Definition of intendedUse",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a x) (iff (intendedUse e1 x a) (exists (p e) (and (planFor p x)(subgoalIn e p)(instance e1 e) (agentOf a e1)(arg* x e1)))))",
+                "english": "An artifact can be used as intended. A broom can be used to sweep the kitchen floor (intended use) or to retrieve something behind the refrigerator (unintended use). Agent a is the agent of e1, e1 somehow involves x, and e1 is an instance of a subgoal e in the plan p for x.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "40.4",
+                "type": "axiom",
+                "name": "Definition of unintendedUse",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a x) (iff (unintendedUse e1 x a) (and (agentOf a e1)(arg* x e1)(not (intendedUse e1 x a)))))",
+                "english": "An unintended use e1 happens when a is the agent of e1 and x is somehow involved in e1, but e1 is not the intended use.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "40.5",
+                "type": "axiom",
+                "name": "Definition of design",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (iff (design x) (exists (f p a) (and (pattern x) (functionality0 f x)(plan p a f)(planFor p x) (forall (x1) (if (instance x1 x) (exists (f1 p1) (and (artifact x1) (functionality0 f1 x1)(instance f1 f) (planFor p1 x1)(instance p1 p)))))))))",
+                "english": "A design is a pattern whose instances are artifacts, in the broad sense. We can design a teapot, a logo, a font, or a government. Two principal features: a design is intended to have instances and that a design and its instances are functional composite entities whose structure reflects a plan to realize the functionality. The plan behind the artifact is an instance of the plan for the design.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "40.6",
+                "type": "axiom",
+                "name": "Definition of notAchieve",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s e) (iff (notAchieve s e) (and (Rexist s)(not e))))",
+                "english": "We first define what it means for a set s of eventualities to fail to achieve a goal e. The eventualities in s happen or hold, but e does not result from that.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "40.7",
+                "type": "axiom",
+                "name": "Definition of terminalSubgoalsOf",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s p) (iff (terminalSubgoalsOf s p) (exists (a g) (and (plan p a g) (forall (g1) (iff (member g1 s) (and (subgoalIn g1 p) (not (exists (g2) (and (subgoalIn g2 p) (subgoal g2 g1))))))))))))",
+                "english": "Let the terminal subgoals of a plan be those subgoals that have no subgoals of their own. The set s is the set of subgoals g1 in the plan p that have no subgoals g2 of their own in p.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "40.8",
+                "type": "axiom",
+                "name": "Definition of flawedDesign",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (iff (flawedDesign x) (forall (p p1 a e1 s) (if (and (planFor p x)(instance p1 p)(plan p1 a e1) (terminalSubgoalsOf s p1)) (notAchieve s e1)))))",
+                "english": "A flawed design is one in which for every instance, the set of terminal subgoals in the plan do not achieve the top-level goal. This is a strong notion of 'flawed design,' in which all instances of the design have to fail to achieve the goal. A weaker notion would allow for some random instances to happen to achieve the top-level goal, but the design does not reliably produce instances that will achieve the goal.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "40.9",
+                "type": "axiom",
+                "name": "Definition of designing",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a x s) (iff (designing e a x s) (exists (f) (and (planning e a f s)(functionality0 f x)(design x) (forall (p) (if (inSeq p s)(planFor p x)))))))",
+                "english": "The activity of designing is a planning activity where all the plans in the sequence of plans are plans for a design. Each plan p in the sequence is a plan for the design. Reference to designing is common in language: 'think about the design,' 'working out the layout,' 'imagining the structure,' 'configure,' and 'arrange.'",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "40.10",
+                "type": "axiom",
+                "name": "Definition of designConstraint",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e x) (iff (designConstraint e x) (exists (f) (and (design x)(functionality0 f x)(member e f)))))",
+                "english": "An artifact often has multiple intended uses. In these cases, the functionality of the artifact is a set or conjunction of what might be called 'design constraints.' For example, when one designs an office layout, it is usually with respect to typical office goals as the design constraints.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "40.11",
+                "type": "axiom",
+                "name": "Definition of designAdaptation",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e x) (iff (designAdaptation e a x) (exists (s p1 g1 p2 g2) (and (designing e a x s) (planAdaptation e a p1 g1 p2 g2 s)))))",
+                "english": "We often talk about design adaptation, for example, 'customize the design' and 'design inspired by.' To adapt a design is to engage in a designing activity that is also a plan adaptation.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "40.12",
+                "type": "axiom",
+                "name": "Definition of designFailure",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a) (iff (designFailure e a) (exists (x s g) (and (designing e a x s)(functionality0 g x) (planningFailure e a g)))))",
+                "english": "A design failure is a designing activity that is a planning failure. e is the designing activity, a is the agent doing the designing, x is the (nonexistent) design, g is the goal or functionality of the design, and s is the set of plans the agent considers in the course of the planning activity.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "40.13",
+                "type": "axiom",
+                "name": "Partial design adherence ordering",
+                "complexity": "complex",
+                "pattern": "ordering_relationship",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x x1 x2) (if (and (design x)(incompleteInstance x1 x) (incompleteInstance x2 x) (forall (p p2) (if (and (propOrRelOf p x)(patternInstance p2 p) (propOrRelOf p2 x2)) (exists (p1) (and (patternInstance p1 p)(propOrRelOf p1 x1))))) (exists (p1 p) (and (propOrRelOf p x)(patternInstance p1 p) (propOrRelOf p1 x1) (not (exists (p2) (and (patternInstance p2 p) (propOrRelOf p2 x2))))))) (moreAdherentToDesign x1 x2 x)))",
+                "english": "For an entity to instantiate a design is for that entity to instantiate all the properties and relations in the design. It is possible for an entity to be a partial instantiation of a design by instantiating only some of the properties and relations. There is a partial ordering defined by moreAdherentToDesign meaning roughly that more of the relations and properties are instantiated. If entity x1 instantiates all the design properties and relations that entity x2 does and more, then it is more adherent to the design.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_artifact",
+                "type": "predicate",
+                "name": "artifact",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_compositeEntity",
+                "type": "predicate",
+                "name": "compositeEntity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_functionality0",
+                "type": "predicate",
+                "name": "functionality0",
+                "frequency": 5,
+                "axiom_count": 4,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planFor",
+                "type": "predicate",
+                "name": "planFor",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist'",
+                "type": "predicate",
+                "name": "Rexist'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentOf",
+                "type": "predicate",
+                "name": "componentOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_relationOf",
+                "type": "predicate",
+                "name": "relationOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_artifact1",
+                "type": "predicate",
+                "name": "artifact1",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_physobj",
+                "type": "predicate",
+                "name": "physobj",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_intendedUse",
+                "type": "predicate",
+                "name": "intendedUse",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unintendedUse",
+                "type": "predicate",
+                "name": "unintendedUse",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_design",
+                "type": "predicate",
+                "name": "design",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_pattern",
+                "type": "predicate",
+                "name": "pattern",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_notAchieve",
+                "type": "predicate",
+                "name": "notAchieve",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_terminalSubgoalsOf",
+                "type": "predicate",
+                "name": "terminalSubgoalsOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoal",
+                "type": "predicate",
+                "name": "subgoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_flawedDesign",
+                "type": "predicate",
+                "name": "flawedDesign",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_designing",
+                "type": "predicate",
+                "name": "designing",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_planning",
+                "type": "predicate",
+                "name": "planning",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inSeq",
+                "type": "predicate",
+                "name": "inSeq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_designConstraint",
+                "type": "predicate",
+                "name": "designConstraint",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_designAdaptation",
+                "type": "predicate",
+                "name": "designAdaptation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planAdaptation",
+                "type": "predicate",
+                "name": "planAdaptation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_designFailure",
+                "type": "predicate",
+                "name": "designFailure",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planningFailure",
+                "type": "predicate",
+                "name": "planningFailure",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_incompleteInstance",
+                "type": "predicate",
+                "name": "incompleteInstance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_propOrRelOf",
+                "type": "predicate",
+                "name": "propOrRelOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_patternInstance",
+                "type": "predicate",
+                "name": "patternInstance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreAdherentToDesign",
+                "type": "predicate",
+                "name": "moreAdherentToDesign",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 10,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_f",
+                "type": "variable",
+                "name": "f",
+                "axiom_count": 3,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_g1",
+                "type": "variable",
+                "name": "g1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_g2",
+                "type": "variable",
+                "name": "g2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "40.1",
+                "target": "pred_artifact",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_compositeEntity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_functionality0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_planFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_Rexist'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "pred_relationOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.1",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.2",
+                "target": "pred_artifact1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.2",
+                "target": "pred_artifact",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.2",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.3",
+                "target": "pred_intendedUse",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "pred_planFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.3",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.4",
+                "target": "pred_unintendedUse",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.4",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.4",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.4",
+                "target": "pred_intendedUse",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.4",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "pred_design",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_pattern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_functionality0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_planFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "pred_artifact",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.5",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.5",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.6",
+                "target": "pred_notAchieve",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.6",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "pred_terminalSubgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.7",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.7",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.7",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.7",
+                "target": "pred_subgoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.7",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "pred_flawedDesign",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "pred_planFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "pred_terminalSubgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "pred_notAchieve",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "pred_designing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "pred_planning",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "pred_functionality0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "pred_design",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "pred_inSeq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "pred_planFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.10",
+                "target": "pred_designConstraint",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.10",
+                "target": "pred_design",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.10",
+                "target": "pred_functionality0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.10",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.10",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.10",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "pred_designAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.11",
+                "target": "pred_designing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.11",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.11",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.12",
+                "target": "pred_designFailure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.12",
+                "target": "pred_designing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.12",
+                "target": "pred_functionality0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.12",
+                "target": "pred_planningFailure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.12",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.13",
+                "target": "pred_design",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.13",
+                "target": "pred_incompleteInstance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.13",
+                "target": "pred_propOrRelOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.13",
+                "target": "pred_patternInstance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.13",
+                "target": "pred_moreAdherentToDesign",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "40.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.13",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.13",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "40.13",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_compositeEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_Rexist'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist'",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist'",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_relationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact1",
+                "target": "pred_artifact",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact1",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_artifact",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intendedUse",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intendedUse",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intendedUse",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intendedUse",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intendedUse",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unintendedUse",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unintendedUse",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unintendedUse",
+                "target": "pred_intendedUse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_pattern",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_artifact",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_artifact",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_artifact",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_notAchieve",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminalSubgoalsOf",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminalSubgoalsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminalSubgoalsOf",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminalSubgoalsOf",
+                "target": "pred_subgoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subgoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_subgoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_flawedDesign",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_flawedDesign",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_flawedDesign",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_flawedDesign",
+                "target": "pred_terminalSubgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_flawedDesign",
+                "target": "pred_notAchieve",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_terminalSubgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planFor",
+                "target": "pred_notAchieve",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_terminalSubgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_notAchieve",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_notAchieve",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminalSubgoalsOf",
+                "target": "pred_notAchieve",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_planning",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_design",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_design",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inSeq",
+                "target": "pred_planFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designConstraint",
+                "target": "pred_design",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designConstraint",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designConstraint",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designAdaptation",
+                "target": "pred_designing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designAdaptation",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designFailure",
+                "target": "pred_designing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designFailure",
+                "target": "pred_functionality0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designFailure",
+                "target": "pred_planningFailure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_designing",
+                "target": "pred_planningFailure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionality0",
+                "target": "pred_planningFailure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_incompleteInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_propOrRelOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_patternInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_design",
+                "target": "pred_moreAdherentToDesign",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_incompleteInstance",
+                "target": "pred_propOrRelOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_incompleteInstance",
+                "target": "pred_patternInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_incompleteInstance",
+                "target": "pred_moreAdherentToDesign",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propOrRelOf",
+                "target": "pred_patternInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propOrRelOf",
+                "target": "pred_moreAdherentToDesign",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_patternInstance",
+                "target": "pred_moreAdherentToDesign",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

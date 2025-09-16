@@ -1,0 +1,2078 @@
+{
+    "metadata": {
+        "chapter": 9,
+        "chapter_title": "Functions and Sequences",
+        "filename": "chapter_09_functions_sequences",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 19,
+        "predicate_count": 27,
+        "variable_count": 19,
+        "frequent_variable_count": 16
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 9,
+            "moderate": 8,
+            "complex": 2
+        },
+        "pattern_counts": {
+            "existential_definition": 1,
+            "structural_definition": 1,
+            "equality_definition": 1,
+            "uniqueness": 1,
+            "function_definition": 1,
+            "domain_definition": 1,
+            "range_definition": 1,
+            "mapping_definition": 1,
+            "skolem_function_correspondence": 1,
+            "integer_interval_definition": 1,
+            "sequence_definition": 1,
+            "length_definition": 1,
+            "nth_element_definition": 1,
+            "first_element_definition": 1,
+            "sequence_rest_definition": 1,
+            "last_element_definition": 1,
+            "sequence_membership": 1,
+            "sequence_ordering": 1,
+            "succession_definition": 1
+        },
+        "top_predicates": {
+            "function0": 7,
+            "sequence": 7,
+            "pair": 6,
+            "nth": 6,
+            "first": 4,
+            "member": 4,
+            "second": 3,
+            "equal": 3,
+            "map": 3,
+            "ints": 3
+        },
+        "predicate_frequencies": {
+            "function0": 7,
+            "sequence": 7,
+            "pair": 6,
+            "nth": 6,
+            "first": 4,
+            "member": 4,
+            "second": 3,
+            "equal": 3,
+            "map": 3,
+            "ints": 3,
+            "set": 2,
+            "posInteger": 2,
+            "length": 2,
+            "successor": 2,
+            "pair0": 1,
+            "domain": 1,
+            "range": 1,
+            "skfct": 1,
+            "typelt": 1,
+            "rangeFd": 1,
+            "leq": 1,
+            "rest": 1,
+            "last": 1,
+            "inSeq": 1,
+            "beforeInSeq": 1,
+            "lt": 1,
+            "successiveElts": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "9.1",
+                "type": "axiom",
+                "name": "Definition of pair0",
+                "complexity": "simple",
+                "pattern": "existential_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (iff (pair0 p) (exists (x y) (pair p x y))))",
+                "english": "Something is a pair if and only if it is an ordered pair of two elements",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.2",
+                "type": "axiom",
+                "name": "Pair elements structure",
+                "complexity": "simple",
+                "pattern": "structural_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p x y) (if (pair p x y) (and (first x p)(second y p))))",
+                "english": "If p is the pair <x,y>, then x is the first element of p and y is the second element of p",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.3",
+                "type": "axiom",
+                "name": "Pair equality",
+                "complexity": "moderate",
+                "pattern": "equality_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 x1 y1 p2 x2 y2) (if (or (pair p1 x1 y1)(pair p2 x2 y2)) (iff (equal p1 p2) (and (pair p1 x1 y1)(pair p2 x2 y2) (equal x1 x2)(equal y1 y2)))))",
+                "english": "Two pairs are equal exactly when their first elements are equal and their second elements are equal",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.4",
+                "type": "axiom",
+                "name": "Pair uniqueness",
+                "complexity": "simple",
+                "pattern": "uniqueness",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p x1 x2 y1 y2) (if (and (pair p x1 y1)(pair p x2 y2)) (and (equal x1 x2)(equal y1 y2))))",
+                "english": "The first and second elements of a pair are unique",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.5",
+                "type": "axiom",
+                "name": "Definition of function0",
+                "complexity": "complex",
+                "pattern": "function_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s2) (iff (function0 f s1 s2) (and (set s1)(set s2)(set f) (forall (p) (if (member p f) (exists (x y) (and (member x s1)(member y s2) (pair p x y))))) (forall (x) (if (member x s1) (exists (p) (and (member p f)(first x p))))) (forall (p1 p2 x) (if (and (first x p1)(first x p2) (member p1 f)(member p2 f)) (equal p1 p2))) (forall (y) (if (member y s2) (exists (p) (and (member p f)(second y p))))))))",
+                "english": "A function f from set s1 onto set s2 is a set of pairs where each element of s1 occurs exactly once as first element, and every element of s2 occurs as second element of at least one pair",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "9.6",
+                "type": "axiom",
+                "name": "Function domain",
+                "complexity": "simple",
+                "pattern": "domain_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s2) (if (function0 f s1 s2)(domain s1 f)))",
+                "english": "If f is a function from s1 to s2, then s1 is the domain of f",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.7",
+                "type": "axiom",
+                "name": "Function range",
+                "complexity": "simple",
+                "pattern": "range_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s2) (if (function0 f s1 s2)(range s2 f)))",
+                "english": "If f is a function from s1 to s2, then s2 is the range of f",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.8",
+                "type": "axiom",
+                "name": "Function mapping",
+                "complexity": "moderate",
+                "pattern": "mapping_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f x y) (iff (map f x y) (exists (s1 s2 p) (and (function0 f s1 s2)(member p f) (first x p)(second y p)))))",
+                "english": "Function f maps x to y when the pair <x,y> is a member of f; f(x) = y",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.9",
+                "type": "axiom",
+                "name": "Skolem function correspondence",
+                "complexity": "moderate",
+                "pattern": "skolem_function_correspondence",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (y1 y x1 x e s1 s2) (if (and (skfct y1 y x1 x e)(typelt x s1)(rangeFd s2 y x e)) (exists (f) (and (function0 f s1 s2) (forall (p) (iff (pair p x1 y1)(member p f)))))))",
+                "english": "When we have a Skolem function, we have a corresponding mathematical function",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.10",
+                "type": "axiom",
+                "name": "Definition of integer intervals",
+                "complexity": "moderate",
+                "pattern": "integer_interval_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s n1 n2) (iff (ints s n1 n2) (and (posInteger n1)(posInteger n2)(set s) (forall (n) (iff (member n s) (and (posInteger n)(leq n1 n)(leq n n2)))))))",
+                "english": "s is the set of all positive integers from n1 to n2, including n1 and n2",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.11",
+                "type": "axiom",
+                "name": "Definition of sequence",
+                "complexity": "moderate",
+                "pattern": "sequence_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (iff (sequence s) (exists (s1 s2 n) (and (function0 s s1 s2)(ints s1 1 n)))))",
+                "english": "A sequence of length n is a function whose domain is the first n positive integers",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.12",
+                "type": "axiom",
+                "name": "Definition of sequence length",
+                "complexity": "moderate",
+                "pattern": "length_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n s) (if (sequence s) (iff (length n s) (exists (s1 s2) (and (function0 s s1 s2)(ints s1 1 n))))))",
+                "english": "The length of a sequence is the upper bound of its domain interval",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.13",
+                "type": "axiom",
+                "name": "nth element of sequence",
+                "complexity": "simple",
+                "pattern": "nth_element_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s n y) (if (sequence s) (iff (nth y n s)(map s n y))))",
+                "english": "The nth element in a sequence is the entity that n is mapped to by the function",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.14",
+                "type": "axiom",
+                "name": "First element of sequence",
+                "complexity": "simple",
+                "pattern": "first_element_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s y) (if (sequence s) (iff (first y s)(nth y 1 s))))",
+                "english": "The first element of a sequence is the nth element where n is 1",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.15",
+                "type": "axiom",
+                "name": "Rest of sequence",
+                "complexity": "complex",
+                "pattern": "sequence_rest_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (iff (rest s1 s) (and (sequence s)(sequence s1) (forall (i x) (iff (map s1 i x) (exists (j) (and (posInteger i)(successor j i) (map s j x))))))))",
+                "english": "The rest of a sequence is the sequence that remains after the first element is removed",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "9.16",
+                "type": "axiom",
+                "name": "Last element of sequence",
+                "complexity": "simple",
+                "pattern": "last_element_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s y n) (if (and (sequence s)(length n s)) (iff (last y s)(nth y n s))))",
+                "english": "The last element of a sequence is the nth element where n is the length of the sequence",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.17",
+                "type": "axiom",
+                "name": "Element membership in sequence",
+                "complexity": "simple",
+                "pattern": "sequence_membership",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x s) (iff (inSeq x s) (exists (n) (nth x n s))))",
+                "english": "An entity is in a sequence if it is the nth element of the sequence for some n",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "9.18",
+                "type": "axiom",
+                "name": "Before relation in sequence",
+                "complexity": "moderate",
+                "pattern": "sequence_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (iff (beforeInSeq x y s) (exists (n1 n2) (and (sequence s)(nth x n1 s)(nth y n2 s) (lt n1 n2)))))",
+                "english": "If one element's position n is less than another's, it is before the other in the sequence",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "9.19",
+                "type": "axiom",
+                "name": "Successive elements in sequence",
+                "complexity": "moderate",
+                "pattern": "succession_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 s) (iff (successiveElts x1 x2 s) (exists (n1 n2) (and (successor n2 n1)(nth x1 n1 s)(nth x2 n2 s)))))",
+                "english": "Two elements are successive in a sequence if their positions are consecutive integers",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_pair0",
+                "type": "predicate",
+                "name": "pair0",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pair",
+                "type": "predicate",
+                "name": "pair",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_first",
+                "type": "predicate",
+                "name": "first",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_second",
+                "type": "predicate",
+                "name": "second",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_function0",
+                "type": "predicate",
+                "name": "function0",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_set",
+                "type": "predicate",
+                "name": "set",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_domain",
+                "type": "predicate",
+                "name": "domain",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_range",
+                "type": "predicate",
+                "name": "range",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_map",
+                "type": "predicate",
+                "name": "map",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_skfct",
+                "type": "predicate",
+                "name": "skfct",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_typelt",
+                "type": "predicate",
+                "name": "typelt",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_rangeFd",
+                "type": "predicate",
+                "name": "rangeFd",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ints",
+                "type": "predicate",
+                "name": "ints",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_posInteger",
+                "type": "predicate",
+                "name": "posInteger",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_leq",
+                "type": "predicate",
+                "name": "leq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_sequence",
+                "type": "predicate",
+                "name": "sequence",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_length",
+                "type": "predicate",
+                "name": "length",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nth",
+                "type": "predicate",
+                "name": "nth",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_rest",
+                "type": "predicate",
+                "name": "rest",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_successor",
+                "type": "predicate",
+                "name": "successor",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_last",
+                "type": "predicate",
+                "name": "last",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inSeq",
+                "type": "predicate",
+                "name": "inSeq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_beforeInSeq",
+                "type": "predicate",
+                "name": "beforeInSeq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lt",
+                "type": "predicate",
+                "name": "lt",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_successiveElts",
+                "type": "predicate",
+                "name": "successiveElts",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_y1",
+                "type": "variable",
+                "name": "y1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x2",
+                "type": "variable",
+                "name": "x2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_y2",
+                "type": "variable",
+                "name": "y2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_f",
+                "type": "variable",
+                "name": "f",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_n1",
+                "type": "variable",
+                "name": "n1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_n2",
+                "type": "variable",
+                "name": "n2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_n",
+                "type": "variable",
+                "name": "n",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "9.1",
+                "target": "pred_pair0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.1",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.1",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.2",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.2",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.2",
+                "target": "pred_second",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.2",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.3",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.3",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.3",
+                "target": "var_y2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.4",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.4",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.4",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.4",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.4",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.4",
+                "target": "var_y2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_second",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.5",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.5",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.6",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.6",
+                "target": "pred_domain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.6",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.6",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.6",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.7",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.7",
+                "target": "pred_range",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.7",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.7",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.8",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.8",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.8",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.8",
+                "target": "pred_second",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.8",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "pred_skfct",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "pred_typelt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "pred_rangeFd",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.9",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.10",
+                "target": "pred_ints",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.10",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.10",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.10",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.10",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.10",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.10",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.10",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.11",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.11",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.11",
+                "target": "pred_ints",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.11",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.11",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.11",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.12",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.12",
+                "target": "pred_length",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.12",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.12",
+                "target": "pred_ints",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.12",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.12",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.13",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.13",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.13",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.13",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.14",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.14",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.14",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.14",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.15",
+                "target": "pred_rest",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.15",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.15",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.15",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.15",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.15",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.15",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.16",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.16",
+                "target": "pred_length",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.16",
+                "target": "pred_last",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.16",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.16",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.16",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.17",
+                "target": "pred_inSeq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.17",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.17",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.17",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.17",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.18",
+                "target": "pred_beforeInSeq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.18",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.18",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.18",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.18",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.18",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.18",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.18",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.18",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.19",
+                "target": "pred_successiveElts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.19",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.19",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "9.19",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.19",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.19",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.19",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "9.19",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_pair0",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_second",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_domain",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_range",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_second",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skfct",
+                "target": "pred_typelt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skfct",
+                "target": "pred_rangeFd",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skfct",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skfct",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skfct",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_typelt",
+                "target": "pred_rangeFd",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_typelt",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_typelt",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_typelt",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rangeFd",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rangeFd",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rangeFd",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ints",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ints",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ints",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ints",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_ints",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function0",
+                "target": "pred_ints",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_length",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_length",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_length",
+                "target": "pred_ints",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nth",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rest",
+                "target": "pred_sequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rest",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rest",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rest",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_length",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_length",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_last",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inSeq",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq",
+                "target": "pred_sequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nth",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successiveElts",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successiveElts",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

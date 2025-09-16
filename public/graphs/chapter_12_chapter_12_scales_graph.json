@@ -1,0 +1,4298 @@
+{
+    "metadata": {
+        "chapter": 12,
+        "chapter_title": "Scales",
+        "filename": "chapter_12_scales",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 38,
+        "predicate_count": 54,
+        "variable_count": 21,
+        "frequent_variable_count": 15
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 6,
+            "simple": 16,
+            "moderate": 16
+        },
+        "pattern_counts": {
+            "scale_definition": 1,
+            "type_constraint": 1,
+            "abbreviation_definition": 1,
+            "ordering_relation_definition": 1,
+            "antireflexivity": 1,
+            "antisymmetry": 1,
+            "transitivity": 1,
+            "reverse_relation_definition": 1,
+            "argument_constraint": 1,
+            "ordering_preservation": 1,
+            "combined_definition": 1,
+            "inclusive_ordering_definition": 2,
+            "antisymmetry_inclusive": 1,
+            "extremum_definition": 2,
+            "subscale_definition": 1,
+            "reverse_scale_definition": 1,
+            "scale_disjointness": 1,
+            "total_ordering_definition": 1,
+            "type_implication": 1,
+            "extended_function_definition": 1,
+            "monotone_function_definition": 1,
+            "function_into_definition": 1,
+            "scale_construction": 1,
+            "sequence_scale_example": 1,
+            "set_subset_scale_example": 1,
+            "subset_consistent_scale": 1,
+            "monotonicity_condition": 1,
+            "composite_scale_definition": 1,
+            "region_subscale": 3,
+            "region_extremum": 2,
+            "region_ordering": 1,
+            "scale_property_connection": 1,
+            "functional_scale_connection": 1
+        },
+        "top_predicates": {
+            "lts": 13,
+            "scale": 11,
+            "inScale": 9,
+            "leqs": 7,
+            "componentsOf": 6,
+            "equal": 5,
+            "subscale": 5,
+            "Hi": 5,
+            "partialOrdering": 4,
+            "subset": 4
+        },
+        "predicate_frequencies": {
+            "lts": 13,
+            "scale": 11,
+            "inScale": 9,
+            "leqs": 7,
+            "componentsOf": 6,
+            "equal": 5,
+            "subscale": 5,
+            "Hi": 5,
+            "partialOrdering": 4,
+            "subset": 4,
+            "at": 4,
+            "bottom": 4,
+            "member": 3,
+            "onScale": 3,
+            "function": 3,
+            "set": 3,
+            "scaleDefinedBy": 3,
+            "Lo": 3,
+            "subst2": 2,
+            "lts'": 2,
+            "gts": 2,
+            "top": 2,
+            "argn": 2,
+            "at'": 2,
+            "compositeEntity": 1,
+            "relationsOf": 1,
+            "arg*": 1,
+            "componentOf": 1,
+            "geqs": 1,
+            "reverse": 1,
+            "disjoint": 1,
+            "totalOrdering": 1,
+            "ground": 1,
+            "function0": 1,
+            "monotoneIncreasing": 1,
+            "map": 1,
+            "functionInto": 1,
+            "sequence": 1,
+            "beforeInSeq'": 1,
+            "first": 1,
+            "subset'": 1,
+            "null": 1,
+            "subsetConsistent": 1,
+            "eventuality": 1,
+            "instance": 1,
+            "r": 1,
+            "compositeScale": 1,
+            "Md": 1,
+            "scaleFor": 1,
+            "Rexist": 1,
+            "etc": 1,
+            "goal": 1,
+            "causalComplex": 1,
+            "not'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "12.1",
+                "type": "axiom",
+                "name": "Definition of scale",
+                "complexity": "complex",
+                "pattern": "scale_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (scale s) (and (compositeEntity s) (exists (s1 e x y s2 s3) (and (componentsOf s1 s) (partialOrdering e x y s) (subset s2 s3)(relationsOf s3 s) (forall (e1) (if (member e1 s2) (exists (x1 y1) (and (member x1 s1)(member y1 s1) (subst2 x1 y1 e1 x y e)))))))))))",
+                "english": "A scale is a composite entity with components and a partial ordering relation among them",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "12.2",
+                "type": "axiom",
+                "name": "Partial ordering constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e x y s) (if (partialOrdering e x y s) (and (scale s)(arg* x e)(arg* y e))))",
+                "english": "If e is a partial ordering on scale s, then s is a scale and e is a relation between x and y",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.3",
+                "type": "axiom",
+                "name": "Definition of inScale",
+                "complexity": "simple",
+                "pattern": "abbreviation_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (y s) (iff (inScale y s) (and (scale s)(componentOf y s))))",
+                "english": "Being in a scale is an abbreviation for being a component of a scale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.4",
+                "type": "axiom",
+                "name": "Definition of lts (less than scale)",
+                "complexity": "moderate",
+                "pattern": "ordering_relation_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x1 y1 s) (iff (lts' e1 x1 y1 s) (exists (e x y e1) (and (partialOrdering e x y s) (subst2 x y e x1 y1 e1)))))",
+                "english": "lts defines a 'less than' relation relative to a particular scale s using substitution into the partial ordering",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.5",
+                "type": "axiom",
+                "name": "Partial ordering is antireflexive",
+                "complexity": "simple",
+                "pattern": "antireflexivity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x s) (not (lts x x s)))",
+                "english": "The partial ordering is antireflexive - no element is less than itself",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.6",
+                "type": "axiom",
+                "name": "Partial ordering is antisymmetric",
+                "complexity": "simple",
+                "pattern": "antisymmetry",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (if (lts x y s)(not (lts y x s))))",
+                "english": "The partial ordering is antisymmetric - if x < y then not y < x",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.7",
+                "type": "axiom",
+                "name": "Partial ordering is transitive",
+                "complexity": "simple",
+                "pattern": "transitivity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y z s) (if (and (lts x y s)(lts y z s)) (lts x z s)))",
+                "english": "The partial ordering is transitive - if x < y and y < z then x < z",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.8",
+                "type": "axiom",
+                "name": "Definition of gts (greater than scale)",
+                "complexity": "simple",
+                "pattern": "reverse_relation_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (iff (gts y x s)(lts x y s)))",
+                "english": "Greater than is defined as the reverse of less than",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.9",
+                "type": "axiom",
+                "name": "lts argument constraints",
+                "complexity": "moderate",
+                "pattern": "argument_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (if (lts x y s) (and (or (inScale x s) (exists (x1) (and (at x x1 s)(inScale x1 s)))) (or (inScale y s) (exists (y1) (and (at y y1 s)(inScale y1 s)))))))",
+                "english": "Arguments of lts must be either points on the scale or entities at points on the scale",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.10",
+                "type": "axiom",
+                "name": "at relation preserves ordering",
+                "complexity": "complex",
+                "pattern": "ordering_preservation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 y1 y2 s) (and (if (at x1 y1 s) (iff (lts x1 y2 s)(lts y1 y2 s))) (if (at x2 y2 s) (iff (lts y1 x2 s)(lts y1 y2 s))) (if (and (at x1 y1 s)(at x2 y2 s)) (iff (lts x1 x2 s)(lts y1 y2 s)))))",
+                "english": "The at relation preserves the partial ordering - entities at points inherit the ordering of those points",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "12.11",
+                "type": "axiom",
+                "name": "Definition of onScale",
+                "complexity": "simple",
+                "pattern": "combined_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x s) (iff (onScale x s) (or (inScale x s) (exists (y) (and (inScale y s)(at x y s))))))",
+                "english": "onScale covers both points in a scale and entities at points in a scale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.12",
+                "type": "axiom",
+                "name": "Definition of leqs (less than or equal scale)",
+                "complexity": "simple",
+                "pattern": "inclusive_ordering_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (iff (leqs x y s) (or (lts x y s) (and (onScale x s)(equal x y)))))",
+                "english": "Less than or equal is either less than or equal (for entities on the scale)",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.13",
+                "type": "axiom",
+                "name": "Definition of geqs (greater than or equal scale)",
+                "complexity": "simple",
+                "pattern": "inclusive_ordering_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (iff (geqs x y s) (or (gts x y s) (and (onScale x s)(equal x y)))))",
+                "english": "Greater than or equal is either greater than or equal (for entities on the scale)",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.14",
+                "type": "axiom",
+                "name": "Antisymmetric property for leqs",
+                "complexity": "simple",
+                "pattern": "antisymmetry_inclusive",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (if (and (leqs x y s)(leqs y x s)) (equal x y)))",
+                "english": "If x \u2264 y and y \u2264 x, then x = y (antisymmetry for \u2264)",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.15",
+                "type": "axiom",
+                "name": "Definition of top of scale",
+                "complexity": "moderate",
+                "pattern": "extremum_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x s) (iff (top x s) (and (inScale x s) (forall (y) (if (inScale y s)(leqs y x s))))))",
+                "english": "The top of a scale is the highest point - all other points are less than or equal to it",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.16",
+                "type": "axiom",
+                "name": "Definition of bottom of scale",
+                "complexity": "moderate",
+                "pattern": "extremum_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x s) (iff (bottom x s) (and (inScale x s) (forall (y) (if (inScale y s)(leqs x y s))))))",
+                "english": "The bottom of a scale is the lowest point - it is less than or equal to all other points",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.17",
+                "type": "axiom",
+                "name": "Definition of subscale",
+                "complexity": "complex",
+                "pattern": "subscale_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (iff (subscale s1 s) (and (scale s1)(scale s) (forall (x) (if (inScale x s1)(inScale x s))) (forall (x y) (iff (lts x y s1) (and (inScale x s1)(inScale y s1) (lts x y s)))))))",
+                "english": "A subscale has a subset of components and the partial ordering restricted to that subset",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "12.18",
+                "type": "axiom",
+                "name": "Definition of reverse scale",
+                "complexity": "moderate",
+                "pattern": "reverse_scale_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (iff (reverse s1 s) (and (scale s1)(scale s) (forall (x y) (and (iff (inScale x s)(inScale x s1)) (iff (lts x y s)(lts y x s1)))))))",
+                "english": "The reverse of a scale has the same components but reversed partial ordering",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.19",
+                "type": "axiom",
+                "name": "Disjoint scales",
+                "complexity": "moderate",
+                "pattern": "scale_disjointness",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s2) (if (and (scale s1)(scale s2)) (iff (disjoint s1 s2) (exists (s3 s4) (and (componentsOf s3 s1)(componentsOf s4 s2) (disjoint s3 s4))))))",
+                "english": "Two scales are disjoint if their sets of components are disjoint",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.20",
+                "type": "axiom",
+                "name": "Definition of total ordering",
+                "complexity": "moderate",
+                "pattern": "total_ordering_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y s) (if (lts' e x y s) (iff (totalOrdering e x y s) (forall (x1 y1) (if (and (inScale x1 s)(inScale y1 s)) (or (lts x1 y1 s)(equal x1 y1) (lts y1 x1 s)))))))",
+                "english": "A total ordering is a partial ordering where any two elements are comparable",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.21",
+                "type": "axiom",
+                "name": "Scales are grounds",
+                "complexity": "simple",
+                "pattern": "type_implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (scale s)(ground s)))",
+                "english": "A scale is potentially a ground - entities can be located 'at' points on a scale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.22",
+                "type": "axiom",
+                "name": "Extended function definition for scales",
+                "complexity": "moderate",
+                "pattern": "extended_function_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s2) (iff (function f s1 s2) (exists (s3 s4) (and (if (set s1)(equal s3 s1)) (if (scale s1)(componentsOf s3 s1)) (if (set s2)(equal s4 s2)) (if (scale s2)(componentsOf s4 s2)) (function0 f s3 s4)))))",
+                "english": "Extends the notion of function to scales by using their component sets as domain\/range",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.23",
+                "type": "axiom",
+                "name": "Definition of monotone increasing function",
+                "complexity": "moderate",
+                "pattern": "monotone_function_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s2) (if (and (function f s1 s2)(scale s1)(scale s2)) (iff (monotoneIncreasing f) (forall (x1 x2 y1 y2) (if (and (map f x1 y1)(map f x2 y2)(lts x1 x2 s1)) (lts y1 y2 s2))))))",
+                "english": "A scale-to-scale function is monotone-increasing if it preserves the 'less than' ordering",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.24",
+                "type": "axiom",
+                "name": "Definition of function into",
+                "complexity": "simple",
+                "pattern": "function_into_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s1 s3) (iff (functionInto f s1 s3) (exists (s2) (and (or (subset s2 s3)(subscale s2 s3)) (function f s1 s2)))))",
+                "english": "A function f is 'into' a set or scale s3 if there is a subset or subscale s2 for which f is onto",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.25",
+                "type": "axiom",
+                "name": "Definition of scaleDefinedBy",
+                "complexity": "moderate",
+                "pattern": "scale_construction",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s s1 e) (iff (scaleDefinedBy s s1 e) (and (scale s)(componentsOf s1 s) (exists (x y) (partialOrdering e x y s)))))",
+                "english": "A scale is defined by specifying the set of entities as components and the relation as partial ordering",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.26",
+                "type": "axiom",
+                "name": "Sequence as scale",
+                "complexity": "moderate",
+                "pattern": "sequence_scale_example",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s s1 e x y) (if (and (sequence s)(componentsOf s1 s) (beforeInSeq' e x y s)) (and (scaleDefinedBy s s1 e) (forall (z)(if (first z s)(bottom z s))))))",
+                "english": "A sequence is a scale whose partial ordering is the beforeInSeq relation, with first element as bottom",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.27",
+                "type": "axiom",
+                "name": "Set of sets as scale",
+                "complexity": "moderate",
+                "pattern": "set_subset_scale_example",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s1 e x y) (if (and (forall (s2)(if (member s2 s1)(set s2))) (subset' e x y)) (exists (s) (and (scaleDefinedBy s s1 e) (forall (z) (if (and (member z s1)(null z)) (bottom z s)))))))",
+                "english": "A set of sets under the subset relation is a scale, with null set as bottom if present",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.28",
+                "type": "axiom",
+                "name": "Definition of subset consistent scale",
+                "complexity": "complex",
+                "pattern": "subset_consistent_scale",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s e) (iff (subsetConsistent s e) (and (scale s)(eventuality e) (forall (s0)(if (argn s0 1 e)(set s0))) (forall (x)(if (argn x 2 e)(exists (y)(at x y s)))) (forall (e1 e2 s1 s2 x1 x2) (if (and (instance e1 e)(argn s1 1 e1) (argn x1 2 e1) (instance e2 e)(argn s2 1 e2) (argn x2 2 e2) (subset s1 s2)) (leqs x1 x2 s))))))",
+                "english": "A scale whose ordering is consistent with the subset ordering among sets associated with entities placed at points in the scale",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "12.29",
+                "type": "axiom",
+                "name": "Monotonicity condition for subset mapping",
+                "complexity": "simple",
+                "pattern": "monotonicity_condition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s2 x1 x2 s) (if (and (subset s1 s2)(r s1 x1)(r s2 x2)) (leqs x1 x2 s)))",
+                "english": "Given some mapping r, if s1 \u2286 s2 and r maps s1 to x1 and s2 to x2, then x1 \u2264 x2 on the scale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.30",
+                "type": "axiom",
+                "name": "Definition of composite scale",
+                "complexity": "moderate",
+                "pattern": "composite_scale_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s s1 s2) (if (compositeScale s s1 s2) (and (exists (s3) (and (componentsOf s3 s1)(componentsOf s3 s2) (componentsOf s3 s))) (forall (x y) (if (and (lts x y s1)(leqs x y s2)) (lts x y s))) (forall (x y) (if (and (leqs x y s1)(lts x y s2)) (lts x y s))))))",
+                "english": "A composite scale has the same components as two original scales and ordering consistent with both",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.31",
+                "type": "axiom",
+                "name": "Hi region is subscale",
+                "complexity": "simple",
+                "pattern": "region_subscale",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (if (Hi s1 s)(subscale s1 s)))",
+                "english": "The Hi region of a scale is a subscale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.32",
+                "type": "axiom",
+                "name": "Md region is subscale",
+                "complexity": "simple",
+                "pattern": "region_subscale",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (if (Md s1 s)(subscale s1 s)))",
+                "english": "The Md (middle) region of a scale is a subscale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.33",
+                "type": "axiom",
+                "name": "Lo region is subscale",
+                "complexity": "simple",
+                "pattern": "region_subscale",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (if (Lo s1 s)(subscale s1 s)))",
+                "english": "The Lo (low) region of a scale is a subscale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "12.34",
+                "type": "axiom",
+                "name": "Top of scale is top of Hi region",
+                "complexity": "moderate",
+                "pattern": "region_extremum",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (if (Hi s1 s) (forall (x) (iff (top x s)(top x s1)))))",
+                "english": "The top of the scale is in the Hi region and is the top of the Hi region",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.35",
+                "type": "axiom",
+                "name": "Bottom of scale is bottom of Lo region",
+                "complexity": "moderate",
+                "pattern": "region_extremum",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s) (if (Lo s1 s) (forall (x) (iff (bottom x s)(bottom x s1)))))",
+                "english": "The bottom of a scale is the bottom of its Lo region",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.36",
+                "type": "axiom",
+                "name": "Lo region is less than Hi region",
+                "complexity": "moderate",
+                "pattern": "region_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s s1 s2 x y) (if (and (Hi s1 s)(Lo s2 s)(inScale x s1)(inScale y s2)) (lts y x s)))",
+                "english": "If a point is in the Lo region, then it is less than all the points in the Hi region",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "12.37",
+                "type": "axiom",
+                "name": "Definition of scaleFor",
+                "complexity": "complex",
+                "pattern": "scale_property_connection",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s e) (iff (scaleFor s e) (exists (s1) (and (Hi s1 s) (forall (e1 x y) (if (and (at' e1 x y s1)(argn x 1 e)) (iff (Rexist e)(Rexist e1))))))))",
+                "english": "An entity x has property e exactly when x is at a point in the Hi region of scale s - connects absolute adjectives to their underlying scales",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "12.38",
+                "type": "axiom",
+                "name": "Hi region properties are goal-relevant",
+                "complexity": "complex",
+                "pattern": "functional_scale_connection",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e x y s1 s) (if (and (at' e x y s1)(Hi s1 s)(etc)) (exists (c a g g1) (and (member e c)(goal g a) (or (causalComplex c g) (and (not' g1 g)(causalComplex c g1)))))))",
+                "english": "If something is in the Hi region of a scale, then defeasibly that property plays a causal role in some agent's goal being achieved or not achieved",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_scale",
+                "type": "predicate",
+                "name": "scale",
+                "frequency": 11,
+                "axiom_count": 11,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_compositeEntity",
+                "type": "predicate",
+                "name": "compositeEntity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentsOf",
+                "type": "predicate",
+                "name": "componentsOf",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_partialOrdering",
+                "type": "predicate",
+                "name": "partialOrdering",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_relationsOf",
+                "type": "predicate",
+                "name": "relationsOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subst2",
+                "type": "predicate",
+                "name": "subst2",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 9,
+                "axiom_count": 9,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_componentOf",
+                "type": "predicate",
+                "name": "componentOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lts'",
+                "type": "predicate",
+                "name": "lts'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lts",
+                "type": "predicate",
+                "name": "lts",
+                "frequency": 13,
+                "axiom_count": 13,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_gts",
+                "type": "predicate",
+                "name": "gts",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_onScale",
+                "type": "predicate",
+                "name": "onScale",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_leqs",
+                "type": "predicate",
+                "name": "leqs",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_geqs",
+                "type": "predicate",
+                "name": "geqs",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_top",
+                "type": "predicate",
+                "name": "top",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_bottom",
+                "type": "predicate",
+                "name": "bottom",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subscale",
+                "type": "predicate",
+                "name": "subscale",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_reverse",
+                "type": "predicate",
+                "name": "reverse",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_disjoint",
+                "type": "predicate",
+                "name": "disjoint",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_totalOrdering",
+                "type": "predicate",
+                "name": "totalOrdering",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ground",
+                "type": "predicate",
+                "name": "ground",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_function",
+                "type": "predicate",
+                "name": "function",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_set",
+                "type": "predicate",
+                "name": "set",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_function0",
+                "type": "predicate",
+                "name": "function0",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monotoneIncreasing",
+                "type": "predicate",
+                "name": "monotoneIncreasing",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_map",
+                "type": "predicate",
+                "name": "map",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_functionInto",
+                "type": "predicate",
+                "name": "functionInto",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_sequence",
+                "type": "predicate",
+                "name": "sequence",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_beforeInSeq'",
+                "type": "predicate",
+                "name": "beforeInSeq'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_first",
+                "type": "predicate",
+                "name": "first",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset'",
+                "type": "predicate",
+                "name": "subset'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_null",
+                "type": "predicate",
+                "name": "null",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subsetConsistent",
+                "type": "predicate",
+                "name": "subsetConsistent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_argn",
+                "type": "predicate",
+                "name": "argn",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_r",
+                "type": "predicate",
+                "name": "r",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_compositeScale",
+                "type": "predicate",
+                "name": "compositeScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_Md",
+                "type": "predicate",
+                "name": "Md",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Lo",
+                "type": "predicate",
+                "name": "Lo",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scaleFor",
+                "type": "predicate",
+                "name": "scaleFor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at'",
+                "type": "predicate",
+                "name": "at'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalComplex",
+                "type": "predicate",
+                "name": "causalComplex",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 31,
+                "frequency": 34,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 21,
+                "frequency": 21,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 9,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 26,
+                "frequency": 27,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 23,
+                "frequency": 25,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_s3",
+                "type": "variable",
+                "name": "s3",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 7,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_y1",
+                "type": "variable",
+                "name": "y1",
+                "axiom_count": 5,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x2",
+                "type": "variable",
+                "name": "x2",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_y2",
+                "type": "variable",
+                "name": "y2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s4",
+                "type": "variable",
+                "name": "s4",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_f",
+                "type": "variable",
+                "name": "f",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "12.1",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_compositeEntity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_partialOrdering",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_relationsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "pred_subst2",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.1",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.2",
+                "target": "pred_partialOrdering",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.2",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.2",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.2",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.3",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.3",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.3",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.3",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "pred_lts'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.4",
+                "target": "pred_partialOrdering",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.4",
+                "target": "pred_subst2",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.5",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.5",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.6",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.6",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.6",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.7",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.7",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.7",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.7",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.8",
+                "target": "pred_gts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.8",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.8",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.9",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.9",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.9",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.9",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.9",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.9",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.10",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.10",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.10",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.10",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.10",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.10",
+                "target": "var_y2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.11",
+                "target": "pred_onScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.11",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.11",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.11",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.11",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.12",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.12",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.12",
+                "target": "pred_onScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.12",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.12",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.13",
+                "target": "pred_geqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.13",
+                "target": "pred_gts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.13",
+                "target": "pred_onScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.13",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.14",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.14",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.14",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.14",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.15",
+                "target": "pred_top",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.15",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.15",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.15",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.15",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.16",
+                "target": "pred_bottom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.16",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.16",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.16",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.16",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.17",
+                "target": "pred_subscale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.17",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.17",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.17",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.17",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.17",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.17",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.17",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.18",
+                "target": "pred_reverse",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.18",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.18",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.18",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.18",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.18",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.18",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.18",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.19",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.19",
+                "target": "pred_disjoint",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.19",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.19",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.19",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.19",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.19",
+                "target": "var_s4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "pred_lts'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.20",
+                "target": "pred_totalOrdering",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.20",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.20",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.20",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.20",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.20",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.21",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.21",
+                "target": "pred_ground",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.21",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.22",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "pred_function0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.22",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.22",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.22",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.22",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.22",
+                "target": "var_s4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.23",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.23",
+                "target": "pred_monotoneIncreasing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.23",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.23",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.23",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_y1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.23",
+                "target": "var_y2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.24",
+                "target": "pred_functionInto",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.24",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.24",
+                "target": "pred_subscale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.24",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.24",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.24",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.24",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.24",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.25",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.25",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.25",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.25",
+                "target": "pred_partialOrdering",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.25",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.25",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.25",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.25",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.25",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "pred_beforeInSeq'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "pred_bottom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.26",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.26",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "pred_subset'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "pred_bottom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.27",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.27",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "pred_subsetConsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.28",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.28",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.29",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.29",
+                "target": "pred_r",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.29",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.29",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.29",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.29",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.29",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.29",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "pred_compositeScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.30",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.30",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.30",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.30",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.30",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.31",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.31",
+                "target": "pred_subscale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.31",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.31",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.32",
+                "target": "pred_Md",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.32",
+                "target": "pred_subscale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.32",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.32",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.33",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.33",
+                "target": "pred_subscale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.33",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.33",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.34",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.34",
+                "target": "pred_top",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.34",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.34",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.34",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.35",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.35",
+                "target": "pred_bottom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.35",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.35",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.35",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.36",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.36",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.36",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.36",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.36",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.36",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.36",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.36",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.36",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "pred_scaleFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.37",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.37",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.37",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.37",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.37",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.37",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.38",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_causalComplex",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "12.38",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.38",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.38",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.38",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "12.38",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_compositeEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_partialOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_partialOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_partialOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialOrdering",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialOrdering",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialOrdering",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialOrdering",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialOrdering",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_partialOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_subst2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gts",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_onScale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_onScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_onScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_onScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_onScale",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geqs",
+                "target": "pred_gts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geqs",
+                "target": "pred_onScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geqs",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gts",
+                "target": "pred_onScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gts",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_top",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_top",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bottom",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bottom",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subscale",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subscale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subscale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reverse",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reverse",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reverse",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_disjoint",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjoint",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_totalOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts'",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_totalOrdering",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_totalOrdering",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_totalOrdering",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_ground",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_function0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monotoneIncreasing",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monotoneIncreasing",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_subscale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_subscale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subscale",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_partialOrdering",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_beforeInSeq'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_beforeInSeq'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq'",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_beforeInSeq'",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subset'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_subset'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subsetConsistent",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_r",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_r",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeScale",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeScale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeScale",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_leqs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_subscale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Md",
+                "target": "pred_subscale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_subscale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_top",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleFor",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleFor",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleFor",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleFor",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUL Framework - Chapter Graph Viewer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .chapter-selector {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .chapter-selector select {
+            padding: 10px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .chapter-selector button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chapter-selector button:hover {
+            background: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            gap: 10px;
+            padding: 0 10px;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .chapter-info {
+            padding: 15px;
+            flex-shrink: 0;
+        }
+
+        .graph-container {
+            flex: 1;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            flex-direction: column;
+            overflow: visible;
+        }
+
+        .controls {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+
+        .controls label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .controls select, .controls input, .controls button {
+            margin-right: 15px;
+            padding: 5px;
+        }
+
+        .controls button {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .controls button:hover {
+            background: #0056b3;
+        }
+
+        #zoom-in, #zoom-out, #reset-pan-zoom {
+            padding: 6px 12px;
+        }
+
+        #graph {
+            width: 100%;
+            flex: 1;
+            cursor: grab;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #graph:active {
+            cursor: grabbing;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .legend {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+
+        .legend h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 3px 0;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        /* Legend colors to match node colors */
+        .legend-color.axiom-simple { background-color: #1f77b4; }
+        .legend-color.axiom-moderate { background-color: #ff7f0e; }
+        .legend-color.axiom-complex { background-color: #d62728; }
+        .legend-color.predicate-high { background-color: #2ca02c; }
+        .legend-color.predicate-medium { background-color: #9467bd; }
+        .legend-color.predicate-low { background-color: #8c564b; }
+        .legend-color.variable { background-color: #e377c2; }
+
+        /* Node colors */
+        .node-axiom-simple { fill: #1f77b4; }
+        .node-axiom-moderate { fill: #ff7f0e; }
+        .node-axiom-complex { fill: #d62728; }
+        .node-predicate-high { fill: #2ca02c; }
+        .node-predicate-medium { fill: #9467bd; }
+        .node-predicate-low { fill: #8c564b; }
+        .node-variable { fill: #e377c2; }
+
+        /* Link colors */
+        .link { stroke-opacity: 0.6; stroke-width: 1px; }
+        .link-uses_predicate { stroke: #666; }
+        .link-has_variable { stroke: #999; }
+        .link-co_occurs { stroke: #ccc; }
+
+        .node {
+            cursor: pointer;
+            stroke: #fff;
+            stroke-width: 1px;
+        }
+
+        .node:hover {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        /* Node label styling */
+        text {
+            pointer-events: none;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        /* Improve label readability with background */
+        g:hover text {
+            font-weight: bold;
+            filter: drop-shadow(1px 1px 1px rgba(255,255,255,0.8));
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 400px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            margin: 15px;
+        }
+
+        .top-predicates {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        .predicate-tag {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin: 2px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SOUL Framework - Chapter Graph Viewer</h1>
+            <p>Explore individual chapter graphs from the Formal Theory of Commonsense Psychology. Each graph shows the axioms, predicates, and their relationships within a specific chapter.</p>
+        </div>
+
+        <div class="chapter-selector">
+            <label for="chapter-select">Select Chapter:</label>
+            <select id="chapter-select">
+                <option value="">Choose a chapter...</option>
+                <option value="5">Chapter 5 - Eventualities and Their Structure</option>
+                <option value="6">Chapter 6 - Traditional Set Theory</option>
+                <option value="7">Chapter 7 - Substitution, Typical Elements, and Instances</option>
+                <option value="8">Chapter 8 - Logic Reified</option>
+                <option value="9">Chapter 9 - Functions and Sequences</option>
+                <option value="11">Chapter 11 - Defeasibility</option>
+                <option value="12">Chapter 12 - Scales</option>
+                <option value="13">Chapter 13 - Arithmetic</option>
+                <option value="14">Chapter 14 - Change of State</option>
+                <option value="17">Chapter 17 - Event Structure</option>
+                <option value="18">Chapter 18 - Space</option>
+                <option value="19">Chapter 19 - Persons</option>
+                <option value="22">Chapter 22 - Similarity Comparisons</option>
+                <option value="23">Chapter 23 - Memory</option>
+                <option value="24">Chapter 24 - Envisioning</option>
+                <option value="25">Chapter 25 - Explanation</option>
+                <option value="26">Chapter 26 - Managing Expectations</option>
+                <option value="27">Chapter 27 - Other-Agent Reasoning</option>
+                <option value="28">Chapter 28 - Goals</option>
+                <option value="29">Chapter 29 - Goal Themes</option>
+                <option value="30">Chapter 30 - Threats and Threat Detection</option>
+                <option value="31">Chapter 31 - Plans</option>
+                <option value="32">Chapter 32 - Goal Management</option>
+                <option value="33">Chapter 33 - Execution Envisionment</option>
+                <option value="34">Chapter 34 - Causes of Failure</option>
+                <option value="35">Chapter 35 - Plan Elements</option>
+                <option value="36">Chapter 36 - Planning Modalities</option>
+                <option value="37">Chapter 37 - Planning Goals</option>
+                <option value="38">Chapter 38 - Plan Construction</option>
+                <option value="39">Chapter 39 - Plan Adaptation</option>
+                <option value="40">Chapter 40 - Design</option>
+                <option value="41">Chapter 41 - Decisions</option>
+                <option value="42">Chapter 42 - Scheduling</option>
+                <option value="43">Chapter 43 - Monitoring</option>
+                <option value="44">Chapter 44 - Execution Modalities</option>
+                <option value="45">Chapter 45 - Execution Control</option>
+                <option value="46">Chapter 46 - Repetitive Execution</option>
+                <option value="47">Chapter 47 - Mind–Body Interaction</option>
+                <option value="48">Chapter 48 - Observation of Plan Executions</option>
+                <option value="49">Chapter 49 - Emotions</option>
+            </select>
+            <button id="load-chapter">Load Chapter</button>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar" id="sidebar">
+                <div class="chapter-info" id="chapter-info">
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div>Axioms</div>
+                            <div class="stat-number" id="stat-axioms">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div>Predicates</div>
+                            <div class="stat-number" id="stat-predicates">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div>Variables</div>
+                            <div class="stat-number" id="stat-variables">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div>Connections</div>
+                            <div class="stat-number" id="stat-links">-</div>
+                        </div>
+                    </div>
+                    <div class="top-predicates" id="top-predicates"></div>
+                </div>
+
+                <div class="legend">
+                    <h4>Legend</h4>
+                    <div>
+                        <strong>Node Types:</strong>
+                        <div class="legend-item">
+                            <div class="legend-color axiom-simple"></div>
+                            <span>Simple Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color axiom-moderate"></div>
+                            <span>Moderate Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color axiom-complex"></div>
+                            <span>Complex Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color predicate-high"></div>
+                            <span>High-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color predicate-medium"></div>
+                            <span>Medium-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color predicate-low"></div>
+                            <span>Low-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color variable"></div>
+                            <span>Variables</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Connections:</strong>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #666; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Uses Predicate</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #999; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Has Variable</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ccc; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Co-occurs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-container" id="graph-container">
+            <div class="controls">
+                <label for="node-filter">Show:</label>
+                <select id="node-filter">
+                    <option value="all">All Nodes</option>
+                    <option value="axiom">Axioms Only</option>
+                    <option value="predicate">Predicates Only</option>
+                    <option value="variable">Variables Only</option>
+                </select>
+
+                <label for="complexity-filter">Complexity:</label>
+                <select id="complexity-filter">
+                    <option value="all">All</option>
+                    <option value="simple">Simple</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="complex">Complex</option>
+                </select>
+
+                <button id="reset-zoom">Reset View</button>
+                <button id="center-graph">Center Graph</button>
+
+                <label>
+                    <input type="checkbox" id="show-labels" checked> Show Labels
+                </label>
+
+                <button id="zoom-in">Zoom In</button>
+                <button id="zoom-out">Zoom Out</button>
+                <button id="reset-pan-zoom">Reset Zoom</button>
+            </div>
+
+                <svg id="graph"></svg>
+                <div class="tooltip" id="tooltip"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGraph = null;
+        let simulation = null;
+        let panZoomInstance = null;
+
+        // Mapping of chapter numbers to exact filenames
+        const chapterFiles = {
+            '5': 'chapter_5_chapter_05_eventualities_graph.json',
+            '6': 'chapter_6_chapter_06_traditional_set_theory_graph.json',
+            '7': 'chapter_7_chapter_07_substitution_typical_elements_graph.json',
+            '8': 'chapter_8_chapter_08_logic_reified_graph.json',
+            '9': 'chapter_9_chapter_09_functions_sequences_graph.json',
+            '11': 'chapter_11_chapter_11_defeasibility_graph.json',
+            '12': 'chapter_12_chapter_12_scales_graph.json',
+            '13': 'chapter_13_chapter_13_arithmetic_graph.json',
+            '14': 'chapter_14_chapter_14_change_of_state_graph.json',
+            '17': 'chapter_17_chapter_17_event_structure_json_graph.json',
+            '18': 'chapter_18_chapter_18_space_json_graph.json',
+            '19': 'chapter_19_chapter_19_persons_json_graph.json',
+            '22': 'chapter_22_chapter_22_similarity_comparisons_graph.json',
+            '23': 'chapter_23_chapter_23_memory_graph.json',
+            '24': 'chapter_24_chapter_24_envisioning_graph.json',
+            '25': 'chapter_25_chapter_25_explanation_graph.json',
+            '26': 'chapter_26_chapter_26_managing-expectations_graph.json',
+            '27': 'chapter_27_chapter_27_otheragent-reasoning_graph.json',
+            '28': 'chapter_28_chapter_28_goals_graph.json',
+            '29': 'chapter_29_chapter_29_goal-themes_graph.json',
+            '30': 'chapter_30_chapter_30_threats-and-threat-detection_graph.json',
+            '31': 'chapter_31_chapter_31_plans_graph.json',
+            '32': 'chapter_32_chapter_32_goal-management_graph.json',
+            '33': 'chapter_33_chapter_33_execution-envisionment_graph.json',
+            '34': 'chapter_34_chapter_34_causes-of-failure_graph.json',
+            '35': 'chapter_35_chapter_35_plan-elements_graph.json',
+            '36': 'chapter_36_chapter_36_planning-modalities_graph.json',
+            '37': 'chapter_37_chapter_37_planning-goals_graph.json',
+            '38': 'chapter_38_chapter_38_plan-construction_graph.json',
+            '39': 'chapter_39_chapter_39_plan-adaptation_graph.json',
+            '40': 'chapter_40_chapter_40_design_graph.json',
+            '41': 'chapter_41_chapter_41_decisions_graph.json',
+            '42': 'chapter_42_chapter_42_scheduling_graph.json',
+            '43': 'chapter_43_chapter_43_monitoring_graph.json',
+            '44': 'chapter_44_chapter_44_execution-modalities_graph.json',
+            '45': 'chapter_45_chapter_45_execution-control_graph.json',
+            '46': 'chapter_46_chapter_46_repetitive_execution_graph.json',
+            '47': 'chapter_47_chapter_47_mindbody_interaction_graph.json',
+            '48': 'chapter_48_chapter_48_observation_of_plan_executions_graph.json',
+            '49': 'chapter_49_chapter_49_emotions_graph.json'
+        };
+
+        // Load chapter button handler
+        document.getElementById('load-chapter').addEventListener('click', function() {
+            const chapterSelect = document.getElementById('chapter-select');
+            const chapter = chapterSelect.value;
+
+            if (!chapter) {
+                alert('Please select a chapter first');
+                return;
+            }
+
+            if (!chapterFiles[chapter]) {
+                alert('Chapter ' + chapter + ' graph file not found');
+                return;
+            }
+
+            loadChapter(chapter);
+        });
+
+        function loadChapter(chapterNum) {
+            console.log('=== LOADING CHAPTER ===', chapterNum);
+
+            // Show loading
+            const graphContainer = document.getElementById('graph-container');
+            const chapterInfo = document.getElementById('chapter-info');
+
+            console.log('Elements found:', {
+                graphContainer: !!graphContainer,
+                chapterInfo: !!chapterInfo
+            });
+
+            // Hide existing content
+            graphContainer.style.display = 'none';
+            chapterInfo.style.display = 'none';
+
+            // Remove any existing loading indicator
+            const existingLoading = document.getElementById('loading');
+            if (existingLoading) existingLoading.remove();
+
+            // Create loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.id = 'loading';
+            loadingDiv.innerHTML = 'Loading chapter ' + chapterNum + ' graph...';
+            document.querySelector('.container').appendChild(loadingDiv);
+
+            // Get exact filename
+            const filename = chapterFiles[chapterNum];
+            console.log('Loading: /graphs/' + filename);
+
+            // Fetch the actual JSON file
+            console.log('Fetching:', '/graphs/' + filename);
+            fetch('/graphs/' + filename)
+                .then(response => {
+                    console.log('Fetch response:', response.status, response.statusText);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Successfully loaded chapter ' + chapterNum);
+                    console.log('Data structure:', {
+                        metadata: !!data.metadata,
+                        graph: !!data.graph,
+                        nodes: data.graph?.nodes?.length,
+                        links: data.graph?.links?.length
+                    });
+
+                    // Remove loading indicator
+                    const loading = document.getElementById('loading');
+                    if (loading) loading.remove();
+
+                    // Show the loaded data
+                    showChapterData(data);
+                    createVisualization(data);
+                })
+                .catch(error => {
+                    console.error('Error loading chapter:', error);
+
+                    // Remove loading indicator
+                    const loading = document.getElementById('loading');
+                    if (loading) loading.remove();
+
+                    // Show error
+                    showError('Failed to load chapter ' + chapterNum + ': ' + error.message);
+                });
+        }
+
+        function showChapterData(data) {
+            console.log('Showing chapter data:', data);
+
+            const sidebar = document.getElementById('sidebar');
+            const graphContainer = document.getElementById('graph-container');
+
+            // Show chapter info with actual data
+            const metadata = data.metadata;
+            const stats = data.statistics;
+
+            console.log('Metadata:', metadata);
+            console.log('Graph nodes:', data.graph.nodes.length);
+            console.log('Graph links:', data.graph.links.length);
+
+            document.getElementById('stat-axioms').textContent = metadata.axiom_count;
+            document.getElementById('stat-predicates').textContent = metadata.predicate_count;
+            document.getElementById('stat-variables').textContent = metadata.frequent_variable_count;
+            document.getElementById('stat-links').textContent = data.graph.links.length;
+
+            // Show top predicates from actual data
+            const topPredicatesDiv = document.getElementById('top-predicates');
+            topPredicatesDiv.innerHTML = '<strong>Top Predicates in ' + metadata.chapter_title + ':</strong><br>';
+
+            const topPreds = Object.entries(stats.top_predicates).slice(0, 8);
+            topPreds.forEach(([pred, freq]) => {
+                const tag = document.createElement('span');
+                tag.className = 'predicate-tag';
+                tag.textContent = pred + ' (' + freq + ')';
+                topPredicatesDiv.appendChild(tag);
+            });
+
+            sidebar.style.display = 'flex';
+            graphContainer.style.display = 'flex';
+        }
+
+        function showError(message) {
+            // Remove existing error
+            const existingError = document.getElementById('error-message');
+            if (existingError) existingError.remove();
+
+            // Create error div
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.id = 'error-message';
+            errorDiv.textContent = message;
+            document.querySelector('.container').appendChild(errorDiv);
+        }
+
+        function createVisualization(data) {
+            console.log('=== CREATING VISUALIZATION ===');
+            console.log('Data received:', !!data, data?.graph?.nodes?.length, 'nodes');
+
+            const graphContainer = document.getElementById('graph-container');
+            console.log('Graph container found:', !!graphContainer);
+
+            // Ensure container is visible before getting dimensions
+            const sidebar = document.getElementById('sidebar');
+            console.log('Sidebar found:', !!sidebar);
+            sidebar.style.display = 'flex';
+            graphContainer.style.display = 'flex';
+            console.log('Containers made visible');
+
+            // Wait a moment for layout to complete
+            setTimeout(() => {
+                console.log('Getting dimensions after timeout...');
+                const rect = graphContainer.getBoundingClientRect();
+                const width = Math.max(rect.width - 20, 400); // Ensure minimum width
+                const height = Math.max(rect.height - 80, 300); // Account for controls height
+
+                console.log('SVG dimensions calculated:', {
+                    width, height,
+                    rawWidth: rect.width,
+                    rawHeight: rect.height,
+                    containerRect: rect
+                });
+
+                if (width < 100 || height < 100) {
+                    console.error('Invalid dimensions, using fallback');
+                    createGraphWithDimensions(data, 600, 400);
+                } else {
+                    console.log('Using calculated dimensions');
+                    createGraphWithDimensions(data, width, height);
+                }
+            }, 100); // Increased timeout
+        }
+
+        function createGraphWithDimensions(data, width, height) {
+            console.log('=== CREATING GRAPH WITH DIMENSIONS ===', { width, height });
+
+            const svg = d3.select('#graph');
+            console.log('SVG element selected:', svg.size());
+
+            // Destroy existing pan zoom instance before clearing SVG
+            if (panZoomInstance) {
+                panZoomInstance.destroy();
+                panZoomInstance = null;
+            }
+
+            svg.selectAll('*').remove();
+            svg.attr('width', width).attr('height', height);
+
+            console.log('SVG cleared and resized to:', width, 'x', height);
+
+            // Create a container group for the graph content
+            const container = svg.append('g').attr('class', 'graph-container');
+
+            // Create a simple force-directed graph
+            const nodes = data.graph.nodes;
+            const links = data.graph.links;
+
+            console.log('Graph data extracted:', {
+                nodeCount: nodes.length,
+                linkCount: links.length,
+                firstNode: nodes[0],
+                firstLink: links[0]
+            });
+
+            // Create simulation
+            currentGraph = { nodes, links };
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(50))
+                .force('charge', d3.forceManyBody().strength(-100))
+                .force('center', d3.forceCenter(width / 2, height / 2));
+
+            console.log('Force simulation created');
+
+            // Create links with forced visibility
+            const link = container.append('g')
+                .attr('class', 'links')
+                .selectAll('line')
+                .data(links)
+                .join('line')
+                .attr('class', d => 'link link-' + d.type)
+                .attr('stroke', d => {
+                    if (d.type === 'uses_predicate') return '#666';
+                    if (d.type === 'has_variable') return '#999';
+                    if (d.type === 'co_occurs') return '#ccc';
+                    return '#999';
+                })
+                .attr('stroke-opacity', 0.8)
+                .attr('stroke-width', d => Math.max(d.weight || 1, 1))
+                .style('opacity', 1);
+
+            // Create node groups (for circles and labels)
+            const nodeGroup = container.append('g')
+                .attr('class', 'nodes')
+                .selectAll('g')
+                .data(nodes)
+                .join('g')
+                .call(d3.drag()
+                    .on('start', dragStarted)
+                    .on('drag', dragged)
+                    .on('end', dragEnded));
+
+            // Create nodes (circles) with forced visibility
+            const node = nodeGroup.append('circle')
+                .attr('r', d => {
+                    if (d.type === 'axiom') return 8;
+                    if (d.type === 'predicate') return d.importance === 'high' ? 10 : (d.importance === 'medium' ? 8 : 6);
+                    return 6;
+                })
+                .attr('class', d => 'node node-' + d.group)
+                .attr('fill', d => {
+                    // Set colors based on node type and properties
+                    if (d.type === 'axiom') {
+                        if (d.complexity === 'simple') return '#1f77b4';
+                        if (d.complexity === 'moderate') return '#ff7f0e';
+                        if (d.complexity === 'complex') return '#d62728';
+                    }
+                    if (d.type === 'predicate') {
+                        if (d.importance === 'high') return '#2ca02c';
+                        if (d.importance === 'medium') return '#9467bd';
+                        return '#8c564b';
+                    }
+                    if (d.type === 'variable') return '#e377c2';
+                    return '#999';
+                })
+                .attr('stroke', '#000')
+                .attr('stroke-width', 1)
+                .style('opacity', 1);
+
+            // Create node labels
+            const labels = nodeGroup.append('text')
+                .text(d => {
+                    // Shorten long names for readability
+                    let name = d.name;
+                    if (name.length > 15) {
+                        name = name.substring(0, 12) + '...';
+                    }
+                    return name;
+                })
+                .attr('font-size', '10px')
+                .attr('font-family', 'Arial, sans-serif')
+                .attr('fill', '#333')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .attr('pointer-events', 'none') // Labels don't interfere with drag
+                .style('user-select', 'none');
+
+            // Add tooltip with corrected positioning
+            const tooltip = d3.select('#tooltip');
+            nodeGroup.on('mouseover', function(event, d) {
+                // Get the SVG element's position relative to the page
+                const svgRect = svg.node().getBoundingClientRect();
+
+                let content = `<strong>${d.name}</strong><br/>Type: ${d.type}`;
+                if (d.complexity) content += `<br/>Complexity: ${d.complexity}`;
+                if (d.frequency) content += `<br/>Frequency: ${d.frequency}`;
+                if (d.english) content += `<br/><em>${d.english.substring(0, 100)}...</em>`;
+
+                tooltip.style('opacity', 1)
+                    .html(content)
+                    .style('left', (svgRect.left + d.x + 15) + 'px')
+                    .style('top', (svgRect.top + d.y - 10) + 'px');
+            })
+            .on('mousemove', function(event, d) {
+                // Update tooltip position as mouse moves
+                const svgRect = svg.node().getBoundingClientRect();
+                tooltip
+                    .style('left', (svgRect.left + d.x + 15) + 'px')
+                    .style('top', (svgRect.top + d.y - 10) + 'px');
+            })
+            .on('mouseout', function() {
+                tooltip.style('opacity', 0);
+            });
+
+            // Update positions on simulation tick
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                nodeGroup
+                    .attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            console.log(`Visualization created: ${nodes.length} nodes, ${links.length} links`);
+
+            // Add a test circle to ensure SVG is working
+            container.append('circle')
+                .attr('cx', 50)
+                .attr('cy', 50)
+                .attr('r', 20)
+                .attr('fill', 'red')
+                .attr('stroke', 'black')
+                .attr('stroke-width', 2);
+
+            container.append('text')
+                .attr('x', 50)
+                .attr('y', 90)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'black')
+                .style('font-size', '14px')
+                .text('TEST CIRCLE');
+
+            // Check if elements were actually added to DOM
+            setTimeout(() => {
+                const linkElements = container.selectAll('.links line');
+                const nodeElements = container.selectAll('.nodes g');
+                console.log('DOM elements created:', {
+                    links: linkElements.size(),
+                    nodeGroups: nodeElements.size(),
+                    containerChildren: container.node().children.length
+                });
+            }, 500);
+
+            // Force nodes to center initially (disable pan/zoom for now)
+            setTimeout(() => {
+                // Center all nodes initially
+                nodes.forEach(d => {
+                    if (!d.x) d.x = width / 2 + (Math.random() - 0.5) * 200;
+                    if (!d.y) d.y = height / 2 + (Math.random() - 0.5) * 200;
+                });
+                simulation.alpha(0.3).restart();
+
+                // Initialize pan and zoom after positioning
+                setTimeout(() => {
+                    // initializePanZoom(); // Disabled temporarily
+                    console.log('Graph should now be visible at center');
+                }, 500);
+            }, 500);
+        }
+
+        function initializePanZoom() {
+            try {
+                console.log('Attempting to initialize pan/zoom...');
+
+                if (typeof svgPanZoom === 'undefined') {
+                    console.error('svgPanZoom library not loaded');
+                    return;
+                }
+
+                // Initialize svg-pan-zoom
+                panZoomInstance = svgPanZoom('#graph', {
+                    zoomEnabled: true,
+                    controlIconsEnabled: false,
+                    fit: false,
+                    center: false,
+                    minZoom: 0.1,
+                    maxZoom: 10,
+                    zoomScaleSensitivity: 0.2,
+                    mouseWheelZoomEnabled: true,
+                    preventMouseEventsDefault: false,
+                    dblClickZoomEnabled: false
+                });
+
+                console.log('Pan and zoom initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize pan/zoom:', error);
+                console.log('Graph will work without pan/zoom functionality');
+            }
+        }
+
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        // Filter handlers
+        document.getElementById('node-filter').addEventListener('change', applyFilters);
+        document.getElementById('complexity-filter').addEventListener('change', applyFilters);
+
+        // Label toggle handler
+        document.getElementById('show-labels').addEventListener('change', function() {
+            const showLabels = this.checked;
+            const svg = d3.select('#graph');
+            svg.selectAll('text').style('display', showLabels ? 'block' : 'none');
+            console.log('Labels:', showLabels ? 'shown' : 'hidden');
+        });
+
+        function applyFilters() {
+            if (!currentGraph) return;
+
+            const nodeFilter = document.getElementById('node-filter').value;
+            const complexityFilter = document.getElementById('complexity-filter').value;
+
+            const svg = d3.select('#graph');
+            const visibleNodes = new Set();
+
+            // Filter node groups
+            svg.selectAll('.nodes g').each(function(d) {
+                let showNode = true;
+
+                // Apply node type filter
+                if (nodeFilter !== 'all' && d.type !== nodeFilter) {
+                    showNode = false;
+                }
+
+                // Apply complexity filter (only for axioms)
+                if (complexityFilter !== 'all' && d.type === 'axiom' && d.complexity !== complexityFilter) {
+                    showNode = false;
+                }
+
+                // Show/hide the node group
+                d3.select(this).style('display', showNode ? 'block' : 'none');
+
+                if (showNode) {
+                    visibleNodes.add(d.id);
+                }
+            });
+
+            // Filter links based on visible nodes
+            svg.selectAll('.links line').style('display', function(d) {
+                const sourceVisible = visibleNodes.has(d.source.id);
+                const targetVisible = visibleNodes.has(d.target.id);
+                return sourceVisible && targetVisible ? 'block' : 'none';
+            });
+
+            console.log('Filters applied:', { nodeFilter, complexityFilter, visibleCount: visibleNodes.size });
+        }
+
+        // Reset zoom handler
+        document.getElementById('reset-zoom').addEventListener('click', function() {
+            if (simulation) {
+                simulation.alpha(1).restart();
+            }
+            console.log('Zoom reset');
+        });
+
+        // Center graph handler
+        document.getElementById('center-graph').addEventListener('click', function() {
+            if (simulation) {
+                const svg = d3.select('#graph');
+                const width = parseInt(svg.style('width'));
+                const height = parseInt(svg.style('height'));
+
+                simulation.force('center', d3.forceCenter(width / 2, height / 2));
+                simulation.alpha(0.3).restart();
+            }
+            console.log('Graph centered');
+        });
+
+        // Pan and zoom control handlers
+        document.getElementById('zoom-in').addEventListener('click', function() {
+            if (panZoomInstance) {
+                panZoomInstance.zoomIn();
+                console.log('Zoomed in');
+            }
+        });
+
+        document.getElementById('zoom-out').addEventListener('click', function() {
+            if (panZoomInstance) {
+                panZoomInstance.zoomOut();
+                console.log('Zoomed out');
+            }
+        });
+
+        document.getElementById('reset-pan-zoom').addEventListener('click', function() {
+            if (panZoomInstance) {
+                panZoomInstance.reset();
+                console.log('Pan and zoom reset');
+            }
+        });
+
+        console.log('Chapter Graph Viewer loaded');
+        console.log('Available chapters: 41 individual graphs ready for visualization');
+    </script>
+</body>
+</html>

@@ -1,0 +1,901 @@
+{
+    "metadata": {
+        "chapter": 11,
+        "chapter_title": "Defeasibility",
+        "filename": "chapter_11_defeasibility",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 14,
+        "predicate_count": 16,
+        "variable_count": 3,
+        "frequent_variable_count": 3
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 11,
+            "moderate": 3
+        },
+        "pattern_counts": {
+            "classical_rule": 1,
+            "defeasible_rule": 4,
+            "taxonomic_rule": 1,
+            "exception_rule": 1,
+            "abnormal_rule": 1,
+            "abnormality_condition": 1,
+            "defeasible_biconditional": 1,
+            "etc_relation": 1,
+            "conditional_property": 1,
+            "general_defeasible_pattern": 1,
+            "abbreviated_defeasible_pattern": 1
+        },
+        "top_predicates": {
+            "bird": 9,
+            "fly": 5,
+            "emu": 3,
+            "etc3": 3,
+            "feathered": 3,
+            "etc1": 2,
+            "ab1": 2,
+            "p": 2,
+            "q": 2,
+            "etc2": 1
+        },
+        "predicate_frequencies": {
+            "bird": 9,
+            "fly": 5,
+            "emu": 3,
+            "etc3": 3,
+            "feathered": 3,
+            "etc1": 2,
+            "ab1": 2,
+            "p": 2,
+            "q": 2,
+            "etc2": 1,
+            "twoLegged": 1,
+            "mother": 1,
+            "etc4": 1,
+            "love": 1,
+            "etc.11.14": 1,
+            "etc": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "11.1",
+                "type": "axiom",
+                "name": "Birds fly (classical form)",
+                "complexity": "simple",
+                "pattern": "classical_rule",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (bird x)(fly x)))",
+                "english": "Birds fly - classical monotonic version that leads to contradictions",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.2",
+                "type": "axiom",
+                "name": "Birds fly (defeasible form)",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(etc1 x)) (fly x)))",
+                "english": "If x is a bird and x has other unspecified properties encoded as etc1, then x can fly",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.3",
+                "type": "axiom",
+                "name": "Emus are birds",
+                "complexity": "simple",
+                "pattern": "taxonomic_rule",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (emu x)(bird x)))",
+                "english": "Emus are birds",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.4",
+                "type": "axiom",
+                "name": "Emus don't fly",
+                "complexity": "simple",
+                "pattern": "exception_rule",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (emu x)(not (fly x))))",
+                "english": "Emus don't fly",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.5",
+                "type": "axiom",
+                "name": "Birds fly (abnormal form)",
+                "complexity": "simple",
+                "pattern": "abnormal_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(not (ab1 x))) (fly x)))",
+                "english": "If x is a bird and x is not abnormal in a way specific to ab1, then x can fly - circumscriptive logic form",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.6",
+                "type": "axiom",
+                "name": "Emus are abnormal for flying",
+                "complexity": "simple",
+                "pattern": "abnormality_condition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (emu x)(ab1 x)))",
+                "english": "Being an emu is one way of being abnormal with respect to flying",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.7",
+                "type": "axiom",
+                "name": "Birds have two legs (defeasible)",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(etc2 x)) (twoLegged x)))",
+                "english": "Birds defeasibly have two legs",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.8",
+                "type": "axiom",
+                "name": "Birds have feathers (defeasible)",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(etc3 x)) (feathered x)))",
+                "english": "Birds defeasibly have feathers",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.9",
+                "type": "axiom",
+                "name": "Biconditional etc condition for feathers",
+                "complexity": "moderate",
+                "pattern": "defeasible_biconditional",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (bird x)(iff (etc3 x)(feathered x))))",
+                "english": "For birds, the etc3 conditions are equivalent to being feathered",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "11.10",
+                "type": "axiom",
+                "name": "Flying birds must be feathered",
+                "complexity": "simple",
+                "pattern": "etc_relation",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(etc1 x))(etc3 x)))",
+                "english": "If the extra conditions that enable a bird to fly are true, then so are the extra conditions that make it feathered",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.11",
+                "type": "axiom",
+                "name": "Flying birds are feathered",
+                "complexity": "simple",
+                "pattern": "conditional_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (and (bird x)(fly x))(feathered x)))",
+                "english": "Birds that can fly must have feathers",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.12",
+                "type": "axiom",
+                "name": "Mothers love children (defeasible)",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x y)(if (and (mother x y)(etc4 x y))(love x y)))",
+                "english": "Mothers defeasibly love their children",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "11.13",
+                "type": "axiom",
+                "name": "General defeasible pattern (full form)",
+                "complexity": "moderate",
+                "pattern": "general_defeasible_pattern",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x y) (if (and (p x y)(etc.11.14 x y)) (exists (z) (q x z))))",
+                "english": "General pattern for defeasible axioms with fully specified etc predicate",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "11.14",
+                "type": "axiom",
+                "name": "General defeasible pattern (abbreviated form)",
+                "complexity": "moderate",
+                "pattern": "abbreviated_defeasible_pattern",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x y) (if (and (p x y)(etc)) (exists (z) (q x z))))",
+                "english": "General pattern for defeasible axioms with abbreviated etc predicate",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_bird",
+                "type": "predicate",
+                "name": "bird",
+                "frequency": 9,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_fly",
+                "type": "predicate",
+                "name": "fly",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_etc1",
+                "type": "predicate",
+                "name": "etc1",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_emu",
+                "type": "predicate",
+                "name": "emu",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_ab1",
+                "type": "predicate",
+                "name": "ab1",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc2",
+                "type": "predicate",
+                "name": "etc2",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_twoLegged",
+                "type": "predicate",
+                "name": "twoLegged",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc3",
+                "type": "predicate",
+                "name": "etc3",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_feathered",
+                "type": "predicate",
+                "name": "feathered",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_mother",
+                "type": "predicate",
+                "name": "mother",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc4",
+                "type": "predicate",
+                "name": "etc4",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_love",
+                "type": "predicate",
+                "name": "love",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_p",
+                "type": "predicate",
+                "name": "p",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc.11.14",
+                "type": "predicate",
+                "name": "etc.11.14",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_q",
+                "type": "predicate",
+                "name": "q",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 13,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "11.1",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.1",
+                "target": "pred_fly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.2",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.2",
+                "target": "pred_etc1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.2",
+                "target": "pred_fly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.3",
+                "target": "pred_emu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.3",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.3",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.4",
+                "target": "pred_emu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.4",
+                "target": "pred_fly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.4",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.5",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.5",
+                "target": "pred_ab1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.5",
+                "target": "pred_fly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.5",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.6",
+                "target": "pred_emu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.6",
+                "target": "pred_ab1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.6",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.7",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.7",
+                "target": "pred_etc2",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.7",
+                "target": "pred_twoLegged",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.7",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.8",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.8",
+                "target": "pred_etc3",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.8",
+                "target": "pred_feathered",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.9",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.9",
+                "target": "pred_etc3",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.9",
+                "target": "pred_feathered",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.10",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.10",
+                "target": "pred_etc1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.10",
+                "target": "pred_etc3",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.10",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.11",
+                "target": "pred_bird",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.11",
+                "target": "pred_fly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.11",
+                "target": "pred_feathered",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.11",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.12",
+                "target": "pred_mother",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.12",
+                "target": "pred_etc4",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.12",
+                "target": "pred_love",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.12",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.13",
+                "target": "pred_p",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.13",
+                "target": "pred_etc.11.14",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.13",
+                "target": "pred_q",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.13",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.14",
+                "target": "pred_p",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.14",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.14",
+                "target": "pred_q",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "11.14",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.14",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "11.14",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_fly",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_etc1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc1",
+                "target": "pred_fly",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_emu",
+                "target": "pred_bird",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_emu",
+                "target": "pred_fly",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_ab1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ab1",
+                "target": "pred_fly",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_emu",
+                "target": "pred_ab1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_etc2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_twoLegged",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc2",
+                "target": "pred_twoLegged",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_etc3",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bird",
+                "target": "pred_feathered",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc3",
+                "target": "pred_feathered",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc1",
+                "target": "pred_etc3",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fly",
+                "target": "pred_feathered",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mother",
+                "target": "pred_etc4",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mother",
+                "target": "pred_love",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc4",
+                "target": "pred_love",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_etc.11.14",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_q",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc.11.14",
+                "target": "pred_q",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_q",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

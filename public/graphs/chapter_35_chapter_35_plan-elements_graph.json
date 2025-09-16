@@ -1,0 +1,1589 @@
+{
+    "metadata": {
+        "chapter": 35,
+        "chapter_title": "Plan Elements",
+        "filename": "chapter_35_plan-elements",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 12,
+        "predicate_count": 30,
+        "variable_count": 14,
+        "frequent_variable_count": 8
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 4,
+            "simple": 7,
+            "complex": 1
+        },
+        "pattern_counts": {
+            "defeasible_rule": 3,
+            "definition": 9
+        },
+        "top_predicates": {
+            "agentOf": 4,
+            "enable": 4,
+            "plan": 4,
+            "goal": 3,
+            "subplan": 3,
+            "cond": 2,
+            "not'": 2,
+            "whileDo": 2,
+            "repeatUntil": 2,
+            "subgoalIn": 2
+        },
+        "predicate_frequencies": {
+            "agentOf": 4,
+            "enable": 4,
+            "plan": 4,
+            "goal": 3,
+            "subplan": 3,
+            "cond": 2,
+            "not'": 2,
+            "whileDo": 2,
+            "repeatUntil": 2,
+            "subgoalIn": 2,
+            "partialSubplan": 1,
+            "partialPlan": 1,
+            "subplanAgent": 1,
+            "planTermination": 1,
+            "before": 1,
+            "causalComplex": 1,
+            "cause": 1,
+            "knowledgePrecondition": 1,
+            "know'": 1,
+            "resourcePrecondition": 1,
+            "at'": 1,
+            "changeIn'": 1,
+            "causallyInvolved": 1,
+            "conditionalPlan": 1,
+            "repetitivePlan": 1,
+            "periodicSubplan": 1,
+            "timeSpanOf": 1,
+            "periodicTseq": 1,
+            "requiredPrecondition": 1,
+            "or'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "35.1",
+                "type": "axiom",
+                "name": "Conditional actions relate to agent goals",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e e1 e2 a) (if (and (cond e e1 e2)(agentOf a e2)(etc)) (exists (g) (and (goal g a) (or (enable e1 g)(not' g e1))))))",
+                "english": "If there is a conditional action by an agent a, then either the condition enables a goal of a's or the negation of the condition is a goal of a's. In the first case the agent is exploiting the occurrence of the condition. In the second he is escaping from the consequences of the condition. In either case, the condition is relevant to his goals.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "35.2",
+                "type": "axiom",
+                "name": "WhileDo negation goal",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e e1 e2 a) (if (and (whileDo e e1 e2)(agentOf a e2)(etc)) (exists (e0) (and (not' e0 e1)(goal e0 a)))))",
+                "english": "The negation of the condition in a whileDo is defeasibly a goal of the agent's. That's why the agent keeps executing the body until the condition is gone.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "35.3",
+                "type": "axiom",
+                "name": "RepeatUntil termination goal",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e e1 e2 a) (if (and (repeatUntil e e1 e2)(agentOf a e1)(etc)) (goal e2 a)))",
+                "english": "A similar rule holds for repeatUntil. The termination condition e2 is defeasibly a goal of the agent's.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.4",
+                "type": "axiom",
+                "name": "Definition of partialSubplan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 p c) (iff (partialSubplan p1 p c) (exists (a g1) (and (subplan p1 p)(plan p1 a g1) (partialPlan p1 a g1 c)))))",
+                "english": "A partial subplan is one in which the terminal nodes are not all executable, given a set of constraints c.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.5",
+                "type": "axiom",
+                "name": "Definition of subplanAgent",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a p1 p) (iff (subplanAgent a p1 p) (and (subplan p1 p) (forall (e) (if (and (subgoalIn e p1) (exists (a1) (agentOf a1 e))) (agentOf a e))))))",
+                "english": "Someone is a subplan agent if they are the agent of every action in the subplan. That is, a is the agent of every subgoal in the subplan p1 that has an agent.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "35.6",
+                "type": "axiom",
+                "name": "Definition of planTermination",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (iff (planTermination e p) (exists (a g) (and (subgoalIn e p)(plan p a g) (forall (e1) (if (subgoalIn e1 p)(not (before e e1)))) (causalComplex p g)(cause e g)))))",
+                "english": "The termination of a plan is the final action in the plan, after which the goal is achieved.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "35.7",
+                "type": "axiom",
+                "name": "Definition of knowledgePrecondition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e) (iff (knowledgePrecondition e1 e) (exists (a e2) (and (enable e1 e)(know' e1 a e2)))))",
+                "english": "A knowledge precondition is the eventuality of someone a knowing something e2 where that knowing is an enabling condition in the causal complex for e.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.8",
+                "type": "axiom",
+                "name": "Definition of resourcePrecondition",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e) (iff (resourcePrecondition e1 e) (exists (a s x e2) (and (at' e1 x a s)(enable e1 e2)(changeIn' e2 x) (causallyInvolved e2 e)))))",
+                "english": "A resource precondition involves having a resource at hand that enables an action through undergoing change that is causally involved in the effect. What distinguishes both resources and tools is that they go through a change of state (perhaps location) and that change plays an intermediate causal role in the effect occurring.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "35.9",
+                "type": "axiom",
+                "name": "Definition of conditionalPlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p a g) (iff (conditionalPlan p a g e) (exists (e1) (and (plan p a g)(cond p e e1)))))",
+                "english": "A conditional plan is a plan whose corresponding event is a conditional event. That is, p is a plan of a's to achieve goal g, executed only when condition e occurs.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.10",
+                "type": "axiom",
+                "name": "Definition of repetitivePlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p a g) (iff (repetitivePlan p a g) (exists (e1 e2) (and (plan p a g) (or (whileDo p e1 e2)(repeatUntil p e1 e2))))))",
+                "english": "A repetitive plan is a plan with a 'while do' or 'repeat until' structure.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.11",
+                "type": "axiom",
+                "name": "Definition of periodicSubplan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 p) (iff (periodicSubplan p1 p) (exists (t) (and (subplan p1 p)(timeSpanOf t p1) (periodicTseq t)))))",
+                "english": "Periodic subplans can be defined as plans whose time spans are periodic temporal sequences.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "35.12",
+                "type": "axiom",
+                "name": "Definition of requiredPrecondition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e) (iff (requiredPrecondition e0 e) (exists (e1 e2) (and (or' e e1 e2)(enable e0 e1)(enable e0 e2)))))",
+                "english": "A required precondition is an eventuality that is an enabling condition for a disjunctive effect. That is, it is a precondition of each disjunct.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_cond",
+                "type": "predicate",
+                "name": "cond",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_enable",
+                "type": "predicate",
+                "name": "enable",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_whileDo",
+                "type": "predicate",
+                "name": "whileDo",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_repeatUntil",
+                "type": "predicate",
+                "name": "repeatUntil",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_partialSubplan",
+                "type": "predicate",
+                "name": "partialSubplan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subplan",
+                "type": "predicate",
+                "name": "subplan",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_partialPlan",
+                "type": "predicate",
+                "name": "partialPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subplanAgent",
+                "type": "predicate",
+                "name": "subplanAgent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planTermination",
+                "type": "predicate",
+                "name": "planTermination",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalComplex",
+                "type": "predicate",
+                "name": "causalComplex",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_knowledgePrecondition",
+                "type": "predicate",
+                "name": "knowledgePrecondition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_know'",
+                "type": "predicate",
+                "name": "know'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_resourcePrecondition",
+                "type": "predicate",
+                "name": "resourcePrecondition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at'",
+                "type": "predicate",
+                "name": "at'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeIn'",
+                "type": "predicate",
+                "name": "changeIn'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causallyInvolved",
+                "type": "predicate",
+                "name": "causallyInvolved",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_conditionalPlan",
+                "type": "predicate",
+                "name": "conditionalPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_repetitivePlan",
+                "type": "predicate",
+                "name": "repetitivePlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_periodicSubplan",
+                "type": "predicate",
+                "name": "periodicSubplan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_timeSpanOf",
+                "type": "predicate",
+                "name": "timeSpanOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_periodicTseq",
+                "type": "predicate",
+                "name": "periodicTseq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_requiredPrecondition",
+                "type": "predicate",
+                "name": "requiredPrecondition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_or'",
+                "type": "predicate",
+                "name": "or'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 8,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 6,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 9,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 3,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "35.1",
+                "target": "pred_cond",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.1",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.1",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.1",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.1",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.1",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.2",
+                "target": "pred_whileDo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.2",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.2",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.2",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.2",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.3",
+                "target": "pred_repeatUntil",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.3",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.3",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.4",
+                "target": "pred_partialSubplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.4",
+                "target": "pred_subplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.4",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.4",
+                "target": "pred_partialPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.4",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.5",
+                "target": "pred_subplanAgent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.5",
+                "target": "pred_subplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.5",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.5",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.5",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.6",
+                "target": "pred_planTermination",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "pred_causalComplex",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.6",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.7",
+                "target": "pred_knowledgePrecondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.7",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.7",
+                "target": "pred_know'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.8",
+                "target": "pred_resourcePrecondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.8",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.8",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.8",
+                "target": "pred_changeIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.8",
+                "target": "pred_causallyInvolved",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.9",
+                "target": "pred_conditionalPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.9",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.9",
+                "target": "pred_cond",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.9",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.10",
+                "target": "pred_repetitivePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.10",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.10",
+                "target": "pred_whileDo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.10",
+                "target": "pred_repeatUntil",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.10",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.11",
+                "target": "pred_periodicSubplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.11",
+                "target": "pred_subplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.11",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.11",
+                "target": "pred_periodicTseq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.11",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.12",
+                "target": "pred_requiredPrecondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.12",
+                "target": "pred_or'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.12",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "35.12",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "35.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_cond",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cond",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cond",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cond",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_whileDo",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_whileDo",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_whileDo",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialSubplan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialSubplan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_partialSubplan",
+                "target": "pred_partialPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_partialPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_partialPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplanAgent",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplanAgent",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplanAgent",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTermination",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTermination",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTermination",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTermination",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTermination",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_knowledgePrecondition",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_knowledgePrecondition",
+                "target": "pred_know'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_know'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resourcePrecondition",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resourcePrecondition",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resourcePrecondition",
+                "target": "pred_changeIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resourcePrecondition",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_changeIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_changeIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeIn'",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_conditionalPlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_conditionalPlan",
+                "target": "pred_cond",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_cond",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitivePlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitivePlan",
+                "target": "pred_whileDo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitivePlan",
+                "target": "pred_repeatUntil",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_whileDo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_repeatUntil",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_whileDo",
+                "target": "pred_repeatUntil",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_periodicSubplan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_periodicSubplan",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_periodicSubplan",
+                "target": "pred_periodicTseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_periodicTseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_periodicTseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_requiredPrecondition",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_requiredPrecondition",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

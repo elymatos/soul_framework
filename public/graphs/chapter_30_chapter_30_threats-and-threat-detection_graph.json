@@ -1,0 +1,3385 @@
+{
+    "metadata": {
+        "chapter": 30,
+        "chapter_title": "Threats and Threat Detection",
+        "filename": "chapter_30_threats-and-threat-detection",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 23,
+        "predicate_count": 60,
+        "variable_count": 17,
+        "frequent_variable_count": 15
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 5,
+            "simple": 9,
+            "moderate": 9
+        },
+        "pattern_counts": {
+            "definition": 22,
+            "existence_claim": 1
+        },
+        "top_predicates": {
+            "threatSituation": 8,
+            "concern'": 4,
+            "seriousnessScale": 4,
+            "not'": 3,
+            "realThreatSituation": 3,
+            "cwu": 3,
+            "threatDetection": 3,
+            "threat": 2,
+            "threat0": 2,
+            "possible": 2
+        },
+        "predicate_frequencies": {
+            "threatSituation": 8,
+            "concern'": 4,
+            "seriousnessScale": 4,
+            "not'": 3,
+            "realThreatSituation": 3,
+            "cwu": 3,
+            "threatDetection": 3,
+            "threat": 2,
+            "threat0": 2,
+            "possible": 2,
+            "realThreatSituation'": 2,
+            "atTime": 2,
+            "before": 2,
+            "agentOf": 2,
+            "likely": 2,
+            "cause'": 2,
+            "at": 2,
+            "ecs": 1,
+            "member": 1,
+            "eventualitiesOf": 1,
+            "causallyInvolved": 1,
+            "branch": 1,
+            "imply": 1,
+            "goal": 1,
+            "goalInThreat": 1,
+            "threatCondition": 1,
+            "Rexist": 1,
+            "possibleThreat": 1,
+            "impossibleThreat": 1,
+            "realizedThreat": 1,
+            "unrealizedThreat": 1,
+            "ecsSeq": 1,
+            "last": 1,
+            "person": 1,
+            "able": 1,
+            "threatDetectionFailure": 1,
+            "fail": 1,
+            "concern": 1,
+            "believe": 1,
+            "possibleThreat'": 1,
+            "arg*": 1,
+            "biasAgainstRisk": 1,
+            "biasTowardRisk": 1,
+            "addThreat": 1,
+            "changeTo": 1,
+            "removeThreat": 1,
+            "changeFrom": 1,
+            "likelihoodScale": 1,
+            "importanceScale": 1,
+            "compositeScale": 1,
+            "moreSerious'": 1,
+            "scaleDefinedBy": 1,
+            "serious'": 1,
+            "scaleFor": 1,
+            "seriousness": 1,
+            "assessThreat": 1,
+            "try": 1,
+            "changeTo'": 1,
+            "know'": 1,
+            "seriousness'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "30.1",
+                "type": "axiom",
+                "name": "Definition of threatSituation",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s a e0 e e1 e2 g) (iff (threatSituation s a e0 e e1 e2 g) (exists (s1 e3) (and (ecs s a)(member e0 s1)(eventualitiesOf s1 s) (causallyInvolved e0 e)(branch e e1 e2 s) (imply e1 e3)(not' e3 g)(goal g a) (not (imply e2 e3))))))",
+                "english": "s is a threat situation for agent a with respect to situation e0, involving an envisioned branch e to alternatives e1 and e2, where one alternative e1 leads to the negation of a goal g and the other e2 does not",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "30.2",
+                "type": "axiom",
+                "name": "Definition of threat in situation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a e0 e e1 e2 g) (if (threatSituation s a e0 e e1 e2 g)(threat e1 a s)))",
+                "english": "e1 is the threat to agent a in situation s",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.3",
+                "type": "axiom",
+                "name": "Definition of threat0",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a) (iff (threat0 e1 a)(exists (s)(threat e1 a s))))",
+                "english": "e1 is a threat to a in some threat situation",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.4",
+                "type": "axiom",
+                "name": "Definition of goalInThreat",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a e0 e e1 e2 g) (if (threatSituation s a e0 e e1 e2 g)(goalInThreat g a s)))",
+                "english": "g is the goal of a's that is threatened by situation s",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.5",
+                "type": "axiom",
+                "name": "Definition of threatCondition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a e0 e e1 e2 g) (if (threatSituation s a e0 e e1 e2 g) (threatCondition e a s)))",
+                "english": "The envisioned branch point e is the threat condition",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.6",
+                "type": "axiom",
+                "name": "Definition of realThreatSituation",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a e0 e e1 e2 g) (iff (realThreatSituation s a e0 e e1 e2 g) (and (threatSituation s a e0 e e1 e2 g)(cwu s a) (Rexist e0))))",
+                "english": "A threat situation is real if the envisioned causal system is the current world understanding and the anchor e0 really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.7",
+                "type": "axiom",
+                "name": "Definition of possibleThreat",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a c) (iff (possibleThreat e1 a c) (exists (s e0 e e2 g) (and (realThreatSituation s a e0 e e1 e2 g) (possible e1 c)))))",
+                "english": "A possible threat arises in a real threat situation where the threat e1 is possible with respect to constraints c",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.8",
+                "type": "axiom",
+                "name": "Definition of impossibleThreat",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a c) (iff (impossibleThreat e1 a c) (exists (s e0 e e2 g) (and (realThreatSituation s a e0 e e1 e2 g) (not (possible e1 c))))))",
+                "english": "An impossible threat arises in a real threat situation where the threat e1 is impossible with respect to constraints c",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.9",
+                "type": "axiom",
+                "name": "Definition of realizedThreat",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 a) (iff (realizedThreat e1 a) (exists (s a e0 e e2 g e3 t1 t2) (and (realThreatSituation' e3 s a e0 e e1 e2 g) (atTime e3 t1)(atTime e1 t2)(before t1 t2)))))",
+                "english": "A threat is realized if there was a threat situation at time t1 and the threat e1 actually occurred at a later time t2",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "30.10",
+                "type": "axiom",
+                "name": "Definition of unrealizedThreat",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 a) (iff (unrealizedThreat e1 a) (exists (s a e0 e e2 g e3 t1) (and (realThreatSituation' e3 s a e0 e e1 e2 g) (atTime e3 t1) (not (exists (t2) (and (atTime e1 t2)(before t1 t2))))))))",
+                "english": "A threat is unrealized if there is no subsequent time t2 at which the threat actually occurs",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "30.11",
+                "type": "axiom",
+                "name": "Definition of threatDetection",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 s a) (iff (threatDetection s1 s a) (exists (e0 e e1 e2 g) (and (ecsSeq s1 a)(last s s1) (threatSituation s a e0 e e1 e2 g)))))",
+                "english": "s1 is the process of detecting threat situation s by agent a through an envisioning sequence",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.12",
+                "type": "axiom",
+                "name": "Threat detection ability",
+                "complexity": "simple",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a) (if (person a) (exists (s1 s c) (and (able a s1 c)(threatDetection s1 s a)))))",
+                "english": "People have an ability to detect threats",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.13",
+                "type": "axiom",
+                "name": "Definition of threatDetectionFailure",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a s1 s) (iff (threatDetectionFailure a s1 s) (and (fail a s1)(threatDetection s1 s a))))",
+                "english": "People can fail to identify a threat",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.14",
+                "type": "axiom",
+                "name": "Definition of concern",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (x a) (iff (concern x a) (exists (e3 e1 c) (and (believe a e3)(possibleThreat' e3 e1 a c) (arg* x e1)))))",
+                "english": "To be concerned about something x is to believe there is a possible threat e1 involving x",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.15",
+                "type": "axiom",
+                "name": "Definition of biasAgainstRisk",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (iff (biasAgainstRisk a) (forall (e3 s e0 e e1 e2 g) (if (and (threatSituation s a e0 e e1 e2 g) (concern' e3 e1 a)(agentOf a e0)) (exists (e4 e5 c) (and (likely e4 c)(cwu c a)(cause' e4 e3 e5) (not' e5 e0)))))))",
+                "english": "Agent a has a bias against risk if concerns about threats likely cause a to refrain from risky actions",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "30.16",
+                "type": "axiom",
+                "name": "Definition of biasTowardRisk",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (iff (biasTowardRisk a) (forall (e3 s e0 e e1 e2 g) (if (and (threatSituation s a e0 e e1 e2 g) (concern' e3 e1 a)(agentOf a e0)) (exists (e4 e5 c) (and (not (likely e4 c))(cwu c a) (cause' e4 e3 e5)(not' e5 e0)))))))",
+                "english": "Agent a has a bias toward risk if concerns about threats are not likely to cause a to refrain from risky actions",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "30.17",
+                "type": "axiom",
+                "name": "Definition of addThreat",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e1) (iff (addThreat a e1) (exists (e3) (and (changeTo e3)(concern' e3 e1 a)))))",
+                "english": "When threats are identified, they are added to those that the agent is concerned with",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.18",
+                "type": "axiom",
+                "name": "Definition of removeThreat",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e1) (iff (removeThreat a e1) (exists (e3) (and (changeFrom e3)(concern' e3 e1 a)))))",
+                "english": "When threats are no longer a concern, they are removed",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.19",
+                "type": "axiom",
+                "name": "Definition of seriousnessScale",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a) (iff (seriousnessScale s a) (exists (s1 s2) (and (likelihoodScale s1)(importanceScale s2 a) (compositeScale s s1 s2) (forall (e1 x) (if (at e1 x s)(threat0 e1 a)))))))",
+                "english": "The seriousness scale is a composite of likelihood and importance scales, with threats as elements",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.20",
+                "type": "axiom",
+                "name": "Definition of moreSerious'",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2 a) (iff (moreSerious' e e1 e2 a) (exists (s s1) (and (seriousnessScale s a)(scaleDefinedBy s s1 e)))))",
+                "english": "e is the eventuality of one threat e1 being more serious than threat e2 to agent a",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.21",
+                "type": "axiom",
+                "name": "Definition of serious'",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 a) (iff (serious' e e1 a) (exists (s) (and (seriousnessScale s a)(scaleFor s e)))))",
+                "english": "e is the eventuality of threat e1 being serious to agent a (in the Hi region of the scale)",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "30.22",
+                "type": "axiom",
+                "name": "Definition of seriousness",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x e1 a) (iff (seriousness x e1 a) (exists (s) (and (seriousnessScale s a)(at e1 x s)))))",
+                "english": "x is the seriousness measure of threat e1 to agent a (its place in the scale)",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "30.23",
+                "type": "axiom",
+                "name": "Definition of assessThreat",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e1) (iff (assessThreat a e1) (exists (x e3 e4 d) (and (try a e3)(changeTo' e3 e4)(know' e4 a d) (seriousness' d x e1 a)))))",
+                "english": "To assess a threat is to try to come to know the seriousness of the threat",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_threatSituation",
+                "type": "predicate",
+                "name": "threatSituation",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_ecs",
+                "type": "predicate",
+                "name": "ecs",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventualitiesOf",
+                "type": "predicate",
+                "name": "eventualitiesOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causallyInvolved",
+                "type": "predicate",
+                "name": "causallyInvolved",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_branch",
+                "type": "predicate",
+                "name": "branch",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threat",
+                "type": "predicate",
+                "name": "threat",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threat0",
+                "type": "predicate",
+                "name": "threat0",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goalInThreat",
+                "type": "predicate",
+                "name": "goalInThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threatCondition",
+                "type": "predicate",
+                "name": "threatCondition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_realThreatSituation",
+                "type": "predicate",
+                "name": "realThreatSituation",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_cwu",
+                "type": "predicate",
+                "name": "cwu",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_possibleThreat",
+                "type": "predicate",
+                "name": "possibleThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_possible",
+                "type": "predicate",
+                "name": "possible",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_impossibleThreat",
+                "type": "predicate",
+                "name": "impossibleThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_realizedThreat",
+                "type": "predicate",
+                "name": "realizedThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_realThreatSituation'",
+                "type": "predicate",
+                "name": "realThreatSituation'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unrealizedThreat",
+                "type": "predicate",
+                "name": "unrealizedThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threatDetection",
+                "type": "predicate",
+                "name": "threatDetection",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_ecsSeq",
+                "type": "predicate",
+                "name": "ecsSeq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_last",
+                "type": "predicate",
+                "name": "last",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_able",
+                "type": "predicate",
+                "name": "able",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threatDetectionFailure",
+                "type": "predicate",
+                "name": "threatDetectionFailure",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_fail",
+                "type": "predicate",
+                "name": "fail",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_concern",
+                "type": "predicate",
+                "name": "concern",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_believe",
+                "type": "predicate",
+                "name": "believe",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_possibleThreat'",
+                "type": "predicate",
+                "name": "possibleThreat'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_biasAgainstRisk",
+                "type": "predicate",
+                "name": "biasAgainstRisk",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_concern'",
+                "type": "predicate",
+                "name": "concern'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_likely",
+                "type": "predicate",
+                "name": "likely",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause'",
+                "type": "predicate",
+                "name": "cause'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_biasTowardRisk",
+                "type": "predicate",
+                "name": "biasTowardRisk",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_addThreat",
+                "type": "predicate",
+                "name": "addThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo",
+                "type": "predicate",
+                "name": "changeTo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_removeThreat",
+                "type": "predicate",
+                "name": "removeThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom",
+                "type": "predicate",
+                "name": "changeFrom",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_seriousnessScale",
+                "type": "predicate",
+                "name": "seriousnessScale",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_likelihoodScale",
+                "type": "predicate",
+                "name": "likelihoodScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_importanceScale",
+                "type": "predicate",
+                "name": "importanceScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_compositeScale",
+                "type": "predicate",
+                "name": "compositeScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSerious'",
+                "type": "predicate",
+                "name": "moreSerious'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_serious'",
+                "type": "predicate",
+                "name": "serious'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleFor",
+                "type": "predicate",
+                "name": "scaleFor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_seriousness",
+                "type": "predicate",
+                "name": "seriousness",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_assessThreat",
+                "type": "predicate",
+                "name": "assessThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_try",
+                "type": "predicate",
+                "name": "try",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_know'",
+                "type": "predicate",
+                "name": "know'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_seriousness'",
+                "type": "predicate",
+                "name": "seriousness'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 17,
+                "frequency": 19,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 21,
+                "frequency": 23,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 11,
+                "frequency": 12,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 12,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 19,
+                "frequency": 21,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 11,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 11,
+                "frequency": 12,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 8,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_c",
+                "type": "variable",
+                "name": "c",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_t1",
+                "type": "variable",
+                "name": "t1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t2",
+                "type": "variable",
+                "name": "t2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e5",
+                "type": "variable",
+                "name": "e5",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "30.1",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_ecs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_causallyInvolved",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_branch",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.2",
+                "target": "pred_threat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.2",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.3",
+                "target": "pred_threat0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.3",
+                "target": "pred_threat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.4",
+                "target": "pred_goalInThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.4",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.5",
+                "target": "pred_threatCondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.5",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "pred_realThreatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.6",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.6",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.6",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.6",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "pred_possibleThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.7",
+                "target": "pred_realThreatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.7",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.7",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "pred_impossibleThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.8",
+                "target": "pred_realThreatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.8",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.8",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "pred_realizedThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.9",
+                "target": "pred_realThreatSituation'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.9",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.9",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.9",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "pred_unrealizedThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.10",
+                "target": "pred_realThreatSituation'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.10",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.10",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.10",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "pred_threatDetection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.11",
+                "target": "pred_ecsSeq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.11",
+                "target": "pred_last",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.11",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.11",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.11",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.12",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.12",
+                "target": "pred_able",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.12",
+                "target": "pred_threatDetection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.12",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.13",
+                "target": "pred_threatDetectionFailure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.13",
+                "target": "pred_fail",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.13",
+                "target": "pred_threatDetection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.13",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.14",
+                "target": "pred_concern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.14",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.14",
+                "target": "pred_possibleThreat'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.14",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.14",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.14",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.14",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "pred_biasAgainstRisk",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_concern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_likely",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_cause'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.15",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "pred_biasTowardRisk",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_threatSituation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_concern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_likely",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_cause'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.16",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.17",
+                "target": "pred_addThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.17",
+                "target": "pred_changeTo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.17",
+                "target": "pred_concern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.17",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.17",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.18",
+                "target": "pred_removeThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.18",
+                "target": "pred_changeFrom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.18",
+                "target": "pred_concern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.18",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.18",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.19",
+                "target": "pred_seriousnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "pred_likelihoodScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "pred_importanceScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "pred_compositeScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "pred_threat0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.19",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.19",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.19",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.19",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "pred_moreSerious'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.20",
+                "target": "pred_seriousnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.20",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.20",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.20",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.21",
+                "target": "pred_serious'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.21",
+                "target": "pred_seriousnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.21",
+                "target": "pred_scaleFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.21",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.21",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.21",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.22",
+                "target": "pred_seriousness",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.22",
+                "target": "pred_seriousnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.22",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.22",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.22",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.22",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.22",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.23",
+                "target": "pred_assessThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.23",
+                "target": "pred_try",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.23",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.23",
+                "target": "pred_know'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.23",
+                "target": "pred_seriousness'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "30.23",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.23",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.23",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.23",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "30.23",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_ecs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_branch",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_branch",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_branch",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_branch",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved",
+                "target": "pred_branch",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_branch",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_branch",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_branch",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_threat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threat0",
+                "target": "pred_threat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_goalInThreat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_threatCondition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleThreat",
+                "target": "pred_realThreatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleThreat",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_impossibleThreat",
+                "target": "pred_realThreatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_impossibleThreat",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realizedThreat",
+                "target": "pred_realThreatSituation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realizedThreat",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realizedThreat",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_realThreatSituation'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unrealizedThreat",
+                "target": "pred_realThreatSituation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unrealizedThreat",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unrealizedThreat",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatDetection",
+                "target": "pred_ecsSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatDetection",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatDetection",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecsSeq",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecsSeq",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_last",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_able",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_threatDetection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_able",
+                "target": "pred_threatDetection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatDetectionFailure",
+                "target": "pred_fail",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatDetectionFailure",
+                "target": "pred_threatDetection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fail",
+                "target": "pred_threatDetection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern",
+                "target": "pred_possibleThreat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_possibleThreat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleThreat'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_likely",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasAgainstRisk",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_likely",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_threatSituation",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern'",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern'",
+                "target": "pred_likely",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern'",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern'",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_concern'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_likely",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likely",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likely",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likely",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_threatSituation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_likely",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_cause'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_biasTowardRisk",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addThreat",
+                "target": "pred_changeTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addThreat",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeThreat",
+                "target": "pred_changeFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeThreat",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom",
+                "target": "pred_concern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_likelihoodScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_importanceScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_compositeScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_importanceScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_compositeScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_compositeScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeScale",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreSerious'",
+                "target": "pred_seriousnessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreSerious'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_serious'",
+                "target": "pred_seriousnessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_serious'",
+                "target": "pred_scaleFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousnessScale",
+                "target": "pred_scaleFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousness",
+                "target": "pred_seriousnessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_seriousness",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessThreat",
+                "target": "pred_try",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessThreat",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessThreat",
+                "target": "pred_know'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessThreat",
+                "target": "pred_seriousness'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_try",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_try",
+                "target": "pred_know'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_try",
+                "target": "pred_seriousness'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_know'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_seriousness'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_know'",
+                "target": "pred_seriousness'",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

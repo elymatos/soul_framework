@@ -1,0 +1,4461 @@
+{
+    "metadata": {
+        "chapter": 48,
+        "chapter_title": "Observation of Plan Executions",
+        "filename": "chapter_48_observation_of_plan_executions",
+        "generated_at": "2025-09-16T13:01:15+00:00",
+        "axiom_count": 30,
+        "predicate_count": 59,
+        "variable_count": 27,
+        "frequent_variable_count": 23
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 15,
+            "complex": 6,
+            "simple": 9
+        },
+        "pattern_counts": {
+            "definition": 13,
+            "implication": 2,
+            "belief_definition": 1,
+            "generation_definition": 1,
+            "modification_definition": 1,
+            "invalidation_definition": 1,
+            "validation_definition": 1,
+            "skill_comparison": 2,
+            "scale_definition": 1,
+            "constraint": 1,
+            "at_relation": 1,
+            "agent_independence": 1,
+            "evaluation_definition": 1,
+            "result_definition": 1,
+            "defeasible_rule": 1,
+            "criterion_definition": 1
+        },
+        "top_predicates": {
+            "executePlan'": 7,
+            "gen": 7,
+            "attemptExecute'": 7,
+            "agentOf": 5,
+            "candidatePerformanceSpecification'": 5,
+            "execute'": 4,
+            "perceive'": 4,
+            "mean": 4,
+            "member": 4,
+            "plan": 4
+        },
+        "predicate_frequencies": {
+            "executePlan'": 7,
+            "gen": 7,
+            "attemptExecute'": 7,
+            "agentOf": 5,
+            "candidatePerformanceSpecification'": 5,
+            "execute'": 4,
+            "perceive'": 4,
+            "mean": 4,
+            "member": 4,
+            "plan": 4,
+            "skillScale": 4,
+            "evaluate'": 4,
+            "perceive": 3,
+            "unobservedExecution": 3,
+            "instructions": 3,
+            "explicitPlan": 3,
+            "believe'": 3,
+            "change'": 3,
+            "cause": 3,
+            "moreSkilled": 3,
+            "skillLevel": 3,
+            "observableExecution": 2,
+            "possible": 2,
+            "unobservableExecution": 2,
+            "observedExecution": 2,
+            "Rexist": 2,
+            "document": 2,
+            "performance": 2,
+            "performanceSpecification'": 2,
+            "changeTo'": 2,
+            "subgoalsOf": 2,
+            "setdiff": 2,
+            "intersection": 2,
+            "subset": 2,
+            "properSubset": 2,
+            "observedByNoneExecution": 1,
+            "performanceSpecification": 1,
+            "possible'": 1,
+            "generateCandidatePerformanceSpecification'": 1,
+            "modifyCandidatePerformanceSpecification'": 1,
+            "invalidateCandidatePerformanceSpecification'": 1,
+            "not'": 1,
+            "validateCandidatePerformanceSpecification'": 1,
+            "rightWay": 1,
+            "goal'": 1,
+            "scaleDefinedBy": 1,
+            "moreSkilled'": 1,
+            "skilled": 1,
+            "Hi": 1,
+            "inScale": 1,
+            "at": 1,
+            "subst": 1,
+            "skillLevel'": 1,
+            "evaluationResult": 1,
+            "etc": 1,
+            "evaluationCriterion": 1,
+            "evaluationResult'": 1,
+            "arg*": 1,
+            "causallyInvolved": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "48.1",
+                "type": "axiom",
+                "name": "Definition of observableExecution",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e b c) (iff (observableExecution e b c) (exists (a p e0 e1 e2) (and (executePlan' e a p)(execute' e1 a e0 p) (not (agentOf b e)) (possible e2 c)(perceive' e2 b e1)))))",
+                "english": "Execution e is observable by agent b under constraints c if some subgoal execution e1 can be perceived by b",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.2",
+                "type": "axiom",
+                "name": "Definition of unobservableExecution",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e b c) (iff (unobservableExecution e b c) (exists (a p) (and (executePlan' e a p)(not (agentOf b e)) (forall (e0 e1 e2) (if (and (execute' e1 a e0 p) (perceive' e2 b e1)) (not (possible e2 c))))))))",
+                "english": "Execution e is unobservable by agent b under constraints c if no subgoal execution can be perceived by b",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.3",
+                "type": "axiom",
+                "name": "Definition of observedExecution",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e b) (iff (observedExecution e b) (exists (a p e0 e1 e2) (and (executePlan' e a p)(execute' e1 a e0 p) (not (agentOf b e)) (perceive b e1)))))",
+                "english": "Execution e is actually observed by agent b if b perceives some subgoal execution of e",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.4",
+                "type": "axiom",
+                "name": "Definition of unobservedExecution",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e b) (iff (unobservedExecution e b) (exists (a p) (and (executePlan' e a p)(not (agentOf b e)) (forall (e0 e1) (if (execute' e1 a e0 p) (not (perceive b e1))))))))",
+                "english": "Execution e is unobserved by agent b if b perceives no subgoal executions of e",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.5",
+                "type": "axiom",
+                "name": "Definition of observedByNoneExecution",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (observedByNoneExecution e) (forall (b) (if (not (agentOf b e))(unobservedExecution e b)))))",
+                "english": "Execution e is observed by no one except its agent if all other agents fail to observe it",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.6",
+                "type": "axiom",
+                "name": "Observed executions are observable",
+                "complexity": "simple",
+                "pattern": "implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e b) (if (observedExecution e b) (exists (c) (and (observableExecution e b c)(Rexist c)))))",
+                "english": "If execution e is actually observed by agent b, then there exist constraints c under which e is observable by b",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.7",
+                "type": "axiom",
+                "name": "Unobservable executions are unobserved",
+                "complexity": "simple",
+                "pattern": "implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e b c) (if (and (unobservableExecution e b c)(Rexist c)) (unobservedExecution e b)))",
+                "english": "If execution e is unobservable by agent b under existing constraints c, then e is unobserved by b",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.8",
+                "type": "axiom",
+                "name": "Definition of document",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d) (iff (document d) (exists (y s) (mean d y s))))",
+                "english": "Document d is any meaning-bearing object that means concept y to members of social group s",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.9",
+                "type": "axiom",
+                "name": "Definition of instructions",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d g) (iff (instructions d g) (exists (p s a) (and (document d)(mean d p s) (member a s)(plan p a g)))))",
+                "english": "Document d is instructions for goal g if d means plan p to group s members, where p is a plan to achieve g",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.10",
+                "type": "axiom",
+                "name": "Definition of explicitPlan",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p a g) (iff (explicitPlan p a g) (exists (d s) (and (instructions d g)(mean d p s) (member a s)(plan p a g)))))",
+                "english": "Plan p is explicit for agent a and goal g if there exists a document specifying p as instructions for g",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.11",
+                "type": "axiom",
+                "name": "Definition of performance",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p s) (iff (performance e a p s) (exists (g) (and (explicitPlan p a g)(executePlan' e a p) (forall (b) (if (member b s)(perceive b e)))))))",
+                "english": "Event e is a performance by agent a of plan p before audience s if e executes explicit plan p and all audience members perceive e",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.12",
+                "type": "axiom",
+                "name": "Definition of performanceSpecification",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d a g) (iff (performanceSpecification d a g) (exists (e p s) (and (instructions d g)(performance e a p s) (explicitPlan p a g)))))",
+                "english": "Document d is a performance specification for agent a and goal g if d specifies instructions for a performance of plan p",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.13",
+                "type": "axiom",
+                "name": "Definition of candidatePerformanceSpecification",
+                "complexity": "moderate",
+                "pattern": "belief_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e d a g) (iff (candidatePerformanceSpecification' e d a g) (exists (e1 e2 c e3) (and (believe' e3 a e1)(gen e3 e)(possible' e1 e2 c) (performanceSpecification' e2 d a g)))))",
+                "english": "Event e is d being a candidate performance specification for agent a to achieve goal g when a believes d is possibly a performance specification",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.14",
+                "type": "axiom",
+                "name": "Definition of generateCandidatePerformanceSpecification",
+                "complexity": "moderate",
+                "pattern": "generation_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a d g) (iff (generateCandidatePerformanceSpecification' e d a g) (exists (e1 e2) (and (changeTo' e2 e1)(gen e2 e) (candidatePerformanceSpecification' e1 d a g)))))",
+                "english": "Event e is generating candidate performance specification d for agent a to achieve goal g through a change to that state",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.15",
+                "type": "axiom",
+                "name": "Definition of modifyCandidatePerformanceSpecification",
+                "complexity": "moderate",
+                "pattern": "modification_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a d1 d2 g) (iff (modifyCandidatePerformanceSpecification' e d1 d2 a g) (exists (e1 e2 e3) (and (change' e3 e1 e2)(gen e3 e) (candidatePerformanceSpecification' e1 d1 a g) (candidatePerformanceSpecification' e2 d2 a g)))))",
+                "english": "Event e is modifying candidate performance specification from document d1 to d2 for agent a to achieve goal g",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.16",
+                "type": "axiom",
+                "name": "Definition of invalidateCandidatePerformanceSpecification",
+                "complexity": "moderate",
+                "pattern": "invalidation_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a d g) (iff (invalidateCandidatePerformanceSpecification' e d a g) (exists (e1 e2 e3 e4) (and (change' e4 e1 e2)(gen e4 e) (candidatePerformanceSpecification' e1 d a g) (believe' e2 a e3)(not' e3 e1)))))",
+                "english": "Event e is invalidating candidate performance specification d for agent a when a stops believing d is a performance specification",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.17",
+                "type": "axiom",
+                "name": "Definition of validateCandidatePerformanceSpecification",
+                "complexity": "moderate",
+                "pattern": "validation_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a d g) (iff (validateCandidatePerformanceSpecification' e d a g) (exists (e1 e2 e3) (and (change' e3 e1 e2)(gen e3 e) (candidatePerformanceSpecification' e1 d a g) (performanceSpecification' e2 d a g)))))",
+                "english": "Event e is validating candidate performance specification d for agent a when d is promoted to a performance specification",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.18",
+                "type": "axiom",
+                "name": "Definition of rightWay",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p d) (iff (rightWay e a p d) (exists (s) (and (executePlan' e a p)(mean d p s)))))",
+                "english": "Event e is the right way for agent a to carry out plan p according to document d if e executes p and d describes p",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.19",
+                "type": "axiom",
+                "name": "Definition of attemptExecute",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 a p p1 g) (iff (attemptExecute' e1 a p p1 g) (exists (e e2 e3) (and (executePlan' e3 a p1)(gen e3 e1)(plan p a g)(plan p1 a g) (goal' e2 e a)(executePlan' e a p) (cause e2 e1)))))",
+                "english": "Event e1 is an attempted execution by agent a of plan p, actually instantiating plan p1, where wanting to execute p causes executing p1",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.20",
+                "type": "axiom",
+                "name": "More skilled execution condition 1",
+                "complexity": "complex",
+                "pattern": "skill_comparison",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2 a p p1 p2 s s1 s2 s3 s4 s5 s6) (if (and (attemptExecute' e1 a p p1 g) (attemptExecute' e2 a p p2 g) (subgoalsOf s p)(subgoalsOf s1 p1)(subgoalsOf s2 p2) (setdiff s3 s1 s)(setdiff s4 s2 s) (intersection s5 s1 s)(intersection s6 s2 s) (subset s3 s4)(properSubset s6 s5)) (moreSkilled e1 e2 p)))",
+                "english": "Execution e1 is more skilled than e2 at plan p if e1 has fewer extraneous subgoals and more correct subgoals than e2",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.21",
+                "type": "axiom",
+                "name": "More skilled execution condition 2",
+                "complexity": "complex",
+                "pattern": "skill_comparison",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2 a p p1 p2 s s1 s2 s3 s4 s5 s6) (if (and (attemptExecute' e1 a p p1 g) (attemptExecute' e2 a p p2 g) (subgoalsOf s p)(subgoalsOf s1 p1)(subgoalsOf s2 p2) (setdiff s3 s1 s)(setdiff s4 s2 s) (intersection s5 s1 s)(intersection s6 s2 s) (properSubset s3 s4)(subset s6 s5)) (moreSkilled e1 e2 p)))",
+                "english": "Execution e1 is more skilled than e2 at plan p if e2 has more extraneous subgoals than e1 and not fewer correct subgoals",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.22",
+                "type": "axiom",
+                "name": "Definition of skillScale",
+                "complexity": "complex",
+                "pattern": "scale_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s p) (iff (skillScale s p) (exists (s1 a g e1 e2) (and (scaleDefinedBy s s1 e)(plan p a g) (forall (e0) (if (member e0 s1) (exists (a1 p1) (and (plan p1 a1 g) (attemptExecute' e0 a1 p p1 g))))) (moreSkilled' e e1 e2 p)))))",
+                "english": "Scale s is the skill scale for plan p, defined by attempted executions ordered by the moreSkilled relation",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.23",
+                "type": "axiom",
+                "name": "Definition of skilled",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (iff (skilled e p) (exists (s s1) (and (skillScale s p)(Hi s1 s) (inScale e s1)))))",
+                "english": "Attempted execution e was skilled at plan p if e is in the high region of the skill scale for p",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.24",
+                "type": "axiom",
+                "name": "Skill level constraint",
+                "complexity": "simple",
+                "pattern": "constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (y e1 e2 p) (if (and (skillLevel y e1 p)(skillLevel y e2 p)) (and (not (moreSkilled e1 e2 p)) (not (moreSkilled e2 e1 p)))))",
+                "english": "If executions e1 and e2 have the same skill level y for plan p, then neither is more skilled than the other",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.25",
+                "type": "axiom",
+                "name": "Skill levels are at relations",
+                "complexity": "simple",
+                "pattern": "at_relation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s y e p) (if (and (skillScale s p)(skillLevel y e p)) (at e y s)))",
+                "english": "If y is a skill level for execution e of plan p and s is the skill scale for p, then e is at position y on scale s",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.26",
+                "type": "axiom",
+                "name": "Agent-independent skill levels",
+                "complexity": "moderate",
+                "pattern": "agent_independence",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2 a1 a2 p p1 p2 g s) (if (and (attemptExecute' e1 a1 p p1 g) (attemptExecute' e2 a2 p p2 g) (skillScale s p) (subst a1 e1 a2 e2)) (forall (y) (iff (skillLevel y e1 p)(skillLevel y e2 p)))))",
+                "english": "Skill levels are agent-independent: executions that differ only in the performing agent have the same skill level",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.27",
+                "type": "axiom",
+                "name": "Definition of evaluate",
+                "complexity": "complex",
+                "pattern": "evaluation_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e b e1 p y) (iff (evaluate' e b e1 p y) (exists (a p1 g e2 e3 s e4 e5) (and (attemptExecute' e1 a p p1 g) (changeTo' e5 e2)(gen e5 e)(believe' e2 b e3) (skillLevel' e3 y e1 p) (perceive' e4 b e1)(cause e4 e5)))))",
+                "english": "Event e is agent b evaluating performance e1 of plan p as skill level y, caused by perceiving e1 and resulting in believing the skill level",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "48.28",
+                "type": "axiom",
+                "name": "Definition of evaluationResult",
+                "complexity": "simple",
+                "pattern": "result_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (y e) (iff (evaluationResult y e) (exists (b e1 p) (evaluate' e b e1 p y))))",
+                "english": "Value y is the result of evaluation e if there is some agent evaluating some performance with result y",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "48.29",
+                "type": "axiom",
+                "name": "Witnessing causes evaluation",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (a b e1 e4 p p1 g) (if (and (perceive' e4 b e1) (attemptExecute' e1 a p p1 g)(etc)) (exists (e y) (and (evaluate' e b e1 p y) (cause e4 e)))))",
+                "english": "If agent b witnesses attempted execution e1 of plan p, then defeasibly b evaluates e1, caused by the witnessing",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "48.30",
+                "type": "axiom",
+                "name": "Definition of evaluationCriterion",
+                "complexity": "moderate",
+                "pattern": "criterion_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 p) (iff (evaluationCriterion e0 p) (exists (e b e1 y e2) (and (evaluate' e b e1 p y)(evaluationResult' e2 y e) (arg* e1 e0)(causallyInvolved e0 e2)))))",
+                "english": "Property e0 is an evaluation criterion for plan p if e0 is a property of some execution and causally involved in evaluation results",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_observableExecution",
+                "type": "predicate",
+                "name": "observableExecution",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_executePlan'",
+                "type": "predicate",
+                "name": "executePlan'",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_execute'",
+                "type": "predicate",
+                "name": "execute'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_possible",
+                "type": "predicate",
+                "name": "possible",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_perceive'",
+                "type": "predicate",
+                "name": "perceive'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_unobservableExecution",
+                "type": "predicate",
+                "name": "unobservableExecution",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_observedExecution",
+                "type": "predicate",
+                "name": "observedExecution",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_perceive",
+                "type": "predicate",
+                "name": "perceive",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_unobservedExecution",
+                "type": "predicate",
+                "name": "unobservedExecution",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_observedByNoneExecution",
+                "type": "predicate",
+                "name": "observedByNoneExecution",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_document",
+                "type": "predicate",
+                "name": "document",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_mean",
+                "type": "predicate",
+                "name": "mean",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_instructions",
+                "type": "predicate",
+                "name": "instructions",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_explicitPlan",
+                "type": "predicate",
+                "name": "explicitPlan",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_performance",
+                "type": "predicate",
+                "name": "performance",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_performanceSpecification",
+                "type": "predicate",
+                "name": "performanceSpecification",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_candidatePerformanceSpecification'",
+                "type": "predicate",
+                "name": "candidatePerformanceSpecification'",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_believe'",
+                "type": "predicate",
+                "name": "believe'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_possible'",
+                "type": "predicate",
+                "name": "possible'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_performanceSpecification'",
+                "type": "predicate",
+                "name": "performanceSpecification'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_generateCandidatePerformanceSpecification'",
+                "type": "predicate",
+                "name": "generateCandidatePerformanceSpecification'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_modifyCandidatePerformanceSpecification'",
+                "type": "predicate",
+                "name": "modifyCandidatePerformanceSpecification'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_change'",
+                "type": "predicate",
+                "name": "change'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_invalidateCandidatePerformanceSpecification'",
+                "type": "predicate",
+                "name": "invalidateCandidatePerformanceSpecification'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_validateCandidatePerformanceSpecification'",
+                "type": "predicate",
+                "name": "validateCandidatePerformanceSpecification'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_rightWay",
+                "type": "predicate",
+                "name": "rightWay",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_attemptExecute'",
+                "type": "predicate",
+                "name": "attemptExecute'",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_goal'",
+                "type": "predicate",
+                "name": "goal'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subgoalsOf",
+                "type": "predicate",
+                "name": "subgoalsOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_setdiff",
+                "type": "predicate",
+                "name": "setdiff",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_intersection",
+                "type": "predicate",
+                "name": "intersection",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_properSubset",
+                "type": "predicate",
+                "name": "properSubset",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSkilled",
+                "type": "predicate",
+                "name": "moreSkilled",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_skillScale",
+                "type": "predicate",
+                "name": "skillScale",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSkilled'",
+                "type": "predicate",
+                "name": "moreSkilled'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_skilled",
+                "type": "predicate",
+                "name": "skilled",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_skillLevel",
+                "type": "predicate",
+                "name": "skillLevel",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_evaluate'",
+                "type": "predicate",
+                "name": "evaluate'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_skillLevel'",
+                "type": "predicate",
+                "name": "skillLevel'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_evaluationResult",
+                "type": "predicate",
+                "name": "evaluationResult",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_evaluationCriterion",
+                "type": "predicate",
+                "name": "evaluationCriterion",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_evaluationResult'",
+                "type": "predicate",
+                "name": "evaluationResult'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causallyInvolved",
+                "type": "predicate",
+                "name": "causallyInvolved",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 22,
+                "frequency": 23,
+                "group": "variable"
+            },
+            {
+                "id": "var_b",
+                "type": "variable",
+                "name": "b",
+                "axiom_count": 11,
+                "frequency": 12,
+                "group": "variable"
+            },
+            {
+                "id": "var_c",
+                "type": "variable",
+                "name": "c",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 18,
+                "frequency": 20,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 18,
+                "frequency": 21,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 5,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 17,
+                "frequency": 19,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 14,
+                "frequency": 16,
+                "group": "variable"
+            },
+            {
+                "id": "var_d",
+                "type": "variable",
+                "name": "d",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 13,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 14,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s3",
+                "type": "variable",
+                "name": "s3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s4",
+                "type": "variable",
+                "name": "s4",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s5",
+                "type": "variable",
+                "name": "s5",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s6",
+                "type": "variable",
+                "name": "s6",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_a1",
+                "type": "variable",
+                "name": "a1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "48.1",
+                "target": "pred_observableExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "pred_execute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "pred_unobservableExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "pred_execute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "pred_observedExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.3",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.3",
+                "target": "pred_execute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.3",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.3",
+                "target": "pred_perceive",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "pred_unobservedExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.4",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.4",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.4",
+                "target": "pred_execute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.4",
+                "target": "pred_perceive",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.5",
+                "target": "pred_observedByNoneExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.5",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.5",
+                "target": "pred_unobservedExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.5",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.6",
+                "target": "pred_observedExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.6",
+                "target": "pred_observableExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.6",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.6",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.6",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.7",
+                "target": "pred_unobservableExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.7",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.7",
+                "target": "pred_unobservedExecution",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.7",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.7",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.8",
+                "target": "pred_document",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.8",
+                "target": "pred_mean",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.8",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.8",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.9",
+                "target": "pred_instructions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.9",
+                "target": "pred_document",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.9",
+                "target": "pred_mean",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.9",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.9",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.9",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.9",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.10",
+                "target": "pred_explicitPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.10",
+                "target": "pred_instructions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.10",
+                "target": "pred_mean",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.10",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.10",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.10",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.10",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "pred_performance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.11",
+                "target": "pred_explicitPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.11",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.11",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.11",
+                "target": "pred_perceive",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.11",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "pred_performanceSpecification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.12",
+                "target": "pred_instructions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.12",
+                "target": "pred_performance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.12",
+                "target": "pred_explicitPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.12",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.13",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.13",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.13",
+                "target": "pred_possible'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.13",
+                "target": "pred_performanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.13",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "pred_generateCandidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.14",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.14",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.14",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.14",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "pred_modifyCandidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.15",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.15",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.15",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.15",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "pred_invalidateCandidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.16",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "pred_validateCandidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.17",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.17",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.17",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.17",
+                "target": "pred_performanceSpecification'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.17",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.18",
+                "target": "pred_rightWay",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.18",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.18",
+                "target": "pred_mean",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.18",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.18",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.18",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.18",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.19",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_setdiff",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_intersection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_properSubset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "pred_moreSkilled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.20",
+                "target": "var_s6",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_setdiff",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_intersection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_properSubset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "pred_moreSkilled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.21",
+                "target": "var_s6",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "pred_skillScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "pred_moreSkilled'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.22",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_a1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.22",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.23",
+                "target": "pred_skilled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.23",
+                "target": "pred_skillScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.23",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.23",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.23",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.23",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.23",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.23",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.24",
+                "target": "pred_skillLevel",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.24",
+                "target": "pred_moreSkilled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.24",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.24",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.24",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.24",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.25",
+                "target": "pred_skillScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.25",
+                "target": "pred_skillLevel",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.25",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.25",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.25",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.25",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.25",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.26",
+                "target": "pred_skillScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.26",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.26",
+                "target": "pred_skillLevel",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.26",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_a1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.26",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "pred_evaluate'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_skillLevel'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.27",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.27",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.28",
+                "target": "pred_evaluationResult",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.28",
+                "target": "pred_evaluate'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.28",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.28",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.28",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.28",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.29",
+                "target": "pred_attemptExecute'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.29",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.29",
+                "target": "pred_evaluate'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.29",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.29",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.29",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "pred_evaluationCriterion",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.30",
+                "target": "pred_evaluate'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.30",
+                "target": "pred_evaluationResult'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.30",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.30",
+                "target": "pred_causallyInvolved",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "48.30",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "48.30",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_execute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_execute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_execute'",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_execute'",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_execute'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_execute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_execute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_execute'",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservedExecution",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservedExecution",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservedExecution",
+                "target": "pred_execute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservedExecution",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedByNoneExecution",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedByNoneExecution",
+                "target": "pred_unobservedExecution",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_observableExecution",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observedExecution",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_observableExecution",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unobservableExecution",
+                "target": "pred_unobservedExecution",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_unobservedExecution",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_document",
+                "target": "pred_mean",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instructions",
+                "target": "pred_document",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instructions",
+                "target": "pred_mean",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instructions",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instructions",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_document",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_document",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mean",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mean",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_instructions",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_mean",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performance",
+                "target": "pred_explicitPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performance",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performance",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performance",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_explicitPlan",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performanceSpecification",
+                "target": "pred_instructions",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performanceSpecification",
+                "target": "pred_performance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_performanceSpecification",
+                "target": "pred_explicitPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instructions",
+                "target": "pred_performance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_candidatePerformanceSpecification'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_candidatePerformanceSpecification'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_candidatePerformanceSpecification'",
+                "target": "pred_possible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_candidatePerformanceSpecification'",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_possible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_possible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible'",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_generateCandidatePerformanceSpecification'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_generateCandidatePerformanceSpecification'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_generateCandidatePerformanceSpecification'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCandidatePerformanceSpecification'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCandidatePerformanceSpecification'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCandidatePerformanceSpecification'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_invalidateCandidatePerformanceSpecification'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_invalidateCandidatePerformanceSpecification'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_invalidateCandidatePerformanceSpecification'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_invalidateCandidatePerformanceSpecification'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_invalidateCandidatePerformanceSpecification'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_candidatePerformanceSpecification'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_validateCandidatePerformanceSpecification'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_validateCandidatePerformanceSpecification'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_validateCandidatePerformanceSpecification'",
+                "target": "pred_candidatePerformanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_validateCandidatePerformanceSpecification'",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_performanceSpecification'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rightWay",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_rightWay",
+                "target": "pred_mean",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_mean",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_setdiff",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_intersection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_setdiff",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_intersection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_setdiff",
+                "target": "pred_intersection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_setdiff",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_setdiff",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_setdiff",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intersection",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intersection",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intersection",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_properSubset",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_attemptExecute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_moreSkilled'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_attemptExecute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_moreSkilled'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_moreSkilled'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_attemptExecute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_moreSkilled'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_moreSkilled'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skilled",
+                "target": "pred_skillScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skilled",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skilled",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillLevel",
+                "target": "pred_moreSkilled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_skillLevel",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillLevel",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_skillLevel",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillScale",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_skillLevel",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_attemptExecute'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_skillLevel'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_skillLevel'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_skillLevel'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_skillLevel'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_skillLevel'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillLevel'",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_skillLevel'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationResult",
+                "target": "pred_evaluate'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_attemptExecute'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_evaluate'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationCriterion",
+                "target": "pred_evaluate'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationCriterion",
+                "target": "pred_evaluationResult'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationCriterion",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationCriterion",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_evaluationResult'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluate'",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationResult'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_evaluationResult'",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}
