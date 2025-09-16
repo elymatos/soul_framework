@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Data\LoginData;
 use App\Data\TwoFactorData;
 use App\Database\Criteria;
+use App\Exceptions\LoginException;
 use App\Mail\WebToolMail;
 use App\Models\User as UserModel;
 use App\Repositories\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class AuthUserService
 {
@@ -38,8 +39,6 @@ class AuthUserService
                 if ($idLanguage == '') {
                     $idLanguage = config('webtool.defaultIdLanguage');
                 }
-                
-                // Set session data (preserve existing behavior)
                 session(['user' => $user]);
                 session(['idLanguage' => $idLanguage]);
                 session(['userLevel' => User::getUserLevel($user)]);
@@ -47,11 +46,10 @@ class AuthUserService
                 session(['isMaster' => User::isMemberOf($user, 'MASTER')]);
                 session(['isManager' => User::isMemberOf($user, 'MANAGER')]);
                 session(['isAnno' => User::isMemberOf($user, 'ANNO')]);
-                
                 // Integrate with Laravel Auth
                 $userModel = UserModel::fromRepositoryUser($user);
                 Auth::login($userModel);
-                
+
                 debug("[LOGIN] Authenticated {$user->login}");
                 return 'logged';
             }
@@ -100,8 +98,6 @@ class AuthUserService
             if ($idLanguage == '') {
                 $idLanguage = config('webtool.defaultIdLanguage');
             }
-            
-            // Set session data (preserve existing behavior)
             session(['user' => $user]);
             session(['idLanguage' => $idLanguage]);
             session(['userLevel' => User::getUserLevel($user)]);
@@ -109,11 +105,10 @@ class AuthUserService
             session(['isMaster' => User::isMemberOf($user, 'MASTER')]);
             session(['isManager' => User::isMemberOf($user, 'MANAGER')]);
             session(['isAnno' => User::isMemberOf($user, 'ANNO')]);
-            
             // Integrate with Laravel Auth
             $userModel = UserModel::fromRepositoryUser($user);
             Auth::login($userModel);
-            
+
             debug("[LOGIN] Authenticated {$user->login}");
 
         }
@@ -139,8 +134,6 @@ class AuthUserService
                     if ($idLanguage == '') {
                         $idLanguage = config('webtool.defaultIdLanguage');
                     }
-                    
-                    // Set session data (preserve existing behavior)
                     session(['user' => $user]);
                     session(['idLanguage' => $idLanguage]);
                     session(['userLevel' => User::getUserLevel($user)]);
@@ -148,11 +141,10 @@ class AuthUserService
                     session(['isMaster' => User::isMemberOf($user, 'MASTER')]);
                     session(['isManager' => User::isMemberOf($user, 'MANAGER')]);
                     session(['isAnno' => User::isMemberOf($user, 'ANNO')]);
-                    
                     // Integrate with Laravel Auth
                     $userModel = UserModel::fromRepositoryUser($user);
                     Auth::login($userModel);
-                    
+
                     debug("[LOGIN] Authenticated {$user->login}");
                     return 'logged';
                 } else {
@@ -162,25 +154,55 @@ class AuthUserService
         }
     }
 
+    public static function offlineLogin(LoginData $userInfo)
+    {
+        $user = Criteria::one("user", ['login', '=', $userInfo->login]);
+        if ($user->status == '2') {
+            $user = User::byId($user->idUser);
+            if ($user->passMD5 == $userInfo->password) {
+                User::registerLogin($user);
+                $idLanguage = $user->idLanguage;
+                if ($idLanguage == '') {
+                    $idLanguage = config('webtool.defaultIdLanguage');
+                }
+                session(['user' => $user]);
+                session(['idLanguage' => $idLanguage]);
+                session(['userLevel' => User::getUserLevel($user)]);
+                session(['isAdmin' => User::isMemberOf($user, 'ADMIN')]);
+                session(['isMaster' => User::isMemberOf($user, 'MASTER')]);
+                session(['isManager' => User::isMemberOf($user, 'MANAGER')]);
+                session(['isAnno' => User::isMemberOf($user, 'ANNO')]);
+
+                // Integrate with Laravel Auth
+                $userModel = UserModel::fromRepositoryUser($user);
+                Auth::login($userModel);
+
+                debug("[LOGIN] Authenticated {$user->login}");
+            } else {
+                throw new LoginException('Login failed; password mismatch.');
+            }
+        } else {
+            throw new LoginException('Login failed; user does not exist.');
+        }
+    }
+
     public function impersonate($user)
     {
         $idLanguage = $user->idLanguage;
         if ($idLanguage == '') {
             $idLanguage = config('webtool.defaultIdLanguage');
         }
-        
-        // Set session data (preserve existing behavior)
         session(['user' => $user]);
         session(['idLanguage' => $idLanguage]);
         session(['userLevel' => User::getUserLevel($user)]);
         session(['isAdmin' => User::isMemberOf($user, 'ADMIN')]);
         session(['isMaster' => User::isMemberOf($user, 'MASTER')]);
         session(['isAnno' => User::isMemberOf($user, 'ANNO')]);
-        
+
         // Integrate with Laravel Auth
         $userModel = UserModel::fromRepositoryUser($user);
         Auth::login($userModel);
-        
+
         debug("[LOGIN] Authenticated {$user->login}");
     }
 

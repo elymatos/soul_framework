@@ -8,6 +8,8 @@ class QData extends Data
 {
     public function __construct(
         public ?string $q = '',
+        public ?string $frame = '',
+        public ?string $lu = '',
         public ?int $idLanguage = 0
     )
     {

@@ -14,6 +14,7 @@ use App\Repositories\LU;
 use App\Repositories\LUCandidate;
 use App\Repositories\User;
 use App\Services\AppService;
+use App\Services\Frame\BrowseService;
 use App\Services\MessageService;
 use Carbon\Carbon;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
@@ -25,13 +26,13 @@ use Collective\Annotations\Routing\Attributes\Attributes\Put;
 #[Middleware(name: 'auth')]
 class ReframingController extends Controller
 {
-
     #[Get(path: '/reframing')]
-    public function reframing(int|string $idLU = '')
+    public function report(int|string $idLU = '')
     {
         $search = session('searchLU') ?? SearchData::from();
         if (($idLU == 'list') || ($idLU == '')) {
-            return view("LU.Reframing.main", [
+            return view("LU.Reframing.browse", [
+                'data' => [],
                 'search' => $search
             ]);
         } else {
@@ -44,27 +45,56 @@ class ReframingController extends Controller
         }
     }
 
-    #[Post(path: '/reframing/grid')]
-    public function grid(SearchData $search)
+    #[Post(path: '/reframing/search')]
+    public function search(\App\Data\LU\SearchData $search)
     {
-        return view("LU.Reframing.grid", [
-            'search' => $search,
-        ]);
+        $data = BrowseService::browseLUBySearch($search);
+
+        return view('LU.Reframing.browse', [
+            'data' => $data,
+        ])->fragment('search');
+
     }
 
-    #[Get(path: '/reframing/data')]
-    public function data(SearchData $search)
-    {
-        $lus = [];
-        if ($search->lu != '') {
-            $lus = Criteria::byFilterLanguage("view_lu",
-                ['name', "startswith", $search->lu])
-                ->select("idLU", "name", "frameName")
-                ->orderBy('name')
-                ->all();
-        }
-        return $lus;
-    }
+//    #[Get(path: '/reframing')]
+//    public function reframing(int|string $idLU = '')
+//    {
+//        $search = session('searchLU') ?? SearchData::from();
+//        if (($idLU == 'list') || ($idLU == '')) {
+//            return view("LU.Reframing.main", [
+//                'search' => $search
+//            ]);
+//        } else {
+//            $lu = LU::byId($idLU);
+//            $search->lu = $lu->name;
+//            return view("LU.Reframing.main", [
+//                'search' => $search,
+//                'idLU' => $idLU
+//            ]);
+//        }
+//    }
+//
+//    #[Post(path: '/reframing/grid')]
+//    public function grid(SearchData $search)
+//    {
+//        return view("LU.Reframing.grid", [
+//            'search' => $search,
+//        ]);
+//    }
+//
+//    #[Get(path: '/reframing/data')]
+//    public function data(SearchData $search)
+//    {
+//        $lus = [];
+//        if ($search->lu != '') {
+//            $lus = Criteria::byFilterLanguage("view_lu",
+//                ['name', "startswith", $search->lu])
+//                ->select("idLU", "name", "frameName")
+//                ->orderBy('name')
+//                ->all();
+//        }
+//        return $lus;
+//    }
 
     #[Get(path: '/reframing/lu/{idLU}')]
     public function reframingLU(string $idLU)

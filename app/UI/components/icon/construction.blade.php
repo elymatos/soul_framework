@@ -1,1 +1,1 @@
-<i class="icon material construction">dashboard</i>
+<i class="icon material color_cxn">dashboard</i>

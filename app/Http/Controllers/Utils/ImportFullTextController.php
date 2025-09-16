@@ -14,24 +14,24 @@ use Collective\Annotations\Routing\Attributes\Attributes\Post;
 #[Middleware("master")]
 class ImportFullTextController extends Controller
 {
-    #[Get(path: '/utils/importFullText')]
-    public function resource()
-    {
-        return view("Utils.ImportFullText.resource");
-    }
+//    #[Get(path: '/utils/importFullText')]
+//    public function resource()
+//    {
+//        return view("Utils.ImportFullText.resource");
+//    }
+//
+//    #[Get(path: '/utils/importFullText/grid/{fragment?}')]
+//    #[Post(path: '/utils/importFullText/grid/{fragment?}')]
+//    public function grid(SearchData $search, ?string $fragment = null)
+//    {
+//        $view = view("Utils.ImportFullText.grid",[
+//            'search' => $search,
+//            'sentences' => [],
+//        ]);
+//        return (is_null($fragment) ? $view : $view->fragment('search'));
+//    }
 
-    #[Get(path: '/utils/importFullText/grid/{fragment?}')]
-    #[Post(path: '/utils/importFullText/grid/{fragment?}')]
-    public function grid(SearchData $search, ?string $fragment = null)
-    {
-        $view = view("Utils.ImportFullText.grid",[
-            'search' => $search,
-            'sentences' => [],
-        ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
-    }
-
-    #[Get(path: '/utils/importFullText/{id}/formImportFullText')]
+    #[Get(path: '/utils/importFullText/{id}')]
     public function formEdit(string $id)
     {
         return view("Utils.ImportFullText.formImportFullText",[

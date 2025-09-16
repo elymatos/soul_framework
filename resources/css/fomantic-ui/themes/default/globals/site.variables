@@ -3,6 +3,7 @@
 *******************************/
 
 @import "variation.variables";
+@supportIE: true;
 
 /* -------------------
        Fonts
@@ -43,7 +44,7 @@
 @fonts: {
     @regularLatin: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameLatin}-Regular.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameLatin}-Regular.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameLatin}-Regular.woff") format("woff"));
         font-style: normal;
         font-weight: @normal;
         font-display: @fontDisplay;
@@ -52,7 +53,7 @@
     };
     @boldLatin: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameLatin}-Bold.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameLatin}-Bold.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameLatin}-Bold.woff") format("woff"));
         font-style: normal;
         font-weight: @bold;
         font-display: @fontDisplay;
@@ -61,7 +62,7 @@
     };
     @italicLatin: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameLatin}-Italic.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameLatin}-Italic.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameLatin}-Italic.woff") format("woff"));
         font-style: italic;
         font-weight: @normal;
         font-display: @fontDisplay;
@@ -70,7 +71,7 @@
     };
     @boldItalicLatin: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameLatin}-BoldItalic.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameLatin}-BoldItalic.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameLatin}-BoldItalic.woff") format("woff"));
         font-style: italic;
         font-weight: @bold;
         font-display: @fontDisplay;
@@ -79,7 +80,7 @@
     };
     @regularSupplement: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameSupplement}-Regular.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameSupplement}-Regular.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameSupplement}-Regular.woff") format("woff"));
         font-style: normal;
         font-weight: @normal;
         font-display: @fontDisplay;
@@ -88,7 +89,7 @@
     };
     @boldSupplement: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameSupplement}-Bold.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameSupplement}-Bold.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameSupplement}-Bold.woff") format("woff"));
         font-style: normal;
         font-weight: @bold;
         font-display: @fontDisplay;
@@ -97,7 +98,7 @@
     };
     @italicSupplement: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameSupplement}-Italic.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameSupplement}-Italic.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameSupplement}-Italic.woff") format("woff"));
         font-style: italic;
         font-weight: @normal;
         font-display: @fontDisplay;
@@ -106,7 +107,7 @@
     };
     @boldItalicSupplement: {
         font-family: @fontName;
-        src: url("@{fontPath}/@{fontFileNameSupplement}-BoldItalic.woff2") format("woff2");
+        src: url("@{fontPath}/@{fontFileNameSupplement}-BoldItalic.woff2") format("woff2") if(@supportIE, e(",") url("@{fontPath}/@{fontFileNameSupplement}-BoldItalic.woff") format("woff"));
         font-style: italic;
         font-weight: @bold;
         font-display: @fontDisplay;
@@ -274,6 +275,12 @@
 @thumbInvertedBackground: rgba(255, 255, 255, 0.25);
 @thumbInvertedInactiveBackground: rgba(255, 255, 255, 0.15);
 @thumbInvertedHoverBackground: rgba(255, 255, 255, 0.35);
+
+/* IE needs hex values */
+@trackBackgroundHex: #e6e6e6;
+@thumbBackgroundHex: #bfbfbf;
+@trackInvertedBackgroundHex: #323232;
+@thumbInvertedBackgroundHex: #656565;
 
 /* Scrolling */
 @scrollingMobileMaxHeight: 15em;
@@ -709,10 +716,8 @@
 -------------------- */
 
 /* For source only. Modified in gulp for dist */
-/*@imagePath: "../../themes/default/assets/images";*/
-/*@fontPath: "../themes/default/assets/fonts";*/
-@imagePath: "/scripts/fomantic-ui/assets/images";
-@fontPath: "/scripts/fomantic-ui/assets/fonts";
+@imagePath: "../../themes/default/assets/images";
+@fontPath: "../../themes/default/assets/fonts";
 
 /* -------------------
        Em Sizes

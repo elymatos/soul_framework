@@ -20,39 +20,43 @@
         : globalThis;
 
     $.fn.checkbox = function (parameters) {
-        let $allModules = $(this);
+        var
+            $allModules    = $(this),
 
-        let time = Date.now();
-        let performance = [];
+            time           = Date.now(),
+            performance    = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
-        let returnedValue;
+            query          = arguments[0],
+            methodInvoked  = typeof query === 'string',
+            queryArguments = [].slice.call(arguments, 1),
+            returnedValue
+        ;
 
         $allModules.each(function () {
-            let settings = $.extend(true, {}, $.fn.checkbox.settings, parameters);
+            var
+                settings        = $.extend(true, {}, $.fn.checkbox.settings, parameters),
 
-            let className = settings.className;
-            let namespace = settings.namespace;
-            let selector = settings.selector;
-            let error = settings.error;
+                className       = settings.className,
+                namespace       = settings.namespace,
+                selector        = settings.selector,
+                error           = settings.error,
 
-            let eventNamespace = '.' + namespace;
-            let moduleNamespace = 'module-' + namespace;
+                eventNamespace  = '.' + namespace,
+                moduleNamespace = 'module-' + namespace,
 
-            let $module = $(this);
-            let $label = $(this).children(selector.label);
-            let $input = $(this).children(selector.input);
-            let input = $input[0];
+                $module         = $(this),
+                $label          = $(this).children(selector.label),
+                $input          = $(this).children(selector.input),
+                input           = $input[0],
 
-            let initialLoad = false;
-            let shortcutPressed = false;
-            let instance = $module.data(moduleNamespace);
+                initialLoad     = false,
+                shortcutPressed = false,
+                instance        = $module.data(moduleNamespace),
 
-            let observer;
-            let element = this;
-            let module;
+                observer,
+                element         = this,
+                module
+            ;
 
             module = {
 
@@ -74,7 +78,8 @@
                     module.verbose('Storing instance of module', module);
                     instance = module;
                     $module
-                        .data(moduleNamespace, module);
+                        .data(moduleNamespace, module)
+                    ;
                 },
 
                 destroy: function () {
@@ -129,26 +134,31 @@
                 },
 
                 observeChanges: function () {
-                    observer = new MutationObserver(function (mutations) {
-                        module.debug('DOM tree modified, updating selector cache');
-                        module.refresh();
-                    });
-                    observer.observe(element, {
-                        childList: true,
-                        subtree: true,
-                    });
-                    module.debug('Setting up mutation observer', observer);
+                    if ('MutationObserver' in window) {
+                        observer = new MutationObserver(function (mutations) {
+                            module.debug('DOM tree modified, updating selector cache');
+                            module.refresh();
+                        });
+                        observer.observe(element, {
+                            childList: true,
+                            subtree: true,
+                        });
+                        module.debug('Setting up mutation observer', observer);
+                    }
                 },
 
                 attachEvents: function (selector, event) {
-                    let $element = $(selector);
+                    var
+                        $element = $(selector)
+                    ;
                     event = isFunction(module[event])
                         ? module[event]
                         : module.toggle;
                     if ($element.length > 0) {
                         module.debug('Attaching checkbox events to element', selector, event);
                         $element
-                            .on('click' + eventNamespace, event);
+                            .on('click' + eventNamespace, event)
+                        ;
                     } else {
                         module.error(error.notFound);
                     }
@@ -168,7 +178,9 @@
                         }
                     },
                     click: function (event) {
-                        let $target = $(event.target);
+                        var
+                            $target = $(event.target)
+                        ;
                         if ($target.is(selector.input)) {
                             module.verbose('Using default check action on initialized checkbox');
 
@@ -184,21 +196,25 @@
                         event.preventDefault();
                     },
                     keydown: function (event) {
-                        let key = event.which;
-                        let keyCode = {
-                            enter: 13,
-                            space: 32,
-                            escape: 27,
-                            left: 37,
-                            up: 38,
-                            right: 39,
-                            down: 40,
-                        };
+                        var
+                            key     = event.which,
+                            keyCode = {
+                                enter: 13,
+                                space: 32,
+                                escape: 27,
+                                left: 37,
+                                up: 38,
+                                right: 39,
+                                down: 40,
+                            }
+                        ;
 
-                        let r = module.get.radios().not(selector.disabled);
-                        let rIndex = r.index($module);
-                        let rLen = r.length;
-                        let checkIndex = false;
+                        var
+                            r = module.get.radios().not(selector.disabled),
+                            rIndex = r.index($module),
+                            rLen = r.length,
+                            checkIndex = false
+                        ;
 
                         if (key === keyCode.left || key === keyCode.up) {
                             checkIndex = (rIndex === 0 ? rLen : rIndex) - 1;
@@ -212,9 +228,9 @@
 
                                 return false;
                             }
-                            let nextOption = $(r[checkIndex]);
-                            let nextInput = nextOption.children(selector.input);
-                            let disallowOption = nextOption.hasClass(className.readOnly) || nextInput.prop('readonly');
+                            var nextOption = $(r[checkIndex]),
+                                nextInput = nextOption.children(selector.input),
+                                disallowOption = nextOption.hasClass(className.readOnly) || nextInput.prop('readonly');
                             if (disallowOption || settings.beforeChecked.apply(nextInput[0]) === false) {
                                 module.verbose('Next option should not allow check, cancelling key navigation');
 
@@ -317,6 +333,8 @@
                     module.set.enabled();
                     if (!module.should.ignoreCallbacks()) {
                         settings.onEnable.call(input);
+                        // preserve legacy callbacks
+                        settings.onEnabled.call(input);
                     }
                 },
 
@@ -330,14 +348,18 @@
                     module.set.disabled();
                     if (!module.should.ignoreCallbacks()) {
                         settings.onDisable.call(input);
+                        // preserve legacy callbacks
+                        settings.onDisabled.call(input);
                     }
                 },
 
                 get: {
                     radios: function () {
-                        let name = module.get.name();
+                        var
+                            name = module.get.name()
+                        ;
 
-                        return $('input[name="' + CSS.escape(name) + '"]').closest(selector.checkbox);
+                        return $('input[name="' + name + '"]').closest(selector.checkbox);
                     },
                     otherRadios: function () {
                         return module.get.radios().not($module);
@@ -455,7 +477,8 @@
                         module.verbose('Setting class to checked');
                         $module
                             .removeClass(className.indeterminate)
-                            .addClass(className.checked);
+                            .addClass(className.checked)
+                        ;
                         if (module.is.radio()) {
                             module.uncheckOthers();
                         }
@@ -467,13 +490,15 @@
                         module.verbose('Setting state to checked', input);
                         $input
                             .prop('indeterminate', false)
-                            .prop('checked', true);
+                            .prop('checked', true)
+                        ;
                     },
                     unchecked: function () {
                         module.verbose('Removing checked class');
                         $module
                             .removeClass(className.indeterminate)
-                            .removeClass(className.checked);
+                            .removeClass(className.checked)
+                        ;
                         if (!module.is.indeterminate() && module.is.unchecked()) {
                             module.debug('Input is already unchecked');
 
@@ -482,12 +507,14 @@
                         module.debug('Setting state to unchecked');
                         $input
                             .prop('indeterminate', false)
-                            .prop('checked', false);
+                            .prop('checked', false)
+                        ;
                     },
                     indeterminate: function () {
                         module.verbose('Setting class to indeterminate');
                         $module
-                            .addClass(className.indeterminate);
+                            .addClass(className.indeterminate)
+                        ;
                         if (module.is.indeterminate()) {
                             module.debug('Input is already indeterminate, skipping input property change');
 
@@ -495,12 +522,14 @@
                         }
                         module.debug('Setting state to indeterminate');
                         $input
-                            .prop('indeterminate', true);
+                            .prop('indeterminate', true)
+                        ;
                     },
                     determinate: function () {
                         module.verbose('Removing indeterminate class');
                         $module
-                            .removeClass(className.indeterminate);
+                            .removeClass(className.indeterminate)
+                        ;
                         if (module.is.determinate()) {
                             module.debug('Input is already determinate, skipping input property change');
 
@@ -508,12 +537,14 @@
                         }
                         module.debug('Setting state to determinate');
                         $input
-                            .prop('indeterminate', false);
+                            .prop('indeterminate', false)
+                        ;
                     },
                     disabled: function () {
                         module.verbose('Setting class to disabled');
                         $module
-                            .addClass(className.disabled);
+                            .addClass(className.disabled)
+                        ;
                         if (module.is.disabled()) {
                             module.debug('Input is already disabled, skipping input property change');
 
@@ -521,7 +552,8 @@
                         }
                         module.debug('Setting state to disabled');
                         $input
-                            .prop('disabled', 'disabled');
+                            .prop('disabled', 'disabled')
+                        ;
                     },
                     enabled: function () {
                         module.verbose('Removing disabled class');
@@ -533,7 +565,8 @@
                         }
                         module.debug('Setting state to enabled');
                         $input
-                            .prop('disabled', false);
+                            .prop('disabled', false)
+                        ;
                     },
                     tabbable: function () {
                         module.verbose('Adding tabindex to checkbox');
@@ -551,9 +584,11 @@
 
                 trigger: {
                     change: function () {
-                        let inputElement = $input[0];
+                        var
+                            inputElement = $input[0]
+                        ;
                         if (inputElement) {
-                            let events = document.createEvent('HTMLEvents');
+                            var events = document.createEvent('HTMLEvents');
                             module.verbose('Triggering native change event');
                             events.initEvent('change', true, false);
                             inputElement.dispatchEvent(events);
@@ -586,7 +621,8 @@
                             .on('click' + eventNamespace, module.event.click)
                             .on('change' + eventNamespace, module.event.change)
                             .on('keydown' + eventNamespace, selector.input, module.event.keydown)
-                            .on('keyup' + eventNamespace, selector.input, module.event.keyup);
+                            .on('keyup' + eventNamespace, selector.input, module.event.keyup)
+                        ;
                     },
                 },
 
@@ -594,12 +630,15 @@
                     events: function () {
                         module.debug('Removing events');
                         $module
-                            .off(eventNamespace);
+                            .off(eventNamespace)
+                        ;
                     },
                 },
 
                 uncheckOthers: function () {
-                    let $radios = module.get.otherRadios();
+                    var
+                        $radios = module.get.otherRadios()
+                    ;
                     module.debug('Unchecking other radios', $radios);
                     $radios.removeClass(className.checked);
                 },
@@ -671,9 +710,11 @@
                 },
                 performance: {
                     log: function (message) {
-                        let currentTime;
-                        let executionTime;
-                        let previousTime;
+                        var
+                            currentTime,
+                            executionTime,
+                            previousTime
+                        ;
                         if (settings.performance) {
                             currentTime = Date.now();
                             previousTime = time || currentTime;
@@ -692,8 +733,10 @@
                         }, 500);
                     },
                     display: function () {
-                        let title = settings.name + ':';
-                        let totalTime = 0;
+                        var
+                            title = settings.name + ':',
+                            totalTime = 0
+                        ;
                         time = false;
                         clearTimeout(module.performance.timer);
                         $.each(performance, function (index, data) {
@@ -715,19 +758,22 @@
                     },
                 },
                 invoke: function (query, passedArguments, context) {
-                    let object = instance;
-                    let maxDepth;
-                    let found;
-                    let response;
+                    var
+                        object = instance,
+                        maxDepth,
+                        found,
+                        response
+                    ;
                     passedArguments = passedArguments || queryArguments;
                     context = context || element;
                     if (typeof query === 'string' && object !== undefined) {
                         query = query.split(/[ .]/);
                         maxDepth = query.length - 1;
                         $.each(query, function (depth, value) {
-                            let camelCaseValue = depth !== maxDepth
+                            var camelCaseValue = depth !== maxDepth
                                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
-                                : query;
+                                : query
+                            ;
                             if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {
                                 object = object[camelCaseValue];
                             } else if (object[camelCaseValue] !== undefined) {
@@ -812,6 +858,10 @@
 
         onEnable: function () {},
         onDisable: function () {},
+
+        // preserve misspelled callbacks (will be removed in 3.0)
+        onEnabled: function () {},
+        onDisabled: function () {},
 
         className: {
             checked: 'checked',

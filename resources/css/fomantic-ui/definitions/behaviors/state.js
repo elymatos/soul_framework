@@ -20,56 +20,60 @@
         : globalThis;
 
     $.fn.state = function (parameters) {
-        let $allModules = $(this);
+        var
+            $allModules     = $(this),
 
-        let time = Date.now();
-        let performance = [];
+            time            = Date.now(),
+            performance     = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
-        let contextCheck = function (context, win) {
-            let $context;
-            if ([window, document].indexOf(context) >= 0) {
-                $context = $(context);
-            } else {
-                $context = $(win.document).find(context);
-                if ($context.length === 0) {
-                    $context = win.frameElement ? contextCheck(context, win.parent) : window;
+            query           = arguments[0],
+            methodInvoked   = typeof query === 'string',
+            queryArguments  = [].slice.call(arguments, 1),
+            contextCheck    = function (context, win) {
+                var $context;
+                if ([window, document].indexOf(context) >= 0) {
+                    $context = $(context);
+                } else {
+                    $context = $(win.document).find(context);
+                    if ($context.length === 0) {
+                        $context = win.frameElement ? contextCheck(context, win.parent) : window;
+                    }
                 }
-            }
 
-            return $context;
-        };
-        let returnedValue;
+                return $context;
+            },
+            returnedValue
+        ;
         $allModules.each(function () {
-            let settings = $.isPlainObject(parameters)
-                ? $.extend(true, {}, $.fn.state.settings, parameters)
-                : $.extend({}, $.fn.state.settings);
+            var
+                settings          = $.isPlainObject(parameters)
+                    ? $.extend(true, {}, $.fn.state.settings, parameters)
+                    : $.extend({}, $.fn.state.settings),
 
-            let error = settings.error;
-            let metadata = settings.metadata;
-            let className = settings.className;
-            let namespace = settings.namespace;
-            let states = settings.states;
-            let text = settings.text;
+                error           = settings.error,
+                metadata        = settings.metadata,
+                className       = settings.className,
+                namespace       = settings.namespace,
+                states          = settings.states,
+                text            = settings.text,
 
-            let eventNamespace = '.' + namespace;
-            let moduleNamespace = namespace + '-module';
+                eventNamespace  = '.' + namespace,
+                moduleNamespace = namespace + '-module',
 
-            let $module = $(this);
-            let $context = settings.context ? contextCheck(settings.context, window) : $module;
+                $module         = $(this),
+                $context        = settings.context ? contextCheck(settings.context, window) : $module,
 
-            let element = this;
-            let instance = $module.data(moduleNamespace);
+                element         = this,
+                instance        = $module.data(moduleNamespace),
 
-            let module;
+                module
+            ;
             module = {
 
                 initialize: function () {
                     module.verbose('Initializing module');
 
-                    // allow module to guess the desired state based on the element
+                    // allow module to guess desired state based on element
                     if (settings.automatic) {
                         module.add.defaults();
                     }
@@ -78,7 +82,8 @@
                     $context
                         .on('mouseenter' + eventNamespace, module.change.text)
                         .on('mouseleave' + eventNamespace, module.reset.text)
-                        .on('click' + eventNamespace, module.toggle.state);
+                        .on('click' + eventNamespace, module.toggle.state)
+                    ;
                     module.instantiate();
                 },
 
@@ -86,16 +91,19 @@
                     module.verbose('Storing instance of module', module);
                     instance = module;
                     $module
-                        .data(moduleNamespace, module);
+                        .data(moduleNamespace, module)
+                    ;
                 },
 
                 destroy: function () {
                     module.verbose('Destroying previous module', instance);
                     $context
-                        .off(eventNamespace);
+                        .off(eventNamespace)
+                    ;
                     $module
                         .removeData(metadata.storedText)
-                        .removeData(moduleNamespace);
+                        .removeData(moduleNamespace)
+                    ;
                 },
 
                 refresh: function () {
@@ -105,9 +113,11 @@
 
                 add: {
                     defaults: function () {
-                        let userStates = parameters && $.isPlainObject(parameters.states)
-                            ? parameters.states
-                            : {};
+                        var
+                            userStates = parameters && $.isPlainObject(parameters.states)
+                                ? parameters.states
+                                : {}
+                        ;
                         $.each(settings.defaults, function (type, typeStates) {
                             if (module.is[type] !== undefined && module.is[type]()) {
                                 module.verbose('Adding default states', type, element);
@@ -193,8 +203,10 @@
 
                 toggle: {
                     state: function () {
-                        let apiRequest;
-                        let requestCancelled;
+                        var
+                            apiRequest,
+                            requestCancelled
+                        ;
                         if (module.allows('active') && module.is.enabled()) {
                             module.refresh();
                             if ($.fn.api !== undefined) {
@@ -245,7 +257,8 @@
                                     };
                                 }
                                 module.change.state();
-                            });
+                            })
+                        ;
                     }
                 },
 
@@ -297,7 +310,8 @@
                     if (settings.activateTest.call(element)) {
                         module.debug('Setting state to active');
                         $module
-                            .addClass(className.active);
+                            .addClass(className.active)
+                        ;
                         module.update.text(text.active);
                         settings.onActivate.call(element);
                     }
@@ -307,7 +321,8 @@
                     if (settings.deactivateTest.call(element)) {
                         module.debug('Setting state to inactive');
                         $module
-                            .removeClass(className.active);
+                            .removeClass(className.active)
+                        ;
                         module.update.text(text.inactive);
                         settings.onDeactivate.call(element);
                     }
@@ -318,11 +333,13 @@
                     if (module.is.active()) {
                         $allModules
                             .not($module)
-                            .state('activate');
+                            .state('activate')
+                        ;
                     } else {
                         $allModules
                             .not($module)
-                            .state('deactivate');
+                            .state('deactivate')
+                        ;
                     }
                 },
 
@@ -339,7 +356,8 @@
 
                 flash: {
                     text: function (text, duration, callback) {
-                        let previousText = module.get.text();
+                        var
+                            previousText = module.get.text();
                         module.debug('Flashing text message', text, duration);
                         text = text || settings.text.flash;
                         duration = duration || settings.flashDuration;
@@ -355,8 +373,10 @@
                 reset: {
                     // on mouseout sets text to previous value
                     text: function () {
-                        let activeText = text.active || $module.data(metadata.storedText);
-                        let inactiveText = text.inactive || $module.data(metadata.storedText);
+                        var
+                            activeText   = text.active || $module.data(metadata.storedText),
+                            inactiveText = text.inactive || $module.data(metadata.storedText)
+                        ;
                         if (module.is.textEnabled()) {
                             if (module.is.active() && activeText) {
                                 module.verbose('Resetting active text', activeText);
@@ -371,18 +391,21 @@
 
                 update: {
                     text: function (text) {
-                        let currentText = module.get.text();
+                        var
+                            currentText = module.get.text();
                         if (text && text !== currentText) {
                             module.debug('Updating text', text);
                             if (settings.selector.text) {
                                 $module
                                     .data(metadata.storedText, text)
                                     .find(settings.selector.text)
-                                    .text(text);
+                                    .text(text)
+                                ;
                             } else {
                                 $module
                                     .data(metadata.storedText, text)
-                                    .html(text);
+                                    .html(text)
+                                ;
                             }
                         } else {
                             module.debug('Text is already set, ignoring update', text);
@@ -441,9 +464,11 @@
                 },
                 performance: {
                     log: function (message) {
-                        let currentTime;
-                        let executionTime;
-                        let previousTime;
+                        var
+                            currentTime,
+                            executionTime,
+                            previousTime
+                        ;
                         if (settings.performance) {
                             currentTime = Date.now();
                             previousTime = time || currentTime;
@@ -462,8 +487,10 @@
                         }, 500);
                     },
                     display: function () {
-                        let title = settings.name + ':';
-                        let totalTime = 0;
+                        var
+                            title = settings.name + ':',
+                            totalTime = 0
+                        ;
                         time = false;
                         clearTimeout(module.performance.timer);
                         $.each(performance, function (index, data) {
@@ -485,19 +512,22 @@
                     },
                 },
                 invoke: function (query, passedArguments, context) {
-                    let object = instance;
-                    let maxDepth;
-                    let found;
-                    let response;
+                    var
+                        object = instance,
+                        maxDepth,
+                        found,
+                        response
+                    ;
                     passedArguments = passedArguments || queryArguments;
                     context = context || element;
                     if (typeof query === 'string' && object !== undefined) {
                         query = query.split(/[ .]/);
                         maxDepth = query.length - 1;
                         $.each(query, function (depth, value) {
-                            let camelCaseValue = depth !== maxDepth
+                            var camelCaseValue = depth !== maxDepth
                                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
-                                : query;
+                                : query
+                            ;
                             if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {
                                 object = object[camelCaseValue];
                             } else if (object[camelCaseValue] !== undefined) {
@@ -585,7 +615,7 @@
         // whether to automatically map default states
         automatic: true,
 
-        // activate / deactivate changes all elements instantiated at the same time
+        // activate / deactivate changes all elements instantiated at same time
         sync: false,
 
         // default flash text duration, used for temporarily changing text of an element

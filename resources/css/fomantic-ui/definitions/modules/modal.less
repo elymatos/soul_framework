@@ -155,7 +155,7 @@
 
 .ui.modal > .content > i.icon + .description,
 .ui.modal > .content > .image + .description {
-    flex: auto;
+    flex: 0 1 auto;
     min-width: @descriptionMinWidth;
     width: @descriptionWidth;
     padding-left: @descriptionDistance;
@@ -477,7 +477,7 @@
         top: @scrollingTop;
     }
 
-    /* Fix for Firefox, Edge */
+    /* Fix for Firefox, Edge, IE11 */
     .modals.dimmer .ui.scrolling.modal:not([class*="overlay fullscreen"])::after {
         content: "\00A0";
         position: absolute;

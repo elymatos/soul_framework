@@ -8,7 +8,7 @@ use App\Data\Corpus\SearchData;
 use App\Database\Criteria;
 use App\Http\Controllers\Controller;
 use App\Repositories\Corpus;
-use App\Services\AppService;
+use App\Services\Annotation\BrowseService;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
@@ -17,22 +17,6 @@ use Collective\Annotations\Routing\Attributes\Attributes\Post;
 #[Middleware("master")]
 class ResourceController extends Controller
 {
-    #[Get(path: '/corpus')]
-    public function resource()
-    {
-        return view("Corpus.resource");
-    }
-
-    #[Get(path: '/corpus/grid/{fragment?}')]
-    #[Post(path: '/corpus/grid/{fragment?}')]
-    public function grid(SearchData $search, ?string $fragment = null)
-    {
-        $view = view("Corpus.grid",[
-            'search' => $search,
-            'sentences' => [],
-        ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
-    }
 
     #[Get(path: '/corpus/{id}/edit')]
     public function edit(string $id)

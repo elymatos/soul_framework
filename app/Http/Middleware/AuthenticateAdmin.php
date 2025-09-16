@@ -3,16 +3,17 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\AuthenticateException;
+use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Closure;
 
 class AuthenticateAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
         $this->authenticate($request);
+
         return $next($request);
     }
 
@@ -35,6 +36,6 @@ class AuthenticateAdmin
 
     protected function unauthorizated($request)
     {
-        throw new AuthenticateException("You don`t have access to this page. Please, login again.", 401);
+        throw new AuthenticateException('You don`t have access to this page. Please, login again.', 401);
     }
 }

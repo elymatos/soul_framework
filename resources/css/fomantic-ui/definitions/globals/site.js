@@ -20,29 +20,31 @@
         : globalThis;
 
     $.fn.site = function (parameters) {
-        let time = Date.now();
-        let performance = [];
+        var
+            time           = Date.now(),
+            performance    = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
+            query          = arguments[0],
+            methodInvoked  = typeof query === 'string',
+            queryArguments = [].slice.call(arguments, 1),
 
-        let settings = $.isPlainObject(parameters)
-            ? $.extend(true, {}, $.site.settings, parameters)
-            : $.extend({}, $.site.settings);
+            settings        = $.isPlainObject(parameters)
+                ? $.extend(true, {}, $.site.settings, parameters)
+                : $.extend({}, $.site.settings),
 
-        let namespace = settings.namespace;
-        let error = settings.error;
+            namespace       = settings.namespace,
+            error           = settings.error,
 
-        let moduleNamespace = 'module-' + namespace;
+            moduleNamespace = 'module-' + namespace,
 
-        let $document = $(document);
-        let $module = $document;
-        let element = this;
-        let instance = $module.data(moduleNamespace);
+            $document       = $(document),
+            $module         = $document,
+            element         = this,
+            instance        = $module.data(moduleNamespace),
 
-        let module;
-        let returnedValue;
+            module,
+            returnedValue
+        ;
         module = {
 
             initialize: function () {
@@ -53,7 +55,8 @@
                 module.verbose('Storing instance of site', module);
                 instance = module;
                 $module
-                    .data(moduleNamespace, module);
+                    .data(moduleNamespace, module)
+                ;
             },
 
             normalize: function () {
@@ -75,7 +78,9 @@
 
             enabled: {
                 modules: function (modules) {
-                    let enabledModules = [];
+                    var
+                        enabledModules = []
+                    ;
                     modules = modules || settings.modules;
                     $.each(modules, function (index, name) {
                         if (module.moduleExists(name)) {
@@ -89,7 +94,9 @@
 
             disabled: {
                 modules: function (modules) {
-                    let disabledModules = [];
+                    var
+                        disabledModules = []
+                    ;
                     modules = modules || settings.modules;
                     $.each(modules, function (index, name) {
                         if (!module.moduleExists(name)) {
@@ -112,10 +119,12 @@
                         ? modifyExisting
                         : true;
                     $.each(modules, function (index, name) {
-                        let namespace = module.moduleExists(name)
-                            ? $.fn[name].settings.namespace || false
-                            : true;
-                        let $existingModules;
+                        var
+                            namespace = module.moduleExists(name)
+                                ? $.fn[name].settings.namespace || false
+                                : true,
+                            $existingModules
+                        ;
                         if (module.moduleExists(name)) {
                             module.verbose('Changing default setting', setting, value, name);
                             $.fn[name].settings[setting] = value;
@@ -137,7 +146,9 @@
                         ? modifyExisting
                         : true;
                     $.each(modules, function (index, name) {
-                        let $existingModules;
+                        var
+                            $existingModules
+                        ;
                         if (module.moduleExists(name)) {
                             module.verbose('Changing default setting', newSettings, name);
                             $.extend(true, $.fn[name].settings, newSettings);
@@ -213,7 +224,8 @@
             destroy: function () {
                 module.verbose('Destroying previous site for', $module);
                 $module
-                    .removeData(moduleNamespace);
+                    .removeData(moduleNamespace)
+                ;
             },
 
             cache: {},
@@ -262,9 +274,11 @@
             },
             performance: {
                 log: function (message) {
-                    let currentTime;
-                    let executionTime;
-                    let previousTime;
+                    var
+                        currentTime,
+                        executionTime,
+                        previousTime
+                    ;
                     if (settings.performance) {
                         currentTime = Date.now();
                         previousTime = time || currentTime;
@@ -283,8 +297,10 @@
                     }, 500);
                 },
                 display: function () {
-                    let title = settings.name + ':';
-                    let totalTime = 0;
+                    var
+                        title = settings.name + ':',
+                        totalTime = 0
+                    ;
                     time = false;
                     clearTimeout(module.performance.timer);
                     $.each(performance, function (index, data) {
@@ -306,19 +322,22 @@
                 },
             },
             invoke: function (query, passedArguments, context) {
-                let object = instance;
-                let maxDepth;
-                let found;
-                let response;
+                var
+                    object = instance,
+                    maxDepth,
+                    found,
+                    response
+                ;
                 passedArguments = passedArguments || queryArguments;
                 context = context || element;
                 if (typeof query === 'string' && object !== undefined) {
                     query = query.split(/[ .]/);
                     maxDepth = query.length - 1;
                     $.each(query, function (depth, value) {
-                        let camelCaseValue = depth !== maxDepth
+                        var camelCaseValue = depth !== maxDepth
                             ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
-                            : query;
+                            : query
+                        ;
                         if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {
                             object = object[camelCaseValue];
                         } else if (object[camelCaseValue] !== undefined) {

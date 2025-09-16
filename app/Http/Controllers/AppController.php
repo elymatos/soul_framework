@@ -17,7 +17,15 @@ class AppController extends Controller
     #[Get(path: '/')]
     public function main()
     {
-        return view('App.main');
+        if (Auth::check()) {
+            return view('App.main');
+        } else {
+            if (config('webtool.login.handler') == 'auth0') {
+                return view('App.auth0Login');
+            } else {
+                return view('App.login');
+            }
+        }
     }
 
     #[Get(path: '/changeLanguage/{language}')]
@@ -34,10 +42,11 @@ class AppController extends Controller
     {
         return $this->main();
     }
+
     #[Post(path: '/app/search')]
     public function appSearch(SearchData $search)
     {
-        $lus =[];
+        $lus = [];
         $frames = [];
         $searchString = '%' . $search->frame;
         if ($searchString != '') {
@@ -56,8 +65,8 @@ class AppController extends Controller
     public static function listFrame(string $name)
     {
         $result = [];
-        $frames = Criteria::byFilterLanguage("view_frame",[
-            ["name","startswith", $name]
+        $frames = Criteria::byFilterLanguage("view_frame", [
+            ["name", "startswith", $name]
         ])
             ->orderBy("name")
             ->all();
@@ -75,8 +84,8 @@ class AppController extends Controller
     public static function listLUSearch(string $name)
     {
         $result = [];
-        $lus = Criteria::byFilterLanguage("view_lu",[
-            ["name","startswith", $name]
+        $lus = Criteria::byFilterLanguage("view_lu", [
+            ["name", "startswith", $name]
         ])
             ->orderBy("name")
             ->all();
@@ -107,16 +116,40 @@ class AppController extends Controller
         return $this->renderNotify("error", $msg);
     }
 
-    #[Get(path: '/reports')]
-    public function reports()
+    #[Get(path: '/report')]
+    public function report()
     {
-        return view('App.reports');
+        return view('App.report');
+    }
+
+    #[Get(path: '/grapher')]
+    public function grapher()
+    {
+        return view('App.grapher');
     }
 
     #[Get(path: '/annotation')]
     public function annotation()
     {
         return view('App.annotation');
+    }
+
+    #[Get(path: '/structure')]
+    public function structure()
+    {
+        return view('App.structure');
+    }
+
+    #[Get(path: '/manager')]
+    public function manager()
+    {
+        return view('App.manager');
+    }
+
+    #[Get(path: '/utils')]
+    public function utils()
+    {
+        return view('App.utils');
     }
 
 }

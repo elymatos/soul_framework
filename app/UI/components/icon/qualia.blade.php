@@ -1,1 +1,1 @@
-<i class="icon material qualia">linked_services</i>
+<i class="icon material color_qualia">linked_services</i>

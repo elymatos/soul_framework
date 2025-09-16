@@ -1,6 +1,6 @@
 <x-layout.page>
     <x-slot:head>
-        <x-breadcrumb :sections="[['','Twofactor']]"></x-breadcrumb>
+        <x-layout::breadcrumb :sections="[['','Twofactor']]"></x-layout::breadcrumb>
     </x-slot:head>
     <x-slot:main>
     <section id="work" class="w-full h-full">

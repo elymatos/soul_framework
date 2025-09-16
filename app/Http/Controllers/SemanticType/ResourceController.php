@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\SemanticType;
 use App\Services\AppService;
 use App\Services\RelationService;
-use App\View\_Components\Combobox\Domain;
+use App\View\Components\Combobox\Domain;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;

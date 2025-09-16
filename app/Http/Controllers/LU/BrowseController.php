@@ -60,7 +60,7 @@ class BrowseController extends Controller
     #[Get(path: '/lu/list/forSelect')]
     public function listForSelect(QData $data)
     {
-        $name = (strlen($data->q) > 2) ? $data->q : 'none';
+        $name = (strlen($data->lu) > 2) ? $data->lu : 'none';
         return ['results' => Criteria::byFilterLanguage("view_lu",["name","startswith",$name])->orderby("name")->all()];
     }
 }

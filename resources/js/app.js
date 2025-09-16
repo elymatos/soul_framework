@@ -1,38 +1,44 @@
 import './bootstrap';
+// import './webcomponents';
 import Alpine from 'alpinejs';
+
 
 import Chart from 'chart.js/auto';
 
 import svgPanZoom from "svg-pan-zoom";
 import ky from 'ky';
-import Split from 'split.js';
-import { Network, DataSet } from 'vis-network/standalone';
+import Split from 'split.js'
 
+// Component imports
 import './components/messengerComponent.js';
 import browseSearchComponent from './components/browseSearchComponent.js';
 import searchComponent from './components/searchComponent.js';
 import treeComponent from './components/treeComponent.js';
-import SoulGraphVisualization from './soul/visualization/SoulGraphVisualization.js';
-import ActivationVisualizer from './soul/components/ActivationVisualizer.js';
-import FrameVisualization from './soul/components/FrameVisualization.js';
-import FrameMatcher from './soul/components/FrameMatcher.js';
+import searchFormComponent from './components/searchFormComponent.js';
+import dataGridComponent from './components/dataGridComponent.js';
 
+import '../css/fomantic-ui/semantic.less';
+// import 'primeflex/primeflex.css';
 import '../css/app.less';
+// import '../css/webcomponents.scss';
 
 window.Chart = Chart;
 window.svgPanZoom = svgPanZoom;
 window.ky = ky;
 window.Split = Split;
-window.vis = { Network, DataSet };
-window.SoulGraphVisualization = SoulGraphVisualization;
-window.ActivationVisualizer = ActivationVisualizer;
-window.FrameVisualization = FrameVisualization;
-window.FrameMatcher = FrameMatcher;
+
+
+// Make Alpine available globally before any components try to use it
+window.Alpine = Alpine;
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Register legacy components
+    Alpine.data('searchFormComponent', searchFormComponent);
     Alpine.data('searchComponent', searchComponent);
     Alpine.data('treeComponent', treeComponent);
     Alpine.data('browseSearchComponent', browseSearchComponent);
+    Alpine.data('dataGrid', dataGridComponent);
     Alpine.start();
+
 });
 

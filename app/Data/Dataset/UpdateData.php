@@ -11,7 +11,6 @@ class UpdateData extends Data
         public ?int $idDataset = null,
         public ?string $name = '',
         public ?string $description = '',
-        public ?int $idProject = null,
         public ?int $idUser = null
     )
     {

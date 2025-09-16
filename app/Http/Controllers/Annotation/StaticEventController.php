@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Annotation;
 
 use App\Data\Annotation\StaticEvent\AnnotationCommentData;
 use App\Data\Annotation\StaticEvent\CreateData;
-use App\Data\Annotation\StaticEvent\ObjectFrameData;
 use App\Data\Annotation\StaticEvent\SearchData;
 use App\Data\Annotation\StaticEvent\SentenceData;
+use App\Data\Annotation\StaticEvent\ObjectFrameData;
 use App\Database\Criteria;
 use App\Http\Controllers\Controller;
 use App\Repositories\Corpus;
 use App\Repositories\Document;
 use App\Repositories\Frame;
 use App\Repositories\LU;
-use App\Services\Annotation\StaticEventService;
+use App\Services\AnnotationStaticEventService;
 use App\Services\AppService;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
@@ -46,7 +46,7 @@ class StaticEventController extends Controller
     public function documentSentences(int $idDocument)
     {
         $document = Document::byId($idDocument);
-        $sentences = StaticEventService::listSentences($idDocument);
+        $sentences = AnnotationStaticEventService::listSentences($idDocument);
         return view("Annotation.StaticEvent.sentences", [
             'document' => $document,
             'sentences' => $sentences
@@ -56,7 +56,7 @@ class StaticEventController extends Controller
     private function getData(int $idDocumentSentence): SentenceData
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $ds = Criteria::byFilter("document_sentence", ["idDocumentSentence", "=", $idDocumentSentence])->first();
+        $ds = Criteria::byFilter("view_document_sentence", ["idDocumentSentence", "=", $idDocumentSentence])->first();
         $document = Criteria::byFilter("view_document", [
             ["idDocument", "=", $ds->idDocument],
             ["idLanguage","=", $idLanguage],
@@ -67,11 +67,11 @@ class StaticEventController extends Controller
             ["idSentence", "=", $sentence->idSentence]
         ])->first();
         $image = Criteria::byFilter("image", ["idImage", "=", $is->idImage])->first();
-        $annotation = StaticEventService::getObjectsForAnnotationImage($document->idDocument, $sentence->idSentence);
+        $annotation = AnnotationStaticEventService::getObjectsForAnnotationImage($document->idDocument, $sentence->idSentence);
         return SentenceData::from([
             'idDocumentSentence' => $idDocumentSentence,
-            'idPrevious' => StaticEventService::getPrevious($document->idDocument,$idDocumentSentence),
-            'idNext' => StaticEventService::getNext($document->idDocument,$idDocumentSentence),
+            'idPrevious' => AnnotationStaticEventService::getPrevious($document->idDocument,$idDocumentSentence),
+            'idNext' => AnnotationStaticEventService::getNext($document->idDocument,$idDocumentSentence),
             'document' => $document,
             'sentence' => $sentence,
             'corpus' => $corpus,
@@ -128,7 +128,7 @@ class StaticEventController extends Controller
                     }
                 }
             }
-            StaticEventService::updateAnnotation($idDocumentSentence, $idFrame, $data->objects);
+            AnnotationStaticEventService::updateAnnotation($idDocumentSentence, $idFrame, $data->objects);
             return $this->renderNotify("success", "Annotations updated.");
         } catch (\Exception $e) {
             return $this->renderNotify("error", $e->getMessage());
@@ -139,7 +139,7 @@ class StaticEventController extends Controller
     public function annotationSentenceFesDelete(int $idDocumentSentence, int $idFrame)
     {
         try {
-            StaticEventService::deleteAnnotationByFrame($idDocumentSentence, $idFrame);
+            AnnotationStaticEventService::deleteAnnotationByFrame($idDocumentSentence, $idFrame);
             return $this->clientRedirect("/annotation/staticEvent/sentence/{$idDocumentSentence}");
         } catch (\Exception $e) {
             return $this->renderNotify("error", $e->getMessage());

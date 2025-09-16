@@ -7,7 +7,6 @@ use Spatie\LaravelData\Data;
 class ObjectFrameData extends Data
 {
     public function __construct(
-        public ?int   $idDocument = null,
         public ?int   $idDynamicObject = null,
         public ?int   $startFrame = null,
         public ?int   $endFrame = null,

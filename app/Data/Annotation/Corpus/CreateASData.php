@@ -11,6 +11,7 @@ class CreateASData extends Data
     public function __construct(
         public ?int          $idDocumentSentence,
         public ?int          $idLU,
+        public ?string        $corpusAnnotationType = '',
         public mixed       $wordList,
     )
     {

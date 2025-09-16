@@ -13,6 +13,17 @@ export default function () {
         onResultsUpdated(event) {
             const gridArea = document.getElementById("gridArea");
             if (gridArea) {
+                // First, find and reset any existing tree components
+                const treeContainers = gridArea.querySelectorAll('[x-data*="treeComponent"]');
+                treeContainers.forEach(container => {
+                    // Get the Alpine component instance and call reload if available
+                    const alpineData = Alpine.$data(container);
+                    if (alpineData && typeof alpineData.reload === 'function') {
+                        alpineData.reload();
+                    }
+                });
+                
+                // Then reinitialize Alpine for any new components
                 Alpine.initTree(gridArea);
             }
         },

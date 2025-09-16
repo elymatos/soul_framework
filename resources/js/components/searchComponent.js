@@ -15,6 +15,7 @@ export default function (config) {
         searchPerformed: false,
         selectedValue: config.initialValue || '',
         displayValue: config.initialDisplayValue || '',
+        rawDisplayValue: config.initialDisplayValue || '', // Clean text version for search
         searchResults: [],
         errorMessage: '',
 
@@ -31,7 +32,7 @@ export default function (config) {
 
         // Helper method to resolve display value from value ID
         async resolveDisplayValue(value) {
-            if (!value || !this.resolveUrl) return '';
+            if (!value || !this.resolveUrl) return { formatted: '', raw: '' };
 
             try {
                 const url = new URL(this.resolveUrl, window.location.origin);
@@ -45,14 +46,17 @@ export default function (config) {
                 const data = await response.json();
                 const item = data.result || data;
 
-                if (this.displayFormatter && typeof window[this.displayFormatter] === 'function') {
-                    return window[this.displayFormatter](item);
-                }
-                return item[this.displayField] || '';
+                const rawValue = item[this.displayField] || '';
+                const formattedValue = (this.displayFormatter && typeof window[this.displayFormatter] === 'function') 
+                    ? window[this.displayFormatter](item) 
+                    : rawValue;
+
+                return { formatted: formattedValue, raw: rawValue };
 
             } catch (error) {
                 console.error('Error resolving display value:', error);
-                return `ID: ${value}`; // Fallback display
+                const fallback = `ID: ${value}`;
+                return { formatted: fallback, raw: fallback };
             }
         },
 
@@ -69,7 +73,8 @@ export default function (config) {
             // Resolve display value if we have a value but no display value
             if (this.selectedValue && !this.displayValue && this.resolveUrl) {
                 this.resolveDisplayValue(this.selectedValue).then(resolved => {
-                    this.displayValue = resolved;
+                    this.displayValue = resolved.formatted;
+                    this.rawDisplayValue = resolved.raw;
                 });
             }
 
@@ -88,6 +93,20 @@ export default function (config) {
             this.isModalOpen = true;
             this.errorMessage = '';
             document.body.classList.add('modal-open');
+
+            // Populate search fields with current raw display value if available
+            if (this.rawDisplayValue && this.rawDisplayValue.trim() !== '') {
+                // Get the first search field name to populate with current raw display value
+                const firstFieldName = Object.keys(this.searchParams)[0];
+                if (firstFieldName) {
+                    this.searchParams[firstFieldName] = this.rawDisplayValue;
+                    
+                    // Perform search to show results matching current value
+                    this.$nextTick(() => {
+                        this.performSearch();
+                    });
+                }
+            }
 
             // Focus first search field
             this.$nextTick(() => {
@@ -155,7 +174,8 @@ export default function (config) {
 
         selectResult(result) {
             this.selectedValue = result[this.valueField];
-            this.displayValue = result[this.displayField];
+            this.displayValue = this.formatResultDisplay(result);
+            this.rawDisplayValue = result[this.displayField] || '';
             this.closeModal();
 
             // Trigger change event for form validation and custom handlers
@@ -205,6 +225,7 @@ export default function (config) {
         clearSelection() {
             this.selectedValue = '';
             this.displayValue = '';
+            this.rawDisplayValue = '';
 
             // Also clear the search fields and results
             this.resetSearch();

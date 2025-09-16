@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Database\Criteria;
+use App\Services\AppService;
 
 class LayerType
 {
@@ -18,9 +19,11 @@ class LayerType
         if (isset($lPOS[$pos->POS])) {
             $array[] = $lPOS[$pos->POS];
         }
-        $criteria = Criteria::table("layertype")
-            ->select('idLayerType','entry')
-            ->where('entry', 'IN', $array);
+        $criteria = Criteria::table("view_layertype")
+            ->select('idLayerType','entry','name')
+            ->where('entry', 'IN', $array)
+            ->where('idLanguage',AppService::getCurrentIdLanguage())
+            ->orderBy('layerOrder');
         return $criteria->all();
     }
 

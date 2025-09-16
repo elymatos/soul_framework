@@ -20,54 +20,58 @@
         : globalThis;
 
     $.fn.form = function (parameters) {
-        let $allModules = $(this);
-        let $window = $(window);
+        var
+            $allModules      = $(this),
+            $window        = $(window),
 
-        let time = Date.now();
-        let performance = [];
+            time             = Date.now(),
+            performance      = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
-        let returnedValue;
+            query            = arguments[0],
+            methodInvoked    = typeof query === 'string',
+            queryArguments   = [].slice.call(arguments, 1),
+            returnedValue
+        ;
         $allModules.each(function () {
-            let $module = $(this);
-            let element = this;
+            var
+                $module     = $(this),
+                element     = this,
 
-            let formErrors = [];
-            let formErrorsTracker = {};
-            let keyHeldDown = false;
+                formErrors  = [],
+                formErrorsTracker = {},
+                keyHeldDown = false,
 
-            // set at run-time
-            let $field;
-            let $group;
-            let $message;
-            let $prompt;
-            let $submit;
-            let $clear;
-            let $reset;
+                // set at run-time
+                $field,
+                $group,
+                $message,
+                $prompt,
+                $submit,
+                $clear,
+                $reset,
 
-            let settings;
-            let validation;
+                settings,
+                validation,
 
-            let metadata;
-            let selector;
-            let className;
-            let regExp;
-            let error;
+                metadata,
+                selector,
+                className,
+                regExp,
+                error,
 
-            let namespace;
-            let moduleNamespace;
-            let eventNamespace;
-            let attachEventsSelector;
-            let attachEventsAction;
+                namespace,
+                moduleNamespace,
+                eventNamespace,
+                attachEventsSelector,
+                attachEventsAction,
 
-            let submitting = false;
-            let dirty = false;
-            let history = ['clean', 'clean'];
+                submitting = false,
+                dirty = false,
+                history = ['clean', 'clean'],
 
-            let instance;
-            let module;
+                instance,
+                module
+            ;
 
             module = {
 
@@ -99,14 +103,16 @@
                     module.verbose('Storing instance of module', module);
                     instance = module;
                     $module
-                        .data(moduleNamespace, module);
+                        .data(moduleNamespace, module)
+                    ;
                 },
 
                 destroy: function () {
                     module.verbose('Destroying previous module', instance);
                     module.removeEvents();
                     $module
-                        .removeData(moduleNamespace);
+                        .removeData(moduleNamespace)
+                    ;
                 },
 
                 refresh: function () {
@@ -156,15 +162,18 @@
                         .on('blur' + eventNamespace, selector.field, module.event.field.blur)
                         .on('click' + eventNamespace, selector.submit, module.submit)
                         .on('click' + eventNamespace, selector.reset, module.reset)
-                        .on('click' + eventNamespace, selector.clear, module.clear);
+                        .on('click' + eventNamespace, selector.clear, module.clear)
+                    ;
                     $field.on('invalid' + eventNamespace, module.event.field.invalid);
                     if (settings.keyboardShortcuts) {
                         $module.on('keydown' + eventNamespace, selector.field, module.event.field.keydown);
                     }
                     $field.each(function (index, el) {
-                        let $input = $(el);
-                        let type = $input.prop('type');
-                        let inputEvent = module.get.changeEvent(type, $input);
+                        var
+                            $input     = $(el),
+                            type       = $input.prop('type'),
+                            inputEvent = module.get.changeEvent(type, $input)
+                        ;
                         $input.on(inputEvent + eventNamespace, module.event.field.change);
                     });
 
@@ -195,16 +204,18 @@
 
                 clear: function () {
                     $field.each(function (index, el) {
-                        let $field = $(el);
-                        let $element = $field.parent();
-                        let $fieldGroup = $field.closest($group);
-                        let $prompt = $fieldGroup.find(selector.prompt);
-                        let $calendar = $field.closest(selector.uiCalendar);
-                        let defaultValue = $field.data(metadata.defaultValue) || '';
-                        let isCheckbox = $field.is(selector.checkbox);
-                        let isDropdown = $element.is(selector.uiDropdown) && module.can.useElement('dropdown');
-                        let isCalendar = $calendar.length > 0 && module.can.useElement('calendar');
-                        let isErrored = $fieldGroup.hasClass(className.error);
+                        var
+                            $field       = $(el),
+                            $element     = $field.parent(),
+                            $fieldGroup  = $field.closest($group),
+                            $prompt      = $fieldGroup.find(selector.prompt),
+                            $calendar    = $field.closest(selector.uiCalendar),
+                            defaultValue = $field.data(metadata.defaultValue) || '',
+                            isCheckbox   = $field.is(selector.checkbox),
+                            isDropdown   = $element.is(selector.uiDropdown) && module.can.useElement('dropdown'),
+                            isCalendar   = $calendar.length > 0 && module.can.useElement('calendar'),
+                            isErrored    = $fieldGroup.hasClass(className.error)
+                        ;
                         if (isErrored) {
                             module.verbose('Resetting error on field', $fieldGroup);
                             $fieldGroup.removeClass(className.error);
@@ -227,17 +238,19 @@
 
                 reset: function () {
                     $field.each(function (index, el) {
-                        let $field = $(el);
-                        let $element = $field.parent();
-                        let $fieldGroup = $field.closest($group);
-                        let $calendar = $field.closest(selector.uiCalendar);
-                        let $prompt = $fieldGroup.find(selector.prompt);
-                        let defaultValue = $field.data(metadata.defaultValue);
-                        let isCheckbox = $field.is(selector.checkbox);
-                        let isDropdown = $element.is(selector.uiDropdown) && module.can.useElement('dropdown');
-                        let isCalendar = $calendar.length > 0 && module.can.useElement('calendar');
-                        let isFile = $field.is(selector.file);
-                        let isErrored = $fieldGroup.hasClass(className.error);
+                        var
+                            $field       = $(el),
+                            $element     = $field.parent(),
+                            $fieldGroup  = $field.closest($group),
+                            $calendar    = $field.closest(selector.uiCalendar),
+                            $prompt      = $fieldGroup.find(selector.prompt),
+                            defaultValue = $field.data(metadata.defaultValue),
+                            isCheckbox   = $field.is(selector.checkbox),
+                            isDropdown   = $element.is(selector.uiDropdown) && module.can.useElement('dropdown'),
+                            isCalendar   = $calendar.length > 0 && module.can.useElement('calendar'),
+                            isFile       = $field.is(selector.file),
+                            isErrored    = $fieldGroup.hasClass(className.error)
+                        ;
                         if (defaultValue === undefined) {
                             return;
                         }
@@ -264,11 +277,14 @@
 
                 determine: {
                     isValid: function () {
-                        let allValid = true;
+                        var
+                            allValid = true
+                        ;
                         $field.each(function (index, el) {
-                            let $el = $(el);
-                            let validation = module.get.validation($el) || {};
-                            let identifier = module.get.identifier(validation, $el);
+                            var $el = $(el),
+                                validation = module.get.validation($el) || {},
+                                identifier = module.get.identifier(validation, $el)
+                            ;
                             if (!module.validate.field(validation, identifier, true)) {
                                 allValid = false;
                             }
@@ -277,12 +293,14 @@
                         return allValid;
                     },
                     isDirty: function (e) {
-                        let formIsDirty = false;
+                        var formIsDirty = false;
 
                         $field.each(function (index, el) {
-                            let $el = $(el);
-                            let isCheckbox = $el.filter(selector.checkbox).length > 0;
-                            let isDirty;
+                            var
+                                $el = $(el),
+                                isCheckbox = $el.filter(selector.checkbox).length > 0,
+                                isDirty
+                            ;
 
                             isDirty = isCheckbox
                                 ? module.is.checkboxDirty($el)
@@ -323,7 +341,9 @@
                         return String($field.val()).trim() === '';
                     },
                     valid: function (field, showErrors) {
-                        let allValid = true;
+                        var
+                            allValid = true
+                        ;
                         if (field) {
                             module.verbose('Checking if field is valid', field);
 
@@ -346,25 +366,25 @@
                         return !dirty;
                     },
                     fieldDirty: function ($el) {
-                        let initialValue = $el.data(metadata.defaultValue);
+                        var initialValue = $el.data(metadata.defaultValue);
                         // Explicitly check for undefined/null here as value may be `false`, so ($el.data(dataInitialValue) || '') would not work
                         if (initialValue === undefined || initialValue === null) {
                             initialValue = '';
                         } else if (Array.isArray(initialValue)) {
                             initialValue = initialValue.toString();
                         }
-                        let currentValue = $el.val();
+                        var currentValue = $el.val();
                         if (currentValue === undefined || currentValue === null) {
                             currentValue = '';
                         } else if (Array.isArray(currentValue)) {
-                            // multiple select values are returned as arrays which are never equal, so do the string conversion first
+                            // multiple select values are returned as arrays which are never equal, so do string conversion first
                             currentValue = currentValue.toString();
                         }
-                        // Boolean values can be encoded as "true/false" or "True/False" depending on underlying frameworks, so we need a case-insensitive comparison
-                        let boolRegex = /^(true|false)$/i;
-                        let isBoolValue = boolRegex.test(initialValue) && boolRegex.test(currentValue);
+                        // Boolean values can be encoded as "true/false" or "True/False" depending on underlying frameworks so we need a case insensitive comparison
+                        var boolRegex = /^(true|false)$/i;
+                        var isBoolValue = boolRegex.test(initialValue) && boolRegex.test(currentValue);
                         if (isBoolValue) {
-                            let regex = new RegExp('^' + initialValue + '$', 'i');
+                            var regex = new RegExp('^' + initialValue + '$', 'i');
 
                             return !regex.test(currentValue);
                         }
@@ -372,8 +392,8 @@
                         return currentValue !== initialValue;
                     },
                     checkboxDirty: function ($el) {
-                        let initialValue = $el.data(metadata.defaultValue);
-                        let currentValue = $el.is(':checked');
+                        var initialValue = $el.data(metadata.defaultValue);
+                        var currentValue = $el.is(':checked');
 
                         return initialValue !== currentValue;
                     },
@@ -401,19 +421,22 @@
                 event: {
                     field: {
                         keydown: function (event) {
-                            let $field = $(this);
-                            let key = event.which;
-                            let isInput = $field.is(selector.input);
-                            let isCheckbox = $field.is(selector.checkbox);
-                            let isInDropdown = $field.closest(selector.uiDropdown).length > 0;
-                            let keyCode = {
-                                enter: 13,
-                                escape: 27,
-                            };
+                            var
+                                $field       = $(this),
+                                key          = event.which,
+                                isInput      = $field.is(selector.input),
+                                isCheckbox   = $field.is(selector.checkbox),
+                                isInDropdown = $field.closest(selector.uiDropdown).length > 0,
+                                keyCode      = {
+                                    enter: 13,
+                                    escape: 27,
+                                }
+                            ;
                             if (key === keyCode.escape) {
                                 module.verbose('Escape key pressed blurring field');
                                 $field[0]
-                                    .blur();
+                                    .blur()
+                                ;
                             }
                             if (!event.ctrlKey && key === keyCode.enter && isInput && !isInDropdown && !isCheckbox) {
                                 if (!keyHeldDown) {
@@ -431,9 +454,11 @@
                             event.preventDefault();
                         },
                         blur: function (event) {
-                            let $field = $(this);
-                            let validationRules = module.get.validation($field) || {};
-                            let identifier = module.get.identifier(validationRules, $field);
+                            var
+                                $field          = $(this),
+                                validationRules = module.get.validation($field) || {},
+                                identifier      = module.get.identifier(validationRules, $field)
+                            ;
                             if (settings.on === 'blur' || (!$module.hasClass(className.initial) && settings.revalidate)) {
                                 module.debug('Revalidating field', $field, validationRules);
                                 module.validate.field(validationRules, identifier);
@@ -443,9 +468,11 @@
                             }
                         },
                         change: function (event) {
-                            let $field = $(this);
-                            let validationRules = module.get.validation($field) || {};
-                            let identifier = module.get.identifier(validationRules, $field);
+                            var
+                                $field      = $(this),
+                                validationRules = module.get.validation($field) || {},
+                                identifier = module.get.identifier(validationRules, $field)
+                            ;
                             if (settings.on === 'change' || (!$module.hasClass(className.initial) && settings.revalidate)) {
                                 clearTimeout(module.timer);
                                 module.timer = setTimeout(function () {
@@ -467,7 +494,7 @@
                                 event.returnValue = settings.text.leavingMessage;
                             }
 
-                            // For older...
+                            // For olders...
                             return settings.text.leavingMessage;
                         }
                     },
@@ -495,7 +522,9 @@
                         return ['file', 'checkbox', 'radio', 'hidden'].indexOf(type) >= 0 || $input.is('select') ? 'change' : 'input';
                     },
                     fieldsFromShorthand: function (fields) {
-                        let fullFields = {};
+                        var
+                            fullFields = {}
+                        ;
                         $.each(fields, function (name, rules) {
                             if (!Array.isArray(rules) && typeof rules === 'object') {
                                 fullFields[name] = rules;
@@ -512,7 +541,7 @@
                             }
 
                             $.each(fullFields[name].rules, function (index, rule) {
-                                let ruleName = module.get.ruleName(rule);
+                                var ruleName = module.get.ruleName(rule);
                                 if (ruleName === 'empty') {
                                     module.warn('*** DEPRECATED *** : Rule "empty" for field "' + name + '" will be removed in a future version. -> Use "notEmpty" rule instead.');
                                 }
@@ -525,18 +554,20 @@
                         return validation.identifier || $el.attr('id') || $el.attr('name') || $el.data(metadata.validate);
                     },
                     prompt: function (rule, field) {
-                        let ruleName = module.get.ruleName(rule);
-                        let ancillary = module.get.ancillaryValue(rule);
-                        let $field = module.get.field(field.identifier);
-                        let value = $field.val();
-                        let promptCheck = rule.prompt || settings.prompt[ruleName] || settings.text.unspecifiedRule;
-                        let prompt = String(isFunction(promptCheck)
-                            ? promptCheck.call($field[0], value)
-                            : promptCheck);
-                        let requiresValue = prompt.search('{value}') !== -1;
-                        let requiresName = prompt.search('{name}') !== -1;
-                        let parts;
-                        let suffixPrompt;
+                        var
+                            ruleName      = module.get.ruleName(rule),
+                            ancillary     = module.get.ancillaryValue(rule),
+                            $field        = module.get.field(field.identifier),
+                            value         = $field.val(),
+                            promptCheck   = rule.prompt || settings.prompt[ruleName] || settings.text.unspecifiedRule,
+                            prompt        = String(isFunction(promptCheck)
+                                ? promptCheck.call($field[0], value)
+                                : promptCheck),
+                            requiresValue = prompt.search('{value}') !== -1,
+                            requiresName  = prompt.search('{name}') !== -1,
+                            parts,
+                            suffixPrompt
+                        ;
                         if (ancillary && ['integer', 'decimal', 'number', 'size'].indexOf(ruleName) >= 0 && ancillary.indexOf('..') >= 0) {
                             parts = ancillary.split('..', 2);
                             if (!rule.prompt && ruleName !== 'size') {
@@ -599,20 +630,21 @@
                     },
                     field: function (identifier, strict, ignoreMissing) {
                         module.verbose('Finding field with identifier', identifier);
-                        let t;
-                        t = $field.filter('#' + CSS.escape(identifier));
+                        identifier = module.escape.string(identifier);
+                        var t;
+                        t = $field.filter('#' + identifier);
                         if (t.length > 0) {
                             return t;
                         }
-                        t = $field.filter('[name="' + CSS.escape(identifier) + '"]');
+                        t = $field.filter('[name="' + identifier + '"]');
                         if (t.length > 0) {
                             return t;
                         }
-                        t = $field.filter('[name="' + CSS.escape(identifier) + '[]"]');
+                        t = $field.filter('[name="' + identifier + '[]"]');
                         if (t.length > 0) {
                             return t;
                         }
-                        t = $field.filter('[data-' + metadata.validate + '="' + CSS.escape(identifier) + '"]');
+                        t = $field.filter('[data-' + metadata.validate + '="' + identifier + '"]');
                         if (t.length > 0) {
                             return t;
                         }
@@ -623,7 +655,9 @@
                         return strict ? $() : $('<input/>');
                     },
                     fields: function (fields, strict) {
-                        let $fields = $();
+                        var
+                            $fields = $()
+                        ;
                         $.each(fields, function (index, name) {
                             $fields = $fields.add(module.get.field(name, strict));
                         });
@@ -631,18 +665,21 @@
                         return $fields;
                     },
                     fieldLabel: function (identifier, useIdAsFallback) {
-                        let $field = typeof identifier === 'string'
-                            ? module.get.field(identifier)
-                            : identifier;
-                        let $label = $field.closest(selector.group).find('label:not(:empty)').eq(0);
+                        var $field = typeof identifier === 'string'
+                                ? module.get.field(identifier)
+                                : identifier,
+                            $label = $field.closest(selector.group).find('label:not(:empty)').eq(0)
+                        ;
 
                         return $label.length === 1
                             ? $label.text()
                             : $field.prop('placeholder') || (useIdAsFallback ? identifier : settings.text.unspecifiedField);
                     },
                     validation: function ($field) {
-                        let fieldValidation;
-                        let identifier;
+                        var
+                            fieldValidation,
+                            identifier
+                        ;
                         if (!validation) {
                             return false;
                         }
@@ -661,9 +698,11 @@
                         return fieldValidation || false;
                     },
                     value: function (field, strict) {
-                        let fields = [];
-                        let results;
-                        let resultKeys;
+                        var
+                            fields = [],
+                            results,
+                            resultKeys
+                        ;
                         fields.push(field);
                         results = module.get.values.call(element, fields, strict);
                         resultKeys = Object.keys(results);
@@ -671,22 +710,26 @@
                         return resultKeys.length > 0 ? results[resultKeys[0]] : undefined;
                     },
                     values: function (fields, strict) {
-                        let $fields = Array.isArray(fields) && fields.length > 0
-                            ? module.get.fields(fields, strict)
-                            : $field;
-                        let values = {};
+                        var
+                            $fields = Array.isArray(fields) && fields.length > 0
+                                ? module.get.fields(fields, strict)
+                                : $field,
+                            values = {}
+                        ;
                         $fields.each(function (index, field) {
-                            let $field = $(field);
-                            let $calendar = $field.closest(selector.uiCalendar);
-                            let name = $field.prop('name') || $field.prop('id');
-                            let value = $field.val();
-                            let isCheckbox = $field.is(selector.checkbox);
-                            let isRadio = $field.is(selector.radio);
-                            let isMultiple = name.indexOf('[]') !== -1;
-                            let isCalendar = $calendar.length > 0 && module.can.useElement('calendar');
-                            let isChecked = isCheckbox
-                                ? $field.is(':checked')
-                                : false;
+                            var
+                                $field       = $(field),
+                                $calendar    = $field.closest(selector.uiCalendar),
+                                name         = $field.prop('name') || $field.prop('id'),
+                                value        = $field.val(),
+                                isCheckbox   = $field.is(selector.checkbox),
+                                isRadio      = $field.is(selector.radio),
+                                isMultiple   = name.indexOf('[]') !== -1,
+                                isCalendar   = $calendar.length > 0 && module.can.useElement('calendar'),
+                                isChecked    = isCheckbox
+                                    ? $field.is(':checked')
+                                    : false
+                            ;
                             if (name) {
                                 if (isMultiple) {
                                     name = name.replace('[]', '');
@@ -712,7 +755,7 @@
                                     } else if (isCheckbox) {
                                         values[name] = isChecked ? value || true : false;
                                     } else if (isCalendar) {
-                                        let date = $calendar.calendar('get date');
+                                        var date = $calendar.calendar('get date');
 
                                         if (date !== null) {
                                             switch (settings.dateHandling) {
@@ -727,7 +770,7 @@
                                                     break;
                                                 }
                                                 case 'formatter': {
-                                                    let type = $calendar.calendar('setting', 'type');
+                                                    var type = $calendar.calendar('setting', 'type');
 
                                                     switch (type) {
                                                         case 'date': {
@@ -804,6 +847,14 @@
                     },
                 },
 
+                escape: {
+                    string: function (text) {
+                        text = String(text);
+
+                        return text.replace(regExp.escape, '\\$&');
+                    },
+                },
+
                 checkErrors: function (errors, internal) {
                     if (!errors || errors.length === 0) {
                         if (!internal) {
@@ -832,9 +883,11 @@
                                 rules: [],
                             };
                         }
-                        let newValidation = {
-                            rules: [],
-                        };
+                        var
+                            newValidation = {
+                                rules: [],
+                            }
+                        ;
                         if (module.is.shorthandRules(rules)) {
                             rules = Array.isArray(rules)
                                 ? rules
@@ -865,15 +918,18 @@
                         if (errors === false) {
                             return;
                         }
-                        let $field = module.get.field(identifier);
-                        let $fieldGroup = $field.closest($group);
-                        let $prompt = $fieldGroup.children(selector.prompt);
-                        let promptExists = $prompt.length > 0;
-                        let canTransition = settings.transition && module.can.useElement('transition');
+                        var
+                            $field       = module.get.field(identifier),
+                            $fieldGroup  = $field.closest($group),
+                            $prompt      = $fieldGroup.children(selector.prompt),
+                            promptExists = $prompt.length > 0,
+                            canTransition = settings.transition && module.can.useElement('transition')
+                        ;
                         module.verbose('Adding field error state', identifier);
                         if (!internal) {
                             $fieldGroup
-                                .addClass(className.error);
+                                .addClass(className.error)
+                            ;
                         }
                         if (settings.inline) {
                             if (promptExists) {
@@ -893,10 +949,12 @@
                                     $prompt.css('display', 'none');
                                 }
                                 $prompt
-                                    .appendTo($fieldGroup.filter('.' + className.error));
+                                    .appendTo($fieldGroup.filter('.' + className.error))
+                                ;
                             }
                             $prompt
-                                .html(settings.templates.prompt(errors));
+                                .html(settings.templates.prompt(errors))
+                            ;
                             if (!promptExists) {
                                 if (canTransition) {
                                     module.verbose('Displaying error with css transition', settings.transition);
@@ -904,7 +962,8 @@
                                 } else {
                                     module.verbose('Displaying error with fallback javascript animation');
                                     $prompt
-                                        .fadeIn(settings.duration);
+                                        .fadeIn(settings.duration)
+                                    ;
                                 }
                             }
                         } else {
@@ -918,8 +977,9 @@
                         }
                         module.debug('Adding form error messages', errors);
                         module.set.error();
-                        let customErrors = [];
-                        let tempErrors;
+                        var customErrors = [],
+                            tempErrors
+                        ;
                         if ($.isPlainObject(errors)) {
                             $.each(Object.keys(errors), function (i, id) {
                                 if (module.checkErrors(errors[id], true) !== false) {
@@ -942,7 +1002,8 @@
                         }
                         if (customErrors.length > 0) {
                             $message
-                                .html(settings.templates.error(customErrors));
+                                .html(settings.templates.error(customErrors))
+                            ;
                         }
                     },
                 },
@@ -960,9 +1021,11 @@
                         module.determine.isDirty();
                     },
                     rule: function (field, rule) {
-                        let rules = Array.isArray(rule)
-                            ? rule
-                            : [rule];
+                        var
+                            rules = Array.isArray(rule)
+                                ? rule
+                                : [rule]
+                        ;
                         if (validation[field] === undefined || !Array.isArray(validation[field].rules)) {
                             return;
                         }
@@ -984,9 +1047,11 @@
                         });
                     },
                     field: function (field) {
-                        let fields = Array.isArray(field)
-                            ? field
-                            : [field];
+                        var
+                            fields = Array.isArray(field)
+                                ? field
+                                : [field]
+                        ;
                         $.each(fields, function (index, field) {
                             module.remove.rule(field);
                         });
@@ -1006,11 +1071,14 @@
                         module.remove.field(fields);
                     },
                     prompt: function (identifier) {
-                        let $field = module.get.field(identifier);
-                        let $fieldGroup = $field.closest($group);
-                        let $prompt = $fieldGroup.children(selector.prompt);
+                        var
+                            $field      = module.get.field(identifier),
+                            $fieldGroup = $field.closest($group),
+                            $prompt     = $fieldGroup.children(selector.prompt)
+                        ;
                         $fieldGroup
-                            .removeClass(className.error);
+                            .removeClass(className.error)
+                        ;
                         if (settings.inline && $prompt.is(':visible')) {
                             module.verbose('Removing prompt for field', identifier);
                             if (settings.transition && module.can.useElement('transition')) {
@@ -1021,7 +1089,8 @@
                                 $prompt
                                     .fadeOut(settings.duration, function () {
                                         $prompt.remove();
-                                    });
+                                    })
+                                ;
                             }
                         }
                     },
@@ -1031,19 +1100,22 @@
                     success: function () {
                         $module
                             .removeClass(className.error)
-                            .addClass(className.success);
+                            .addClass(className.success)
+                        ;
                     },
                     defaults: function () {
                         $field.each(function (index, el) {
-                            let $el = $(el);
-                            let $parent = $el.parent();
-                            let isCheckbox = $el.filter(selector.checkbox).length > 0;
-                            let isDropdown = ($parent.is(selector.uiDropdown) || $el.is(selector.uiDropdown)) && module.can.useElement('dropdown');
-                            let $calendar = $el.closest(selector.uiCalendar);
-                            let isCalendar = $calendar.length > 0 && module.can.useElement('calendar');
-                            let value = isCheckbox
-                                ? $el.is(':checked')
-                                : $el.val();
+                            var
+                                $el        = $(el),
+                                $parent    = $el.parent(),
+                                isCheckbox = $el.filter(selector.checkbox).length > 0,
+                                isDropdown = ($parent.is(selector.uiDropdown) || $el.is(selector.uiDropdown)) && module.can.useElement('dropdown'),
+                                $calendar  = $el.closest(selector.uiCalendar),
+                                isCalendar = $calendar.length > 0 && module.can.useElement('calendar'),
+                                value      = isCheckbox
+                                    ? $el.is(':checked')
+                                    : $el.val()
+                            ;
                             if (isDropdown) {
                                 if ($parent.is(selector.uiDropdown)) {
                                     $parent.dropdown('save defaults');
@@ -1060,10 +1132,13 @@
                     error: function () {
                         $module
                             .removeClass(className.success)
-                            .addClass(className.error);
+                            .addClass(className.error)
+                        ;
                     },
                     value: function (field, value) {
-                        let fields = {};
+                        var
+                            fields = {}
+                        ;
                         fields[field] = value;
 
                         return module.set.values.call(element, fields);
@@ -1073,23 +1148,25 @@
                             return;
                         }
                         $.each(fields, function (key, value) {
-                            let $field = module.get.field(key);
-                            let $element = $field.parent();
-                            let $calendar = $field.closest(selector.uiCalendar);
-                            let isFile = $field.is(selector.file);
-                            let isMultiple = Array.isArray(value);
-                            let isCheckbox = $element.is(selector.uiCheckbox) && module.can.useElement('checkbox');
-                            let isDropdown = $element.is(selector.uiDropdown) && module.can.useElement('dropdown');
-                            let isRadio = $field.is(selector.radio) && isCheckbox;
-                            let isCalendar = $calendar.length > 0 && module.can.useElement('calendar');
-                            let fieldExists = $field.length > 0;
-                            let $multipleField;
+                            var
+                                $field      = module.get.field(key),
+                                $element    = $field.parent(),
+                                $calendar   = $field.closest(selector.uiCalendar),
+                                isFile      = $field.is(selector.file),
+                                isMultiple  = Array.isArray(value),
+                                isCheckbox  = $element.is(selector.uiCheckbox) && module.can.useElement('checkbox'),
+                                isDropdown  = $element.is(selector.uiDropdown) && module.can.useElement('dropdown'),
+                                isRadio     = $field.is(selector.radio) && isCheckbox,
+                                isCalendar  = $calendar.length > 0 && module.can.useElement('calendar'),
+                                fieldExists = $field.length > 0,
+                                $multipleField
+                            ;
                             if (fieldExists) {
                                 if (isMultiple && isCheckbox) {
                                     module.verbose('Selecting multiple', value, $field);
                                     $element.checkbox('uncheck');
                                     $.each(value, function (index, value) {
-                                        $multipleField = $field.filter('[value="' + CSS.escape(value) + '"]');
+                                        $multipleField = $field.filter('[value="' + value + '"]');
                                         $element = $multipleField.parent();
                                         if ($multipleField.length > 0) {
                                             $element.checkbox('check');
@@ -1097,9 +1174,10 @@
                                     });
                                 } else if (isRadio) {
                                     module.verbose('Selecting radio value', value, $field);
-                                    $field.filter('[value="' + CSS.escape(value) + '"]')
+                                    $field.filter('[value="' + value + '"]')
                                         .parent(selector.uiCheckbox)
-                                        .checkbox('check');
+                                        .checkbox('check')
+                                    ;
                                 } else if (isCheckbox) {
                                     module.verbose('Setting checkbox value', value, $element);
                                     if (value === true || value === 1 || value === 'on') {
@@ -1161,18 +1239,20 @@
                             });
                         }
                         $field.each(function (_index, el) {
-                            let $el = $(el);
-                            let $elGroup = $el.closest($group);
-                            let isCheckbox = $el.filter(selector.checkbox).length > 0;
-                            let isRequired = $el.prop('required') || $elGroup.hasClass(className.required) || $elGroup.parent().hasClass(className.required);
-                            let isDisabled = $el.is(':disabled') || $elGroup.hasClass(className.disabled) || $elGroup.parent().hasClass(className.disabled);
-                            let validation = module.get.validation($el);
-                            let hasNotEmptyRule = validation
-                                ? $.grep(validation.rules, function (rule) {
-                                    return ['notEmpty', 'checked', 'empty'].indexOf(rule.type) >= 0;
-                                }).length > 0
-                                : false;
-                            let identifier = module.get.identifier(validation, $el);
+                            var
+                                $el        = $(el),
+                                $elGroup   = $el.closest($group),
+                                isCheckbox = $el.filter(selector.checkbox).length > 0,
+                                isRequired = $el.prop('required') || $elGroup.hasClass(className.required) || $elGroup.parent().hasClass(className.required),
+                                isDisabled = $el.is(':disabled') || $elGroup.hasClass(className.disabled) || $elGroup.parent().hasClass(className.disabled),
+                                validation = module.get.validation($el),
+                                hasNotEmptyRule = validation
+                                    ? $.grep(validation.rules, function (rule) {
+                                        return ['notEmpty', 'checked', 'empty'].indexOf(rule.type) >= 0;
+                                    }).length > 0
+                                    : false,
+                                identifier = module.get.identifier(validation, $el)
+                            ;
                             if (isRequired && !isDisabled && !hasNotEmptyRule && identifier !== undefined) {
                                 if (isCheckbox) {
                                     module.verbose("Adding 'checked' rule on field", identifier);
@@ -1197,7 +1277,7 @@
                 validate: {
 
                     form: function (event, ignoreCallbacks) {
-                        let values = module.get.values();
+                        var values = module.get.values();
 
                         // input keydown event will fire submit repeatedly by browser default
                         if (keyHeldDown) {
@@ -1228,12 +1308,14 @@
                                 event.stopImmediatePropagation();
                             }
                             if (settings.errorFocus && ignoreCallbacks !== true) {
-                                let $focusElement;
-                                let hasTabIndex = true;
+                                var
+                                    $focusElement,
+                                    hasTabIndex = true
+                                ;
                                 if (typeof settings.errorFocus === 'string') {
                                     $focusElement = $(document).find(settings.errorFocus);
                                     hasTabIndex = $focusElement.is('[tabindex]');
-                                    // to be able to focus/scroll into non-input elements, we need a tabindex
+                                    // to be able to focus/scroll into non input elements we need a tabindex
                                     if (!hasTabIndex) {
                                         $focusElement.attr('tabindex', -1);
                                     }
@@ -1267,18 +1349,20 @@
 
                             return true;
                         }
-                        let identifier = field.identifier || fieldName;
-                        let $field = module.get.field(identifier);
-                        let $fieldGroup = $field.closest($group);
-                        let $dependsField = field.depends
-                            ? module.get.field(field.depends)
-                            : false;
-                        let fieldValid = true;
-                        let fieldErrors = [];
-                        let isDisabled = $field.filter(':not(:disabled)').length === 0 || $fieldGroup.hasClass(className.disabled) || $fieldGroup.parent().hasClass(className.disabled);
-                        let validationMessage = $field[0].validationMessage;
-                        let noNativeValidation = field.noNativeValidation || settings.noNativeValidation || $field.filter('[formnovalidate],[novalidate]').length > 0 || $module.filter('[novalidate]').length > 0;
-                        let errorLimit;
+                        var
+                            identifier    = field.identifier || fieldName,
+                            $field        = module.get.field(identifier),
+                            $fieldGroup = $field.closest($group),
+                            $dependsField = field.depends
+                                ? module.get.field(field.depends)
+                                : false,
+                            fieldValid  = true,
+                            fieldErrors = [],
+                            isDisabled = $field.filter(':not(:disabled)').length === 0 || $fieldGroup.hasClass(className.disabled) || $fieldGroup.parent().hasClass(className.disabled),
+                            validationMessage = $field[0].validationMessage,
+                            noNativeValidation = field.noNativeValidation || settings.noNativeValidation || $field.filter('[formnovalidate],[novalidate]').length > 0 || $module.filter('[novalidate]').length > 0,
+                            errorLimit
+                        ;
                         if (!field.identifier) {
                             module.debug('Using field name as identifier', identifier);
                             field.identifier = identifier;
@@ -1303,10 +1387,10 @@
                             errorLimit = field.errorLimit || settings.errorLimit;
                             $.each(field.rules, function (index, rule) {
                                 if (module.has.field(identifier) && (!errorLimit || fieldErrors.length < errorLimit)) {
-                                    let invalidFields = module.validate.rule(field, rule, true) || [];
+                                    var invalidFields = module.validate.rule(field, rule, true) || [];
                                     if (invalidFields.length > 0) {
                                         module.debug('Field is invalid', identifier, rule.type);
-                                        let fieldError = module.get.prompt(rule, field);
+                                        var fieldError = module.get.prompt(rule, field);
                                         if (!settings.inline) {
                                             if (
                                                 // Always allow the first error prompt for new field identifiers
@@ -1350,23 +1434,25 @@
 
                     // takes validation rule and returns whether field passes rule
                     rule: function (field, rule, internal) {
-                        let $field = module.get.field(field.identifier);
-                        let ancillary = module.get.ancillaryValue(rule);
-                        let ruleName = module.get.ruleName(rule);
-                        let ruleFunction = settings.rules[ruleName];
-                        let invalidFields = [];
-                        let isCheckbox = $field.is(selector.checkbox);
-                        let isValid = function (field) {
-                            let value = isCheckbox ? $(field).filter(':checked').val() : $(field).val();
-                            // cast to string avoiding encoding special values
-                            value = value === undefined || value === '' || value === null
-                                ? ''
-                                : ((settings.shouldTrim && rule.shouldTrim !== false) || rule.shouldTrim
-                                    ? String(value + '').trim()
-                                    : String(value + ''));
+                        var
+                            $field       = module.get.field(field.identifier),
+                            ancillary    = module.get.ancillaryValue(rule),
+                            ruleName     = module.get.ruleName(rule),
+                            ruleFunction = settings.rules[ruleName],
+                            invalidFields = [],
+                            isCheckbox = $field.is(selector.checkbox),
+                            isValid = function (field) {
+                                var value = isCheckbox ? $(field).filter(':checked').val() : $(field).val();
+                                // cast to string avoiding encoding special values
+                                value = value === undefined || value === '' || value === null
+                                    ? ''
+                                    : ((settings.shouldTrim && rule.shouldTrim !== false) || rule.shouldTrim
+                                        ? String(value + '').trim()
+                                        : String(value + ''));
 
-                            return ruleFunction.call(field, value, ancillary, module);
-                        };
+                                return ruleFunction.call(field, value, ancillary, module);
+                            }
+                        ;
                         if (!isFunction(ruleFunction)) {
                             module.error(error.noRule, ruleName);
 
@@ -1440,9 +1526,11 @@
                 },
                 performance: {
                     log: function (message) {
-                        let currentTime;
-                        let executionTime;
-                        let previousTime;
+                        var
+                            currentTime,
+                            executionTime,
+                            previousTime
+                        ;
                         if (settings.performance) {
                             currentTime = Date.now();
                             previousTime = time || currentTime;
@@ -1461,8 +1549,10 @@
                         }, 500);
                     },
                     display: function () {
-                        let title = settings.name + ':';
-                        let totalTime = 0;
+                        var
+                            title = settings.name + ':',
+                            totalTime = 0
+                        ;
                         time = false;
                         clearTimeout(module.performance.timer);
                         $.each(performance, function (index, data) {
@@ -1487,17 +1577,19 @@
                     },
                 },
                 invoke: function (query, passedArguments, context) {
-                    let object = instance;
-                    let maxDepth;
-                    let found;
-                    let response;
+                    var
+                        object = instance,
+                        maxDepth,
+                        found,
+                        response
+                    ;
                     passedArguments = passedArguments || queryArguments;
                     context = context || element;
                     if (typeof query === 'string' && object !== undefined) {
                         query = query.split(/[ .]/);
                         maxDepth = query.length - 1;
                         $.each(query, function (depth, value) {
-                            let camelCaseValue = depth !== maxDepth
+                            var camelCaseValue = depth !== maxDepth
                                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
                                 : query;
                             if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {
@@ -1682,7 +1774,9 @@
 
             // template that produces error message
             error: function (errors) {
-                let html = '<ul class="list">';
+                var
+                    html = '<ul class="list">'
+                ;
                 $.each(errors, function (index, value) {
                     html += '<li>' + value + '</li>';
                 });
@@ -1696,7 +1790,9 @@
                 if (errors.length === 1) {
                     return errors[0];
                 }
-                let html = '<ul class="ui list">';
+                var
+                    html = '<ul class="ui list">'
+                ;
                 $.each(errors, function (index, value) {
                     html += '<li>' + value + '</li>';
                 });
@@ -1747,6 +1843,11 @@
                 return !(value === undefined || value === '' || (Array.isArray(value) && value.length === 0));
             },
 
+            /* Deprecated */
+            empty: function (value) {
+                return $.fn.form.settings.rules.notEmpty(value);
+            },
+
             // checkbox checked
             checked: function () {
                 return $(this).filter(':checked').length > 0;
@@ -1757,7 +1858,7 @@
                 return $.fn.form.settings.regExp.email.test(value);
             },
 
-            // value is most likely the url
+            // value is most likely url
             url: function (value) {
                 return $.fn.form.settings.regExp.url.test(value);
             },
@@ -1767,8 +1868,10 @@
                 if (regExp instanceof RegExp) {
                     return value.match(regExp);
                 }
-                let regExpParts = regExp.match($.fn.form.settings.regExp.flags);
-                let flags;
+                var
+                    regExpParts = regExp.match($.fn.form.settings.regExp.flags),
+                    flags
+                ;
                 // regular expression specified as /baz/gi (flags)
                 if (regExpParts) {
                     regExp = regExpParts.length >= 2
@@ -1798,9 +1901,11 @@
                 if (!(regExp instanceof RegExp)) {
                     regExp = $.fn.form.settings.regExp.integer;
                 }
-                let min;
-                let max;
-                let parts;
+                var
+                    min,
+                    max,
+                    parts
+                ;
                 if (!range || ['', '..'].indexOf(range) !== -1) {
 
                     // do nothing
@@ -1829,7 +1934,7 @@
                 );
             },
 
-            // is it a valid number (with decimal)
+            // is valid number (with decimal)
             decimal: function (value, range) {
                 return $.fn.form.settings.rules.range(value, range, 'decimal');
             },
@@ -1839,7 +1944,7 @@
                 return $.fn.form.settings.rules.range(value, range, 'number');
             },
 
-            // is value (case-insensitive)
+            // is value (case insensitive)
             is: function (value, text) {
                 text = typeof text === 'string'
                     ? text.toLowerCase()
@@ -1856,7 +1961,7 @@
                 return value == text;
             },
 
-            // value is not another value (case-insensitive)
+            // value is not another value (case insensitive)
             not: function (value, notValue) {
                 value = typeof value === 'string'
                     ? value.toLowerCase()
@@ -1868,7 +1973,7 @@
                 return value != notValue;
             },
 
-            // value is not another value (case-sensitive)
+            // value is not another value (case sensitive)
             notExactly: function (value, notValue) {
                 return value != notValue;
             },
@@ -1926,16 +2031,16 @@
 
             // matches another field
             match: function (value, identifier, module) {
-                let matchingValue = module.get.value(identifier, true);
+                var matchingValue = module.get.value(identifier, true);
 
                 return matchingValue !== undefined
                     ? value.toString() === matchingValue.toString()
                     : false;
             },
 
-            // different from another field
+            // different than another field
             different: function (value, identifier, module) {
-                let matchingValue = module.get.value(identifier, true);
+                var matchingValue = module.get.value(identifier, true);
 
                 return matchingValue !== undefined
                     ? value.toString() !== matchingValue.toString()
@@ -1943,55 +2048,57 @@
             },
 
             creditCard: function (cardNumber, cardTypes) {
-                let cards = {
-                    visa: {
-                        pattern: /^4/,
-                        length: [16],
+                var
+                    cards = {
+                        visa: {
+                            pattern: /^4/,
+                            length: [16],
+                        },
+                        amex: {
+                            pattern: /^3[47]/,
+                            length: [15],
+                        },
+                        mastercard: {
+                            pattern: /^5[1-5]/,
+                            length: [16],
+                        },
+                        discover: {
+                            pattern: /^(6011|622(12[6-9]|1[3-9]\d|[2-8]\d{2}|9[01]\d|92[0-5]|64[4-9])|65)/,
+                            length: [16],
+                        },
+                        unionPay: {
+                            pattern: /^(62|88)/,
+                            length: [16, 17, 18, 19],
+                        },
+                        jcb: {
+                            pattern: /^35(2[89]|[3-8]\d)/,
+                            length: [16],
+                        },
+                        maestro: {
+                            pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
+                            length: [12, 13, 14, 15, 16, 17, 18, 19],
+                        },
+                        dinersClub: {
+                            pattern: /^(30[0-5]|^36)/,
+                            length: [14],
+                        },
+                        laser: {
+                            pattern: /^(6304|670[69]|6771)/,
+                            length: [16, 17, 18, 19],
+                        },
+                        visaElectron: {
+                            pattern: /^(4026|417500|4508|4844|491(3|7))/,
+                            length: [16],
+                        },
                     },
-                    amex: {
-                        pattern: /^3[47]/,
-                        length: [15],
-                    },
-                    mastercard: {
-                        pattern: /^5[1-5]/,
-                        length: [16],
-                    },
-                    discover: {
-                        pattern: /^(6011|622(12[6-9]|1[3-9]\d|[2-8]\d{2}|9[01]\d|92[0-5]|64[4-9])|65)/,
-                        length: [16],
-                    },
-                    unionPay: {
-                        pattern: /^(62|88)/,
-                        length: [16, 17, 18, 19],
-                    },
-                    jcb: {
-                        pattern: /^35(2[89]|[3-8]\d)/,
-                        length: [16],
-                    },
-                    maestro: {
-                        pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
-                        length: [12, 13, 14, 15, 16, 17, 18, 19],
-                    },
-                    dinersClub: {
-                        pattern: /^(30[0-5]|^36)/,
-                        length: [14],
-                    },
-                    laser: {
-                        pattern: /^(6304|670[69]|6771)/,
-                        length: [16, 17, 18, 19],
-                    },
-                    visaElectron: {
-                        pattern: /^(4026|417500|4508|4844|491(3|7))/,
-                        length: [16],
-                    },
-                };
-                let valid = {};
-                let validCard = false;
-                let requiredTypes = typeof cardTypes === 'string'
-                    ? cardTypes.split(',')
-                    : false;
-                let unionPay;
-                let validation;
+                    valid         = {},
+                    validCard     = false,
+                    requiredTypes = typeof cardTypes === 'string'
+                        ? cardTypes.split(',')
+                        : false,
+                    unionPay,
+                    validation
+                ;
 
                 if (typeof cardNumber !== 'string' || cardNumber.length === 0) {
                     return;
@@ -2031,13 +2138,15 @@
                 }
 
                 // verify luhn, adapted from  <https://gist.github.com/2134376>
-                let length = cardNumber.length;
-                let multiple = 0;
-                let producedValue = [
-                    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-                    [0, 2, 4, 6, 8, 1, 3, 5, 7, 9],
-                ];
-                let sum = 0;
+                var
+                    length        = cardNumber.length,
+                    multiple      = 0,
+                    producedValue = [
+                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        [0, 2, 4, 6, 8, 1, 3, 5, 7, 9],
+                    ],
+                    sum           = 0
+                ;
                 while (length--) {
                     sum += producedValue[multiple][parseInt(cardNumber.charAt(length), 10)];
                     multiple ^= 1; // eslint-disable-line no-bitwise

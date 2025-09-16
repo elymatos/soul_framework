@@ -22,6 +22,10 @@ class Controller extends BaseController
         $this->hx_trigger = [];
     }
 
+    public function isHtmx(): bool {
+        return $this->request->header('HX-Request') === 'true';
+    }
+
     #[Get(path: '/empty')]
     public function empty()
     {
@@ -31,11 +35,11 @@ class Controller extends BaseController
 
     public function render(string $viewName, array $data = [], ?string $fragment = null)
     {
-        $view = view($viewName, $data);
+        $response = response()
+            ->view($viewName, $data);
         if (!is_null($fragment)) {
-            $view->fragment($fragment);
+            $response->fragment($fragment);
         }
-        $response = response($view, 200);
         if (!empty($this->hx_trigger)) {
             $trigger = json_encode($this->hx_trigger);
             $response->header('HX-Trigger', $trigger);
@@ -76,6 +80,14 @@ class Controller extends BaseController
     public function renderNotify($type, $message)
     {
         $this->notify($type, $message);
+        $trigger = json_encode($this->hx_trigger);
+        $response = response('', 204)->header('HX-Trigger', $trigger);
+        return $response;
+    }
+
+    public function renderTrigger(string $trigger, array $params = [])
+    {
+        $this->trigger($trigger,$params);
         $trigger = json_encode($this->hx_trigger);
         $response = response('', 204)->header('HX-Trigger', $trigger);
         return $response;

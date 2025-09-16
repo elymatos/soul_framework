@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Database\Criteria;
 use App\Repositories\Frame;
-use App\Services\Annotation\StaticEventService;
 
 class ReportFrameService
 {
@@ -27,7 +26,6 @@ class ReportFrameService
                 ->where("idLanguage", $idLanguage)
                 ->first();
         }
-        $report['idFrame'] = $idFrame;
         $report['frame'] = $frame;
         $report['fe'] = self::getFEData($frame, $idLanguage);
         $report['fecoreset'] = self::getFECoreSet($frame);
@@ -141,7 +139,7 @@ class ReportFrameService
 
     public static function getVUs($frame, $idLanguage)
     {
-        $vus = StaticEventService::getDocumentsForVU($frame->idFrame, $idLanguage);
+        $vus = AnnotationStaticEventService::getDocumentsForVU($frame->idFrame, $idLanguage);
         return $vus;
     }
 
@@ -169,7 +167,7 @@ class ReportFrameService
                 $l = strtolower($m);
                 foreach ($styles as $fe => $s) {
                     if(utf8_encode($l) ==  $fe) {
-                        return "<span class='fe {$s}'>{$m}</span>";
+                        return "<span class='{$s}'>{$m}</span>";
                     }
                 }
                 return $m;
@@ -185,11 +183,11 @@ class ReportFrameService
                 foreach ($styles as $fe => $s) {
                     if (str_contains(utf8_encode($l), '|target')) {
                         $m = substr($m, 0, strpos($m, '|'));
-                        return "<span class='fe color_target'>{$m}</span>";
+                        return "<span class='color_target'>{$m}</span>";
                     } else {
                         if (str_contains(utf8_encode($l), '|' . $fe)) {
                             $m = substr($m, 0, strpos($m, '|'));
-                            return "<span class='fe {$s}'>{$m}</span>";
+                            return "<span class='{$s}'>{$m}</span>";
                         }
                     }
                 }

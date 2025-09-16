@@ -7,6 +7,11 @@ use GuzzleHttp\Client;
 
 class LOMEService extends AppService
 {
+    public string $url;
+    public function init(string $url)
+    {
+        $this->url = $url;
+    }
     public function process($sentence, $idLanguage = 1)
     {
 
@@ -50,7 +55,9 @@ class LOMEService extends AppService
         ]);
 
         try {
-            $response = $client->post('http://server5.frame.net.br:7749/parse', [
+            //$response = $client->post('http://server5.frame.net.br:7749/parse', [
+//            $response = $client->post('localhost:7749/parse', [
+            $response = $client->post($this->url . "/parse", [
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
@@ -72,34 +79,5 @@ class LOMEService extends AppService
         }
     }
 
-//    public function process2($sentence, $idLanguage = 1)
-//    {
-//
-//        $client = new Client([
-//            'base_uri' => 'http://server4.framenetbr.ufjf.br:8410',
-//            'timeout' => 300.0,
-//        ]);
-//
-//        try {
-//            $response = $client->request('post', 'parser2', [
-//                'headers' => [
-//                    'Accept' => 'application/text',
-//                ],
-//                'body' => json_encode([
-//                    'articles' => [
-//                        ['text' => $sentence]
-//                    ],
-//                    "model" => ''
-//                ])
-//            ]);
-//
-//            $body = json_decode($response->getBody());
-//            return $body;
-//        } catch (\Exception $e) {
-//
-//            echo $e->getMessage() . "\n";
-//            return '';
-//        }
-//    }
 
 }

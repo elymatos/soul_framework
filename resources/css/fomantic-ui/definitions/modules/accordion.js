@@ -20,37 +20,41 @@
         : globalThis;
 
     $.fn.accordion = function (parameters) {
-        let $allModules = $(this);
+        var
+            $allModules     = $(this),
 
-        let time = Date.now();
-        let performance = [];
+            time            = Date.now(),
+            performance     = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
+            query           = arguments[0],
+            methodInvoked   = typeof query === 'string',
+            queryArguments  = [].slice.call(arguments, 1),
 
-        let returnedValue;
+            returnedValue
+        ;
         $allModules.each(function () {
-            let settings = $.isPlainObject(parameters)
-                ? $.extend(true, {}, $.fn.accordion.settings, parameters)
-                : $.extend({}, $.fn.accordion.settings);
+            var
+                settings        = $.isPlainObject(parameters)
+                    ? $.extend(true, {}, $.fn.accordion.settings, parameters)
+                    : $.extend({}, $.fn.accordion.settings),
 
-            let className = settings.className;
-            let namespace = settings.namespace;
-            let selector = settings.selector;
-            let error = settings.error;
+                className       = settings.className,
+                namespace       = settings.namespace,
+                selector        = settings.selector,
+                error           = settings.error,
 
-            let eventNamespace = '.' + namespace;
-            let moduleNamespace = 'module-' + namespace;
+                eventNamespace  = '.' + namespace,
+                moduleNamespace = 'module-' + namespace,
 
-            let $module = $(this);
-            let $title = $module.find(selector.title);
-            let $content = $module.find(selector.content);
+                $module  = $(this),
+                $title   = $module.find(selector.title),
+                $content = $module.find(selector.content),
 
-            let element = this;
-            let instance = $module.data(moduleNamespace);
-            let observer;
-            let module;
+                element  = this,
+                instance = $module.data(moduleNamespace),
+                observer,
+                module
+            ;
 
             module = {
 
@@ -66,14 +70,16 @@
                 instantiate: function () {
                     instance = module;
                     $module
-                        .data(moduleNamespace, module);
+                        .data(moduleNamespace, module)
+                    ;
                 },
 
                 destroy: function () {
                     module.debug('Destroying previous instance', $module);
                     $module
                         .off(eventNamespace)
-                        .removeData(moduleNamespace);
+                        .removeData(moduleNamespace)
+                    ;
                 },
 
                 refresh: function () {
@@ -82,22 +88,25 @@
                 },
 
                 observeChanges: function () {
-                    observer = new MutationObserver(function (mutations) {
-                        module.debug('DOM tree modified, updating selector cache');
-                        module.refresh();
-                    });
-                    observer.observe(element, {
-                        childList: true,
-                        subtree: true,
-                    });
-                    module.debug('Setting up mutation observer', observer);
+                    if ('MutationObserver' in window) {
+                        observer = new MutationObserver(function (mutations) {
+                            module.debug('DOM tree modified, updating selector cache');
+                            module.refresh();
+                        });
+                        observer.observe(element, {
+                            childList: true,
+                            subtree: true,
+                        });
+                        module.debug('Setting up mutation observer', observer);
+                    }
                 },
 
                 bind: {
                     events: function () {
                         module.debug('Binding delegated events');
                         $module
-                            .on(settings.on + eventNamespace, selector.trigger, module.event.click);
+                            .on(settings.on + eventNamespace, selector.trigger, module.event.click)
+                        ;
                     },
                 },
 
@@ -110,16 +119,18 @@
                 },
 
                 toggle: function (query) {
-                    let $activeTitle = query !== undefined
-                        ? (typeof query === 'number'
-                            ? $title.eq(query)
-                            : $(query).closest(selector.title))
-                        : $(this).closest(selector.title);
-                    let $activeContent = $activeTitle.next($content);
-                    let isAnimating = $activeContent.hasClass(className.animating);
-                    let isActive = $activeContent.hasClass(className.active);
-                    let isOpen = isActive && !isAnimating;
-                    let isOpening = !isActive && isAnimating;
+                    var
+                        $activeTitle = query !== undefined
+                            ? (typeof query === 'number'
+                                ? $title.eq(query)
+                                : $(query).closest(selector.title))
+                            : $(this).closest(selector.title),
+                        $activeContent = $activeTitle.next($content),
+                        isAnimating = $activeContent.hasClass(className.animating),
+                        isActive    = $activeContent.hasClass(className.active),
+                        isOpen      = isActive && !isAnimating,
+                        isOpening   = !isActive && isAnimating
+                    ;
                     module.debug('Toggling visibility of content', $activeTitle);
                     if (isOpen || isOpening) {
                         if (settings.collapsible) {
@@ -133,15 +144,17 @@
                 },
 
                 open: function (query) {
-                    let $activeTitle = query !== undefined
-                        ? (typeof query === 'number'
-                            ? $title.eq(query)
-                            : $(query).closest(selector.title))
-                        : $(this).closest(selector.title);
-                    let $activeContent = $activeTitle.next($content);
-                    let isAnimating = $activeContent.hasClass(className.animating);
-                    let isActive = $activeContent.hasClass(className.active);
-                    let isOpen = isActive || isAnimating;
+                    var
+                        $activeTitle = query !== undefined
+                            ? (typeof query === 'number'
+                                ? $title.eq(query)
+                                : $(query).closest(selector.title))
+                            : $(this).closest(selector.title),
+                        $activeContent = $activeTitle.next($content),
+                        isAnimating = $activeContent.hasClass(className.animating),
+                        isActive    = $activeContent.hasClass(className.active),
+                        isOpen      = isActive || isAnimating
+                    ;
                     if (isOpen) {
                         module.debug('Accordion already open, skipping', $activeContent);
 
@@ -154,10 +167,12 @@
                         module.closeOthers.call($activeTitle);
                     }
                     $activeTitle
-                        .addClass(className.active);
+                        .addClass(className.active)
+                    ;
                     $activeContent
                         .stop(true, true)
-                        .addClass(className.animating);
+                        .addClass(className.animating)
+                    ;
                     if (settings.animateChildren) {
                         if ($.fn.transition !== undefined) {
                             $activeContent
@@ -174,7 +189,8 @@
                                     onComplete: function () {
                                         $activeContent.children().removeClass(className.transition);
                                     },
-                                });
+                                })
+                            ;
                         } else {
                             $activeContent
                                 .children()
@@ -188,33 +204,39 @@
                         .slideDown(settings.duration, settings.easing, function () {
                             $activeContent
                                 .removeClass(className.animating)
-                                .addClass(className.active);
+                                .addClass(className.active)
+                            ;
                             module.reset.display.call(this);
                             settings.onOpen.call(this);
                             settings.onChange.call(this);
-                        });
+                        })
+                    ;
                 },
 
                 close: function (query) {
-                    let $activeTitle = query !== undefined
-                        ? (typeof query === 'number'
-                            ? $title.eq(query)
-                            : $(query).closest(selector.title))
-                        : $(this).closest(selector.title);
-                    let $activeContent = $activeTitle.next($content);
-                    let isAnimating = $activeContent.hasClass(className.animating);
-                    let isActive = $activeContent.hasClass(className.active);
-                    let isOpening = !isActive && isAnimating;
-                    let isClosing = isActive && isAnimating;
+                    var
+                        $activeTitle = query !== undefined
+                            ? (typeof query === 'number'
+                                ? $title.eq(query)
+                                : $(query).closest(selector.title))
+                            : $(this).closest(selector.title),
+                        $activeContent = $activeTitle.next($content),
+                        isAnimating    = $activeContent.hasClass(className.animating),
+                        isActive       = $activeContent.hasClass(className.active),
+                        isOpening      = !isActive && isAnimating,
+                        isClosing      = isActive && isAnimating
+                    ;
                     if ((isActive || isOpening) && !isClosing) {
                         module.debug('Closing accordion content', $activeContent);
                         settings.onClosing.call($activeContent);
                         settings.onChanging.call($activeContent);
                         $activeTitle
-                            .removeClass(className.active);
+                            .removeClass(className.active)
+                        ;
                         $activeContent
                             .stop(true, true)
-                            .addClass(className.animating);
+                            .addClass(className.animating)
+                        ;
                         if (settings.animateChildren) {
                             if ($.fn.transition !== undefined) {
                                 $activeContent
@@ -228,7 +250,8 @@
                                         silent: settings.silent,
                                         duration: settings.duration,
                                         skipInlineHidden: true,
-                                    });
+                                    })
+                                ;
                             } else {
                                 $activeContent
                                     .children()
@@ -242,25 +265,29 @@
                             .slideUp(settings.duration, settings.easing, function () {
                                 $activeContent
                                     .removeClass(className.animating)
-                                    .removeClass(className.active);
+                                    .removeClass(className.active)
+                                ;
                                 module.reset.display.call(this);
                                 settings.onClose.call(this);
                                 settings.onChange.call(this);
-                            });
+                            })
+                        ;
                     }
                 },
 
                 closeOthers: function (index) {
-                    let $activeTitle = index !== undefined
-                        ? $title.eq(index)
-                        : $(this).closest(selector.title);
-                    let $parentTitles = $activeTitle.parents(selector.content).prev(selector.title);
-                    let $activeAccordion = $activeTitle.closest(selector.accordion);
-                    let activeSelector = selector.title + '.' + className.active + ':visible';
-                    let activeContent = selector.content + '.' + className.active + ':visible';
-                    let $openTitles;
-                    let $nestedTitles;
-                    let $openContents;
+                    var
+                        $activeTitle = index !== undefined
+                            ? $title.eq(index)
+                            : $(this).closest(selector.title),
+                        $parentTitles    = $activeTitle.parents(selector.content).prev(selector.title),
+                        $activeAccordion = $activeTitle.closest(selector.accordion),
+                        activeSelector   = selector.title + '.' + className.active + ':visible',
+                        activeContent    = selector.content + '.' + className.active + ':visible',
+                        $openTitles,
+                        $nestedTitles,
+                        $openContents
+                    ;
                     if (settings.closeNested) {
                         $openTitles = $activeAccordion.find(activeSelector).not($parentTitles);
                         $openContents = $openTitles.next($content);
@@ -273,10 +300,12 @@
                     if ($openTitles.length > 0) {
                         module.debug('Exclusive enabled, closing other content', $openTitles);
                         $openTitles
-                            .removeClass(className.active);
+                            .removeClass(className.active)
+                        ;
                         $openContents
                             .removeClass(className.animating)
-                            .stop(true, true);
+                            .stop(true, true)
+                        ;
                         if (settings.animateChildren) {
                             if ($.fn.transition !== undefined) {
                                 $openContents
@@ -289,7 +318,8 @@
                                         silent: settings.silent,
                                         duration: settings.duration,
                                         skipInlineHidden: true,
-                                    });
+                                    })
+                                ;
                             } else {
                                 $openContents
                                     .children()
@@ -303,7 +333,8 @@
                             .slideUp(settings.duration, settings.easing, function () {
                                 $(this).removeClass(className.active);
                                 module.reset.display.call(this);
-                            });
+                            })
+                        ;
                     }
                 },
 
@@ -311,23 +342,25 @@
 
                     display: function () {
                         module.verbose('Removing inline display from element', this);
-                        let $element = $(this);
+                        var $element = $(this);
                         $element.css('display', '');
                         if ($element.attr('style') === '') {
                             $element
                                 .attr('style', '')
-                                .removeAttr('style');
+                                .removeAttr('style')
+                            ;
                         }
                     },
 
                     opacity: function () {
                         module.verbose('Removing inline opacity from element', this);
-                        let $element = $(this);
+                        var $element = $(this);
                         $element.css('opacity', '');
                         if ($element.attr('style') === '') {
                             $element
                                 .attr('style', '')
-                                .removeAttr('style');
+                                .removeAttr('style')
+                            ;
                         }
                     },
 
@@ -387,9 +420,11 @@
                 },
                 performance: {
                     log: function (message) {
-                        let currentTime;
-                        let executionTime;
-                        let previousTime;
+                        var
+                            currentTime,
+                            executionTime,
+                            previousTime
+                        ;
                         if (settings.performance) {
                             currentTime = Date.now();
                             previousTime = time || currentTime;
@@ -408,8 +443,10 @@
                         }, 500);
                     },
                     display: function () {
-                        let title = settings.name + ':';
-                        let totalTime = 0;
+                        var
+                            title = settings.name + ':',
+                            totalTime = 0
+                        ;
                         time = false;
                         clearTimeout(module.performance.timer);
                         $.each(performance, function (index, data) {
@@ -431,17 +468,19 @@
                     },
                 },
                 invoke: function (query, passedArguments, context) {
-                    let object = instance;
-                    let maxDepth;
-                    let found;
-                    let response;
+                    var
+                        object = instance,
+                        maxDepth,
+                        found,
+                        response
+                    ;
                     passedArguments = passedArguments || queryArguments;
                     context = context || element;
                     if (typeof query === 'string' && object !== undefined) {
                         query = query.split(/[ .]/);
                         maxDepth = query.length - 1;
                         $.each(query, function (depth, value) {
-                            let camelCaseValue = depth !== maxDepth
+                            var camelCaseValue = depth !== maxDepth
                                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
                                 : query;
                             if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {

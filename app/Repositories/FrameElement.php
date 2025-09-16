@@ -37,8 +37,8 @@ class FrameElement
 //    {
 //        $criteria = self::getCriteria()
 //            ->select(['idFrameElement', 'entry', 'entries.name', 'entries.description', 'coreType', 'color.rgbFg', 'color.rgbBg',
-//            'typeInstance.idType as idCoreType', 'color.idColor']);
-//        $criteria->orderBy('typeInstance.idType, entries.name');
+//            'typeInstance.idTypeInstance as idCoreType', 'color.idColor']);
+//        $criteria->orderBy('typeInstance.idTypeInstance, entries.name');
 //        return self::filter([
 //            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
 //            ['idFrame','=', $idFrame]
@@ -291,11 +291,11 @@ class FrameElement
 //        {
 //            parent::getById($id);
 //            $coreType = new TypeInstance();
-//            $criteria = $coreType->getCriteria()->select('idType');
+//            $criteria = $coreType->getCriteria()->select('idTypeInstance');
 //            Base::relation($criteria, 'FrameElement', 'TypeInstance', 'rel_hastype');
 //            $criteria->where("frameelement.idFrameElement = '{$id}'");
 //            $result = $criteria->asQuery()->getResult();
-//            $this->setIdCoreType($result[0]['idType']);
+//            $this->setIdCoreType($result[0]['idTypeInstance']);
 //            //$criteria = $this->getCriteria()->select('frame.idFrame');
 //            //Base::relation($criteria, 'FrameElement', 'Frame', 'rel_elementof');
 //            //$criteria->where("idFrameElement = '{$id}'");
@@ -380,7 +380,7 @@ class FrameElement
 //            Base::entryLanguage($criteria);
 //            Base::relation($criteria, 'FrameElement', 'TypeInstance', 'rel_hastype');
 //            //Base::relation($criteria, 'FrameElement', 'Frame', 'rel_elementof');
-//            $criteria->where("type.entry = 'cty_core'");
+//            $criteria->where("typeinstance.entry = 'cty_core'");
 //            $criteria->where("frame.idEntity = {$idEntityFrame}");
 //            return $criteria;
 //        }

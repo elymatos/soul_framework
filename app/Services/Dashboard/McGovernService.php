@@ -5,6 +5,7 @@ namespace App\Services\Dashboard;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Orkester\Persistence\PersistenceManager;
 
 class McGovernService extends AppService
 {

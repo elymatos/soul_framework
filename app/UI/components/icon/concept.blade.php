@@ -1,1 +1,1 @@
-<i class="icon material concept">widgets</i>
+<i class="icon material color_semantictype">widgets</i>

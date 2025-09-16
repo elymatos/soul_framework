@@ -17,12 +17,14 @@ class CreateData extends Data
         public ?int $idLexicon = null,
         public ?int $idFrame = null,
         public ?int $idDocumentSentence = null,
-        public ?int $idDocument = null,
-        public ?int $idBoundingBox = null,
+        public ?int $idDynamicObject = null,
+        public ?int $idStaticObject = null,
         public ?int $incorporatedFE = null,
-        public ?string $frameCandidate = '',
+//        public ?string $frameCandidate = '',
         public ?int $idUser = null,
-        public ?string $createdAt = ''
+        public ?string $createdAt = '',
+        public ?string $status = '',
+        public ?string $origin = ''
     )
     {
         if (is_null($this->senseDescription)) {
@@ -36,6 +38,8 @@ class CreateData extends Data
         }
         $this->idUser = AppService::getCurrentIdUser();
         $this->createdAt = Carbon::now();
+        $this->status = 'PENDING';
+        $this->origin = 'USER';
     }
 
 

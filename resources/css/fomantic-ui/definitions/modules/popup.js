@@ -20,70 +20,74 @@
         : globalThis;
 
     $.fn.popup = function (parameters) {
-        let $allModules = $(this);
-        let $document = $(document);
-        let $window = $(window);
-        let $body = $('body');
+        var
+            $allModules    = $(this),
+            $document      = $(document),
+            $window        = $(window),
+            $body          = $('body'),
 
-        let clickEvent = 'ontouchstart' in document.documentElement
-            ? 'touchstart'
-            : 'click';
+            clickEvent      = 'ontouchstart' in document.documentElement
+                ? 'touchstart'
+                : 'click',
 
-        let time = Date.now();
-        let performance = [];
+            time           = Date.now(),
+            performance    = [],
 
-        let query = arguments[0];
-        let methodInvoked = typeof query === 'string';
-        let queryArguments = [].slice.call(arguments, 1);
-        let contextCheck = function (context, win) {
-            let $context;
-            if ([window, document].indexOf(context) >= 0) {
-                $context = $(context);
-            } else {
-                $context = $(win.document).find(context);
-                if ($context.length === 0) {
-                    $context = win.frameElement ? contextCheck(context, win.parent) : $body;
+            query          = arguments[0],
+            methodInvoked  = typeof query === 'string',
+            queryArguments = [].slice.call(arguments, 1),
+            contextCheck   = function (context, win) {
+                var $context;
+                if ([window, document].indexOf(context) >= 0) {
+                    $context = $(context);
+                } else {
+                    $context = $(win.document).find(context);
+                    if ($context.length === 0) {
+                        $context = win.frameElement ? contextCheck(context, win.parent) : $body;
+                    }
                 }
-            }
 
-            return $context;
-        };
+                return $context;
+            },
 
-        let returnedValue;
+            returnedValue
+        ;
         $allModules.each(function () {
-            let settings = $.isPlainObject(parameters)
-                ? $.extend(true, {}, $.fn.popup.settings, parameters)
-                : $.extend({}, $.fn.popup.settings);
+            var
+                settings        = $.isPlainObject(parameters)
+                    ? $.extend(true, {}, $.fn.popup.settings, parameters)
+                    : $.extend({}, $.fn.popup.settings),
 
-            let selector = settings.selector;
-            let className = settings.className;
-            let error = settings.error;
-            let metadata = settings.metadata;
-            let namespace = settings.namespace;
+                selector           = settings.selector,
+                className          = settings.className,
+                error              = settings.error,
+                metadata           = settings.metadata,
+                namespace          = settings.namespace,
 
-            let eventNamespace = '.' + settings.namespace;
-            let moduleNamespace = 'module-' + namespace;
+                eventNamespace     = '.' + settings.namespace,
+                moduleNamespace    = 'module-' + namespace,
 
-            let $module = $(this);
-            let $context = contextCheck(settings.context, window);
-            let $scrollContext = contextCheck(settings.scrollContext, window);
-            let $boundary = contextCheck(settings.boundary, window);
-            let $target = settings.target ? contextCheck(settings.target, window) : $module;
+                $module            = $(this),
+                $context           = contextCheck(settings.context, window),
+                $scrollContext     = contextCheck(settings.scrollContext, window),
+                $boundary          = contextCheck(settings.boundary, window),
+                $target            = settings.target ? contextCheck(settings.target, window) : $module,
 
-            let $popup;
-            let $offsetParent;
+                $popup,
+                $offsetParent,
 
-            let searchDepth = 0;
-            let triedPositions = false;
-            let openedWithTouch = false;
+                searchDepth        = 0,
+                triedPositions     = false,
+                openedWithTouch    = false,
 
-            let element = this;
-            let instance = $module.data(moduleNamespace);
+                element            = this,
+                instance           = $module.data(moduleNamespace),
 
-            let documentObserver;
-            let elementNamespace;
-            let id;
-            let module;
+                documentObserver,
+                elementNamespace,
+                id,
+                module
+            ;
 
             module = {
 
@@ -105,16 +109,19 @@
                     module.verbose('Storing instance', module);
                     instance = module;
                     $module
-                        .data(moduleNamespace, instance);
+                        .data(moduleNamespace, instance)
+                    ;
                 },
 
                 observeChanges: function () {
-                    documentObserver = new MutationObserver(module.event.documentChanged);
-                    documentObserver.observe(document, {
-                        childList: true,
-                        subtree: true,
-                    });
-                    module.debug('Setting up mutation observer', documentObserver);
+                    if ('MutationObserver' in window) {
+                        documentObserver = new MutationObserver(module.event.documentChanged);
+                        documentObserver.observe(document, {
+                            childList: true,
+                            subtree: true,
+                        });
+                        module.debug('Setting up mutation observer', documentObserver);
+                    }
                 },
 
                 refresh: function () {
@@ -134,7 +141,8 @@
                             module.debug('Moving popup to the same offset parent as target');
                             $popup
                                 .detach()
-                                .appendTo($offsetParent);
+                                .appendTo($offsetParent)
+                            ;
                         }
                     } else {
                         $offsetParent = settings.inline
@@ -162,7 +170,7 @@
                     if (documentObserver) {
                         documentObserver.disconnect();
                     }
-                    // remove the element only if was created dynamically
+                    // remove element only if was created dynamically
                     if ($popup && !settings.preserve) {
                         module.removePopup();
                     }
@@ -173,14 +181,17 @@
                     module.unbind.close();
                     module.unbind.events();
                     $module
-                        .removeData(moduleNamespace);
+                        .removeData(moduleNamespace)
+                    ;
                 },
 
                 event: {
                     start: function (event) {
-                        let delay = $.isPlainObject(settings.delay)
-                            ? settings.delay.show
-                            : settings.delay;
+                        var
+                            delay = $.isPlainObject(settings.delay)
+                                ? settings.delay.show
+                                : settings.delay
+                        ;
                         clearTimeout(module.hideTimer);
                         if (!openedWithTouch || (openedWithTouch && settings.addTouchEvents)) {
                             module.showTimer = setTimeout(function () {
@@ -189,9 +200,11 @@
                         }
                     },
                     end: function () {
-                        let delay = $.isPlainObject(settings.delay)
-                            ? settings.delay.hide
-                            : settings.delay;
+                        var
+                            delay = $.isPlainObject(settings.delay)
+                                ? settings.delay.hide
+                                : settings.delay
+                        ;
                         clearTimeout(module.showTimer);
                         module.hideTimer = setTimeout(function () {
                             module.hide();
@@ -221,9 +234,11 @@
                         });
                     },
                     hideGracefully: function (event) {
-                        let $target = $(event.target);
-                        let isInDOM = $.contains(document.documentElement, event.target);
-                        let inPopup = $target.closest(selector.popup).length > 0;
+                        var
+                            $target = $(event.target),
+                            isInDOM = $.contains(document.documentElement, event.target),
+                            inPopup = $target.closest(selector.popup).length > 0
+                        ;
                         // don't close on clicks inside popup
                         if (event && !inPopup && isInDOM) {
                             module.debug('Click occurred outside popup hiding popup');
@@ -236,11 +251,13 @@
 
                 // generates popup html from metadata
                 create: function () {
-                    let targetSibling = $target.next(selector.popup);
-                    let contentFallback = !settings.popup && targetSibling.length === 0 ? $module.attr('title') : false;
-                    let html = module.get.html();
-                    let title = module.get.title();
-                    let content = module.get.content(contentFallback);
+                    var
+                        targetSibling = $target.next(selector.popup),
+                        contentFallback = !settings.popup && targetSibling.length === 0 ? $module.attr('title') : false,
+                        html      = module.get.html(),
+                        title     = module.get.title(),
+                        content   = module.get.content(contentFallback)
+                    ;
 
                     if (html || content || title) {
                         module.debug('Creating pop-up html');
@@ -253,15 +270,18 @@
                         $popup = $('<div/>')
                             .addClass(className.popup)
                             .data(metadata.activator, $module)
-                            .html(html);
+                            .html(html)
+                        ;
                         if (settings.inline) {
                             module.verbose('Inserting popup element inline', $popup);
                             $popup
-                                .insertAfter($module);
+                                .insertAfter($module)
+                            ;
                         } else {
                             module.verbose('Appending popup element to body', $popup);
                             $popup
-                                .appendTo($context);
+                                .appendTo($context)
+                            ;
                         }
                         module.refresh();
                         module.set.variation();
@@ -355,8 +375,10 @@
                         .each(function () {
                             $(this)
                                 .data(metadata.activator)
-                                .popup('hide');
-                        });
+                                .popup('hide')
+                            ;
+                        })
+                    ;
                 },
                 exists: function () {
                     if (!$popup) {
@@ -422,7 +444,8 @@
                                         callback.call($popup, element);
                                         settings.onVisible.call($popup, element);
                                     },
-                                });
+                                })
+                            ;
                         }
                     },
                     hide: function (callback) {
@@ -442,7 +465,8 @@
                                         callback.call($popup, element);
                                         settings.onHidden.call($popup, element);
                                     },
-                                });
+                                })
+                            ;
                         } else {
                             module.error(error.noTransition);
                         }
@@ -483,21 +507,23 @@
                         return $popup.offset();
                     },
                     calculations: function () {
-                        let $popupOffsetParent = module.get.offsetParent($popup);
-                        let targetElement = $target[0];
-                        let isWindowEl = $boundary[0] === window;
-                        let targetOffset = $target.offset();
-                        let parentOffset = settings.inline || (settings.popup && settings.movePopup)
-                            ? $target.offsetParent().offset()
-                            : { top: 0, left: 0 };
-                        let screenPosition = isWindowEl
-                            ? { top: 0, left: 0 }
-                            : $boundary.offset();
-                        let calculations = {};
-                        let scroll = isWindowEl
-                            ? { top: $window.scrollTop(), left: $window.scrollLeft() }
-                            : { top: 0, left: 0 };
-                        let screen;
+                        var
+                            $popupOffsetParent = module.get.offsetParent($popup),
+                            targetElement      = $target[0],
+                            isWindowEl         = $boundary[0] === window,
+                            targetOffset       = $target.offset(),
+                            parentOffset       = settings.inline || (settings.popup && settings.movePopup)
+                                ? $target.offsetParent().offset()
+                                : { top: 0, left: 0 },
+                            screenPosition = isWindowEl
+                                ? { top: 0, left: 0 }
+                                : $boundary.offset(),
+                            calculations   = {},
+                            scroll = isWindowEl
+                                ? { top: $window.scrollTop(), left: $window.scrollLeft() }
+                                : { top: 0, left: 0 },
+                            screen
+                        ;
                         calculations = {
                             // element which is launching popup
                             target: {
@@ -531,9 +557,11 @@
                             },
                         };
 
-                        // if popup offset context is different from target, then adjust calculations
+                        // if popup offset context is not same as target, then adjust calculations
                         if ($popupOffsetParent[0] !== $offsetParent[0]) {
-                            let popupOffset = $popupOffsetParent.offset();
+                            var
+                                popupOffset        = $popupOffsetParent.offset()
+                            ;
                             calculations.target.top -= popupOffset.top;
                             calculations.target.left -= popupOffset.left;
                             calculations.parent.width = $popupOffsetParent.outerWidth();
@@ -595,9 +623,11 @@
                         return false;
                     },
                     distanceFromBoundary: function (offset, calculations) {
-                        let distanceFromBoundary = {};
-                        let popup;
-                        let boundary;
+                        var
+                            distanceFromBoundary = {},
+                            popup,
+                            boundary
+                        ;
                         calculations = calculations || module.get.calculations();
 
                         // shorthand
@@ -617,15 +647,19 @@
                         return distanceFromBoundary;
                     },
                     offsetParent: function ($element) {
-                        let element = $element !== undefined
-                            ? $element[0]
-                            : $target[0];
-                        let parentNode = element.parentNode;
-                        let $node = $(parentNode);
+                        var
+                            element = $element !== undefined
+                                ? $element[0]
+                                : $target[0],
+                            parentNode = element.parentNode,
+                            $node    = $(parentNode)
+                        ;
                         if (parentNode) {
-                            let is2D = $node.css('transform') === 'none';
-                            let isStatic = $node.css('position') === 'static';
-                            let isBody = $node.is('body');
+                            var
+                                is2D     = $node.css('transform') === 'none',
+                                isStatic = $node.css('position') === 'static',
+                                isBody   = $node.is('body')
+                            ;
                             while (parentNode && !isBody && isStatic && is2D) {
                                 parentNode = parentNode.parentNode;
                                 $node = $(parentNode);
@@ -652,34 +686,36 @@
                         };
                     },
                     nextPosition: function (position) {
-                        let positions = position.split(' ');
-                        let verticalPosition = positions[0];
-                        let horizontalPosition = positions[1];
-                        let opposite = {
-                            top: 'bottom',
-                            bottom: 'top',
-                            left: 'right',
-                            right: 'left',
-                        };
-                        let adjacent = {
-                            left: 'center',
-                            center: 'right',
-                            right: 'left',
-                        };
-                        let backup = {
-                            'top left': 'top center',
-                            'top center': 'top right',
-                            'top right': 'right center',
-                            'right center': 'bottom right',
-                            'bottom right': 'bottom center',
-                            'bottom center': 'bottom left',
-                            'bottom left': 'left center',
-                            'left center': 'top left',
-                        };
-                        let adjacentsAvailable = verticalPosition === 'top' || verticalPosition === 'bottom';
-                        let oppositeTried = false;
-                        let adjacentTried = false;
-                        let nextPosition = false;
+                        var
+                            positions          = position.split(' '),
+                            verticalPosition   = positions[0],
+                            horizontalPosition = positions[1],
+                            opposite = {
+                                top: 'bottom',
+                                bottom: 'top',
+                                left: 'right',
+                                right: 'left',
+                            },
+                            adjacent = {
+                                left: 'center',
+                                center: 'right',
+                                right: 'left',
+                            },
+                            backup = {
+                                'top left': 'top center',
+                                'top center': 'top right',
+                                'top right': 'right center',
+                                'right center': 'bottom right',
+                                'bottom right': 'bottom center',
+                                'bottom center': 'bottom left',
+                                'bottom left': 'left center',
+                                'left center': 'top left',
+                            },
+                            adjacentsAvailable = verticalPosition === 'top' || verticalPosition === 'bottom',
+                            oppositeTried = false,
+                            adjacentTried = false,
+                            nextPosition  = false
+                        ;
                         if (!triedPositions) {
                             module.verbose('All available positions available');
                             triedPositions = module.get.positions();
@@ -717,14 +753,16 @@
 
                             return;
                         }
-                        let offset;
-                        let distanceAway;
-                        let target;
-                        let popup;
-                        let parent;
-                        let positioning;
-                        let popupOffset;
-                        let distanceFromBoundary;
+                        var
+                            offset,
+                            distanceAway,
+                            target,
+                            popup,
+                            parent,
+                            positioning,
+                            popupOffset,
+                            distanceFromBoundary
+                        ;
 
                         calculations = calculations || module.get.calculations();
                         position = position || $module.data(metadata.position) || settings.position;
@@ -780,7 +818,7 @@
                             module.debug('RTL: Popup position updated', position);
                         }
 
-                        // if last attempt, use specified last resort position
+                        // if last attempt use specified last resort position
                         if (searchDepth === settings.maxSearchDepth && typeof settings.lastResort === 'string') {
                             position = settings.lastResort;
                         }
@@ -877,7 +915,8 @@
                         $popup
                             .css(positioning)
                             .removeClass(className.position)
-                            .addClass(position);
+                            .addClass(position)
+                        ;
                         module.set.invisible();
 
                         popupOffset = module.get.popupOffset();
@@ -975,16 +1014,19 @@
                         module.debug('Binding popup events to module');
                         if (settings.on === 'click') {
                             $module
-                                .on(clickEvent + eventNamespace, module.toggle);
+                                .on(clickEvent + eventNamespace, module.toggle)
+                            ;
                         }
                         if (settings.on === 'hover') {
                             $module
-                                .on('touchstart' + eventNamespace, module.event.touchstart);
+                                .on('touchstart' + eventNamespace, module.event.touchstart)
+                            ;
                         }
                         if (module.get.startEvent()) {
                             $module
                                 .on(module.get.startEvent() + eventNamespace, module.event.start)
-                                .on(module.get.endEvent() + eventNamespace, module.event.end);
+                                .on(module.get.endEvent() + eventNamespace, module.event.end)
+                            ;
                         }
                         if (settings.target) {
                             module.debug('Target set to element', $target);
@@ -996,7 +1038,8 @@
                         if ($popup && module.has.popup()) {
                             $popup
                                 .on('mouseenter' + eventNamespace, module.event.start)
-                                .on('mouseleave' + eventNamespace, module.event.end);
+                                .on('mouseleave' + eventNamespace, module.event.end)
+                            ;
                         }
                     },
                     close: function () {
@@ -1012,7 +1055,8 @@
                     closeOnScroll: function () {
                         module.verbose('Binding scroll close event to document');
                         $scrollContext
-                            .one(module.get.scrollEvent() + elementNamespace, module.event.hideGracefully);
+                            .one(module.get.scrollEvent() + elementNamespace, module.event.hideGracefully)
+                        ;
                     },
                     touchClose: function () {
                         module.verbose('Binding popup touchclose event to document');
@@ -1020,7 +1064,8 @@
                             .on('touchstart' + elementNamespace, function (event) {
                                 module.verbose('Touched away from popup');
                                 module.event.hideGracefully.call(element, event);
-                            });
+                            })
+                        ;
                     },
                     clickaway: function () {
                         module.verbose('Binding popup close event to document');
@@ -1028,22 +1073,27 @@
                             .on(clickEvent + elementNamespace, function (event) {
                                 module.verbose('Clicked away from popup');
                                 module.event.hideGracefully.call(element, event);
-                            });
+                            })
+                        ;
                     },
                 },
 
                 unbind: {
                     events: function () {
                         $window
-                            .off(elementNamespace);
+                            .off(elementNamespace)
+                        ;
                         $module
-                            .off(eventNamespace);
+                            .off(eventNamespace)
+                        ;
                     },
                     close: function () {
                         $document
-                            .off(elementNamespace);
+                            .off(elementNamespace)
+                        ;
                         $scrollContext
-                            .off(elementNamespace);
+                            .off(elementNamespace)
+                        ;
                     },
                 },
 
@@ -1079,7 +1129,9 @@
                         return settings.closable;
                     },
                     offstage: function (distanceFromBoundary, position) {
-                        let offstage = [];
+                        var
+                            offstage = []
+                        ;
                         // return boundaries that have been surpassed
                         $.each(distanceFromBoundary, function (direction, distance) {
                             if (distance < -settings.jitter) {
@@ -1124,7 +1176,8 @@
                     if (settings.preserve) {
                         if ($.fn.transition !== undefined) {
                             $popup
-                                .transition('remove transition');
+                                .transition('remove transition')
+                            ;
                         }
                     } else {
                         module.removePopup();
@@ -1177,9 +1230,11 @@
                 },
                 performance: {
                     log: function (message) {
-                        let currentTime;
-                        let executionTime;
-                        let previousTime;
+                        var
+                            currentTime,
+                            executionTime,
+                            previousTime
+                        ;
                         if (settings.performance) {
                             currentTime = Date.now();
                             previousTime = time || currentTime;
@@ -1198,8 +1253,10 @@
                         }, 500);
                     },
                     display: function () {
-                        let title = settings.name + ':';
-                        let totalTime = 0;
+                        var
+                            title = settings.name + ':',
+                            totalTime = 0
+                        ;
                         time = false;
                         clearTimeout(module.performance.timer);
                         $.each(performance, function (index, data) {
@@ -1221,19 +1278,22 @@
                     },
                 },
                 invoke: function (query, passedArguments, context) {
-                    let object = instance;
-                    let maxDepth;
-                    let found;
-                    let response;
+                    var
+                        object = instance,
+                        maxDepth,
+                        found,
+                        response
+                    ;
                     passedArguments = passedArguments || queryArguments;
                     context = context || element;
                     if (typeof query === 'string' && object !== undefined) {
                         query = query.split(/[ .]/);
                         maxDepth = query.length - 1;
                         $.each(query, function (depth, value) {
-                            let camelCaseValue = depth !== maxDepth
+                            var camelCaseValue = depth !== maxDepth
                                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
-                                : query;
+                                : query
+                            ;
                             if ($.isPlainObject(object[camelCaseValue]) && (depth !== maxDepth)) {
                                 object = object[camelCaseValue];
                             } else if (object[camelCaseValue] !== undefined) {
@@ -1302,7 +1362,7 @@
         // whether it should use dom mutation observers
         observeChanges: true,
 
-        // callback only when the element was added to dom
+        // callback only when element added to dom
         onCreate: function () {},
 
         // callback before element removed from dom
@@ -1347,7 +1407,7 @@
         // element which popup should be relative to
         target: false,
 
-        // jQuery selector or element that should be used as a popup
+        // jq selector or element that should be used as popup
         popup: false,
 
         // popup should remain inline next to activator
@@ -1362,7 +1422,7 @@
         // explicitly set content
         content: false,
 
-        // explicitly set HTML
+        // explicitly set html
         html: false,
 
         // explicitly set title
@@ -1405,7 +1465,7 @@
         duration: 200,
         transition: 'scale',
 
-        // distance away from the activating element in px
+        // distance away from activating element in px
         distanceAway: 0,
 
         // number of pixels an element is allowed to be "offstage" for a position to be chosen (allows for rounding)
@@ -1455,19 +1515,33 @@
 
         templates: {
             escape: function (string) {
-                const escapeMap = {
-                    '"': '&quot;',
-                    '&': '&amp;',
-                    "'": '&apos;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                };
+                var
+                    badChars     = /["'<>`]/g,
+                    shouldEscape = /["&'<>`]/,
+                    escape       = {
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#x27;',
+                        '`': '&#x60;',
+                    },
+                    escapedChar  = function (chr) {
+                        return escape[chr];
+                    }
+                ;
+                if (shouldEscape.test(string)) {
+                    string = string.replace(/&(?![\d#a-z]{1,12};)/gi, '&amp;');
 
-                return String(string).replace(/["&'<>]/g, (chr) => escapeMap[chr]);
+                    return string.replace(badChars, escapedChar);
+                }
+
+                return string;
             },
             popup: function (text) {
-                let html = '';
-                let escape = $.fn.popup.settings.templates.escape;
+                var
+                    html   = '',
+                    escape = $.fn.popup.settings.templates.escape
+                ;
                 if (text !== undefined) {
                     if (text.title) {
                         text.title = escape(text.title);

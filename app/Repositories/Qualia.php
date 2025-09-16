@@ -71,19 +71,19 @@ class Qualia
 
     public static function listTypes(): array
     {
-        return Criteria::table("view_type as ti")
-            ->join("qualia as q","q.idType","=","ti.idType")
-            ->select("ti.idType", "ti.name")
+        return Criteria::table("view_typeinstance as ti")
+            ->join("qualia as q","q.iDTypeInstance","=","ti.idTypeInstance")
+            ->select("ti.idTypeInstance", "ti.name")
             ->distinct()
             ->where("ti.idLanguage", "=", AppService::getCurrentIdLanguage())
-            ->orderBy("name")->get()->keyBy("idType")->all();
+            ->orderBy("name")->get()->keyBy("idTypeInstance")->all();
     }
 
-    public static function listByType(int $idType): array
+    public static function listByType(int $idTypeInstance): array
     {
         $rows = Criteria::table("view_qualia")
             ->filter([
-                ['idType', '=', $idType],
+                ['idTypeInstance', '=', $idTypeInstance],
                 ['view_qualia.idLanguage', '=', AppService::getCurrentIdLanguage()],
             ])->select("view_qualia.idQualia", "view_qualia.idEntity", "view_qualia.name", "view_qualia.info", "view_qualia.frameName")
             ->orderBy("view_qualia.info")->all();

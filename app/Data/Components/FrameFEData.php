@@ -7,8 +7,9 @@ use Spatie\LaravelData\Data;
 class FrameFEData extends Data
 {
     public function __construct(
-        public ?int $idFrame = 0
+        public int    $idFrame,
     )
     {
     }
+
 }

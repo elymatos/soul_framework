@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex justify-left">
     <div><x-icon.frame></x-icon.frame></div>
-    <div  class="frame">{{$name}}</div>
+    <div  class="color_frame">{{$name}}</div>
 </div>

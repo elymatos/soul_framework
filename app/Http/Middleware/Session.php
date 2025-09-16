@@ -11,7 +11,7 @@ class Session
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // language
+        // Only handle language setup - authentication is handled by Laravel Auth
         $language = session('currentLanguage') ?? null;
         $idLanguage = $language ? $language->idLanguage : '';
         if ($idLanguage == '') {

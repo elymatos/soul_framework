@@ -10,7 +10,6 @@ class CreateData extends Data
     public function __construct(
         public ?string $name = '',
         public ?string $description = '',
-        public ?int $idProject = null,
         public ?int $idUser = null
     )
     {

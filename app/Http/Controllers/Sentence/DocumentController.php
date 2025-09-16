@@ -35,7 +35,7 @@ class DocumentController extends Controller
     #[Get(path: '/sentence/{id}/document/grid')]
     public function documentGrid(int $id)
     {
-        $documents = Criteria::table("document_sentence as ds")
+        $documents = Criteria::table("view_document_sentence as ds")
             ->join("view_document as d", "ds.idDocument", "=", "d.idDocument")
             ->where("ds.idSentence", $id)
             ->where("d.idLanguage", AppService::getCurrentIdLanguage())

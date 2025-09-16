@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -81,16 +81,16 @@ class User extends Authenticatable
      */
     public static function fromRepositoryUser(object $repositoryUser): self
     {
-        $user = new self();
-        
+        $user = new self;
+
         // Map all properties from repository user to model
         foreach (get_object_vars($repositoryUser) as $key => $value) {
             $user->setAttribute($key, $value);
         }
-        
+
         // Ensure the model exists (not a new record)
         $user->exists = true;
-        
+
         return $user;
     }
 

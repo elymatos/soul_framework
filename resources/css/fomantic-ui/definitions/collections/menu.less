@@ -19,7 +19,7 @@
 
 @notSecondary: if(@variationMenuSecondary, e(":not(.secondary)"));
 @notText: if(@variationMenuText, e(":not(.text)"));
-@notTabbed: if(@variationMenuTabbed, e(":not(.tabbed)"));
+@notTabular: if(@variationMenuTabular, e(":not(.tabular)"));
 @notVertical: if(@variationMenuVertical, e(":not(.vertical)"));
 @notBorderless: if(@variationMenuBorderless, e(":not(.borderless)"));
 @notFluid: if(@variationMenuFluid, e(":not(.fluid)"));
@@ -296,6 +296,11 @@
     }
     .ui.vertical.menu .dropdown.item .menu {
         left: 100%;
+        & when (@supportIE) {
+            /* IE needs 0, all others support max-content to show dropdown icon inline, so keep both settings! */
+            min-width: 0;
+        }
+
         min-width: max-content;
         margin: 0 0 0 @dropdownMenuDistance;
         box-shadow: @dropdownVerticalMenuBoxShadow;
@@ -407,11 +412,11 @@
     }
 }
 @media only screen and (min-width: @tabletBreakpoint) {
-    .ui.menu@{notSecondary}@{notText}@{notTabbed}@{notBorderless} > .container > .item:not(.right)@{notBorderless}:first-child {
+    .ui.menu@{notSecondary}@{notText}@{notTabular}@{notBorderless} > .container > .item:not(.right)@{notBorderless}:first-child {
         border-left: @dividerSize solid @dividerBackground;
     }
-    .ui.menu@{notSecondary}@{notText}@{notTabbed}@{notBorderless} > .container > .right.item@{notBorderless}:last-child,
-    .ui.menu@{notSecondary}@{notText}@{notTabbed}@{notBorderless} > .container > .right.menu > .item@{notBorderless}:last-child {
+    .ui.menu@{notSecondary}@{notText}@{notTabular}@{notBorderless} > .container > .right.item@{notBorderless}:last-child,
+    .ui.menu@{notSecondary}@{notText}@{notTabular}@{notBorderless} > .container > .right.menu > .item@{notBorderless}:last-child {
         border-right: @dividerSize solid @dividerBackground;
     }
 }
@@ -629,156 +634,156 @@ Floated Menu / Item
     }
 }
 
-& when (@variationMenuTabbed) {
+& when (@variationMenuTabular) {
     /* --------------
-         Tabbed
+         Tabular
     --------------- */
 
-    .ui.tabbed.menu {
+    .ui.tabular.menu {
         border-radius: 0;
         box-shadow: none !important;
         border: none;
-        background: @tabbedBackground;
-        border-bottom: @tabbedBorderWidth solid @tabbedBorderColor;
+        background: @tabularBackground;
+        border-bottom: @tabularBorderWidth solid @tabularBorderColor;
     }
-    .ui.tabbed.fluid.menu {
-        width: @tabbedFluidWidth !important;
+    .ui.tabular.fluid.menu {
+        width: @tabularFluidWidth !important;
     }
-    .ui.tabbed.menu .item {
+    .ui.tabular.menu .item {
         background: transparent;
         border-bottom: none;
-        border-left: @tabbedBorderWidth solid transparent;
-        border-right: @tabbedBorderWidth solid transparent;
-        border-top: @tabbedOppositeBorderWidth solid transparent;
-        padding: @tabbedVerticalPadding @tabbedHorizontalPadding;
-        color: @tabbedTextColor;
+        border-left: @tabularBorderWidth solid transparent;
+        border-right: @tabularBorderWidth solid transparent;
+        border-top: @tabularOppositeBorderWidth solid transparent;
+        padding: @tabularVerticalPadding @tabularHorizontalPadding;
+        color: @tabularTextColor;
     }
-    .ui.tabbed.menu .item::before {
+    .ui.tabular.menu .item::before {
         display: none;
     }
 
     /* Hover */
-    .ui.tabbed.menu .item:hover {
+    .ui.tabular.menu .item:hover {
         background-color: transparent;
-        color: @tabbedHoveredTextColor;
+        color: @tabularHoveredTextColor;
     }
 
     /* Active */
-    .ui.tabbed.menu .active.item {
-        background: @tabbedActiveBackground;
-        color: @tabbedActiveColor;
-        border-top-width: @tabbedBorderWidth;
-        border-color: @tabbedBorderColor;
-        font-weight: @tabbedActiveWeight;
-        margin-bottom: -@tabbedBorderWidth;
-        box-shadow: @tabbedActiveBoxShadow;
-        border-radius: @tabbedBorderRadius @tabbedBorderRadius 0 0 !important;
+    .ui.tabular.menu .active.item {
+        background: @tabularActiveBackground;
+        color: @tabularActiveColor;
+        border-top-width: @tabularBorderWidth;
+        border-color: @tabularBorderColor;
+        font-weight: @tabularActiveWeight;
+        margin-bottom: -@tabularBorderWidth;
+        box-shadow: @tabularActiveBoxShadow;
+        border-radius: @tabularBorderRadius @tabularBorderRadius 0 0 !important;
         &:hover {
             cursor: default;
         }
     }
 
     /* Coupling with segment for attachment */
-    .ui.tabbed.menu ~ .attached:not(.top).segment {
+    .ui.tabular.menu ~ .attached:not(.top).segment {
         border-top: none;
         margin-left: 0;
         margin-top: 0;
         margin-right: 0;
         width: 100%;
     }
-    .top.attached.segment + .ui.bottom.tabbed.menu {
+    .top.attached.segment + .ui.bottom.tabular.menu {
         position: relative;
-        width: @tabbedFluidWidth;
-        left: -@tabbedFluidOffset;
+        width: @tabularFluidWidth;
+        left: -@tabularFluidOffset;
     }
 
-    /* Bottom Vertical Tabbed */
-    .ui.bottom.tabbed.menu {
-        background: @tabbedBackground;
+    /* Bottom Vertical Tabular */
+    .ui.bottom.tabular.menu {
+        background: @tabularBackground;
         border-radius: 0;
         box-shadow: none !important;
         border-bottom: none;
-        border-top: @tabbedBorderWidth solid @tabbedBorderColor;
+        border-top: @tabularBorderWidth solid @tabularBorderColor;
     }
-    .ui.bottom.tabbed.menu .item {
+    .ui.bottom.tabular.menu .item {
         background: none;
-        border-left: @tabbedBorderWidth solid transparent;
-        border-right: @tabbedBorderWidth solid transparent;
-        border-bottom: @tabbedBorderWidth solid transparent;
+        border-left: @tabularBorderWidth solid transparent;
+        border-right: @tabularBorderWidth solid transparent;
+        border-bottom: @tabularBorderWidth solid transparent;
         border-top: none;
     }
-    .ui.bottom.tabbed.menu .active.item {
-        background: @tabbedActiveBackground;
-        color: @tabbedActiveColor;
-        border-color: @tabbedBorderColor;
-        margin: -@tabbedBorderWidth 0 0 0;
-        border-radius: 0 0 @tabbedBorderRadius @tabbedBorderRadius !important;
+    .ui.bottom.tabular.menu .active.item {
+        background: @tabularActiveBackground;
+        color: @tabularActiveColor;
+        border-color: @tabularBorderColor;
+        margin: -@tabularBorderWidth 0 0 0;
+        border-radius: 0 0 @tabularBorderRadius @tabularBorderRadius !important;
     }
     & when (@variationMenuVertical) {
-        /* Vertical Tabbed (Left) */
-        .ui.vertical.tabbed.menu {
-            background: @tabbedVerticalBackground;
+        /* Vertical Tabular (Left) */
+        .ui.vertical.tabular.menu {
+            background: @tabularVerticalBackground;
             border-radius: 0;
             box-shadow: none !important;
             border-bottom: none;
-            border-right: @tabbedBorderWidth solid @tabbedBorderColor;
+            border-right: @tabularBorderWidth solid @tabularBorderColor;
         }
-        .ui.vertical.tabbed.menu .item {
+        .ui.vertical.tabular.menu .item {
             background: none;
-            border-left: @tabbedBorderWidth solid transparent;
-            border-bottom: @tabbedBorderWidth solid transparent;
-            border-top: @tabbedBorderWidth solid transparent;
+            border-left: @tabularBorderWidth solid transparent;
+            border-bottom: @tabularBorderWidth solid transparent;
+            border-top: @tabularBorderWidth solid transparent;
             border-right: none;
         }
-        .ui.vertical.tabbed.menu .active.item {
-            background: @tabbedActiveBackground;
-            color: @tabbedActiveColor;
-            border-color: @tabbedBorderColor;
-            margin: 0 -@tabbedBorderWidth 0 0;
-            border-radius: @tabbedBorderRadius 0 0 @tabbedBorderRadius !important;
+        .ui.vertical.tabular.menu .active.item {
+            background: @tabularActiveBackground;
+            color: @tabularActiveColor;
+            border-color: @tabularBorderColor;
+            margin: 0 -@tabularBorderWidth 0 0;
+            border-radius: @tabularBorderRadius 0 0 @tabularBorderRadius !important;
         }
 
-        /* Vertical Right Tabbed */
-        .ui.vertical.right.tabbed.menu {
-            background: @tabbedVerticalBackground;
+        /* Vertical Right Tabular */
+        .ui.vertical.right.tabular.menu {
+            background: @tabularVerticalBackground;
             border-radius: 0;
             box-shadow: none !important;
             border-bottom: none;
             border-right: none;
-            border-left: @tabbedBorderWidth solid @tabbedBorderColor;
+            border-left: @tabularBorderWidth solid @tabularBorderColor;
         }
-        .ui.vertical.right.tabbed.menu .item {
+        .ui.vertical.right.tabular.menu .item {
             background: none;
-            border-right: @tabbedBorderWidth solid transparent;
-            border-bottom: @tabbedBorderWidth solid transparent;
-            border-top: @tabbedBorderWidth solid transparent;
+            border-right: @tabularBorderWidth solid transparent;
+            border-bottom: @tabularBorderWidth solid transparent;
+            border-top: @tabularBorderWidth solid transparent;
             border-left: none;
         }
-        .ui.vertical.right.tabbed.menu .active.item {
-            background: @tabbedActiveBackground;
-            color: @tabbedActiveColor;
-            border-color: @tabbedBorderColor;
-            margin: 0 0 0 -@tabbedBorderWidth;
-            border-radius: 0 @tabbedBorderRadius @tabbedBorderRadius 0 !important;
+        .ui.vertical.right.tabular.menu .active.item {
+            background: @tabularActiveBackground;
+            color: @tabularActiveColor;
+            border-color: @tabularBorderColor;
+            margin: 0 0 0 -@tabularBorderWidth;
+            border-radius: 0 @tabularBorderRadius @tabularBorderRadius 0 !important;
         }
     }
 
     /* Dropdown */
-    .ui.tabbed.menu .active.dropdown.item {
+    .ui.tabular.menu .active.dropdown.item {
         margin-bottom: 0;
-        border-left: @tabbedBorderWidth solid transparent;
-        border-right: @tabbedBorderWidth solid transparent;
-        border-top: @tabbedOppositeBorderWidth solid transparent;
+        border-left: @tabularBorderWidth solid transparent;
+        border-right: @tabularBorderWidth solid transparent;
+        border-top: @tabularOppositeBorderWidth solid transparent;
         border-bottom: none;
     }
     & when (@variationMenuInverted) {
-        .ui.inverted.tabbed.menu .active.item,
-        .ui.inverted.tabbed.menu .active.item:hover {
-            background: @invertedTabbedActiveBackground;
-            border-color: @invertedTabbedBorderColor;
+        .ui.inverted.tabular.menu .active.item,
+        .ui.inverted.tabular.menu .active.item:hover {
+            background: @invertedTabularActiveBackground;
+            border-color: @invertedTabularBorderColor;
         }
-        .ui.inverted.tabbed.menu .item:not(.active):hover {
-            color: @invertedTabbedHoveredTextColor;
+        .ui.inverted.tabular.menu .item:not(.active):hover {
+            color: @invertedTabularHoveredTextColor;
             background: transparent;
             cursor: pointer;
         }
@@ -1593,6 +1598,12 @@ Floated Menu / Item
     }
     & when (@variationMenuVertical) {
         .ui.compact.vertical.menu {
+            & when (@supportIE) {
+                /* IE hack to make dropdown icons appear inline */
+                // stylelint-disable-next-line value-no-vendor-prefix
+                display: -ms-inline-flexbox !important;
+            }
+
             display: inline-block;
         }
     }
@@ -1643,8 +1654,8 @@ Floated Menu / Item
         text-align: center;
         justify-content: center;
     }
-    .ui.attached[class*="equal width"].menu@{notTabbed},
-    .ui.attached.item.menu@{notTabbed} {
+    .ui.attached[class*="equal width"].menu@{notTabular},
+    .ui.attached.item.menu@{notTabular} {
         margin: 0 @attachedHorizontalOffset !important;
     }
 
@@ -1903,22 +1914,22 @@ Floated Menu / Item
         border-radius: 0 0 0 @borderRadius;
     }
 
-    /* Tabbed Attached */
-    .ui.attached.menu@{notTabbed}@{notText} {
+    /* Tabular Attached */
+    .ui.attached.menu@{notTabular}@{notText} {
         border: @attachedBorder;
     }
     & when (@variationMenuInverted) {
         .ui.attached.inverted.menu {
             border: none;
         }
-        & when (@variationMenuTabbed) {
-            .ui[class*="top attached"].inverted.tabbed.menu {
-                border-bottom: @invertedTabbedBorder;
+        & when (@variationMenuTabular) {
+            .ui[class*="top attached"].inverted.tabular.menu {
+                border-bottom: @invertedTabularBorder;
             }
         }
     }
-    & when (@variationMenuTabbed) {
-        .ui.attached.tabbed.menu {
+    & when (@variationMenuTabular) {
+        .ui.attached.tabular.menu {
             margin-left: 0;
             margin-right: 0;
             width: 100%;
@@ -1936,7 +1947,7 @@ Floated Menu / Item
         & .item:first-child::before {
             display: none;
         }
-        &@{notSecondary}@{notText}@{notTabbed}@{notBorderless} .item {
+        &@{notSecondary}@{notText}@{notTabular}@{notBorderless} .item {
             &:last-of-type,
             &:last-child {
                 border-right: @dividerSize solid @dividerBackground;
@@ -1944,7 +1955,7 @@ Floated Menu / Item
         }
     }
     & when (@variationMenuWrapped) {
-        .ui.wrapped.menu@{notSecondary}@{notText}@{notTabbed}@{notBorderless} .item {
+        .ui.wrapped.menu@{notSecondary}@{notText}@{notTabular}@{notBorderless} .item {
             &:first-child {
                 border-bottom-left-radius: 0;
             }
@@ -2015,11 +2026,6 @@ Floated Menu / Item
     /* Vertical */
     .ui.vertical.menu .inverted.dropdown.item .menu {
         box-shadow: @invertedDropdownMenuBoxShadow;
-    }
-}
-
-& when (@variationMenuTabbedLegacyTabular) {
-    .tabbed:extend(.tabular all) {
     }
 }
 

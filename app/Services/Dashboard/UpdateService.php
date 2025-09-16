@@ -17,7 +17,7 @@ class UpdateService
             'crp_ppm_gesture'
         ];
         $count0 = Criteria::table("annotationset as a")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -41,7 +41,7 @@ class UpdateService
         $result['bbox'] = $count1[0]->n;
         $count2 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -62,7 +62,7 @@ class UpdateService
         $result['framesBBox'] = $count3[0]->n;
         $count4 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -137,7 +137,7 @@ class UpdateService
             'crp_pedro_pelo_mundo'
         ];
         $count0 = Criteria::table("annotationset as a")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -161,7 +161,7 @@ class UpdateService
         $result['bbox'] = $count1[0]->n;
         $count2 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -182,7 +182,7 @@ class UpdateService
         $result['framesBBox'] = $count3[0]->n;
         $count4 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -257,7 +257,7 @@ class UpdateService
             'crp_ppm_nlg'
         ];
         $count0 = Criteria::table("annotationset as a")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -281,7 +281,7 @@ class UpdateService
         $result['bbox'] = $count1[0]->n;
         $count2 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -302,7 +302,7 @@ class UpdateService
         $result['framesBBox'] = $count3[0]->n;
         $count4 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -378,7 +378,7 @@ class UpdateService
             'crp_ppm_gesture'
         ];
         $count0 = Criteria::table("annotationset as a")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -402,7 +402,7 @@ class UpdateService
         $result['bbox'] = $count1[0]->n;
         $count2 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -423,7 +423,7 @@ class UpdateService
         $result['framesBBox'] = $count3[0]->n;
         $count4 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -501,7 +501,7 @@ class UpdateService
             'crp_ad alternativa curta_hoje_eu_não_quero', //Audiodescrição_alternativa_ENQVS
         ];
         $count0 = Criteria::table("annotationset as a")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -525,7 +525,7 @@ class UpdateService
         $result['bbox'] = $count1[0]->n;
         $count2 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -546,7 +546,7 @@ class UpdateService
         $result['framesBBox'] = $count3[0]->n;
         $count4 = Criteria::table("view_annotation_text_fe as afe")
             ->join("annotationset as a", "afe.idAnnotationSet", "=", "a.idAnnotationSet")
-            ->join("document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "a.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -597,7 +597,7 @@ class UpdateService
 
         $count8 = Criteria::table("sentence as s")
             ->join("originmm as o", "s.idOriginMM", "=", "o.idOriginMM")
-            ->join("document_sentence as ds", "s.idSentence", "=", "ds.idSentence")
+            ->join("view_document_sentence as ds", "s.idSentence", "=", "ds.idSentence")
             ->join("document as d", "ds.idDocument", "=", "d.idDocument")
             ->join("corpus as c", "d.idCorpus", "=", "c.idCorpus")
             ->where("c.entry", "IN", $corpora)
@@ -666,28 +666,28 @@ class UpdateService
 
         // sentences
         Criteria::$database = 'webtool';
-        $count = Criteria::table("document_sentence as ds")
+        $count = Criteria::table("view_document_sentence as ds")
             ->selectRaw("ds.idDocument,count(distinct ds.idSentence) as n")
             ->groupBy("ds.idDocument")
             ->chunkResult("idDocument","n");
         // PTT
         $result['pttSentences'] = $count[1054];
         $cmd = "select count(distinct ls.idFrame) as n
-from document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
+from view_document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
 where ds.idDocument = 1054";
         $countFrames = DB::select($cmd, []);
         $result['pttFrames'] = $countFrames[0]->n;
         // PTO
         $result['ptoSentences'] = $count[1055];
         $cmd = "select count(distinct ls.idFrame) as n
-from document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
+from view_document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
 where ds.idDocument = 1055";
         $countFrames = DB::select($cmd, []);
         $result['ptoFrames'] = $countFrames[0]->n;
         // ENO
         $result['enoSentences'] = $count[663];
         $cmd = "select count(distinct ls.idFrame) as n
-from document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
+from view_document_sentence ds join lome_result ls on (ds.idDocumentSentence = ls.idDocumentSentence)
 where ds.idDocument = 663";
         $countFrames = DB::select($cmd, []);
         $result['enoFrames'] = $countFrames[0]->n;

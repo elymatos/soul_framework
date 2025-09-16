@@ -38,9 +38,9 @@ class ResourceController extends Controller
     public function data(SearchData $search)
     {
         if ($search->id != 0) {
-            $data = Criteria::table("dataset")
-                ->join("project", "project.idProject", "=", "dataset.idProject")
-                ->where("dataset.idProject", $search->id)
+            $data = Criteria::table("project_dataset")
+                ->join("dataset", "project_dataset.idDataset", "=", "dataset.idDataset")
+                ->where("project_dataset.idProject", $search->id)
                 ->select('dataset.idDataset', 'dataset.name')
                 ->selectRaw("concat('d',dataset.idDataset) as id")
                 ->selectRaw("'' as project")
@@ -57,8 +57,9 @@ class ResourceController extends Controller
                     ->orderBy("name")
                     ->all();
             } else {
-                $data = Criteria::table("dataset")
-                    ->join("project", "project.idProject", "=", "dataset.idProject")
+                $data = Criteria::table("project_dataset")
+                    ->join("dataset", "project_dataset.idDataset", "=", "dataset.idDataset")
+                    ->join("project", "project_dataset.idProject", "=", "project.idProject")
                     ->where("dataset.name", "startswith", $search->dataset)
                     ->select('dataset.idDataset', 'dataset.name')
                     ->selectRaw("concat('d',dataset.idDataset) as id")

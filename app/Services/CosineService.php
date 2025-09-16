@@ -8,13 +8,11 @@ class CosineService
 {
     static private $weigths;
     static private $frames;
-    static private $concepts;
     static private $processed;
 
     private static function init(): void
     {
         self::$weigths = [
-            // frame
             "rel_perspective_on" => 0.9,
             "rel_inheritance" => 0.9,
             "rel_using" => 0.8,
@@ -23,20 +21,9 @@ class CosineService
             "rel_causative_of" => 0.7,
             "rel_inchoative_of" => 0.7,
             "rel_metaphorical_projection" => 0,
-            "rel_precedes" => 0.7,
-            // mocca
-            "rel_subtypeof" => 1.0,
-            "rel_attributeof" => 0.9,
-            "rel_roleof" => 1.0,
-            "rel_headof" => 1.0,
-            "rel_constituentof" => 0.9,
-            "rel_expressionof" => 0.9,
-            "rel_recruitedfrom" => 0.7,
-            "rel_modeledon" => 0.8,
-            "rel_functionof" => 0.7
+            "rel_precedes" => 0.7
         ];
         self::$frames = [];
-        self::$concepts = [];
     }
 
     private static function createFrameLinks(int $idFrameSource): void
@@ -67,33 +54,6 @@ class CosineService
         }
     }
 
-    private static function createMoccaLinks(int $idConceptSource): void
-    {
-        if (!isset(self::$concepts[$idConceptSource])) {
-            $idNodeSource = Criteria::byId("cosine_node", "idConcept", $idConceptSource)->idCosineNode;
-            self::$concepts[$idConceptSource] = $idNodeSource;
-            $relations = Criteria::table("view_concept_relation")
-                ->where("c2IdConcept", $idConceptSource)
-                ->where("idLanguage", AppService::getCurrentIdLanguage())
-                ->all();
-            foreach ($relations as $relation) {
-                if (self::$weigths[$relation->relationType] > 0) {
-                    if (isset(self::$concepts[$relation->c1IdConcept])) {
-                        $idNodeTarget = self::$concepts[$relation->c1IdConcept];
-                    } else {
-                        $idNodeTarget = Criteria::byId("cosine_node", "idConcept", $relation->c1IdConcept)->idCosineNode;
-                    }
-                    Criteria::create("cosine_link", [
-                        "idCosineNodeSource" => $idNodeSource,
-                        "idCosineNodeTarget" => $idNodeTarget,
-                        "type" => "cp",
-                        "value" => self::$weigths[$relation->relationType],
-                    ]);
-                    self::createMoccaLinks($relation->c1IdConcept);
-                }
-            }
-        }
-    }
     public static function createFrameNetwork(): void
     {
         self::init();
@@ -125,39 +85,6 @@ class CosineService
         // now create links
         foreach ($frames as $frame) {
             self::createFrameLinks($frame->idFrame);
-        }
-    }
-
-    public static function createMoccaNetwork(): void
-    {
-        self::init();
-        // clear current network
-        $cptNodes = Criteria::table("cosine_node")
-            ->where("type", "CPT")
-            ->get()->pluck("idCosineNode")->toArray();
-        Criteria::table("cosine_link")
-            ->whereIN("idCosineNodeSource", $cptNodes)
-            ->delete();
-        Criteria::table("cosine_link")
-            ->whereIN("idCosineNodeTarget", $cptNodes)
-            ->delete();
-        Criteria::table("cosine_node")
-            ->where("type", "CPT")
-            ->delete();
-        $concepts = Criteria::table("concept")
-            ->select("idConcept")
-            ->all();
-        // create all concept nodes
-        foreach ($concepts as $concept) {
-            Criteria::create("cosine_node", [
-                "name" => "cpt_" . $concept->idConcept,
-                "type" => "CPT",
-                "idConcept" => $concept->idConcept,
-            ]);
-        }
-        // now create links
-        foreach ($concepts as $concept) {
-            self::createMoccaLinks($concept->idConcept);
         }
     }
 
@@ -206,71 +133,6 @@ class CosineService
                 "type" => "lu"
             ]);
         }
-    }
-
-    public static function createLinkCxnCeToConcept(int $idConstruction): void
-    {
-        // clear current network for the idConstruction
-        self::deleteNodeByConstruction($idConstruction);
-        //
-        debug("==== createLinkCxnCeToConcept construction {$idConstruction}");
-        $cxn = Criteria::byId("construction", "idConstruction", $idConstruction);
-        $idCosineNodeCxn = Criteria::create("cosine_node", [
-            "name" => "cxn_" . str_replace("cxn_","",$cxn->entry),
-            "type" => "CXN",
-            "idConstruction" => $idConstruction,
-        ]);
-        $cxnConcepts = Criteria::table("view_constraint as c")
-            ->join("concept as cpt", "c.idConstrainedBy", "cpt.idEntity")
-            ->where("c.idConstrained", $cxn->idEntity)
-            ->select("cpt.idConcept")
-            ->all();
-        foreach($cxnConcepts as $cxnConcept) {
-            $idCosineNodeCpt = Criteria::byId("cosine_node", "idConcept", $cxnConcept->idConcept)->idCosineNode;
-            Criteria::create("cosine_link", [
-                "idCosineNodeSource" => $idCosineNodeCxn,
-                "idCosineNodeTarget" => $idCosineNodeCpt,
-                "value" => 1.0,
-                "type" => "cx"
-            ]);
-        }
-        // ces
-        $ces = Criteria::table("constructionelement as ce")
-            ->where("idConstruction", $idConstruction)
-            ->all();
-        foreach($ces as $ce) {
-            $ceConcepts = Criteria::table("view_constraint as c")
-                ->join("concept as cpt", "c.idConstrainedBy", "cpt.idEntity")
-                ->where("c.idConstrained", $ce->idEntity)
-                ->select("cpt.idConcept")
-                ->all();
-            foreach($ceConcepts as $ceConcept) {
-                $idCosineNodeCpt = Criteria::byId("cosine_node", "idConcept", $ceConcept->idConcept)->idCosineNode;
-                // link o node da construção, não do CE
-                Criteria::create("cosine_link", [
-                    "idCosineNodeSource" => $idCosineNodeCxn,
-                    "idCosineNodeTarget" => $idCosineNodeCpt,
-                    "value" => 1.0,
-                    "type" => "cx"
-                ]);
-            }
-        }
-    }
-
-    public static function deleteNodeByConstruction(int $idConstruction): void
-    {
-        // clear current network for the idConstruction
-        $nodes = Criteria::table("cosine_node")
-            ->where("idConstruction", $idConstruction)
-            ->all();
-        foreach ($nodes as $node) {
-            Criteria::table("cosine_link")
-                ->where("idCosineNodeSource", $node->idCosineNode)
-                ->delete();
-        }
-        Criteria::table("cosine_node")
-            ->where("idConstruction", $idConstruction)
-            ->delete();
     }
 
     public static function deleteNodeByDocument(int $idDocument): void
@@ -447,12 +309,6 @@ class CosineService
         return self::createVectorFromNode($sentenceNode->idCosineNode);
     }
 
-    private static function createVectorForConstruction(int $idConstruction): array
-    {
-        $cxnNode = Criteria::byId("cosine_node", "idConstruction", $idConstruction);
-        return self::createVectorFromNode($cxnNode->idCosineNode);
-    }
-
     public static function compareTimespan(int $idDocument, int $idOriginMM, string $type = ''): array
     {
         $results = [];
@@ -524,12 +380,6 @@ class CosineService
         return $results;
     }
 
-    public static function compareConstructions(int $idConstruction1, int $idConstruction2): object
-    {
-        $vector1 = self::createVectorForConstruction($idConstruction1);
-        $vector2 = self::createVectorForConstruction($idConstruction2);
-        return self::compareVectors($vector1, $vector2);
-    }
 
     public static function compareSentences(int $idSentence1, int $idSentence2): object
     {

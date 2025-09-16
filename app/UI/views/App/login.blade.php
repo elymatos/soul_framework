@@ -4,7 +4,7 @@
 @endphp
 <x-layout.page>
     <x-slot:head>
-        <x-breadcrumb :sections="[['','Home']]"></x-breadcrumb>
+        <x-layout::breadcrumb :sections="[['','Home']]"></x-layout::breadcrumb>
     </x-slot:head>
     <x-slot:main>
 

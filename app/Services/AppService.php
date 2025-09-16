@@ -60,35 +60,36 @@ class AppService
         return Criteria::table("group")->chunkResult('idGroup', 'name');
     }
 
-    static public function getCurrentUser(): ?object
+    public static function getCurrentUser(): ?object
     {
         return Auth::user();
     }
 
-    static public function getCurrentIdUser(): ?int
+    public static function getCurrentIdUser(): ?int
     {
         $user = Auth::user();
+
         return $user ? $user->idUser : 0;
     }
 
-    static public function checkAccess(string $group): bool
+    public static function checkAccess(string $group): bool
     {
         if ($group == '') {
             return true;
         }
-        
-        if (!Auth::check()) {
+
+        if (! Auth::check()) {
             return false;
         }
-        
+
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return false;
         }
-        
+
         // Get full user with groups
         $userWithGroups = User::byId($user->idUser);
-        
+
         return User::isMemberOf($userWithGroups, $group) || User::isManager($userWithGroups);
     }
 

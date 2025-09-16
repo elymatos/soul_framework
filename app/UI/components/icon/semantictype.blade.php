@@ -1,1 +1,1 @@
-<i class="icon material semantictype">category</i>
+<i class="icon material color_semantictype">category</i>

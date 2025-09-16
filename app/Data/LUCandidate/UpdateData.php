@@ -9,7 +9,7 @@ use Spatie\LaravelData\Data;
 class UpdateData extends Data
 {
     public function __construct(
-        public ?int $idLUCandidate = null,
+        public ?int $idLU = null,
         public ?string $name = '',
         public ?string $senseDescription = '',
         public ?string $discussion = '',
@@ -17,10 +17,12 @@ class UpdateData extends Data
         public ?int $idLexicon = null,
         public ?int $idFrame = null,
         public ?int $idDocumentSentence = null,
-        public ?int $idDocument = null,
-        public ?int $idBoundingBox = null,
+        public ?int $idDynamicObject = null,
+        public ?int $idStaticObject = null,
+//        public ?int $idDocument = null,
+//        public ?int $idBoundingBox = null,
         public ?int $incorporatedFE = null,
-        public ?string $frameCandidate = '',
+//        public ?string $frameCandidate = '',
     )
     {
         if ($this->idFrame == 0) {

@@ -89,7 +89,7 @@ class Constraint
 ////SELECT c.idConstraint, c.idConstrained, c.idConstrainedBy, c.entry, concat(e2udfti.info,':',e2udf.info) as info, e2udf.info  as cxEntry, e2udf.info as nick, c.prefix, c.constrainedByType, c.idConstraintInstance
 ////FROM view_constraint c
 ////JOIN udfeature e2udf ON (c.idConstrainedBy = e2udf.idEntity)
-////JOIN type e2udfti ON (e2udf.idType = e2udfti.idType)
+////JOIN typeinstance e2udfti ON (e2udf.idTypeInstance = e2udfti.idTypeInstance)
 ////WHERE (c.idConstrained = {$idConstrained})
 ////UNION
 ////SELECT c.idConstraint, c.idConstrained, c.idConstrainedBy, c.entry, e2udr.info, e2udr.info  as cxEntry, e2udr.info as nick, c.prefix, c.constrainedByType, c.idConstraintInstance
@@ -226,7 +226,7 @@ class Constraint
 //SELECT c.idConstraint, c.idConstrained, c.idConstrainedBy, c.entry, concat(e2udfti.info,':',e2udf.info) as info, e2udf.info  as cxEntry, e2udf.info as nick, c.prefix, c.constrainedByType, c.idConstraintInstance
 //FROM view_constraint c
 //JOIN UDFeature e2udf ON (c.idConstrainedBy = e2udf.idEntity)
-//JOIN TypeInstance e2udfti ON (e2udf.idType = e2udfti.idType)
+//JOIN TypeInstance e2udfti ON (e2udf.idTypeInstance = e2udfti.idTypeInstance)
 //WHERE (c.idConstrained IN ({$idConstrainedSetString}))
 //UNION
 //SELECT c.idConstraint, c.idConstrained, c.idConstrainedBy, c.entry, e2udr.info, e2udr.info  as cxEntry, e2udr.info as nick, c.prefix, c.constrainedByType, c.idConstraintInstance

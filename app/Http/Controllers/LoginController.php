@@ -9,15 +9,15 @@ use App\Exceptions\LoginException;
 use App\Exceptions\UserNewException;
 use App\Exceptions\UserPendingException;
 use App\Mail\WebToolMail;
-use App\Repositories\User;
+use App\Models\User;
 use App\Services\AuthUserService;
 use Auth0\SDK\Auth0;
 use Auth0\SDK\Exception\StateException;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 #[Middleware(name: 'web')]
 class LoginController extends Controller
@@ -116,23 +116,11 @@ class LoginController extends Controller
     {
         Auth::logout();
         session()->flush();
-        
         if (config('webtool.login.handler') == 'auth0') {
-            try {
-                $auth0 = $this->getAuth0();
-                // Get Auth0 logout URL and redirect to it
-                // Auth0 will handle logout and redirect back to the return URL
-                $returnUrl = env('APP_URL', 'http://localhost');
-                $logoutUrl = $auth0->logout($returnUrl);
-                return redirect($logoutUrl);
-            } catch (\Exception $e) {
-                // If Auth0 logout fails, continue with local logout
-                debug("Auth0 logout failed: " . $e->getMessage());
-            }
+            $auth0 = $this->getAuth0();
+            $auth0->logout('/');
         }
-        
-        // For non-Auth0 users, redirect to home
-        return $this->redirect("/");
+        return redirect("/");
     }
 
     #[Get(path: '/impersonating')]

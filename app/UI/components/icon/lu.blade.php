@@ -1,1 +1,1 @@
-<i class="icon material lu">abc</i>
+<i class="icon material color_lu">abc</i>

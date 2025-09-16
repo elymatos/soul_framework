@@ -23,40 +23,84 @@ use Collective\Annotations\Routing\Attributes\Attributes\Put;
 class LUCandidateController extends Controller
 {
 
-    #[Get(path: '/luCandidate')]
-    public function resource()
-    {
-        return view("LUCandidate.resource");
-    }
-
-    #[Get(path: '/luCandidate/data')]
-    public function data(SearchData $search)
+    private function getData(SearchData $search): array
     {
         $luIcon = view('components.icon.lu')->render();
-        $lus = Criteria::byFilterLanguage("view_lucandidate", ["name", "startswith", $search->lu])
-            ->select('idLUCandidate', 'name', 'createdAt')
-            ->selectRaw("IFNULL(frameName, frameCandidate) as frameName")
+        $lus = Criteria::table("view_lucandidate")
+            ->where("idLanguage", AppService::getCurrentIdLanguage())
+            ->where("name", "startswith", $search->lu)
+            ->where("email", "startswith", $search->email)
+            ->select('idLU', 'name', 'createdAt', 'frameName', 'origin', 'email')
+//            ->selectRaw("IFNULL(frameName, frameCandidate) as frameName")
             ->orderBy($search->sort, $search->order)->all();
         $data = array_map(fn($item) => [
-            'id' => $item->idLUCandidate,
+            'id' => $item->idLU,
             'name' => $luIcon . $item->name,
             'frameName' => $item->frameName,
             'createdAt' => $item->createdAt ? Carbon::parse($item->createdAt)->format("d/m/Y") : '-',
+            'createdBy' => $item->email,
             'state' => 'open',
+            'origin' => $item->origin,
             'type' => 'lu'
         ], $lus);
         return $data;
     }
 
-    #[Get(path: '/luCandidate/grid/{fragment?}')]
-    #[Post(path: '/luCandidate/grid/{fragment?}')]
-    public function grid(SearchData $search, ?string $fragment = null)
+    #[Get(path: '/luCandidate')]
+    public function resource(SearchData $search)
     {
-        $view = view("LUCandidate.grid", [
-            'search' => $search,
+        $data = $this->getData($search);
+        $creators = Criteria::table("view_lucandidate")
+            ->distinct()
+            ->select("email")
+            ->orderby("email")
+            ->all();
+        return view("LUCandidate.browse", [
+            "data" => $data,
+            "creators" => $creators,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
     }
+
+    #[Post(path: '/lucandidate/search')]
+    public function tree(SearchData $search)
+    {
+        debug($search);
+        $data = $this->getData($search);
+        return view('LUCandidate.browse', [
+            'data' => $data,
+            "creators" => [],
+        ])->fragment('search');
+    }
+
+//    #[Get(path: '/luCandidate/data')]
+//    public function data(SearchData $search)
+//    {
+//        $luIcon = view('components.icon.lu')->render();
+//        $lus = Criteria::byFilterLanguage("view_lucandidate", ["name", "startswith", $search->lu])
+//            ->select('idLU', 'name', 'createdAt','frameName','origin')
+////            ->selectRaw("IFNULL(frameName, frameCandidate) as frameName")
+//            ->orderBy($search->sort, $search->order)->all();
+//        $data = array_map(fn($item) => [
+//            'id' => $item->idLU,
+//            'name' => $luIcon . $item->name,
+//            'frameName' => $item->frameName,
+//            'createdAt' => $item->createdAt ? Carbon::parse($item->createdAt)->format("d/m/Y") : '-',
+//            'state' => 'open',
+//            'origin' => $item->origin,
+//            'type' => 'lu'
+//        ], $lus);
+//        return $data;
+//    }
+//
+//    #[Get(path: '/luCandidate/grid/{fragment?}')]
+//    #[Post(path: '/luCandidate/grid/{fragment?}')]
+//    public function grid(SearchData $search, ?string $fragment = null)
+//    {
+//        $view = view("LUCandidate.grid", [
+//            'search' => $search,
+//        ]);
+//        return (is_null($fragment) ? $view : $view->fragment('search'));
+//    }
 
     #[Get(path: '/luCandidate/new')]
     public function new()
@@ -68,14 +112,16 @@ class LUCandidateController extends Controller
     public function newLU(CreateData $data)
     {
         try {
-            debug($data);
             if ((is_null($data->idLexicon) || ($data->idLexicon == 0))) {
                 throw new \Exception("Lemma is required");
             } else {
                 $lemma = Lexicon::lemmabyId($data->idLexicon);
                 $data->name = strtolower($lemma->shortName);
-                Criteria::table("lucandidate")
-                    ->insert($data->toArray());
+                debug($data);
+                Criteria::function('lu_create(?)', [$data->toJson()]);
+//
+//                Criteria::table("lucandidate")
+//                    ->insert($data->toArray());
                 $this->trigger('reload-gridLUCandidate');
                 return $this->renderNotify("success", "LU Candidate created.");
             }
@@ -84,29 +130,58 @@ class LUCandidateController extends Controller
         }
     }
 
-    #[Get(path: '/luCandidate/{id}/edit')]
+    #[Get(path: '/luCandidate/{id}')]
     public function edit(string $id)
     {
+        $luCandidate = LUCandidate::byId($id);
         $idUser = AppService::getCurrentIdUser();
         $user = User::byId($idUser);
         $isManager = User::isManager($user);
+        $asLOME = [];
+        if ($luCandidate->email == 'lome@frame.net.br') {
+            $asLOME = Criteria::table("view_annotationset")
+                ->where("idUser", $luCandidate->idUser)
+                ->where("idLU", $id)
+                ->all();
+        }
+        debug($asLOME);
         return view("LUCandidate.edit", [
-            'luCandidate' => LUCandidate::byId($id),
+            'luCandidate' => $luCandidate,
             'isManager' => $isManager,
+            'asLOME' => $asLOME,
         ]);
     }
 
-    #[Get(path: '/luCandidate/{id}/formEdit')]
-    public function formEdit(string $id)
+    #[Get(path: '/luCandidate/{id}/asLOME')]
+    public function asLOME(string $id)
     {
-        $idUser = AppService::getCurrentIdUser();
-        $user = User::byId($idUser);
-        $isManager = User::isManager($user);
-        return view("LUCandidate.formEdit", [
-            'luCandidate' => LUCandidate::byId($id),
-            'isManager' => $isManager,
+        $luCandidate = LUCandidate::byId($id);
+        $asLOME = [];
+        if ($luCandidate->email == 'lome@frame.net.br') {
+            $asLOME = Criteria::table("view_annotationset")
+                ->where("idUser", $luCandidate->idUser)
+                ->where("idLU", $id)
+                ->all();
+        }
+        return view("LUCandidate.modalASLOME", [
+            'luCandidate' => $luCandidate,
+            'asLOME' => $asLOME,
         ]);
     }
+
+
+
+//    #[Get(path: '/luCandidate/{id}/formEdit')]
+//    public function formEdit(string $id)
+//    {
+//        $idUser = AppService::getCurrentIdUser();
+//        $user = User::byId($idUser);
+//        $isManager = User::isManager($user);
+//        return view("LUCandidate.formEdit", [
+//            'luCandidate' => LUCandidate::byId($id),
+//            'isManager' => $isManager,
+//        ]);
+//    }
 
     #[Get(path: '/luCandidate/fes/{idFrame}')]
     public function feCombobox(int $idFrame)
@@ -127,7 +202,9 @@ class LUCandidateController extends Controller
                 'class' => 'error',
                 'text' => "LU candidate {$luCandidate->name} has been deleted.",
             ]);
-            Criteria::deleteById("lucandidate", "idLUCandidate", $id);
+            $idUser = AppService::getCurrentIdUser();
+            Criteria::function('lu_delete(?,?)', [$id, $idUser]);
+//            Criteria::deleteById("lu", "idLUCandidate", $id);
 //            $this->trigger('reload-gridLUCandidate');
 //            return $this->renderNotify("success", "LU candidate deleted.");
             return $this->redirect("/luCandidate");
@@ -140,10 +217,10 @@ class LUCandidateController extends Controller
     public function update(UpdateData $data)
     {
         debug($data);
-        Criteria::table("lucandidate")
-            ->where("idLUCandidate", $data->idLUCandidate)
+        Criteria::table("lu")
+            ->where("idLU", $data->idLU)
             ->update($data->toArray());
-        $luCandidate = LUCandidate::byId($data->idLUCandidate);
+        $luCandidate = LUCandidate::byId($data->idLU);
         MessageService::sendMessage((object)[
             'idUserFrom' => AppService::getCurrentIdUser(),
             'idUserTo' => $luCandidate->idUser,
@@ -158,21 +235,24 @@ class LUCandidateController extends Controller
     public function createLU(UpdateData $data)
     {
         try {
-            $exists = Criteria::table("lu")
-                ->where("idLexicon",$data->idLexicon)
-                ->where("idFrame",$data->idFrame)
-                ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("LU already exists.");
-            }
-            Criteria::function('lu_create(?)', [$data->toJson()]);
-            $luCandidate = LUCandidate::byId($data->idLUCandidate);
+//            $exists = Criteria::table("lu")
+//                ->where("idLexicon",$data->idLexicon)
+//                ->where("idFrame",$data->idFrame)
+//                ->first();
+//            if (!is_null($exists)) {
+//                throw new \Exception("LU already exists.");
+//            }
+//            Criteria::function('lu_create(?)', [$data->toJson()]);
+            $luCandidate = LUCandidate::byId($data->idLU);
             $link = '';
             if ($luCandidate->idDocumentSentence) {
                 $link = "/annotation/fullText/sentence/{$luCandidate->idDocumentSentence}";
             }
-            if ($luCandidate->idDocument) {
-                $link = "/annotation/staticBBox/{$luCandidate->idDocument}";
+            if ($luCandidate->idStaticObject) {
+                $link = "/annotation/staticBBox/{$luCandidate->idStaticObject}";
+            }
+            if ($luCandidate->idDynamicObject) {
+                $link = "/annotation/dynamicMode/{$luCandidate->idDynamicObject}";
             }
             if ($link != '') {
                 $link = "<a href=\"{$link}\">Link to annotation.</a>.";
@@ -183,7 +263,15 @@ class LUCandidateController extends Controller
                 'class' => 'success',
                 'text' => "LU candidate {$luCandidate->name} has been created as LU.  {$link} ",
             ]);
-            Criteria::deleteById("lucandidate", "idLUCandidate", $data->idLUCandidate);
+            //Criteria::deleteById("lucandidate", "idLUCandidate", $data->idLUCandidate);
+            $array = array_merge($data->toArray(), [
+                'status' => 'CREATED',
+                'updatedAt' => Carbon::now(),
+            ]);
+            debug($array);
+            Criteria::table("lu")
+                ->where("idLU", $luCandidate->idLU)
+                ->update($array);
             return $this->renderNotify("success", "LU created.");
         } catch (\Exception $e) {
             return $this->renderNotify("error", $e->getMessage());

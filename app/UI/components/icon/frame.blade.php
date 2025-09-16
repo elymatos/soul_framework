@@ -1,1 +1,1 @@
-<i class="icon material frame">dashboard</i>
+<i class="icon material color_frame">dashboard</i>

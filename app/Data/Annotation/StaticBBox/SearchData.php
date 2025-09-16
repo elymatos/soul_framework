@@ -20,10 +20,9 @@ class SearchData extends Data
             $type = $this->id[0];
             if ($type == 'c') {
                 $this->idCorpus = substr($this->id, 1);
-            } else if ($type == 'd') {
+            }
+            if ($type == 'd') {
                 $this->idDocument = substr($this->id, 1);
-            } else {
-                $this->idCorpus = $this->id;
             }
         }
         $this->_token = csrf_token();
