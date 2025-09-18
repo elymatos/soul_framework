@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use App\Database\Criteria;
 use App\Services\AppService;
-use App\Services\XmlExportConfig;
-use App\Services\XmlUtils;
-use App\Services\XmlTemplateManager;
-use App\Services\ExportProgressTracker;
+use App\Services\XmlExport\XmlExportConfig;
+use App\Services\XmlExport\XmlUtils;
+use App\Services\XmlExport\XmlTemplateManager;
+use App\Services\XmlExport\ExportProgressTracker;
 use Illuminate\Console\Command;
 use DOMDocument;
 use Exception;
