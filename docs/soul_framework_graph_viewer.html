@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUL Framework Conceptual Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .graph-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .controls {
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .controls label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .controls select, .controls input {
+            margin-right: 15px;
+            padding: 5px;
+        }
+
+        #graph {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #ddd;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .legend {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .legend h3 {
+            margin-top: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .node-axiom { fill: #ff7f0e; }
+        .node-predicate-high { fill: #2ca02c; }
+        .node-predicate-medium { fill: #d62728; }
+        .node-predicate-low { fill: #9467bd; }
+        .node-variable { fill: #8c564b; }
+
+        .link { stroke: #999; stroke-opacity: 0.6; }
+        .link-uses_predicate { stroke: #ff7f0e; }
+        .link-has_variable { stroke: #8c564b; }
+        .link-co_occurs { stroke: #2ca02c; }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node:hover {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 300px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SOUL Framework Conceptual Graph</h1>
+            <p>Interactive visualization of the complete formal theory with <strong>1,111 axioms</strong>, <strong>1,025 predicates</strong>, and their relationships across 45+ chapters.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Axioms</h3>
+                <div class="stat-number" id="total-axioms">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Unique Predicates</h3>
+                <div class="stat-number" id="total-predicates">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Frequent Variables</h3>
+                <div class="stat-number" id="frequent-variables">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Connections</h3>
+                <div class="stat-number" id="total-links">Loading...</div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div class="controls">
+                <label for="filter-type">Filter by Type:</label>
+                <select id="filter-type">
+                    <option value="all">All Nodes</option>
+                    <option value="axiom">Axioms Only</option>
+                    <option value="predicate">Predicates Only</option>
+                    <option value="variable">Variables Only</option>
+                </select>
+
+                <label for="complexity-filter">Complexity:</label>
+                <select id="complexity-filter">
+                    <option value="all">All Complexities</option>
+                    <option value="simple">Simple</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="complex">Complex</option>
+                </select>
+
+                <label for="chapter-filter">Chapter:</label>
+                <select id="chapter-filter">
+                    <option value="all">All Chapters</option>
+                </select>
+
+                <button id="reset-zoom">Reset View</button>
+            </div>
+
+            <svg id="graph"></svg>
+            <div class="tooltip" id="tooltip"></div>
+        </div>
+
+        <div class="legend">
+            <h3>Legend</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Node Types</h4>
+                    <div class="legend-item">
+                        <div class="legend-color node-axiom"></div>
+                        <span>Axioms</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color node-predicate-high"></div>
+                        <span>High-importance Predicates</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color node-predicate-medium"></div>
+                        <span>Medium-importance Predicates</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color node-predicate-low"></div>
+                        <span>Low-importance Predicates</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color node-variable"></div>
+                        <span>Frequent Variables</span>
+                    </div>
+                </div>
+                <div>
+                    <h4>Link Types</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff7f0e; border-radius: 0; height: 3px;"></div>
+                        <span>Uses Predicate</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #8c564b; border-radius: 0; height: 3px;"></div>
+                        <span>Has Variable</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #2ca02c; border-radius: 0; height: 3px;"></div>
+                        <span>Co-occurs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Note: This is a demonstration HTML file.
+        // To fully use this visualization, you need to load the actual JSON data.
+        // The JSON file is 4.2MB, so loading might take a moment.
+
+        console.log('SOUL Framework Graph Viewer');
+        console.log('To load the actual graph data, you need to serve this HTML file from a web server');
+        console.log('and load the soul_framework_conceptual_graph.json file via AJAX/fetch');
+
+        // Display loading stats from metadata (would be loaded from JSON in full implementation)
+        document.getElementById('total-axioms').textContent = '1,111';
+        document.getElementById('total-predicates').textContent = '1,025';
+        document.getElementById('frequent-variables').textContent = '60';
+        document.getElementById('total-links').textContent = '16,456';
+
+        // This is where you would load and visualize the actual graph data:
+        fetch('soul_framework_conceptual_graph.json')
+            .then(response => response.json())
+            .then(data => {
+                createVisualization(data);
+            });
+
+        function createVisualization(data) {
+            // D3.js force-directed graph implementation would go here
+            // This would create an interactive network visualization
+            // showing the relationships between axioms, predicates, and variables
+        }
+
+        // Populate chapter filter (example)
+        const chapterSelect = document.getElementById('chapter-filter');
+        for (let i = 5; i <= 49; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `Chapter ${i}`;
+            chapterSelect.appendChild(option);
+        }
+    </script>
+</body>
+</html>

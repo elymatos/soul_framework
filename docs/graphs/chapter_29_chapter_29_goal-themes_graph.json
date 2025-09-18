@@ -1,0 +1,3739 @@
+{
+    "metadata": {
+        "chapter": 29,
+        "chapter_title": "Goal Themes",
+        "filename": "chapter_29_goal-themes",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 34,
+        "predicate_count": 54,
+        "variable_count": 21,
+        "frequent_variable_count": 18
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 17,
+            "simple": 6,
+            "complex": 11
+        },
+        "pattern_counts": {
+            "existence_claim": 1,
+            "type_constraint": 3,
+            "belief_logic": 5,
+            "argument_structure": 2,
+            "definition": 8,
+            "defeasible_rule": 10,
+            "axiom_schema": 4,
+            "goal_reasoning": 1
+        },
+        "top_predicates": {
+            "etc": 10,
+            "cause": 7,
+            "pain": 6,
+            "thrive'": 5,
+            "pleasure": 5,
+            "Rexists": 4,
+            "know": 4,
+            "believe'": 4,
+            "goal'": 4,
+            "stvslt": 4
+        },
+        "predicate_frequencies": {
+            "etc": 10,
+            "cause": 7,
+            "pain": 6,
+            "thrive'": 5,
+            "pleasure": 5,
+            "Rexists": 4,
+            "know": 4,
+            "believe'": 4,
+            "goal'": 4,
+            "stvslt": 4,
+            "goalTheme": 4,
+            "agent": 3,
+            "goal": 3,
+            "changeFrom'": 3,
+            "atTime'": 3,
+            "p'": 3,
+            "q'": 3,
+            "member": 3,
+            "person": 2,
+            "pleasure'": 2,
+            "inFocus": 2,
+            "nequal": 2,
+            "pleasurable": 2,
+            "pleasurable'": 2,
+            "moreValuable": 2,
+            "painful'": 2,
+            "not'": 2,
+            "gen": 2,
+            "gratificationDelay": 2,
+            "mb": 2,
+            "instance": 2,
+            "believe": 1,
+            "Rexist": 1,
+            "morePleasurable": 1,
+            "pain'": 1,
+            "painful": 1,
+            "bodyPart": 1,
+            "intact'": 1,
+            "moreCostly": 1,
+            "morePainful": 1,
+            "before": 1,
+            "conflictingGoals": 1,
+            "pickST'": 1,
+            "pickLT'": 1,
+            "intervalBetween": 1,
+            "cost": 1,
+            "p": 1,
+            "q": 1,
+            "imply": 1,
+            "imply'": 1,
+            "causallyInvolved'": 1,
+            "dset": 1,
+            "singleton": 1,
+            "hedonists": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "29.1",
+                "type": "axiom",
+                "name": "Every agent has thriving as a goal",
+                "complexity": "moderate",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (if (agent a) (exists (e)(and (goal e a)(thrive' e a)))))",
+                "english": "It is formally convenient to assume that agents have one plan that they are always developing, executing, monitoring, and revising, and that that plan is in the service of a single goal called 'Thriving'",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.2",
+                "type": "axiom",
+                "name": "Type constraint for thrive",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a) (if (thrive' e a)(agent a)))",
+                "english": "If e is an eventuality of a thriving, then a is an agent",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.3",
+                "type": "axiom",
+                "name": "Type constraint for pleasure",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (if (pleasure e p)(person p)))",
+                "english": "The expression (pleasure e p) means that the eventuality e is the experience of person p feeling pleasure",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.4",
+                "type": "axiom",
+                "name": "Pleasure is self-evident - knowledge",
+                "complexity": "moderate",
+                "pattern": "belief_logic",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e p) (if (and (pleasure' e0 e p)(Rexists e0))(know p e0)))",
+                "english": "When someone feels pleasure, they know it, and that fact is in their focus of attention",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.5",
+                "type": "axiom",
+                "name": "Pleasure is in focus",
+                "complexity": "simple",
+                "pattern": "belief_logic",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (if (pleasure e p)(inFocus e p)))",
+                "english": "When someone feels pleasure, that fact is in their focus of attention",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.6",
+                "type": "axiom",
+                "name": "Believing in pleasure implies reality",
+                "complexity": "moderate",
+                "pattern": "belief_logic",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e p) (if (and (pleasure' e0 e p)(believe p e0)) (Rexist e0)))",
+                "english": "Moreover, if someone believes he or she feels pleasure, they really do. It is not something one can be mistaken about",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.7",
+                "type": "axiom",
+                "name": "Pleasure is private experience",
+                "complexity": "moderate",
+                "pattern": "argument_structure",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 p2 e1 e2) (if (and (pleasure e1 p1)(pleasure e2 p2)(nequal p1 p2)) (nequal e1 e2)))",
+                "english": "Pleasure is a private experience. If two distinct persons p1 and p2 have experiences of pleasure e1 and e2, the experiences are distinct",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.8",
+                "type": "axiom",
+                "name": "Definition of pleasurable",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a) (iff (pleasurable e1 p) (exists (e) (and (pleasure e p)(cause e1 e)))))",
+                "english": "A closely related concept identifies the cause of the pleasure. Eventuality e1 is pleasurable to person p if e1 causes the experience e of pleasure in p",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.9",
+                "type": "axiom",
+                "name": "Knowing causes of pleasure",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e0 e1 p) (if (and (pleasurable' e0 e1 p)(Rexists e0)(etc)) (know p e0)))",
+                "english": "We normally know the causes of our feelings of pleasure, but not always",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.10",
+                "type": "axiom",
+                "name": "Pleasurable things become goals",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e0 e1 e2 p) (if (and (pleasurable' e0 e1 p)(believe' e2 p e0)(etc)) (exists (g0) (and (goal' g0 e1 p)(cause e2 g0)))))",
+                "english": "The principal property of pleasure, for our purposes, is that if we believe something is pleasurable, it will often cause us to adopt it as a goal",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.11",
+                "type": "axiom",
+                "name": "Pleasure causes belief in thriving",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e p) (if (and (pleasure e p)(etc)) (exists (e1 e2) (and (thrive' e1 p)(believe' e2 p e1)(cause e e2)))))",
+                "english": "When we feel pleasure, that normally causes us to believe we are thriving",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.12",
+                "type": "axiom",
+                "name": "Value correlates with pleasure",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e1 e2 p) (if (and (moreValuable e1 e2 p)(etc)) (morePleasurable e1 e2 p)))",
+                "english": "Defeasibly, the more valuable a goal is to us, the more pleasurable its achievement should be",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.13",
+                "type": "axiom",
+                "name": "Type constraint for pain",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (if (pain e p)(person p)))",
+                "english": "The expression (pain e p) means that the eventuality e is the experience of person p feeling pain",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.14",
+                "type": "axiom",
+                "name": "Pain is self-evident - knowledge",
+                "complexity": "moderate",
+                "pattern": "belief_logic",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e p) (if (and (pain' e0 e p)(Rexists e0))(know p e0)))",
+                "english": "When someone feels pain, they know it, and that fact is in their focus of attention. It is not something they can be mistaken about",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.15",
+                "type": "axiom",
+                "name": "Pain is in focus",
+                "complexity": "simple",
+                "pattern": "belief_logic",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (if (pain e p)(inFocus e p)))",
+                "english": "When someone feels pain, that fact is in their focus of attention. In these axioms the pain itself (e) is in focus",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.16",
+                "type": "axiom",
+                "name": "Pain is private experience",
+                "complexity": "moderate",
+                "pattern": "argument_structure",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 p2 e1 e2) (if (and (pain e1 p1)(pain e2 p2)(nequal p1 p2)) (nequal e1 e2)))",
+                "english": "Pain is a private experience. If two distinct persons p1 and p2 have experiences of pain e1 and e2, the experiences are distinct",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.17",
+                "type": "axiom",
+                "name": "Definition of painful",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a) (iff (painful e1 p) (exists (e) (and (pain e p)(cause e1 e)))))",
+                "english": "A closely related concept identifies the cause of the pain. Eventuality e1 is painful to person p if e1 causes the experience e of pain in p",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.18",
+                "type": "axiom",
+                "name": "Knowing causes of pain",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e p) (if (and (painful' e0 e1 p)(Rexists e0)(etc)) (know p e0)))",
+                "english": "We normally know the causes of our feelings of pain, but not always",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.19",
+                "type": "axiom",
+                "name": "Pain indicates body damage",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e p) (if (and (pain e p)(etc)) (exists (x e1 e2) (and (bodyPart x p)(changeFrom' e1 e2)(intact' e2 x) (cause e1 e)))))",
+                "english": "More than pleasure, pain tends to be associated with a particular body part and indicates that damage is being done to that body part. Breaking your arm is painful, and the pain is telling you that your arm is broken",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.20",
+                "type": "axiom",
+                "name": "Painful things cause goals to stop pain",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e0 e1 e2 p) (if (and (painful' e0 e1 p)(believe' e2 p e0)(etc)) (exists (g0 e3) (and (goal' g0 e3 p)(not' e3 e1)(cause e2 g0)))))",
+                "english": "The principal property of pain, for our purposes, is that if we believe something is painful, it will often cause us to adopt as a goal causing the pain to stop",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.21",
+                "type": "axiom",
+                "name": "Pain causes belief in not thriving",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e p) (if (and (pain e p)(etc)) (exists (e1 e2 e3) (and (thrive' e1 p)(not' e3 e1)(believe' e2 p e3) (cause e e2)))))",
+                "english": "When we feel pain, that normally causes us to believe we are not thriving",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.22",
+                "type": "axiom",
+                "name": "Cost correlates with pain",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (x y p) (if (and (moreCostly e1 e2 p)(etc)) (morePainful e1 e2 p)))",
+                "english": "Just as we did with pleasure, we can help out Martians and robots by saying that there is a correlation between how painful something is and the cost of the goals we are willing to sacrifice to eliminate the pain",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.23",
+                "type": "axiom",
+                "name": "Definition of stvslt (short-term vs long-term)",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e1 t1 e2 t2) (if (stvslt a e1 t1 e2 t2) (exists (e3 e4) (and (agent a)(before t1 t2) (atTime' e3 e1 t1)(goal e3 a) (atTime' e4 e2 t2)(goal e4 a) (conflictingGoals e3 e4 a) (moreValuable e2 e1 a)))))",
+                "english": "A very common conflict when we are trying to decide what to do is between satisfying short-term goals and pursuing long-term goals. The constraints are: one time is before the other, the goals conflict, and the long-term goal is more valuable",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.24",
+                "type": "axiom",
+                "name": "Definition of pickST (pick short-term)",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a e1) (iff (pickST' e a e1) (exists (t1 e2 t2 e4 g2 e5) (and (stvslt a e1 t1 e2 t2) (atTime' e4 e2 t2)(goal' g2 e4 a) (changeFrom' e5 g2)(gen e5 e)))))",
+                "english": "To pick the short-term goal e1 is to be in this situation and to change from having e2 as a goal. Picking the short-term option is equivalent to abandoning e4 as a goal",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.25",
+                "type": "axiom",
+                "name": "Definition of pickLT (pick long-term)",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a e2) (iff (pickLT' e a e2) (exists (e1 t1 t2 e3 g1 e5) (and (stvslt a e1 t1 e2 t2) (atTime' e3 e1 t1)(goal' g1 e3 a) (changeFrom' e5 g1)(gen e5 e)))))",
+                "english": "The definition of picking the long-term option e2 is similar - changing from having the short-term goal",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.26",
+                "type": "axiom",
+                "name": "Definition of gratificationDelay",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t e1 e2 a) (iff (gratificationDelay t e1 e2 a) (exists (t1 t2) (and (stvslt a e1 t1 e2 t2) (intervalBetween t t1 t2)))))",
+                "english": "We can call the interval between t1 and t2 the 'gratification delay'",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.27",
+                "type": "axiom",
+                "name": "Gratification delay has cost",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (t e1 e2 a) (if (and (gratificationDelay t e1 e2 a)(etc)) (exists (y) (cost y t a))))",
+                "english": "Much of the issue in the choice between short-term and long-term goals is that there is usually a cost to the delay",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.28",
+                "type": "axiom",
+                "name": "Example universal rule",
+                "complexity": "simple",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x) (if (p x)(q x)))",
+                "english": "Suppose for example that we want a rule that says this universal implication",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "29.29",
+                "type": "axiom",
+                "name": "Reified implication version",
+                "complexity": "moderate",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 x) (if (p' e1 x) (exists (e2)(and (q' e2 x)(imply e1 e2)))))",
+                "english": "We can make the implication relation between the eventualities explicit and write",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.30",
+                "type": "axiom",
+                "name": "Mutual belief in implication",
+                "complexity": "moderate",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 x) (if (p' e1 x) (exists (e2 e3) (and (q' e2 x)(imply' e3 e1 e2)(mb S e3)))))",
+                "english": "Now we can reify the implication and treat it as an object of mutual belief by a particular set S of agents",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.31",
+                "type": "axiom",
+                "name": "Definition of goalTheme",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s t) (iff (goalTheme t s) (forall (a e) (if (and (member a s)(member e t)) (exists (e1) (and (instance e1 e)(goal e1 a)))))))",
+                "english": "We can define a 'goal theme' as a relation between a set of agents and a set of goals from which we can conclude those agents have those goals. If t is a goal theme among the group s, then t is a set of eventuality types and the members of s are likely to have as goals instances of the eventuality types in set t",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.32",
+                "type": "axiom",
+                "name": "Goal themes based on mutual belief",
+                "complexity": "complex",
+                "pattern": "goal_reasoning",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s t e a) (if (and (goalTheme t s)(member e t)(member a s)) (exists (e0 e1 e2) (and (mb s e0)(causallyInvolved' e0 e1 e2) (instance e1 e)(thrive' e2 a)))))",
+                "english": "Agents have goals because they believe they will contribute ultimately to the goal of thriving. Thus, we can characterize goal themes in terms of mutual belief in causal knowledge",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "29.33",
+                "type": "axiom",
+                "name": "Goal theme axiom schema",
+                "complexity": "moderate",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s t x e1 e y) (if (and (dset s x e1)(p' e1 x)(singleton t e)(q' e y)) (goalTheme t s)))",
+                "english": "A belief that it is a goal theme of a group defined by property p that q be true would be expressed by axioms of this form",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "29.34",
+                "type": "axiom",
+                "name": "Definition of hedonists",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (iff (hedonists s) (exists (t) (and (goalTheme t s) (forall (e a) (if (and (member e t)(member a s)) (pleasurable e a)))))))",
+                "english": "Following up on our discussion of pleasure and pain, we can define a hedonist (or a set of hedonists) as someone who chooses goals that are pleasurable experiences",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_thrive'",
+                "type": "predicate",
+                "name": "thrive'",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_pleasure",
+                "type": "predicate",
+                "name": "pleasure",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pleasure'",
+                "type": "predicate",
+                "name": "pleasure'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexists",
+                "type": "predicate",
+                "name": "Rexists",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_know",
+                "type": "predicate",
+                "name": "know",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_inFocus",
+                "type": "predicate",
+                "name": "inFocus",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_believe",
+                "type": "predicate",
+                "name": "believe",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nequal",
+                "type": "predicate",
+                "name": "nequal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pleasurable",
+                "type": "predicate",
+                "name": "pleasurable",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_pleasurable'",
+                "type": "predicate",
+                "name": "pleasurable'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 10,
+                "axiom_count": 10,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_believe'",
+                "type": "predicate",
+                "name": "believe'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goal'",
+                "type": "predicate",
+                "name": "goal'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_moreValuable",
+                "type": "predicate",
+                "name": "moreValuable",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_morePleasurable",
+                "type": "predicate",
+                "name": "morePleasurable",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pain",
+                "type": "predicate",
+                "name": "pain",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_pain'",
+                "type": "predicate",
+                "name": "pain'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_painful",
+                "type": "predicate",
+                "name": "painful",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_painful'",
+                "type": "predicate",
+                "name": "painful'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_bodyPart",
+                "type": "predicate",
+                "name": "bodyPart",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom'",
+                "type": "predicate",
+                "name": "changeFrom'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_intact'",
+                "type": "predicate",
+                "name": "intact'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreCostly",
+                "type": "predicate",
+                "name": "moreCostly",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_morePainful",
+                "type": "predicate",
+                "name": "morePainful",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_stvslt",
+                "type": "predicate",
+                "name": "stvslt",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime'",
+                "type": "predicate",
+                "name": "atTime'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_conflictingGoals",
+                "type": "predicate",
+                "name": "conflictingGoals",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pickST'",
+                "type": "predicate",
+                "name": "pickST'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pickLT'",
+                "type": "predicate",
+                "name": "pickLT'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gratificationDelay",
+                "type": "predicate",
+                "name": "gratificationDelay",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_intervalBetween",
+                "type": "predicate",
+                "name": "intervalBetween",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cost",
+                "type": "predicate",
+                "name": "cost",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_p",
+                "type": "predicate",
+                "name": "p",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_q",
+                "type": "predicate",
+                "name": "q",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_p'",
+                "type": "predicate",
+                "name": "p'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_q'",
+                "type": "predicate",
+                "name": "q'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply'",
+                "type": "predicate",
+                "name": "imply'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_mb",
+                "type": "predicate",
+                "name": "mb",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goalTheme",
+                "type": "predicate",
+                "name": "goalTheme",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causallyInvolved'",
+                "type": "predicate",
+                "name": "causallyInvolved'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_dset",
+                "type": "predicate",
+                "name": "dset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_singleton",
+                "type": "predicate",
+                "name": "singleton",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_hedonists",
+                "type": "predicate",
+                "name": "hedonists",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 12,
+                "frequency": 12,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 21,
+                "frequency": 21,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 18,
+                "frequency": 18,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 23,
+                "frequency": 23,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 17,
+                "frequency": 17,
+                "group": "variable"
+            },
+            {
+                "id": "var_g0",
+                "type": "variable",
+                "name": "g0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_t1",
+                "type": "variable",
+                "name": "t1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_t2",
+                "type": "variable",
+                "name": "t2",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e5",
+                "type": "variable",
+                "name": "e5",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "29.1",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.1",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.1",
+                "target": "pred_thrive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.2",
+                "target": "pred_thrive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.2",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.3",
+                "target": "pred_pleasure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.3",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.4",
+                "target": "pred_pleasure'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.4",
+                "target": "pred_Rexists",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.4",
+                "target": "pred_know",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.4",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.5",
+                "target": "pred_pleasure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.5",
+                "target": "pred_inFocus",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.6",
+                "target": "pred_pleasure'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.6",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.6",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.6",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.7",
+                "target": "pred_pleasure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.7",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.7",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.7",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.8",
+                "target": "pred_pleasurable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.8",
+                "target": "pred_pleasure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.8",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.9",
+                "target": "pred_pleasurable'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.9",
+                "target": "pred_Rexists",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.9",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.9",
+                "target": "pred_know",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.9",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.10",
+                "target": "pred_pleasurable'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.10",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.10",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.10",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.10",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.10",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.10",
+                "target": "var_g0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.11",
+                "target": "pred_pleasure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.11",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.11",
+                "target": "pred_thrive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.11",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.11",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.11",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.12",
+                "target": "pred_moreValuable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.12",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.12",
+                "target": "pred_morePleasurable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.13",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.13",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.14",
+                "target": "pred_pain'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.14",
+                "target": "pred_Rexists",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.14",
+                "target": "pred_know",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.14",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.15",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.15",
+                "target": "pred_inFocus",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.16",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.16",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.16",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.16",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.16",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.17",
+                "target": "pred_painful",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.17",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.17",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.17",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.17",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.18",
+                "target": "pred_painful'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.18",
+                "target": "pred_Rexists",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.18",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.18",
+                "target": "pred_know",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.18",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.18",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.18",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.18",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.19",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "pred_bodyPart",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "pred_intact'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.19",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.19",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.19",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "pred_painful'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.20",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "var_g0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.20",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.21",
+                "target": "pred_pain",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "pred_thrive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.21",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.21",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.21",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.21",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.22",
+                "target": "pred_moreCostly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.22",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.22",
+                "target": "pred_morePainful",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.22",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.22",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.22",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.22",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.22",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "pred_stvslt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_conflictingGoals",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "pred_moreValuable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.23",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.23",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "pred_pickST'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "pred_stvslt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.24",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.24",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "pred_pickLT'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "pred_stvslt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.25",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.25",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "pred_gratificationDelay",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.26",
+                "target": "pred_stvslt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.26",
+                "target": "pred_intervalBetween",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.26",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.26",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.27",
+                "target": "pred_gratificationDelay",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.27",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.27",
+                "target": "pred_cost",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.27",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.27",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.27",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.27",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.28",
+                "target": "pred_p",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.28",
+                "target": "pred_q",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.28",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.29",
+                "target": "pred_p'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.29",
+                "target": "pred_q'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.29",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.29",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.29",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.29",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.30",
+                "target": "pred_p'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.30",
+                "target": "pred_q'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.30",
+                "target": "pred_imply'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.30",
+                "target": "pred_mb",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.30",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.30",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.30",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.30",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.31",
+                "target": "pred_goalTheme",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.31",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.31",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.31",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.31",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.31",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.31",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.31",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.31",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "pred_goalTheme",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "pred_mb",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "pred_causallyInvolved'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "pred_thrive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.32",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.32",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "pred_dset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.33",
+                "target": "pred_p'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.33",
+                "target": "pred_singleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.33",
+                "target": "pred_q'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.33",
+                "target": "pred_goalTheme",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.33",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.33",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.34",
+                "target": "pred_hedonists",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.34",
+                "target": "pred_goalTheme",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.34",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.34",
+                "target": "pred_pleasurable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "29.34",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.34",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.34",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "29.34",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_person",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure'",
+                "target": "pred_Rexists",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure'",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexists",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_inFocus",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure'",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable",
+                "target": "pred_pleasure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_Rexists",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexists",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasurable'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pleasure",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thrive'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thrive'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreValuable",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreValuable",
+                "target": "pred_morePleasurable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_morePleasurable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_person",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain'",
+                "target": "pred_Rexists",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain'",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_inFocus",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful",
+                "target": "pred_pain",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_Rexists",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_know",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPart",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPart",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPart",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intact'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_painful'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pain",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thrive'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreCostly",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreCostly",
+                "target": "pred_morePainful",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_morePainful",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_conflictingGoals",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_conflictingGoals",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_conflictingGoals",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_conflictingGoals",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_conflictingGoals",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_conflictingGoals",
+                "target": "pred_moreValuable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickST'",
+                "target": "pred_stvslt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickST'",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickST'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickST'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickST'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickLT'",
+                "target": "pred_stvslt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickLT'",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickLT'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickLT'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pickLT'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gratificationDelay",
+                "target": "pred_stvslt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gratificationDelay",
+                "target": "pred_intervalBetween",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_stvslt",
+                "target": "pred_intervalBetween",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gratificationDelay",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gratificationDelay",
+                "target": "pred_cost",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_cost",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_q",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_q'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_q'",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_imply'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_mb",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_q'",
+                "target": "pred_imply'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_q'",
+                "target": "pred_mb",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply'",
+                "target": "pred_mb",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_mb",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_causallyInvolved'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_mb",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_causallyInvolved'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mb",
+                "target": "pred_causallyInvolved'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mb",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mb",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved'",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causallyInvolved'",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_thrive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_dset",
+                "target": "pred_p'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_dset",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_dset",
+                "target": "pred_q'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_dset",
+                "target": "pred_goalTheme",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_goalTheme",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_q'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_goalTheme",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_q'",
+                "target": "pred_goalTheme",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_hedonists",
+                "target": "pred_goalTheme",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_hedonists",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_hedonists",
+                "target": "pred_pleasurable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalTheme",
+                "target": "pred_pleasurable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_pleasurable",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

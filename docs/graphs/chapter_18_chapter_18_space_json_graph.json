@@ -1,0 +1,1650 @@
+{
+    "metadata": {
+        "chapter": 18,
+        "chapter_title": "Space",
+        "filename": "chapter_18_space_json",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 11,
+        "predicate_count": 26,
+        "variable_count": 19,
+        "frequent_variable_count": 13
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 3,
+            "simple": 5,
+            "moderate": 3
+        },
+        "pattern_counts": {
+            "definition": 6,
+            "type_constraint": 2,
+            "mathematical_property": 3
+        },
+        "top_predicates": {
+            "distance": 7,
+            "spatialSystem": 5,
+            "componentOf": 4,
+            "member": 2,
+            "spatialUnit": 2,
+            "nearnessScale": 2,
+            "near": 2,
+            "atLoc": 2,
+            "compositeEntity": 1,
+            "componentsOf": 1
+        },
+        "predicate_frequencies": {
+            "distance": 7,
+            "spatialSystem": 5,
+            "componentOf": 4,
+            "member": 2,
+            "spatialUnit": 2,
+            "nearnessScale": 2,
+            "near": 2,
+            "atLoc": 2,
+            "compositeEntity": 1,
+            "componentsOf": 1,
+            "physobj": 1,
+            "relationsOf": 1,
+            "subset": 1,
+            "distance'": 1,
+            "nonNegInteger": 1,
+            "sum": 1,
+            "leq": 1,
+            "shorterDistance": 1,
+            "lt": 1,
+            "scaleDefinedBy": 1,
+            "shorterDistance'": 1,
+            "reverse": 1,
+            "Hi": 1,
+            "inScale": 1,
+            "ground": 1,
+            "at": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "18.1",
+                "type": "axiom",
+                "name": "Spatial System Definition",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s) (iff (spatialSystem s) (and (compositeEntity s) (exists (s1) (and (componentsOf s1 s) (forall (x) (if (member x s1)(physobj x))))) (exists (s2 s3) (and (relationsOf s2 s)(subset s3 s2) (forall (e) (if (member e s3) (exists (d x1 x2 u) (distance' e d x1 x2 u s)))))))))",
+                "english": "A spatial system is a composite entity whose components are physical objects and among whose relations are distance relations between components.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "18.2",
+                "type": "axiom",
+                "name": "Distance Argument Constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d x1 x2 u s) (if (distance d x1 x2 u s) (and (nonNegInteger d)(spatialSystem s) (componentOf x1 s)(componentOf x2 s) (spatialUnit u))))",
+                "english": "Distance requires a non-negative integer, two components of a spatial system, and a spatial unit.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "18.3",
+                "type": "axiom",
+                "name": "Distance Reflexivity",
+                "complexity": "simple",
+                "pattern": "mathematical_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x u s) (if (and (componentOf x s)(spatialUnit u)(spatialSystem s)) (distance 0 x x u s)))",
+                "english": "The distance between an entity and itself is zero.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "18.4",
+                "type": "axiom",
+                "name": "Distance Symmetry",
+                "complexity": "simple",
+                "pattern": "mathematical_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d x1 x2 u s) (iff (distance d x1 x2 u s)(distance d x2 x1 u s)))",
+                "english": "The distance between two entities is symmetric.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "18.5",
+                "type": "axiom",
+                "name": "Triangle Inequality",
+                "complexity": "moderate",
+                "pattern": "mathematical_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d1 d2 d3 d4 x1 x2 x3 u s) (if (and (distance d1 x1 x2 u s)(distance d2 x2 x3 u s) (distance d3 x1 x3 u s)(sum d4 d1 d2)) (leq d3 d4)))",
+                "english": "The triangle inequality holds - the direct distance between two points is less than or equal to the sum of distances through an intermediate point.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "18.6",
+                "type": "axiom",
+                "name": "Shorter Distance Definition",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d1 d2 s) (iff (shorterDistance d1 d2 s) (exists (u x1 x2 x3 x4) (and (distance d1 x1 x2 u s)(distance d2 x3 x4 u s) (lt d1 d2)))))",
+                "english": "One distance is shorter than another in a spatial system if there exist pairs of objects such that the first distance is numerically less than the second.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "18.7",
+                "type": "axiom",
+                "name": "Nearness Scale Definition",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s1 s) (iff (nearnessScale s1 s) (exists (u s2 s3 e d1 d2) (and (scaleDefinedBy s2 s3 e) (forall (d) (if (member d s3) (exists (x1 x2)(distance d x1 x2 u s)))) (shorterDistance' e d1 d2 s)(reverse s1 s2)))))",
+                "english": "A nearness scale for a spatial system is the reverse of a scale whose elements are distances and whose ordering is shorterDistance, so shorter distances are in the Hi region.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "18.8",
+                "type": "axiom",
+                "name": "Near Definition",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 s) (if (and (componentOf x1 s)(componentOf x2 s)) (iff (near x1 x2 s) (exists (s1 s2 d u) (and (nearnessScale s1 s)(Hi s2 s1) (distance d x1 x2 u s)(inScale d s2))))))",
+                "english": "For x1 to be near x2 is for the distance between them to be in the Hi region of a nearness scale.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "18.9",
+                "type": "axiom",
+                "name": "Spatial System as Ground",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (spatialSystem s)(ground s)))",
+                "english": "A spatial system is a possible ground for the at relation by virtue of having physical objects as components.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "18.10",
+                "type": "axiom",
+                "name": "AtLoc Definition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s) (if (atLoc x y s) (and (spatialSystem s)(at x y s))))",
+                "english": "The atLoc predicate is the at relation specialized to spatial systems.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "18.11",
+                "type": "axiom",
+                "name": "Proximity Through Location",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s y1 y2 x1 x2) (if (and (componentOf y1 s)(componentOf y2 s) (atLoc x1 y1 s)(atLoc x2 y2 s)) (iff (near x1 x2 s)(near y1 y2 s))))",
+                "english": "Two entities that are at locations in a spatial system are near if and only if their locations are near.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_spatialSystem",
+                "type": "predicate",
+                "name": "spatialSystem",
+                "frequency": 5,
+                "axiom_count": 4,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_compositeEntity",
+                "type": "predicate",
+                "name": "compositeEntity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentsOf",
+                "type": "predicate",
+                "name": "componentsOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_physobj",
+                "type": "predicate",
+                "name": "physobj",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_relationsOf",
+                "type": "predicate",
+                "name": "relationsOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_distance'",
+                "type": "predicate",
+                "name": "distance'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_distance",
+                "type": "predicate",
+                "name": "distance",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_nonNegInteger",
+                "type": "predicate",
+                "name": "nonNegInteger",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentOf",
+                "type": "predicate",
+                "name": "componentOf",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_spatialUnit",
+                "type": "predicate",
+                "name": "spatialUnit",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_sum",
+                "type": "predicate",
+                "name": "sum",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_leq",
+                "type": "predicate",
+                "name": "leq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_shorterDistance",
+                "type": "predicate",
+                "name": "shorterDistance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lt",
+                "type": "predicate",
+                "name": "lt",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nearnessScale",
+                "type": "predicate",
+                "name": "nearnessScale",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_shorterDistance'",
+                "type": "predicate",
+                "name": "shorterDistance'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_reverse",
+                "type": "predicate",
+                "name": "reverse",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_near",
+                "type": "predicate",
+                "name": "near",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ground",
+                "type": "predicate",
+                "name": "ground",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atLoc",
+                "type": "predicate",
+                "name": "atLoc",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 10,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 2,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s3",
+                "type": "variable",
+                "name": "s3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_d",
+                "type": "variable",
+                "name": "d",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_x2",
+                "type": "variable",
+                "name": "x2",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_u",
+                "type": "variable",
+                "name": "u",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_d1",
+                "type": "variable",
+                "name": "d1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_d2",
+                "type": "variable",
+                "name": "d2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x3",
+                "type": "variable",
+                "name": "x3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "18.1",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_compositeEntity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_relationsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "pred_distance'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.1",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.2",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.2",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.2",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.2",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.2",
+                "target": "pred_spatialUnit",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.2",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.2",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.2",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.2",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.3",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.3",
+                "target": "pred_spatialUnit",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.3",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.3",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.3",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.3",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.4",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.4",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.4",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.4",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.4",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.5",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.5",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.5",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_d2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_x3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "pred_shorterDistance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.6",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.6",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.6",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_d2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.6",
+                "target": "var_x3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "pred_nearnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "pred_shorterDistance'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "pred_reverse",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_d2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.7",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "pred_near",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "pred_nearnessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "pred_distance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.8",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.8",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.9",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.9",
+                "target": "pred_ground",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.10",
+                "target": "pred_atLoc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.10",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.10",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.10",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.11",
+                "target": "pred_componentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.11",
+                "target": "pred_atLoc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.11",
+                "target": "pred_near",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "18.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.11",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "18.11",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_compositeEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compositeEntity",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_physobj",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_physobj",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_physobj",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_distance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_nonNegInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_spatialSystem",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_spatialUnit",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_spatialSystem",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_spatialUnit",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_componentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_spatialUnit",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_spatialUnit",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sum",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_shorterDistance",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_shorterDistance",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_shorterDistance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_reverse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_shorterDistance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_reverse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_shorterDistance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_reverse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_shorterDistance'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_reverse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_shorterDistance'",
+                "target": "pred_reverse",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_near",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_nearnessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_near",
+                "target": "pred_nearnessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_near",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_near",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_near",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nearnessScale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_distance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_distance",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_ground",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_spatialSystem",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentOf",
+                "target": "pred_atLoc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_near",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

@@ -1,0 +1,1455 @@
+{
+    "metadata": {
+        "chapter": 5,
+        "chapter_title": "Eventualities and Their Structure",
+        "filename": "chapter_05_eventualities",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 21,
+        "predicate_count": 20,
+        "variable_count": 11,
+        "frequent_variable_count": 8
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 5,
+            "simple": 14,
+            "complex": 2
+        },
+        "pattern_counts": {
+            "axiom_schema": 1,
+            "generation_rule": 1,
+            "argument_structure": 3,
+            "self_reference": 1,
+            "type_constraint": 4,
+            "definition": 1,
+            "existential_definition": 1,
+            "recursive_definition": 1,
+            "predicate_assignment": 1,
+            "arity_assignment": 1,
+            "complete_definition": 1,
+            "antireflexivity": 1,
+            "modus_ponens": 1,
+            "existence_claim": 1,
+            "temporal_preservation": 1,
+            "spatial_preservation": 1
+        },
+        "top_predicates": {
+            "argn": 8,
+            "gen": 7,
+            "give'": 6,
+            "eventuality": 6,
+            "pred": 3,
+            "arity": 3,
+            "Rexist": 2,
+            "nonNegInteger": 2,
+            "arg": 2,
+            "p": 1
+        },
+        "predicate_frequencies": {
+            "argn": 8,
+            "gen": 7,
+            "give'": 6,
+            "eventuality": 6,
+            "pred": 3,
+            "arity": 3,
+            "Rexist": 2,
+            "nonNegInteger": 2,
+            "arg": 2,
+            "p": 1,
+            "p'": 1,
+            "run'": 1,
+            "go'": 1,
+            "arg*": 1,
+            "predicate": 1,
+            "posInteger": 1,
+            "leq": 1,
+            "imply": 1,
+            "atTime": 1,
+            "atLoc": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "5.1",
+                "type": "axiom",
+                "name": "Relation between primed and unprimed predicates",
+                "complexity": "moderate",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (x) (iff (p x) (exists (e)(and (p' e x)(Rexist e)))))",
+                "english": "p is true of x if and only if there is an eventuality e that is the eventuality of p being true of x and e really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "5.2",
+                "type": "axiom",
+                "name": "Running generates going",
+                "complexity": "moderate",
+                "pattern": "generation_rule",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 x) (if (run' e1 x) (exists (e2) (and (go' e2 x)(gen e1 e2)))))",
+                "english": "Whenever a running event e1 occurs, there is a going event e2 that it generates",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "5.3",
+                "type": "axiom",
+                "name": "First argument of give predicate",
+                "complexity": "simple",
+                "pattern": "argument_structure",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(argn x 1 e)))",
+                "english": "If e is an eventuality of x giving y to z, then x is the first argument of e",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.4",
+                "type": "axiom",
+                "name": "Second argument of give predicate",
+                "complexity": "simple",
+                "pattern": "argument_structure",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(argn y 2 e)))",
+                "english": "If e is an eventuality of x giving y to z, then y is the second argument of e",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.5",
+                "type": "axiom",
+                "name": "Third argument of give predicate",
+                "complexity": "simple",
+                "pattern": "argument_structure",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(argn z 3 e)))",
+                "english": "If e is an eventuality of x giving y to z, then z is the third argument of e",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.6",
+                "type": "axiom",
+                "name": "Eventuality is self-argument",
+                "complexity": "simple",
+                "pattern": "self_reference",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(argn e 0 e)))",
+                "english": "If e is an eventuality of giving, then e is the 0th argument of itself",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.7",
+                "type": "axiom",
+                "name": "Constraints on argn arguments",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e x n) (if (argn x n e)(and (nonNegInteger n)(eventuality e))))",
+                "english": "If x is the nth argument of e, then n is a nonnegative integer and e is an eventuality",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.8",
+                "type": "axiom",
+                "name": "Definition of eventuality",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e)(iff (eventuality e)(argn e 0 e)))",
+                "english": "Something is an eventuality if and only if it is the 0th argument of itself",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.9",
+                "type": "axiom",
+                "name": "Definition of arg predicate",
+                "complexity": "moderate",
+                "pattern": "existential_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e x) (iff (arg x e)(exists (n)(argn x n e))))",
+                "english": "x is an argument of e if it is the nth argument for some n",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "5.10",
+                "type": "axiom",
+                "name": "Definition of arg* predicate",
+                "complexity": "complex",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x e1) (iff (arg* x e1) (or (arg x e1) (exists (e2)(and (arg e2 e1)(arg* x e2))))))",
+                "english": "x is an arg* of e1 if x is an argument of e1, or an argument of an argument of e1, and so on",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "5.11",
+                "type": "axiom",
+                "name": "Predicate of give eventuality",
+                "complexity": "simple",
+                "pattern": "predicate_assignment",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(pred give e)))",
+                "english": "If e is a giving event by x of y to z, then the entity we call give is the pred of e",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.12",
+                "type": "axiom",
+                "name": "Pred type constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p) (if (pred p e)(and (predicate p)(eventuality e))))",
+                "english": "The pred of an eventuality is a predicate and eventualities are eventualities",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.13",
+                "type": "axiom",
+                "name": "Arity of give predicate",
+                "complexity": "simple",
+                "pattern": "arity_assignment",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (if (give' e x y z)(arity 3 e)))",
+                "english": "A giving event has an arity of 3",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.14",
+                "type": "axiom",
+                "name": "Arity type constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n e) (if (arity n e)(and (nonNegInteger n)(eventuality e))))",
+                "english": "The arity of an eventuality is a nonnegative integer and eventualities are eventualities",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.15",
+                "type": "axiom",
+                "name": "Complete structure of eventualities",
+                "complexity": "complex",
+                "pattern": "complete_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (eventuality e) (exists (p n) (and (pred p e)(arity n e) (forall (i) (if (and (posInteger i) (leq i n)) (exists (x) (argn x i e))))))))",
+                "english": "If e is an eventuality, then it has a predicate p, an arity n and n arguments",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "5.16",
+                "type": "axiom",
+                "name": "Gen relation between eventualities",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2) (if (gen e1 e2)(and (eventuality e1)(eventuality e2))))",
+                "english": "The gen relation is between two eventualities",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.17",
+                "type": "axiom",
+                "name": "Gen is antireflexive",
+                "complexity": "simple",
+                "pattern": "antireflexivity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (not (gen e e)))",
+                "english": "The gen relation is antireflexive - an eventuality does not generate itself",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.18",
+                "type": "axiom",
+                "name": "Gen modus ponens with Rexist",
+                "complexity": "simple",
+                "pattern": "modus_ponens",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2) (if (and (gen e1 e2)(Rexist e1)) (Rexist e2)))",
+                "english": "If e1 generates e2 and e1 really exists, then e2 really exists",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.19",
+                "type": "axiom",
+                "name": "Gen is stronger than implication",
+                "complexity": "simple",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(exists (e1 e2) (and (imply e1 e2)(not (gen e1 e2))))",
+                "english": "Generation is stronger than implication - there exist events where one implies another but doesn't generate it",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "5.20",
+                "type": "axiom",
+                "name": "Gen preserves temporal location",
+                "complexity": "moderate",
+                "pattern": "temporal_preservation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 t) (if (gen e1 e2)(iff (atTime e1 t)(atTime e2 t))))",
+                "english": "If e1 generates e2, then e1 and e2 occur at the same time",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "5.21",
+                "type": "axiom",
+                "name": "Gen preserves spatial location",
+                "complexity": "moderate",
+                "pattern": "spatial_preservation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 x s) (if (gen e1 e2)(iff (atLoc e1 x s)(atLoc e2 x s))))",
+                "english": "If e1 generates e2, then e1 and e2 occur at the same location",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_p",
+                "type": "predicate",
+                "name": "p",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_p'",
+                "type": "predicate",
+                "name": "p'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_run'",
+                "type": "predicate",
+                "name": "run'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_go'",
+                "type": "predicate",
+                "name": "go'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 7,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_give'",
+                "type": "predicate",
+                "name": "give'",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_argn",
+                "type": "predicate",
+                "name": "argn",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_nonNegInteger",
+                "type": "predicate",
+                "name": "nonNegInteger",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_arg",
+                "type": "predicate",
+                "name": "arg",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pred",
+                "type": "predicate",
+                "name": "pred",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_predicate",
+                "type": "predicate",
+                "name": "predicate",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arity",
+                "type": "predicate",
+                "name": "arity",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_posInteger",
+                "type": "predicate",
+                "name": "posInteger",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_leq",
+                "type": "predicate",
+                "name": "leq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atLoc",
+                "type": "predicate",
+                "name": "atLoc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 12,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 14,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 6,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 6,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_n",
+                "type": "variable",
+                "name": "n",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "5.1",
+                "target": "pred_p",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.1",
+                "target": "pred_p'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.1",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.2",
+                "target": "pred_run'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.2",
+                "target": "pred_go'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.2",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.3",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.3",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.3",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.3",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.3",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.4",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.4",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.4",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.4",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.4",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.5",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.5",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.5",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.5",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.5",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.6",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.6",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.6",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.6",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.6",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.7",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.7",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.7",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.7",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.7",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.8",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.8",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.9",
+                "target": "pred_arg",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.9",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.9",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.10",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.10",
+                "target": "pred_arg",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.10",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.11",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.11",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.11",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.11",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.11",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.12",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.12",
+                "target": "pred_predicate",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.12",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.13",
+                "target": "pred_give'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.13",
+                "target": "pred_arity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.13",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.14",
+                "target": "pred_arity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.14",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.14",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.14",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.15",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "pred_arity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.15",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.15",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.16",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.16",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.16",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.17",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.18",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.18",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.18",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.18",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.19",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.19",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.19",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.20",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.20",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.21",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.21",
+                "target": "pred_atLoc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "5.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.21",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "5.21",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_p'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_run'",
+                "target": "pred_go'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_run'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_go'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_give'",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_nonNegInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_arg",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_give'",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_predicate",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_predicate",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_give'",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_nonNegInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leq",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_atLoc",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

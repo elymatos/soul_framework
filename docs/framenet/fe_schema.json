@@ -1,0 +1,16 @@
+{
+    "frame":"<frame.name>",
+    "idEntity": <frame.idEntity>
+    "fes": [
+        {
+            "name":"<fe.name>",
+            "idEntity": <fe.idEntity>
+            "relations": [
+                {
+                    "relationType": "<relation.type>",
+                    "idEntity": <fe-related.idEntity
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,3171 @@
+{
+    "metadata": {
+        "chapter": 32,
+        "chapter_title": "Goal Management",
+        "filename": "chapter_32_goal-management",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 20,
+        "predicate_count": 56,
+        "variable_count": 29,
+        "frequent_variable_count": 12
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 7,
+            "moderate": 9,
+            "complex": 4
+        },
+        "pattern_counts": {
+            "definition": 17,
+            "defeasible_rule": 3
+        },
+        "top_predicates": {
+            "thePlan": 8,
+            "subgoalIn'": 6,
+            "cause": 5,
+            "priorityScale": 5,
+            "modifyGoal": 4,
+            "change": 3,
+            "priority": 3,
+            "pursueGoal'": 3,
+            "goal": 3,
+            "changeFrom'": 2
+        },
+        "predicate_frequencies": {
+            "thePlan": 8,
+            "subgoalIn'": 6,
+            "cause": 5,
+            "priorityScale": 5,
+            "modifyGoal": 4,
+            "change": 3,
+            "priority": 3,
+            "pursueGoal'": 3,
+            "goal": 3,
+            "changeFrom'": 2,
+            "imply": 2,
+            "plan": 2,
+            "subgoalIn": 2,
+            "at": 2,
+            "priority'": 2,
+            "conflict": 2,
+            "inScale'": 2,
+            "addGoal": 1,
+            "changeTo": 1,
+            "removeAchievedGoal": 1,
+            "changeTo'": 1,
+            "abandonGoal": 1,
+            "changeFrom": 1,
+            "removeViolatedGoal": 1,
+            "impossible'": 1,
+            "suspendGoal": 1,
+            "atTime'": 1,
+            "before": 1,
+            "similar": 1,
+            "specifyGoal": 1,
+            "generalizeGoal": 1,
+            "pursueGoal": 1,
+            "ecs": 1,
+            "planTo": 1,
+            "try": 1,
+            "agent": 1,
+            "scale": 1,
+            "importanceScale": 1,
+            "difficultyScale": 1,
+            "likelihoodScale": 1,
+            "instance": 1,
+            "lts": 1,
+            "goalJustification": 1,
+            "assessGoal": 1,
+            "envisionFrom": 1,
+            "envisionTo": 1,
+            "atTime": 1,
+            "resolveConflictingGoals": 1,
+            "preferGoal": 1,
+            "and'": 1,
+            "arg*": 1,
+            "prefer'": 1,
+            "prioritizeGoal": 1,
+            "Hi": 1,
+            "Lo": 1,
+            "not'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "32.1",
+                "type": "axiom",
+                "name": "Definition of addGoal",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g) (iff (addGoal a g) (exists (p e) (and (thePlan p a)(subgoalIn' e g p)(changeTo e)))))",
+                "english": "Agent a adds goal g if and only if there is a change to g being a subgoal in a's plan.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.2",
+                "type": "axiom",
+                "name": "Definition of removeAchievedGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g) (iff (removeAchievedGoal a g) (exists (p e e1 e2) (and (thePlan p a)(subgoalIn' e g p)(changeFrom' e1 e) (changeTo' e2 g)(cause e2 e1)))))",
+                "english": "There is a change from g being a goal in agent a's Plan and this was caused by g becoming true in the real world.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.3",
+                "type": "axiom",
+                "name": "Definition of abandonGoal",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g) (iff (abandonGoal a g) (exists (p e) (and (thePlan p a)(subgoalIn' e g p)(changeFrom e) (not g)))))",
+                "english": "There is a change from g being a subgoal in agent a's Plan even though g is not true, or does not hold.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.4",
+                "type": "axiom",
+                "name": "Definition of removeViolatedGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g c) (iff (removeViolatedGoal a g c) (exists (p e e1 e2) (and (thePlan p a)(subgoalIn' e g p)(changeFrom' e1 e) (impossible' e2 g c)(cause e2 e1)))))",
+                "english": "This is one kind of goal abandonment, where the goal's impossibility (with respect to constraints c) is what causes the goal to be abandoned. Resignation is ceasing to have a goal because of a realization or belief that it is impossible to achieve.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.5",
+                "type": "axiom",
+                "name": "Definition of suspendGoal",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g) (iff (suspendGoal a g) (exists (p e1 e2 e3 e4 t1 t2) (and (thePlan p a)(change e1 e2) (subgoalIn' e1 e3 p)(subgoalIn' e2 e4 p) (atTime' e3 g t1)(atTime' e4 g t2) (before t1 t2)))))",
+                "english": "There is a change from a's wanting to do g at time t1 to a's wanting to do g at some later time t2.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "32.6",
+                "type": "axiom",
+                "name": "Definition of modifyGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g1 g2) (iff (modifyGoal a g1 g2) (exists (p e1 e2) (and (change e1 e2)(thePlan p a) (subgoalIn' e1 g1 p)(subgoalIn' e2 g2 p) (similar g1 g2)))))",
+                "english": "Agent a modifies goal g1 into goal g2, where g1 and g2 are similar in that they share properties.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.7",
+                "type": "axiom",
+                "name": "Definition of specifyGoal",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a g1 g2) (iff (specifyGoal a g1 g2) (and (modifyGoal a g1 g2)(imply g2 g1))))",
+                "english": "Agents can modify a goal to a more specific goal. The relation between the old and new goals is implication.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.8",
+                "type": "axiom",
+                "name": "Definition of generalizeGoal",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a g1 g2) (iff (generalizeGoal a g1 g2) (and (modifyGoal a g1 g2)(imply g1 g2))))",
+                "english": "Agents can modify a goal to a more general goal.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.9",
+                "type": "axiom",
+                "name": "Definition of pursueGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a g) (iff (pursueGoal a g) (exists (p) (or (and (plan p a g)(ecs p a)) (planTo a g p) (try a g)))))",
+                "english": "To be pursuing a goal is to be developing or executing a plan for achieving it. In line 4 the agent is just envisioning a plan, that is, planning. In line 5 the agent has decided on a plan to execute. In line 6 the agent is actually trying to achieve the goal.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.10",
+                "type": "axiom",
+                "name": "Definition of priorityScale",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s a) (if (priorityScale s a) (and (agent a)(scale s))))",
+                "english": "First, we introduce a priority scale for an agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.11",
+                "type": "axiom",
+                "name": "Priority ordering based on importance",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (p a g1 g2 g s1 s2 s3 s x11 x12 x2 x3 y1 y2) (if (and (thePlan p a)(subgoalIn g1 p)(subgoalIn g2 p) (importanceScale s1 a)(difficultyScale s2 g) (likelihoodScale s3) (instance g1 g)(instance g2 g) (priorityScale s a) (at g1 x11 s1)(at g2 x12 s1) (at g1 x2 s2)(at g2 x2 s2)(at g1 x3 s3)(at g2 x3 s3) (at g1 y1 s)(at g2 y2 s) (lts x11 x12 s1)(etc)) (lts y1 y2 s)))",
+                "english": "If g1 and g2 are subgoals in agent a's Plan with same difficulty and likelihood but g1's importance is less than g2's, then g1's priority is less than g2's priority.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "32.12",
+                "type": "axiom",
+                "name": "Definition of priority",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p g a) (iff (priority p g a) (exists (s) (and (priorityScale s a)(at g p s)))))",
+                "english": "The priority of a goal is its location on the priority scale.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.13",
+                "type": "axiom",
+                "name": "Definition of goalJustification",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e g a) (iff (goalJustification e g a) (exists (p g1) (and (thePlan p a)(subgoalIn g1 p) (plan e a g1)(subgoalIn g e)))))",
+                "english": "A justification e for a goal g is a plan of which g is a part that links g with some goal g1 in the agent's Plan.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.14",
+                "type": "axiom",
+                "name": "Definition of assessGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g e p) (if (priority' e p g a) (iff (assessGoal a g) (or (envisionFrom a g)(envisionFrom a e) (envisionTo a g)(envisionTo a e)))))",
+                "english": "Where e is the property of p being the priority of goal g, then to assess g is to envision causal chains from or to g or e, thus exploring the causes or consequences of the goal or its priority.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.15",
+                "type": "axiom",
+                "name": "Definition of conflict",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (g1 g2) (iff (conflict g1 g2) (forall (t) (and (if (atTime g1 t)(not (atTime g2 t))) (if (atTime g2 t)(not (atTime g1 t)))))))",
+                "english": "Two goals are in conflict if they cannot both obtain at the same time.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.16",
+                "type": "axiom",
+                "name": "Definition of resolveConflictingGoals",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a g1 g2 g3 g4) (iff (resolveConflictingGoals a g1 g2 g3 g4) (and (modifyGoal a g1 g3)(modifyGoal a g2 g4) (conflict g1 g2)(not (conflict g3 g4)))))",
+                "english": "Here goals g1 and g2 conflict with each other. Agent a modifies goal g1 to goal g3 and modifies goal g2 to g4, where g3 and g4 do not conflict.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "32.17",
+                "type": "axiom",
+                "name": "Definition of preferGoal",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g1 g2) (iff (preferGoal a g1 g2) (exists (e0 e1 e2 e3 e4 e) (and (and' e0 e1 e2)(arg* g1 e1)(arg* g2 e2) (pursueGoal' e3 a g1)(pursueGoal' e4 a g2) (cause e0 e)(prefer' e a e3 e4)))))",
+                "english": "Here e3 is agent a's pursuit of goal g1, e4 is a's pursuit of g2, and a prefers the former to the latter, because of properties e1 of g1 and e2 of g2.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "32.18",
+                "type": "axiom",
+                "name": "Definition of prioritizeGoal",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g) (iff (prioritizeGoal a g) (exists (e1 e2 p1 p2) (and (goal g a)(change e1 e2) (priority' e1 p1 g a)(priority' e2 p2 g a)))))",
+                "english": "Here p1 is the original priority of agent a's goal g, and p2 is the new priority.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.19",
+                "type": "axiom",
+                "name": "High priority causes goal pursuit",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (g a p e1 s1 s) (if (and (goal g a)(priority p g a)(inScale' e1 p s1) (Hi s1 s)(priorityScale s a)(etc)) (exists (e2) (and (pursueGoal' e2 a g)(cause e1 e2)))))",
+                "english": "If agent a has goal g with priority p, then that priority's being high will defeasibly cause the goal to be pursued. This is the chief effect of priorities.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "32.20",
+                "type": "axiom",
+                "name": "Low priority inhibits goal pursuit",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (g a p e1 e2 s1 s) (if (and (goal g a)(priority p g a)(inScale' e1 p s1)(Lo s1 s) (priorityScale s a)(pursueGoal' e2 a g)(etc)) (exists (e3) (and (not' e3 e2)(cause e1 e3)))))",
+                "english": "A goal with a low priority will defeasibly not be pursued. A low enough priority can lead to the goal's being abandoned.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_addGoal",
+                "type": "predicate",
+                "name": "addGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thePlan",
+                "type": "predicate",
+                "name": "thePlan",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_subgoalIn'",
+                "type": "predicate",
+                "name": "subgoalIn'",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_changeTo",
+                "type": "predicate",
+                "name": "changeTo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_removeAchievedGoal",
+                "type": "predicate",
+                "name": "removeAchievedGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom'",
+                "type": "predicate",
+                "name": "changeFrom'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 5,
+                "axiom_count": 4,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_abandonGoal",
+                "type": "predicate",
+                "name": "abandonGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom",
+                "type": "predicate",
+                "name": "changeFrom",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_removeViolatedGoal",
+                "type": "predicate",
+                "name": "removeViolatedGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_impossible'",
+                "type": "predicate",
+                "name": "impossible'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_suspendGoal",
+                "type": "predicate",
+                "name": "suspendGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_change",
+                "type": "predicate",
+                "name": "change",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_atTime'",
+                "type": "predicate",
+                "name": "atTime'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_modifyGoal",
+                "type": "predicate",
+                "name": "modifyGoal",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_similar",
+                "type": "predicate",
+                "name": "similar",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_specifyGoal",
+                "type": "predicate",
+                "name": "specifyGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_generalizeGoal",
+                "type": "predicate",
+                "name": "generalizeGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pursueGoal",
+                "type": "predicate",
+                "name": "pursueGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ecs",
+                "type": "predicate",
+                "name": "ecs",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planTo",
+                "type": "predicate",
+                "name": "planTo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_try",
+                "type": "predicate",
+                "name": "try",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_priorityScale",
+                "type": "predicate",
+                "name": "priorityScale",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scale",
+                "type": "predicate",
+                "name": "scale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_importanceScale",
+                "type": "predicate",
+                "name": "importanceScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_difficultyScale",
+                "type": "predicate",
+                "name": "difficultyScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_likelihoodScale",
+                "type": "predicate",
+                "name": "likelihoodScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lts",
+                "type": "predicate",
+                "name": "lts",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_priority",
+                "type": "predicate",
+                "name": "priority",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goalJustification",
+                "type": "predicate",
+                "name": "goalJustification",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_priority'",
+                "type": "predicate",
+                "name": "priority'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_assessGoal",
+                "type": "predicate",
+                "name": "assessGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_envisionFrom",
+                "type": "predicate",
+                "name": "envisionFrom",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_envisionTo",
+                "type": "predicate",
+                "name": "envisionTo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_conflict",
+                "type": "predicate",
+                "name": "conflict",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_resolveConflictingGoals",
+                "type": "predicate",
+                "name": "resolveConflictingGoals",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferGoal",
+                "type": "predicate",
+                "name": "preferGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_and'",
+                "type": "predicate",
+                "name": "and'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pursueGoal'",
+                "type": "predicate",
+                "name": "pursueGoal'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_prefer'",
+                "type": "predicate",
+                "name": "prefer'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_prioritizeGoal",
+                "type": "predicate",
+                "name": "prioritizeGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_inScale'",
+                "type": "predicate",
+                "name": "inScale'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Lo",
+                "type": "predicate",
+                "name": "Lo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 17,
+                "frequency": 19,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 12,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 12,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 7,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 7,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_g1",
+                "type": "variable",
+                "name": "g1",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_g2",
+                "type": "variable",
+                "name": "g2",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "32.1",
+                "target": "pred_addGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.1",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.1",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.1",
+                "target": "pred_changeTo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.1",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "pred_removeAchievedGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.3",
+                "target": "pred_abandonGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.3",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.3",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.3",
+                "target": "pred_changeFrom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.3",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "pred_removeViolatedGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "pred_impossible'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "pred_suspendGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.5",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "pred_modifyGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.6",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.6",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.6",
+                "target": "pred_subgoalIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.6",
+                "target": "pred_similar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.7",
+                "target": "pred_specifyGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.7",
+                "target": "pred_modifyGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.7",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.7",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.7",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.8",
+                "target": "pred_generalizeGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.8",
+                "target": "pred_modifyGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.8",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.8",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.8",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.9",
+                "target": "pred_pursueGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.9",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.9",
+                "target": "pred_ecs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.9",
+                "target": "pred_planTo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.9",
+                "target": "pred_try",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.9",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.10",
+                "target": "pred_priorityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.10",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.10",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_importanceScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_difficultyScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_likelihoodScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_priorityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.12",
+                "target": "pred_priority",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.12",
+                "target": "pred_priorityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.12",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.12",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.13",
+                "target": "pred_goalJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.13",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.13",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.13",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.13",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.13",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.14",
+                "target": "pred_priority'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.14",
+                "target": "pred_assessGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.14",
+                "target": "pred_envisionFrom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.14",
+                "target": "pred_envisionTo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.14",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.15",
+                "target": "pred_conflict",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.15",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.15",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.15",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.16",
+                "target": "pred_resolveConflictingGoals",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.16",
+                "target": "pred_modifyGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.16",
+                "target": "pred_conflict",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.16",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.16",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "pred_preferGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "pred_and'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "pred_pursueGoal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "pred_prefer'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.18",
+                "target": "pred_prioritizeGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.18",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.18",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.18",
+                "target": "pred_priority'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.18",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.18",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.18",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_priority",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_inScale'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_priorityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_pursueGoal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.19",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.19",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_priority",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_inScale'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_priorityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_pursueGoal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "32.20",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "32.20",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_addGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoal",
+                "target": "pred_changeTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_changeTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_changeTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeAchievedGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeAchievedGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeAchievedGoal",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeAchievedGoal",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeAchievedGoal",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abandonGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abandonGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abandonGoal",
+                "target": "pred_changeFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_changeFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_changeFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeViolatedGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeViolatedGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeViolatedGoal",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeViolatedGoal",
+                "target": "pred_impossible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeViolatedGoal",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_impossible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_impossible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_impossible'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_impossible'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendGoal",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendGoal",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendGoal",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_subgoalIn'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn'",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_specifyGoal",
+                "target": "pred_modifyGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_specifyGoal",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_generalizeGoal",
+                "target": "pred_modifyGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_generalizeGoal",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal",
+                "target": "pred_ecs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal",
+                "target": "pred_planTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal",
+                "target": "pred_try",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_ecs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_planTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_try",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_planTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_try",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planTo",
+                "target": "pred_try",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_importanceScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_difficultyScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_likelihoodScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_importanceScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_difficultyScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_likelihoodScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_difficultyScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_likelihoodScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_importanceScale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_difficultyScale",
+                "target": "pred_likelihoodScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_difficultyScale",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_difficultyScale",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_difficultyScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_difficultyScale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_likelihoodScale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalJustification",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalJustification",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalJustification",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thePlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority'",
+                "target": "pred_assessGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority'",
+                "target": "pred_envisionFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority'",
+                "target": "pred_envisionTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessGoal",
+                "target": "pred_envisionFrom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_assessGoal",
+                "target": "pred_envisionTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionFrom",
+                "target": "pred_envisionTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_conflict",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resolveConflictingGoals",
+                "target": "pred_modifyGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resolveConflictingGoals",
+                "target": "pred_conflict",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyGoal",
+                "target": "pred_conflict",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferGoal",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferGoal",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferGoal",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferGoal",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferGoal",
+                "target": "pred_prefer'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_prefer'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_prefer'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal'",
+                "target": "pred_prefer'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_prefer'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prioritizeGoal",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prioritizeGoal",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prioritizeGoal",
+                "target": "pred_priority'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_priority'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_priority'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_priority",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_inScale'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_inScale'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priority",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_priorityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_pursueGoal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_priorityScale",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pursueGoal'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

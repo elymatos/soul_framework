@@ -1,0 +1,2012 @@
+{
+    "metadata": {
+        "chapter": 43,
+        "chapter_title": "Monitoring",
+        "filename": "chapter_43_monitoring",
+        "generated_at": "2025-09-16T13:01:15+00:00",
+        "axiom_count": 15,
+        "predicate_count": 33,
+        "variable_count": 13,
+        "frequent_variable_count": 9
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 4,
+            "simple": 8,
+            "complex": 3
+        },
+        "pattern_counts": {
+            "defeasible_rule": 3,
+            "definition": 11,
+            "implication": 1
+        },
+        "top_predicates": {
+            "member": 8,
+            "monitor'": 7,
+            "instance": 6,
+            "goalRelevant": 4,
+            "cause": 4,
+            "Rexist": 4,
+            "etc": 3,
+            "inFocus'": 3,
+            "monitor": 3,
+            "monitorTriggerCondition": 3
+        },
+        "predicate_frequencies": {
+            "member": 8,
+            "monitor'": 7,
+            "instance": 6,
+            "goalRelevant": 4,
+            "cause": 4,
+            "Rexist": 4,
+            "etc": 3,
+            "inFocus'": 3,
+            "monitor": 3,
+            "monitorTriggerCondition": 3,
+            "monitorThing": 2,
+            "monitorAgent": 2,
+            "perceive": 1,
+            "arg*": 1,
+            "agent": 1,
+            "monitorSelf": 1,
+            "terminateMonitor'": 1,
+            "changeFrom'": 1,
+            "gen": 1,
+            "goodFor": 1,
+            "badFor": 1,
+            "monitorTriggerConditionSatisfied": 1,
+            "monitorTriggerConditionUnsatisfied": 1,
+            "monitorTriggeredAction": 1,
+            "agentOf": 1,
+            "goal": 1,
+            "causalComplex": 1,
+            "monitoringTimeSpan": 1,
+            "timeSpanOf": 1,
+            "monitoringFrequency": 1,
+            "tseq": 1,
+            "rate": 1,
+            "monitoringFailure": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "43.1",
+                "type": "axiom",
+                "name": "Definition of monitor - perception-based triggering",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e a s e1 e2) (if (and (monitor' e a s)(member e1 s)(instance e2 e1)(perceive a e2) (goalRelevant e2 a)(etc)) (exists (e3) (and (inFocus' e3 e2 a)(cause e e3)))))",
+                "english": "Agent a monitors a set s of eventuality types. When a goal-relevant instance of any of these is perceived, this causes the agent to focus on that instance. This axiom is defeasible because sometimes we miss significant threats and opportunities even though we are monitoring for them.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "43.2",
+                "type": "axiom",
+                "name": "Definition of monitor - existence-based triggering",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e a s e1 e2) (if (and (monitor' e a s)(member e1 s)(instance e2 e1)(Rexist e2) (goalRelevant e2 a)(etc)) (exists (e3) (and (inFocus' e3 e2 a)(cause e e3)))))",
+                "english": "A weaker defeasible rule is that if we are monitoring for an eventuality type and a token actually occurs, then that will cause us to focus on it. This rule fails when something goal-relevant occurs and we don't perceive it.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "43.3",
+                "type": "axiom",
+                "name": "Sufficient condition for monitoring",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (a e1 e2) (if (and (goalRelevant e2 a)(instance e2 e1)(etc)) (exists (s) (and (member e1 s)(monitor a s)))))",
+                "english": "If an eventuality type has a goal-relevant instance, it should be monitored for. A big reason for this defeasibility is that many goal-relevant phenomena are, at the least, very difficult to perceive, such as radiation, carcinogens in the environment, and bacteria in food.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.4",
+                "type": "axiom",
+                "name": "Definition of monitorThing",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a x) (iff (monitorThing a x) (exists (s) (and (monitor a s) (forall (e) (if (member e s)(arg* x e)))))))",
+                "english": "Some monitoring is for events that happen to things. To monitor a thing is to monitor for events happening to the thing or states involving the thing.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "43.5",
+                "type": "axiom",
+                "name": "Definition of monitorAgent",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b) (iff (monitorAgent a b) (and (monitorThing a b)(agent b))))",
+                "english": "Some monitoring is for events that happen to an agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.6",
+                "type": "axiom",
+                "name": "Definition of monitorSelf",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a) (iff (monitorSelf a) (monitorAgent a a)))",
+                "english": "Some monitoring is for events that happen to one's own self. For example, an athlete will monitor his or her body for various conditions relevant to the performance.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.7",
+                "type": "axiom",
+                "name": "Definition of terminateMonitor",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 a s) (iff (terminateMonitor' e0 a s) (exists (e1 e2) (and (changeFrom' e2 e1)(gen e2 e0)(monitor' e1 a s)))))",
+                "english": "People can stop monitoring some set of events after some time.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "43.8",
+                "type": "axiom",
+                "name": "Definition of monitorTriggerCondition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (monitorTriggerCondition e) (exists (a s)(and (monitor a s)(member e s)))))",
+                "english": "When monitoring, people are looking for monitor trigger conditions. These are the eventuality types in the set s.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.9",
+                "type": "axiom",
+                "name": "Goal relevance implies good or bad",
+                "complexity": "simple",
+                "pattern": "implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a) (if (goalRelevant e a)(or (goodFor e a)(badFor e a))))",
+                "english": "We monitor for both threats and opportunities. The trigger condition can be either good for us or bad for us. In fact, it is a theorem that if an eventuality is goal relevant to an agent it is either good for or bad for the agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.10",
+                "type": "axiom",
+                "name": "Definition of monitorTriggerConditionSatisfied",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (monitorTriggerConditionSatisfied e) (exists (e1) (and (monitorTriggerCondition e) (instance e1 e)(Rexist e1)))))",
+                "english": "A monitored trigger condition can be satisfied.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.11",
+                "type": "axiom",
+                "name": "Definition of monitorTriggerConditionUnsatisfied",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (monitorTriggerConditionUnsatisfied e) (and (monitorTriggerCondition e) (not (exists (e1) (and (instance e1 e)(Rexist e1)))))))",
+                "english": "A monitored trigger conditions can remain unsatisfied.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.12",
+                "type": "axiom",
+                "name": "Definition of monitorTriggeredAction",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e2 e1 a s) (iff (monitorTriggeredAction e2 e1 a s) (exists (e0 s1 g) (and (monitor' e0 a s)(member e1 s) (cause e0 e2) (agentOf a e2)(goal g a) (causalComplex s1 g)(member e2 s1)))))",
+                "english": "When one of the trigger conditions occurs, we typically execute some action in response. We can call this the triggered action. Action e2 is triggered by condition e1 while agent a is monitoring a set s of eventuality types. The monitoring causes action e2. Agent a is the agent of the action e2, and e2 is in a causal complex for some goal g of a's.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "43.13",
+                "type": "axiom",
+                "name": "Definition of monitoringTimeSpan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (t e0) (iff (monitoringTimeSpan t e0) (exists (a s) (and (monitor' e0 a s)(timeSpanOf t e0)))))",
+                "english": "There is a time span during which monitoring is conducted.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "43.14",
+                "type": "axiom",
+                "name": "Definition of monitoringFrequency",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (r a s t) (iff (monitoringFrequency r a s t) (exists (s1) (and (forall (e1) (if (member e1 s1)(monitor' e1 a s))) (tseq t)(rate r s1 t)))))",
+                "english": "There is a frequency at which monitoring is conducted. For example, when we drive down the freeway, we monitor our distance from the car in front of us on a second-by-second basis. We monitor the presence of police cars at less frequent intervals. r is the rate of occurrence in temporal sequence t of monitoring events by agent a of eventuality types in set s.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "43.15",
+                "type": "axiom",
+                "name": "Definition of monitoringFailure",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a s) (iff (monitoringFailure a s) (exists (e e1 e2) (and (monitor' e a s)(member e1 s)(instance e2 e1) (or (and (Rexist e2) (not (exists (e3) (and (inFocus' e3 e2 a) (cause e e3))))) (and (not (Rexist e2)) (exists (e3) (and (inFocus' e3 e2 a) (cause e e3)))))))))",
+                "english": "Monitoring can fail if the triggering does not happen when the conditions are met \u2013 a false negative. The event happens but the monitoring does not end up in focus. False positives are also possible; the triggering event is believed to have happened, an instance of it is in focus, but in fact the instance did not really happen.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_monitor'",
+                "type": "predicate",
+                "name": "monitor'",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 6,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_perceive",
+                "type": "predicate",
+                "name": "perceive",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goalRelevant",
+                "type": "predicate",
+                "name": "goalRelevant",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_inFocus'",
+                "type": "predicate",
+                "name": "inFocus'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_monitor",
+                "type": "predicate",
+                "name": "monitor",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_monitorThing",
+                "type": "predicate",
+                "name": "monitorThing",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorAgent",
+                "type": "predicate",
+                "name": "monitorAgent",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorSelf",
+                "type": "predicate",
+                "name": "monitorSelf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_terminateMonitor'",
+                "type": "predicate",
+                "name": "terminateMonitor'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom'",
+                "type": "predicate",
+                "name": "changeFrom'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorTriggerCondition",
+                "type": "predicate",
+                "name": "monitorTriggerCondition",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_goodFor",
+                "type": "predicate",
+                "name": "goodFor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_badFor",
+                "type": "predicate",
+                "name": "badFor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorTriggerConditionSatisfied",
+                "type": "predicate",
+                "name": "monitorTriggerConditionSatisfied",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorTriggerConditionUnsatisfied",
+                "type": "predicate",
+                "name": "monitorTriggerConditionUnsatisfied",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitorTriggeredAction",
+                "type": "predicate",
+                "name": "monitorTriggeredAction",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalComplex",
+                "type": "predicate",
+                "name": "causalComplex",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitoringTimeSpan",
+                "type": "predicate",
+                "name": "monitoringTimeSpan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_timeSpanOf",
+                "type": "predicate",
+                "name": "timeSpanOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitoringFrequency",
+                "type": "predicate",
+                "name": "monitoringFrequency",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_tseq",
+                "type": "predicate",
+                "name": "tseq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_rate",
+                "type": "predicate",
+                "name": "rate",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monitoringFailure",
+                "type": "predicate",
+                "name": "monitoringFailure",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 7,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 13,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 8,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "43.1",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_perceive",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_goalRelevant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_inFocus'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_goalRelevant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_inFocus'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.2",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.3",
+                "target": "pred_goalRelevant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.3",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.3",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.3",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.3",
+                "target": "pred_monitor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.4",
+                "target": "pred_monitorThing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.4",
+                "target": "pred_monitor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.4",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.4",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.5",
+                "target": "pred_monitorAgent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.5",
+                "target": "pred_monitorThing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.5",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.6",
+                "target": "pred_monitorSelf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.6",
+                "target": "pred_monitorAgent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.7",
+                "target": "pred_terminateMonitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.7",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.7",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.7",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.7",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.8",
+                "target": "pred_monitorTriggerCondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.8",
+                "target": "pred_monitor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.8",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.9",
+                "target": "pred_goalRelevant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.9",
+                "target": "pred_goodFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.9",
+                "target": "pred_badFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.10",
+                "target": "pred_monitorTriggerConditionSatisfied",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.10",
+                "target": "pred_monitorTriggerCondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.10",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.10",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.11",
+                "target": "pred_monitorTriggerConditionUnsatisfied",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.11",
+                "target": "pred_monitorTriggerCondition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.11",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.11",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "pred_monitorTriggeredAction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "pred_causalComplex",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.13",
+                "target": "pred_monitoringTimeSpan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.13",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.13",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.13",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.13",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.14",
+                "target": "pred_monitoringFrequency",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.14",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.14",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.14",
+                "target": "pred_tseq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.14",
+                "target": "pred_rate",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.14",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.14",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "pred_monitoringFailure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_monitor'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_inFocus'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "43.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "43.15",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_perceive",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inFocus'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorThing",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorThing",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorThing",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorAgent",
+                "target": "pred_monitorThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorAgent",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorThing",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorSelf",
+                "target": "pred_monitorAgent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateMonitor'",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateMonitor'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateMonitor'",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerCondition",
+                "target": "pred_monitor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerCondition",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goalRelevant",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goodFor",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionSatisfied",
+                "target": "pred_monitorTriggerCondition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionSatisfied",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionSatisfied",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerCondition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerCondition",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionUnsatisfied",
+                "target": "pred_monitorTriggerCondition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionUnsatisfied",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggerConditionUnsatisfied",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitorTriggeredAction",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringTimeSpan",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringTimeSpan",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFrequency",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFrequency",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFrequency",
+                "target": "pred_tseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFrequency",
+                "target": "pred_rate",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_tseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_rate",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_tseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitor'",
+                "target": "pred_rate",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tseq",
+                "target": "pred_rate",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_monitor'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_inFocus'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monitoringFailure",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

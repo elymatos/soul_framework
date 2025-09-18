@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUL Framework - Chapter Graph Viewer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chapter-selector {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chapter-selector select {
+            padding: 10px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .chapter-selector button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chapter-selector button:hover {
+            background: #0056b3;
+        }
+
+        .chapter-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .graph-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .controls {
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .controls label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .controls select, .controls input, .controls button {
+            margin-right: 15px;
+            padding: 5px;
+        }
+
+        #graph {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ddd;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .legend {
+            padding: 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+
+        .legend h4 {
+            margin: 0 0 10px 0;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin: 5px 15px 5px 0;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        /* Node colors */
+        .node-axiom-simple { fill: #1f77b4; }
+        .node-axiom-moderate { fill: #ff7f0e; }
+        .node-axiom-complex { fill: #d62728; }
+        .node-predicate-high { fill: #2ca02c; }
+        .node-predicate-medium { fill: #9467bd; }
+        .node-predicate-low { fill: #8c564b; }
+        .node-variable { fill: #e377c2; }
+
+        /* Link colors */
+        .link { stroke-opacity: 0.6; stroke-width: 1px; }
+        .link-uses_predicate { stroke: #666; }
+        .link-has_variable { stroke: #999; }
+        .link-co_occurs { stroke: #ccc; }
+
+        .node {
+            cursor: pointer;
+            stroke: #fff;
+            stroke-width: 1px;
+        }
+
+        .node:hover {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 400px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            margin: 15px;
+        }
+
+        .top-predicates {
+            margin-top: 10px;
+        }
+
+        .predicate-tag {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin: 2px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SOUL Framework - Chapter Graph Viewer</h1>
+            <p>Explore individual chapter graphs from the Formal Theory of Commonsense Psychology. Each graph shows the axioms, predicates, and their relationships within a specific chapter.</p>
+        </div>
+
+        <div class="chapter-selector">
+            <label for="chapter-select">Select Chapter:</label>
+            <select id="chapter-select">
+                <option value="">Choose a chapter...</option>
+                <option value="5">Chapter 5 - Eventualities and Their Structure</option>
+                <option value="6">Chapter 6 - Traditional Set Theory</option>
+                <option value="7">Chapter 7 - Substitution, Typical Elements, and Instances</option>
+                <option value="8">Chapter 8 - Logic Reified</option>
+                <option value="9">Chapter 9 - Functions and Sequences</option>
+                <option value="11">Chapter 11 - Defeasibility</option>
+                <option value="12">Chapter 12 - Scales</option>
+                <option value="13">Chapter 13 - Arithmetic</option>
+                <option value="14">Chapter 14 - Change of State</option>
+                <option value="17">Chapter 17 - Event Structure</option>
+                <option value="18">Chapter 18 - Space</option>
+                <option value="19">Chapter 19 - Persons</option>
+                <option value="22">Chapter 22 - Similarity Comparisons</option>
+                <option value="23">Chapter 23 - Memory</option>
+                <option value="24">Chapter 24 - Envisioning</option>
+                <option value="25">Chapter 25 - Explanation</option>
+                <option value="26">Chapter 26 - Managing Expectations</option>
+                <option value="27">Chapter 27 - Other-Agent Reasoning</option>
+                <option value="28">Chapter 28 - Goals</option>
+                <option value="29">Chapter 29 - Goal Themes</option>
+                <option value="30">Chapter 30 - Threats and Threat Detection</option>
+                <option value="31">Chapter 31 - Plans</option>
+                <option value="32">Chapter 32 - Goal Management</option>
+                <option value="33">Chapter 33 - Execution Envisionment</option>
+                <option value="34">Chapter 34 - Causes of Failure</option>
+                <option value="35">Chapter 35 - Plan Elements</option>
+                <option value="36">Chapter 36 - Planning Modalities</option>
+                <option value="37">Chapter 37 - Planning Goals</option>
+                <option value="38">Chapter 38 - Plan Construction</option>
+                <option value="39">Chapter 39 - Plan Adaptation</option>
+                <option value="40">Chapter 40 - Design</option>
+                <option value="41">Chapter 41 - Decisions</option>
+                <option value="42">Chapter 42 - Scheduling</option>
+                <option value="43">Chapter 43 - Monitoring</option>
+                <option value="44">Chapter 44 - Execution Modalities</option>
+                <option value="45">Chapter 45 - Execution Control</option>
+                <option value="46">Chapter 46 - Repetitive Execution</option>
+                <option value="47">Chapter 47 - Mind–Body Interaction</option>
+                <option value="48">Chapter 48 - Observation of Plan Executions</option>
+                <option value="49">Chapter 49 - Emotions</option>
+            </select>
+            <button id="load-chapter">Load Chapter</button>
+        </div>
+
+        <div class="chapter-info" id="chapter-info">
+            <div class="stats">
+                <div class="stat-card">
+                    <div>Axioms</div>
+                    <div class="stat-number" id="stat-axioms">-</div>
+                </div>
+                <div class="stat-card">
+                    <div>Predicates</div>
+                    <div class="stat-number" id="stat-predicates">-</div>
+                </div>
+                <div class="stat-card">
+                    <div>Variables</div>
+                    <div class="stat-number" id="stat-variables">-</div>
+                </div>
+                <div class="stat-card">
+                    <div>Connections</div>
+                    <div class="stat-number" id="stat-links">-</div>
+                </div>
+            </div>
+            <div class="top-predicates" id="top-predicates"></div>
+        </div>
+
+        <div class="graph-container" id="graph-container" style="display: none;">
+            <div class="controls">
+                <label for="node-filter">Show:</label>
+                <select id="node-filter">
+                    <option value="all">All Nodes</option>
+                    <option value="axiom">Axioms Only</option>
+                    <option value="predicate">Predicates Only</option>
+                    <option value="variable">Variables Only</option>
+                </select>
+
+                <label for="complexity-filter">Complexity:</label>
+                <select id="complexity-filter">
+                    <option value="all">All</option>
+                    <option value="simple">Simple</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="complex">Complex</option>
+                </select>
+
+                <button id="reset-zoom">Reset View</button>
+                <button id="center-graph">Center Graph</button>
+            </div>
+
+            <svg id="graph"></svg>
+            <div class="tooltip" id="tooltip"></div>
+
+            <div class="legend">
+                <h4>Legend</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <strong>Node Types:</strong>
+                        <div class="legend-item">
+                            <div class="legend-color node-axiom-simple"></div>
+                            <span>Simple Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-axiom-moderate"></div>
+                            <span>Moderate Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-axiom-complex"></div>
+                            <span>Complex Axioms</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-predicate-high"></div>
+                            <span>High-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-predicate-medium"></div>
+                            <span>Medium-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-predicate-low"></div>
+                            <span>Low-freq Predicates</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color node-variable"></div>
+                            <span>Variables</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Connections:</strong>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #666; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Uses Predicate</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #999; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Has Variable</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ccc; border-radius: 0; height: 2px; width: 20px;"></div>
+                            <span>Co-occurs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGraph = null;
+        let simulation = null;
+
+        // Load chapter button handler
+        document.getElementById('load-chapter').addEventListener('click', function() {
+            const chapterSelect = document.getElementById('chapter-select');
+            const chapter = chapterSelect.value;
+
+            if (!chapter) {
+                alert('Please select a chapter first');
+                return;
+            }
+
+            loadChapter(chapter);
+        });
+
+        function loadChapter(chapterNum) {
+            // Show loading
+            const graphContainer = document.getElementById('graph-container');
+            const chapterInfo = document.getElementById('chapter-info');
+
+            // Hide existing content
+            graphContainer.style.display = 'none';
+            chapterInfo.style.display = 'none';
+
+            // Create loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.id = 'loading';
+            loadingDiv.innerHTML = 'Loading chapter ' + chapterNum + ' graph...';
+            document.querySelector('.container').appendChild(loadingDiv);
+
+            // In a real implementation, you would fetch the JSON file here
+            // For demo purposes, we'll simulate this
+            console.log('Would load: graphs/chapter_' + chapterNum + '_*.json');
+
+            // Remove loading indicator after timeout
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading) loading.remove();
+
+                // Show demo content
+                showDemoContent(chapterNum);
+            }, 1000);
+        }
+
+        function showDemoContent(chapterNum) {
+            const chapterInfo = document.getElementById('chapter-info');
+            const graphContainer = document.getElementById('graph-container');
+
+            // Show chapter info with sample data
+            document.getElementById('stat-axioms').textContent = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('stat-predicates').textContent = Math.floor(Math.random() * 40) + 10;
+            document.getElementById('stat-variables').textContent = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('stat-links').textContent = Math.floor(Math.random() * 200) + 50;
+
+            // Show top predicates (sample)
+            const samplePredicates = ['cause', 'member', 'goal', 'plan', 'agent', 'believe', 'equal'];
+            const topPredicatesDiv = document.getElementById('top-predicates');
+            topPredicatesDiv.innerHTML = '<strong>Top Predicates:</strong> ';
+            samplePredicates.slice(0, 5).forEach(pred => {
+                const tag = document.createElement('span');
+                tag.className = 'predicate-tag';
+                tag.textContent = pred;
+                topPredicatesDiv.appendChild(tag);
+            });
+
+            chapterInfo.style.display = 'block';
+            graphContainer.style.display = 'block';
+
+            // Show demo message
+            const svg = d3.select('#graph');
+            svg.selectAll('*').remove();
+
+            svg.append('text')
+                .attr('x', '50%')
+                .attr('y', '50%')
+                .attr('text-anchor', 'middle')
+                .style('font-size', '18px')
+                .style('fill', '#666')
+                .text('Chapter ' + chapterNum + ' Graph Visualization');
+
+            svg.append('text')
+                .attr('x', '50%')
+                .attr('y', '55%')
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('fill', '#999')
+                .text('To view actual graph, load the JSON file via fetch() and implement D3.js visualization');
+        }
+
+        // Filter handlers
+        document.getElementById('node-filter').addEventListener('change', applyFilters);
+        document.getElementById('complexity-filter').addEventListener('change', applyFilters);
+
+        function applyFilters() {
+            console.log('Applying filters...');
+            // Filter implementation would go here
+        }
+
+        // Reset zoom handler
+        document.getElementById('reset-zoom').addEventListener('click', function() {
+            console.log('Resetting zoom...');
+            // Reset zoom implementation would go here
+        });
+
+        // Center graph handler
+        document.getElementById('center-graph').addEventListener('click', function() {
+            console.log('Centering graph...');
+            // Center graph implementation would go here
+        });
+
+        console.log('Chapter Graph Viewer loaded');
+        console.log('Available chapters: 41 individual graphs ready for visualization');
+    </script>
+</body>
+</html>

@@ -1,0 +1,1115 @@
+{
+    "metadata": {
+        "chapter": 8,
+        "chapter_title": "Logic Reified",
+        "filename": "chapter_08_logic_reified",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 13,
+        "predicate_count": 16,
+        "variable_count": 10,
+        "frequent_variable_count": 7
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 10,
+            "simple": 3
+        },
+        "pattern_counts": {
+            "logical_conjunction": 1,
+            "set_existence": 1,
+            "logical_negation": 1,
+            "type_negation": 1,
+            "negation_modus_ponens": 1,
+            "logical_disjunction": 1,
+            "set_disjunction": 1,
+            "type_constraint": 1,
+            "implication_definition": 1,
+            "modus_ponens": 1,
+            "transitivity": 1,
+            "inconsistency_definition": 1,
+            "minimal_proof_definition": 1
+        },
+        "top_predicates": {
+            "Rexist": 9,
+            "eventuality": 6,
+            "not'": 4,
+            "imply'": 4,
+            "member": 3,
+            "eventualities": 3,
+            "imply": 2,
+            "and'": 1,
+            "set": 1,
+            "nott'": 1
+        },
+        "predicate_frequencies": {
+            "Rexist": 9,
+            "eventuality": 6,
+            "not'": 4,
+            "imply'": 4,
+            "member": 3,
+            "eventualities": 3,
+            "imply": 2,
+            "and'": 1,
+            "set": 1,
+            "nott'": 1,
+            "instance": 1,
+            "or'": 1,
+            "disjunction": 1,
+            "inconsistent": 1,
+            "minimallyProves": 1,
+            "properSubset": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "8.1",
+                "type": "axiom",
+                "name": "Conjunction of eventualities",
+                "complexity": "moderate",
+                "pattern": "logical_conjunction",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (and' e e1 e2) (and (eventuality e) (eventuality e1) (eventuality e2) (iff (Rexist e) (and (Rexist e1)(Rexist e2))))))",
+                "english": "If e is the conjunction of e1 and e2, then all are eventualities, and e really exists exactly when e1 and e2 both really exist",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.2",
+                "type": "axiom",
+                "name": "Existence of sets",
+                "complexity": "moderate",
+                "pattern": "set_existence",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (set s) (iff (Rexist s) (forall (e) (if (member e s)(Rexist e))))))",
+                "english": "A set really exists if and only if all its members really exist",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.3",
+                "type": "axiom",
+                "name": "Negation of eventualities",
+                "complexity": "moderate",
+                "pattern": "logical_negation",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2) (if (not' e1 e2) (and (eventuality e1)(eventuality e2) (iff (Rexist e1) (not (Rexist e2))))))",
+                "english": "If e1 is the eventuality of e2's not obtaining, then e1 really exists exactly when e2 does not really exist",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.4",
+                "type": "axiom",
+                "name": "Negation of eventuality types",
+                "complexity": "moderate",
+                "pattern": "type_negation",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2) (if (nott' e1 e2) (exists (e3) (and (instance e2 e3)(not' e1 e3)))))",
+                "english": "Type negation: there is an eventuality type of which e2 is an instance, and the negation is the negation of that eventuality type",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.5",
+                "type": "axiom",
+                "name": "Weaker negation rule",
+                "complexity": "simple",
+                "pattern": "negation_modus_ponens",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2) (if (and (not' e1 e2)(Rexist e1)) (and (eventuality e1)(eventuality e2) (not (Rexist e2)))))",
+                "english": "If a negation really exists, the thing negated doesn't",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "8.6",
+                "type": "axiom",
+                "name": "Disjunction of eventualities",
+                "complexity": "moderate",
+                "pattern": "logical_disjunction",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (or' e e1 e2) (and (eventuality e) (eventuality e1) (eventuality e2) (iff (Rexist e) (or (Rexist e1)(Rexist e2))))))",
+                "english": "If eventuality e is the disjunction of eventualities e1 and e2, then e really exists exactly when one of e1 and e2 really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.7",
+                "type": "axiom",
+                "name": "Disjunction of eventuality sets",
+                "complexity": "moderate",
+                "pattern": "set_disjunction",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e s) (if (disjunction e s) (and (eventuality e)(eventualities s) (iff (Rexist e) (exists (e1) (and (member e1 s)(Rexist e1)))))))",
+                "english": "The disjunction of a set really exists exactly when one of the members of the set really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.8",
+                "type": "axiom",
+                "name": "Implication type constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (imply' e e1 e2) (and (eventuality e) (eventuality e2) (or (eventuality e1) (eventualities e1)))))",
+                "english": "If e is an implication from e1 to e2, then e and e2 are eventualities, and e1 is either an eventuality or a set of eventualities",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "8.9",
+                "type": "axiom",
+                "name": "Implication existence condition",
+                "complexity": "moderate",
+                "pattern": "implication_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (imply' e e1 e2) (iff (Rexist e) (if (Rexist e1)(Rexist e2)))))",
+                "english": "The implication really exists provided the consequent really exists whenever the antecedent really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.10",
+                "type": "axiom",
+                "name": "Modus ponens for implications",
+                "complexity": "simple",
+                "pattern": "modus_ponens",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (and (imply' e e1 e2)(Rexist e)(Rexist e1)) (Rexist e2)))",
+                "english": "If e is the implication from e1 to e2, and e and e1 really exist, then e2 also really exists",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "8.11",
+                "type": "axiom",
+                "name": "Transitivity of implication",
+                "complexity": "moderate",
+                "pattern": "transitivity",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2 e3 i1 i2 i3) (if (and (imply' i1 e1 e2)(imply' i2 e2 e3)(imply' i3 e1 e3) (Rexist i1)(Rexist i2)) (Rexist i3)))",
+                "english": "Implication is transitive: if e1 implies e2 and e2 implies e3, then e1 implies e3",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.12",
+                "type": "axiom",
+                "name": "Definition of inconsistent sets",
+                "complexity": "moderate",
+                "pattern": "inconsistency_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s1 s2) (iff (inconsistent s1 s2) (and (eventualities s1) (eventualities s2) (exists (e1 e2) (and (imply s1 e1)(imply s2 e2)(not' e2 e1))))))",
+                "english": "Two sets of eventualities are inconsistent if one implies an eventuality and the other implies its negation",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "8.13",
+                "type": "axiom",
+                "name": "Definition of minimal proof",
+                "complexity": "moderate",
+                "pattern": "minimal_proof_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s1 e2) (iff (minimallyProves s1 e2) (and (not (member e2 s1)) (imply s1 e2) (not (exists (s2) (and (properSubset s2 s1) (imply s2 e2)))))))",
+                "english": "Some set s1 of eventualities minimally proves an eventuality e2 if s1 implies e2 but no proper subset of s1 proves e2, and e2 is not itself a member of s1",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_and'",
+                "type": "predicate",
+                "name": "and'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 9,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_set",
+                "type": "predicate",
+                "name": "set",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_nott'",
+                "type": "predicate",
+                "name": "nott'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_or'",
+                "type": "predicate",
+                "name": "or'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_disjunction",
+                "type": "predicate",
+                "name": "disjunction",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventualities",
+                "type": "predicate",
+                "name": "eventualities",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_imply'",
+                "type": "predicate",
+                "name": "imply'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_inconsistent",
+                "type": "predicate",
+                "name": "inconsistent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_minimallyProves",
+                "type": "predicate",
+                "name": "minimallyProves",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_properSubset",
+                "type": "predicate",
+                "name": "properSubset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 6,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 10,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 10,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "8.1",
+                "target": "pred_and'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.1",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.1",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.2",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.2",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.2",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.3",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.3",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.3",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.4",
+                "target": "pred_nott'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.4",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.4",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.4",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.5",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.5",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.5",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.6",
+                "target": "pred_or'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.6",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.6",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.7",
+                "target": "pred_disjunction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.7",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.7",
+                "target": "pred_eventualities",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.7",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.7",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.8",
+                "target": "pred_imply'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.8",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.8",
+                "target": "pred_eventualities",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.9",
+                "target": "pred_imply'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.9",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.10",
+                "target": "pred_imply'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.10",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.11",
+                "target": "pred_imply'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.11",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.11",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.11",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.12",
+                "target": "pred_inconsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.12",
+                "target": "pred_eventualities",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.12",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.12",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.12",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.13",
+                "target": "pred_minimallyProves",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.13",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.13",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.13",
+                "target": "pred_properSubset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "8.13",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "8.13",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nott'",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nott'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjunction",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjunction",
+                "target": "pred_eventualities",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjunction",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjunction",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_eventualities",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualities",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualities",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply'",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply'",
+                "target": "pred_eventualities",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply'",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inconsistent",
+                "target": "pred_eventualities",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inconsistent",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inconsistent",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualities",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualities",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_minimallyProves",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_minimallyProves",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_minimallyProves",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

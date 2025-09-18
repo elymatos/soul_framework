@@ -1,0 +1,4 @@
+Let's try a new strategy.  Given the file axioms.csv attached, verify that it has a column showing the FOL formula (fol) and a column (english) describe the intention of the formula in english. The try to extract concepts and relation directly from fol formulas was frustated. So I want to experiment to extract concepts and formulas directly from the english sentence, using the capabilities of a LLM model. I have access to LLama3.1-8B. Create a pipeline using python that can read the csv file and generate a tentative list of concepts and relations. Analize also existing patterns on the english descriptions that could be trained to improve the results.
+
+Given the file axioms.csv attached, verify that it has a column showing the FOL formula (fol) and a column (english) describe the intention of the formula in english.
+Try to update this csv with a new column (english2) with a english sentence that translate more precisaly what the FOL formula is expressig.
