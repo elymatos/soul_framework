@@ -89,40 +89,47 @@
         .relation-form.active {
             display: block;
         }
-
-        /* Scrollable graphs list styling */
-        #graphs-list-container {
-            scrollbar-width: thin;
-            scrollbar-color: #888 #f1f1f1;
-        }
-
-        #graphs-list-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        #graphs-list-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        
+        .relation-legend {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
             border-radius: 4px;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 1rem;
+            font-size: 0.875rem;
         }
-
-        #graphs-list-container::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+        
+        .relation-legend h5 {
+            margin: 0 0 0.5rem 0;
+            color: #495057;
+            font-weight: 600;
         }
-
-        #graphs-list-container::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-
-        /* Ensure proper spacing in the scrollable list */
-        #graphs-list .item {
-            padding: 0.5rem !important;
-            border-bottom: 1px solid #eee;
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #495057;
         }
-
-        #graphs-list .item:last-child {
-            border-bottom: none;
+        
+        .color-indicator {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            display: inline-block;
         }
+        
+        .color-indicator.f-slot { background-color: #2B7CE9; }
+        .color-indicator.default { background-color: #848484; }
+        .color-indicator.qualia-base { background-color: #4CAF50; }
+        .color-indicator.q-lu1 { background-color: #9C27B0; }
+        .color-indicator.q-lu2 { background-color: #FF9800; }
         
     </style>
     <div class="graph-editor-container">
@@ -139,6 +146,33 @@
             </div>
         </div>
 
+        <!-- Relation Legend -->
+        <div class="relation-legend" id="relation-legend" style="display: none;">
+            <h5><i class="palette icon"></i>Relation Types</h5>
+            <div class="legend-items">
+                <span class="legend-item">
+                    <div class="color-indicator f-slot"></div>
+                    f-slot
+                </span>
+                <span class="legend-item">
+                    <div class="color-indicator default"></div>
+                    default
+                </span>
+                <span class="legend-item">
+                    <div class="color-indicator qualia-base"></div>
+                    qualia-base
+                </span>
+                <span class="legend-item">
+                    <div class="color-indicator q-lu1"></div>
+                    q-lu1
+                </span>
+                <span class="legend-item">
+                    <div class="color-indicator q-lu2"></div>
+                    q-lu2
+                </span>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="editor-content">
             <!-- Sidebar -->
@@ -152,7 +186,8 @@
                         </h4>
                         <form class="ui form" id="node-form"
                               hx-post="/graph-editor/node"
-                              hx-trigger="submit">
+                              hx-trigger="submit"
+                              hx-on::after-request="handleFormSubmitSuccess()">
                             @csrf
                             <div class="field">
                                 <label>Node Label</label>
@@ -198,7 +233,8 @@
 
                         <form class="ui form relation-form" id="relation-form"
                               hx-post="/graph-editor/relation"
-                              hx-trigger="submit">
+                              hx-trigger="submit"
+                              hx-on::after-request="handleRelationSubmitSuccess()">
                             @csrf
                             <input type="hidden" name="from" id="relation-from-id">
                             <div class="field">
@@ -251,27 +287,6 @@
 
                     <div class="ui divider"></div>
 
-                    <!-- SOUL Framework Graphs -->
-                    <div class="form-section">
-                        <h4 class="ui header">
-                            <i class="folder open icon"></i>
-                            SOUL Framework Graphs
-                        </h4>
-                        <div class="ui loading segment" id="graphs-list-container" style="max-height: 300px; overflow-y: auto;">
-                            <div class="ui small selection list" id="graphs-list">
-                                <!-- Graph files will be loaded here -->
-                            </div>
-                        </div>
-                        <div class="ui vertical fluid buttons" style="margin-top: 0.5rem;">
-                            <button class="ui small blue button" onclick="refreshGraphsList()">
-                                <i class="refresh icon"></i>
-                                Refresh List
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="ui divider"></div>
-
                     <!-- Graph Actions -->
                     <div class="form-section">
                         <h4 class="ui header">
@@ -307,8 +322,6 @@
                 </div>
             </div>
 
-            <!-- Notifications are handled by the global messengerComponent.js -->
-
             <!-- Graph Visualization Area -->
             <div class="graph-container">
                 <div id="graph-visualization"></div>
@@ -324,18 +337,39 @@
                         Delete Node
                     </div>
                 </div>
+
+                <!-- Edge Context Menu -->
+                <div id="edge-menu" class="node-menu">
+                    <div class="item" onclick="deleteSelectedEdge()">
+                        <i class="trash icon"></i>
+                        Delete Relation
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
-
     <script>
         // Global variables
         let graphNetwork;
         let graphNodes;
         let graphEdges;
         let selectedNodeId = null;
+        let selectedEdgeId = null;
+        
+        // Pre-defined relation types and their colors
+        const RELATION_COLORS = {
+            'f-slot': '#2B7CE9',
+            'default': '#848484',
+            'qualia-base': '#4CAF50',
+            'q-lu1': '#9C27B0',
+            'q-lu2': '#FF9800'
+        };
+        
+        function getRelationColor(label) {
+            return RELATION_COLORS[label] || RELATION_COLORS['default'];
+        }
         
         // Global graph reload handler
         document.addEventListener('reload-graph-visualization', function(event) {
@@ -348,8 +382,7 @@
             initializeGraph();
             loadGraphData();
             setupEventHandlers();
-            initializeDropdowns(); // Initialize all dropdowns
-            refreshGraphsList(); // Load SOUL Framework graphs
+            initializeDropdowns();
         });
 
         function initializeGraph() {
@@ -383,19 +416,15 @@
                     }
                 },
                 edges: {
-                    width: 2,
-                    color: {
-                        color: '#848484',
-                        highlight: '#FFA500'
-                    },
+                    width: 3,
                     arrows: {
                         to: { enabled: true, scaleFactor: 1 }
                     },
+                    smooth: {
+                        type: 'continuous'
+                    },
                     font: {
-                        color: '#343434',
-                        size: 12,
-                        strokeWidth: 2,
-                        strokeColor: 'white'
+                        size: 0
                     }
                 },
                 interaction: {
@@ -419,23 +448,35 @@
             // Event listeners
             graphNetwork.on('click', function(params) {
                 hideNodeMenu();
+                hideEdgeMenu();
                 if (params.nodes.length > 0) {
                     selectedNodeId = params.nodes[0];
-                    // Show relation form automatically when node is selected
+                    selectedEdgeId = null;
                     showRelationFormForNode();
-                    // Also show context menu for other options
                     showNodeContextMenu(params.pointer.DOM);
+                } else if (params.edges.length > 0) {
+                    selectedEdgeId = params.edges[0];
+                    selectedNodeId = null;
+                    cancelRelation();
                 } else {
                     selectedNodeId = null;
+                    selectedEdgeId = null;
                     cancelRelation();
                 }
             });
 
             graphNetwork.on('oncontext', function(params) {
                 params.event.preventDefault();
+                hideNodeMenu();
+                hideEdgeMenu();
                 if (params.nodes.length > 0) {
                     selectedNodeId = params.nodes[0];
+                    selectedEdgeId = null;
                     showNodeContextMenu(params.pointer.DOM);
+                } else if (params.edges.length > 0) {
+                    selectedEdgeId = params.edges[0];
+                    selectedNodeId = null;
+                    showEdgeContextMenu(params.pointer.DOM);
                 }
             });
 
@@ -445,10 +486,13 @@
         }
 
         function setupEventHandlers() {
-            // Hide menu when clicking elsewhere
+            // Hide menus when clicking elsewhere
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('#node-menu')) {
                     hideNodeMenu();
+                }
+                if (!e.target.closest('#edge-menu')) {
+                    hideEdgeMenu();
                 }
             });
         }
@@ -463,27 +507,24 @@
                 });
             }
             
-            // Initialize relation label dropdown
             updateRelationLabelDropdown();
         }
 
         function applyNodeStyling(nodeData) {
             if (nodeData.type === 'slot') {
-                // Slot nodes: half size (10 instead of 20) and light green
                 nodeData.size = 10;
                 nodeData.color = {
-                    background: '#90EE90', // Light green
-                    border: '#32CD32',     // Lime green border
+                    background: '#90EE90',
+                    border: '#32CD32',
                     highlight: {
-                        background: '#98FB98', // Pale green when highlighted
-                        border: '#228B22'      // Forest green border when highlighted
+                        background: '#98FB98',
+                        border: '#228B22'
                     }
                 };
             } else {
-                // Frame nodes: default styling
                 nodeData.size = 20;
                 nodeData.color = {
-                    background: '#97C2FC', // Default blue
+                    background: '#97C2FC',
                     border: '#2B7CE9',
                     highlight: {
                         background: '#FFA500',
@@ -493,18 +534,35 @@
             }
         }
 
-        // Form submission handlers (now use renderNotify system)
+        function applyEdgeStyling(edgeData) {
+            const relationColor = getRelationColor(edgeData.label);
+            edgeData.color = {
+                color: relationColor,
+                highlight: relationColor,
+                hover: relationColor
+            };
+            // Keep original label in title for tooltips but hide the label completely
+            edgeData.title = edgeData.label ? `Relation: ${edgeData.label}` : 'Relation';
+            
+            // Completely hide the edge label
+            edgeData.label = undefined;
+            edgeData.font = { size: 0 };
+        }
+
+        function updateRelationLegend() {
+            const legend = document.getElementById('relation-legend');
+            const hasEdges = graphEdges && graphEdges.length > 0;
+            legend.style.display = hasEdges ? 'block' : 'none';
+        }
+
         function handleFormSubmitSuccess() {
-            // Reset node form after successful submission
             document.getElementById('node-form').reset();
-            // Reset dropdown to default value
             if (window.$) {
                 $('#node-type-dropdown').dropdown('set selected', 'frame');
             }
         }
         
         function handleRelationSubmitSuccess() {
-            // Reset relation form after successful submission
             document.getElementById('relation-form').reset();
             cancelRelation();
         }
@@ -517,11 +575,8 @@
                     graphEdges.clear();
 
                     if (data.nodes) {
-                        // Apply styling to loaded nodes
                         const styledNodes = data.nodes.map(node => {
-                            // Create a copy to avoid modifying the original
                             const nodeData = { ...node };
-                            // Ensure type defaults to 'frame' for backward compatibility
                             if (!nodeData.type) {
                                 nodeData.type = 'frame';
                             }
@@ -531,14 +586,19 @@
                         graphNodes.add(styledNodes);
                     }
                     if (data.edges) {
-                        graphEdges.add(data.edges);
+                        const styledEdges = data.edges.map(edge => {
+                            const edgeData = { ...edge };
+                            applyEdgeStyling(edgeData);
+                            return edgeData;
+                        });
+                        graphEdges.add(styledEdges);
                     }
 
                     updateNodeDropdown();
                     updateStats();
-                    updateRelationLabelDropdown(); // Update dropdown with loaded data
+                    updateRelationLabelDropdown();
+                    updateRelationLegend();
 
-                    // Fit the graph after loading
                     setTimeout(() => {
                         fitGraph();
                     }, 500);
@@ -546,14 +606,6 @@
                 .catch(() => {
                     showMessage('Failed to load graph data', 'error');
                 });
-        }
-
-        // Helper function for HTMX save button
-        function getGraphData() {
-            return {
-                nodes: graphNodes.get(),
-                edges: graphEdges.get()
-            };
         }
 
         function showNodeContextMenu(position) {
@@ -568,28 +620,39 @@
             menu.style.display = 'none';
         }
 
+        function showEdgeContextMenu(position) {
+            const menu = document.getElementById('edge-menu');
+            menu.style.left = position.x + 'px';
+            menu.style.top = position.y + 'px';
+            menu.style.display = 'block';
+        }
+
+        function hideEdgeMenu() {
+            const menu = document.getElementById('edge-menu');
+            menu.style.display = 'none';
+        }
+
         function createRelationFromNode() {
             if (selectedNodeId) {
                 const selectedNode = graphNodes.get(selectedNodeId);
-                // Show the node label in display field, store ID in hidden field
                 const relationFromDisplay = document.getElementById('relation-from');
                 const relationFromId = document.getElementById('relation-from-id');
                 
                 if (relationFromDisplay && relationFromId && selectedNode) {
                     relationFromDisplay.value = selectedNode.label || selectedNode.name || selectedNodeId;
-                    relationFromId.value = selectedNodeId; // Store actual ID for submission
+                    relationFromId.value = selectedNodeId;
                 }
                 document.getElementById('relation-instructions').style.display = 'none';
                 document.querySelector('.relation-form').classList.add('active');
                 updateNodeDropdown(selectedNodeId);
-                updateRelationLabelDropdown(); // Refresh relation label dropdown
+                updateRelationLabelDropdown();
+                updateRelationLegend();
             }
             hideNodeMenu();
         }
 
         function showRelationFormForNode() {
             if (selectedNodeId) {
-                console.log('Showing relation form for node:', selectedNodeId);
                 const selectedNode = graphNodes.get(selectedNodeId);
                 
                 const relationFromDisplay = document.getElementById('relation-from');
@@ -597,21 +660,18 @@
                 const relationInstructions = document.getElementById('relation-instructions');
                 const relationForm = document.querySelector('.relation-form');
                 
-                // Show the node label in display field, store ID in hidden field
                 if (relationFromDisplay && relationFromId && selectedNode) {
                     relationFromDisplay.value = selectedNode.label || selectedNode.name || selectedNodeId;
-                    relationFromId.value = selectedNodeId; // Store actual ID for submission
+                    relationFromId.value = selectedNodeId;
                 }
                 if (relationInstructions) relationInstructions.style.display = 'none';
                 if (relationForm) {
                     relationForm.classList.add('active');
-                    console.log('Relation form should now be visible');
                 }
                 
                 updateNodeDropdown(selectedNodeId);
-                updateRelationLabelDropdown(); // Refresh relation label dropdown
-            } else {
-                console.log('No node selected');
+                updateRelationLabelDropdown();
+                updateRelationLegend();
             }
         }
 
@@ -621,18 +681,9 @@
                     const formData = new FormData();
                     formData.append('nodeId', selectedNodeId);
                     
-                    // Get CSRF token safely
                     const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
                     if (csrfTokenElement) {
                         formData.append('_token', csrfTokenElement.getAttribute('content'));
-                    } else {
-                        // Try to get token from existing forms on the page
-                        const existingTokenInput = document.querySelector('input[name="_token"]');
-                        if (existingTokenInput) {
-                            formData.append('_token', existingTokenInput.value);
-                        } else {
-                            console.error('CSRF token not found');
-                        }
                     }
 
                     fetch('/graph-editor/delete-node', {
@@ -643,7 +694,6 @@
                     .then(response => {
                         if (response.success) {
                             graphNodes.remove(selectedNodeId);
-                            // Remove related edges (vis.js might handle this automatically)
                             const relatedEdges = graphEdges.get({
                                 filter: function(edge) {
                                     return edge.from === selectedNodeId || edge.to === selectedNodeId;
@@ -651,10 +701,10 @@
                             });
                             graphEdges.remove(relatedEdges.map(e => e.id));
                             updateNodeDropdown();
-                            updateRelationLabelDropdown(); // Update dropdown since edges were removed
+                            updateRelationLabelDropdown();
+                            updateRelationLegend();
                             showMessage('Node deleted successfully', 'success');
                             
-                            // Refresh the network display
                             if (graphNetwork) {
                                 graphNetwork.redraw();
                                 graphNetwork.stabilize();
@@ -672,6 +722,48 @@
                 }
             }
             hideNodeMenu();
+        }
+
+        function deleteSelectedEdge() {
+            if (selectedEdgeId) {
+                if (confirm('Are you sure you want to delete this relation?')) {
+                    const formData = new FormData();
+                    formData.append('edgeId', selectedEdgeId);
+                    
+                    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+                    if (csrfTokenElement) {
+                        formData.append('_token', csrfTokenElement.getAttribute('content'));
+                    }
+
+                    fetch('/graph-editor/delete-edge', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.success) {
+                            graphEdges.remove(selectedEdgeId);
+                            updateRelationLabelDropdown();
+                            updateRelationLegend();
+                            showMessage('Relation deleted successfully', 'success');
+                            
+                            if (graphNetwork) {
+                                graphNetwork.redraw();
+                                graphNetwork.stabilize();
+                                setTimeout(() => {
+                                    graphNetwork.stopSimulation();
+                                }, 100);
+                            }
+                        } else {
+                            showMessage('Failed to delete relation: ' + (response.error || 'Unknown error'), 'error');
+                        }
+                    })
+                    .catch(() => {
+                        showMessage('Failed to delete relation', 'error');
+                    });
+                }
+            }
+            hideEdgeMenu();
         }
 
         function cancelRelation() {
@@ -715,22 +807,30 @@
             
             if (!dropdown || !menu) return;
             
-            // Get existing labels
-            const existingLabels = getExistingRelationLabels();
-            
-            // Clear current options
             menu.innerHTML = '';
             
-            // Add existing labels as options
-            existingLabels.forEach(label => {
+            // Add pre-defined relation types first
+            const predefinedTypes = Object.keys(RELATION_COLORS);
+            predefinedTypes.forEach(label => {
                 const option = document.createElement('div');
                 option.className = 'item';
                 option.setAttribute('data-value', label);
-                option.textContent = label;
+                option.innerHTML = `<div class="color-indicator ${label}"></div> ${label}`;
                 menu.appendChild(option);
             });
             
-            // Initialize or refresh the dropdown
+            // Add existing custom labels that aren't in predefined types
+            const existingLabels = getExistingRelationLabels();
+            existingLabels.forEach(label => {
+                if (!predefinedTypes.includes(label)) {
+                    const option = document.createElement('div');
+                    option.className = 'item';
+                    option.setAttribute('data-value', label);
+                    option.innerHTML = `<div class="color-indicator default"></div> ${label}`;
+                    menu.appendChild(option);
+                }
+            });
+            
             if (window.$) {
                 $(dropdown).dropdown('destroy').dropdown({
                     allowAdditions: true,
@@ -763,13 +863,11 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
-                                   document.querySelector('input[name="_token"]')?.value || ''
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
                 },
                 body: JSON.stringify(graphData)
             })
             .then(response => {
-                // Handle HTMX response format (204 No Content with HX-Trigger header)
                 if (response.status === 204) {
                     const hxTrigger = response.headers.get('HX-Trigger');
                     if (hxTrigger) {
@@ -779,8 +877,7 @@
                                 showMessage(triggers.notify.message, triggers.notify.type);
                             }
                         } catch (e) {
-                            console.error('Error parsing HX-Trigger:', e);
-                            showMessage('Graph operation completed', 'info');
+                            showMessage('Graph saved to database successfully', 'success');
                         }
                     } else {
                         showMessage('Graph saved to database successfully', 'success');
@@ -788,18 +885,16 @@
                     return;
                 }
                 
-                // Fallback to JSON response handling
                 return response.json().then(data => {
                     if (data.success) {
                         showMessage('Graph saved to database successfully', 'success');
                     } else {
-                        showMessage('Failed to save graph to database: ' + (data.error || 'Unknown error'), 'error');
+                        showMessage('Failed to save graph: ' + (data.error || 'Unknown error'), 'error');
                     }
                 });
             })
             .catch(error => {
-                console.error('Save error:', error);
-                showMessage('Failed to save graph to database: Network error', 'error');
+                showMessage('Failed to save graph: Network error', 'error');
             });
         }
 
@@ -818,12 +913,10 @@
             const dataStr = JSON.stringify(graphData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
             
-            // Create download link
             const link = document.createElement('a');
             link.href = URL.createObjectURL(dataBlob);
             link.download = `soul-graph-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
             
-            // Trigger download
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -845,7 +938,6 @@
                 try {
                     const jsonData = JSON.parse(e.target.result);
                     
-                    // Validate JSON structure
                     if (!jsonData.nodes || !Array.isArray(jsonData.nodes)) {
                         throw new Error('Invalid JSON structure: missing or invalid nodes array');
                     }
@@ -853,7 +945,6 @@
                         throw new Error('Invalid JSON structure: missing or invalid edges array');
                     }
                     
-                    // Confirm before importing
                     const nodeCount = jsonData.nodes.length;
                     const edgeCount = jsonData.edges.length;
                     const confirmMessage = `Import ${nodeCount} nodes and ${edgeCount} edges from JSON file? This will replace the current graph.`;
@@ -862,29 +953,24 @@
                         loadGraphFromJsonData(jsonData);
                     }
                 } catch (error) {
-                    console.error('Import error:', error);
                     showMessage('Failed to import JSON file: ' + error.message, 'error');
                 }
             };
             reader.readAsText(file);
             
-            // Reset file input
             event.target.value = '';
         }
 
         function loadGraphFromJsonData(jsonData) {
-            // Send JSON data to server to load into database
             fetch('/graph-editor/import', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
-                                   document.querySelector('input[name="_token"]')?.value || ''
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
                 },
                 body: JSON.stringify(jsonData)
             })
             .then(response => {
-                // Handle HTMX response format (204 No Content with HX-Trigger header)
                 if (response.status === 204) {
                     const hxTrigger = response.headers.get('HX-Trigger');
                     if (hxTrigger) {
@@ -893,13 +979,11 @@
                             if (triggers.notify) {
                                 showMessage(triggers.notify.message, triggers.notify.type);
                                 if (triggers.notify.type === 'success') {
-                                    // Reload the graph visualization from the database
                                     loadGraphData();
                                 }
                             }
                         } catch (e) {
-                            console.error('Error parsing HX-Trigger:', e);
-                            showMessage('Graph import completed', 'info');
+                            showMessage('Graph imported successfully', 'success');
                             loadGraphData();
                         }
                     } else {
@@ -909,10 +993,8 @@
                     return;
                 }
                 
-                // Fallback to JSON response handling
                 return response.json().then(data => {
                     if (data.success) {
-                        // Reload the graph visualization from the database
                         loadGraphData();
                         showMessage('Graph imported successfully from JSON file', 'success');
                     } else {
@@ -921,119 +1003,16 @@
                 });
             })
             .catch(error => {
-                console.error('Import error:', error);
                 showMessage('Failed to import graph: Network error', 'error');
             });
         }
 
-        // Legacy showMessage function for backward compatibility
         function showMessage(message, type) {
-            // Use the global messenger component for consistency
             if (window.messenger) {
                 messenger.notify(type, message);
             } else {
                 console.log(`${type.toUpperCase()}: ${message}`);
             }
-        }
-
-        // SOUL Framework Graphs functions
-        function refreshGraphsList() {
-            const container = document.getElementById('graphs-list-container');
-            const list = document.getElementById('graphs-list');
-
-            container.classList.add('loading');
-
-            fetch('/graph-editor/list')
-                .then(response => response.json())
-                .then(graphs => {
-                    list.innerHTML = '';
-
-                    if (graphs.length === 0) {
-                        list.innerHTML = '<div class="item"><i class="folder open outline icon"></i>No graph files found</div>';
-                    } else {
-                        graphs.forEach(graph => {
-                            const item = document.createElement('div');
-                            item.className = 'item';
-                            item.innerHTML = `
-                                <i class="file code icon"></i>
-                                <div class="content">
-                                    <div class="header">${graph.name}</div>
-                                    <div class="description">
-                                        ${formatFileSize(graph.size)} • ${formatDate(graph.modified)}
-                                    </div>
-                                    <div class="ui small buttons" style="margin-top: 0.5rem;">
-                                        <button class="ui tiny blue button" onclick="loadSoulGraph('${graph.filename}')">
-                                            <i class="eye icon"></i> View
-                                        </button>
-                                        <button class="ui tiny green button" onclick="loadSoulGraphIntoEditor('${graph.filename}')">
-                                            <i class="edit icon"></i> Edit
-                                        </button>
-                                    </div>
-                                </div>
-                            `;
-                            list.appendChild(item);
-                        });
-                    }
-
-                    container.classList.remove('loading');
-                })
-                .catch(error => {
-                    console.error('Error loading graphs list:', error);
-                    list.innerHTML = '<div class="item"><i class="warning sign icon"></i>Error loading graphs</div>';
-                    container.classList.remove('loading');
-                });
-        }
-
-        function loadSoulGraph(filename) {
-            // Open the graph in viewer mode
-            window.open(`/graph-viewer/view/${encodeURIComponent(filename)}`, '_blank');
-        }
-
-        function loadSoulGraphIntoEditor(filename) {
-            // Load the graph data into the current editor
-            fetch(`/graph-editor/load/${encodeURIComponent(filename)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.nodes && data.edges) {
-                        // Clear current graph
-                        graphNodes.clear();
-                        graphEdges.clear();
-
-                        // Load new data
-                        graphNodes.add(data.nodes);
-                        graphEdges.add(data.edges);
-
-                        updateNodeDropdown();
-                        updateStats();
-                        updateRelationLabelDropdown();
-
-                        // Fit the graph after loading
-                        setTimeout(() => {
-                            fitGraph();
-                        }, 500);
-
-                        showMessage(`Graph "${filename}" loaded successfully`, 'success');
-                    } else {
-                        showMessage('Invalid graph data structure', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading graph:', error);
-                    showMessage(`Failed to load graph: ${filename}`, 'error');
-                });
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function formatDate(timestamp) {
-            const date = new Date(timestamp * 1000); // Convert from Unix timestamp
-            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
         }
     </script>
 </x-layout::index>
