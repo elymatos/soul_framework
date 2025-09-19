@@ -3,5 +3,6 @@ images/
 exports/
 !public/
 !graphs/
+!frames/
 !.gitignore
 !*.json

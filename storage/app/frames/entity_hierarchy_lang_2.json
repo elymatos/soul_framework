@@ -1,0 +1,2637 @@
+[
+    {
+        "frame": "Entity",
+        "idEntity": 3411,
+        "definition": "This frame is for words that denote highly schematic entities.\n\n<ex>We found an unusual [wooden|Type] [[object|Target]|Entity] in the desert.<\/ex>",
+        "fes": [
+            {
+                "name": "Entity",
+                "idEntity": 6798,
+                "definition": "A thing (either abstract or physical) that exists with some degree of permanence.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8421
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1557468
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7319
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 13780
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1547614
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11319
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6288
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14381
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Actually_occurring_entity",
+        "idEntity": 3893,
+        "definition": "Against the background of a contextually salient non-real world, for instance a hypothetical, imagined, simulated, expected, projected, or dream world, an #Instance of a #Type encountered in a relation or event in the real world is presented as being different from the instance found in the non-real world. Of course, the real-world #Instance of the expected #Type may also be presented as not occurring, as in the last example below.\n\n\n<ex>[Actual|Target] [results|Type] may vary.<\/ex>\n<ex>[ACTUAL results|ins] may vary.<\/ex>\n\n<ex>Also present is the [actual|Target] [policeman|Type], now 20 years older and helping to cast and prepare the young actor who'll be portraying him onscreen.<\/ex>\n<ex>Also present is [the ACTUAL policeman|ins], now 20 years older and helping to cast and prepare the young actor who'll be portraying him onscreen.<\/ex>\n\n<ex>Of course, an [actual|Target] [car|Type] with all these capabilities simply did not exist.<\/ex>\n<ex>Of course, [an ACTUAL car|ins] with all these capabilities simply did not exist.<\/ex>\n",
+        "fes": [
+            {
+                "name": "Instance",
+                "idEntity": 11319,
+                "definition": "The real-world individual, a concrete or abstract thing or an event, which differs from its counterpart in a discourse-salient non-real world.",
+                "relations": []
+            },
+            {
+                "name": "Type",
+                "idEntity": 11320,
+                "definition": "A kind of entity, instances of which are expected to occur in both the real and the non-real world.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Locale",
+        "idEntity": 3357,
+        "definition": "This frame contains general locale word.  Words in this frame designate relatively stable bounded ares of the world which have permanent #Relative_locations with respect to other locales, and thus are useful as permanent landmarks.\n\n<ex>This is a [pleasant|Descriptor] [[area|Target]|Locale].<\/ex>\n\nThis frame is used only for those general location words that do not have a more specific frame.  It is inherited by Locale_by_use, which has to do with places that are named according to their intended use, or some habitual use, such as factory.n, dance floor.n, village.n, field.n.  It is also inherited by Locale_by_event, which covers places that are names according to some event which took place there, such as concerts, battles, and meteor impacts.\n\n",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 6288,
+                "definition": "A stable bounded area.  It is typically the designation of the nouns of Locale-derived frames.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6174
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7942
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 13803
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6321
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6300
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6283
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15114
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14686
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14718
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 20789
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Languages",
+        "idEntity": 1547613,
+        "definition": "Languages",
+        "fes": [
+            {
+                "name": "fe_Língua",
+                "idEntity": 1547614,
+                "definition": "fe_Língua",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Supernatural_entity",
+        "idEntity": 1548065,
+        "definition": "Supernatural_entity",
+        "fes": [
+            {
+                "name": "fe_supernatural_entity_entity",
+                "idEntity": 1548068,
+                "definition": "fe_supernatural_entity_entity",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Biological_entity",
+        "idEntity": 4235,
+        "definition": "The LUs in this frame refer to biological entities labeled by the FE #Organism. An #Organism is described as something that can be alive, or have naturally occuring biological processes and functions; however the concept of life is often used metaphorically for non-organic entities which resemble or act as if they have organic life.\n\n<ex>NASA may someday discover a [new|Descriptor] [[lifeform|Target]|Organism] [from another planet|Origin].<\/ex>",
+        "fes": [
+            {
+                "name": "Organism",
+                "idEntity": 14381,
+                "definition": "An organism that has naturally occurring biological processes and functions.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15558
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7328
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15582
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Artifact",
+        "idEntity": 3575,
+        "definition": "An #Artifact is deliberately made or modified by an intelligent entity to be put to a certain kind of #Use.  Various properties of the #Artifact may be specified, such as its #Creator, #Time_of_creation, #Name, #Type, and the #Material of which it is composed.  The #Artifact may or may not be a physical entity.\n\n<ex>There are reports that Kim Il Sung asked China to share its [nuclear|Type] [weapons|Use] [[technology|Target]|Artifact].<\/ex>",
+        "fes": [
+            {
+                "name": "Artifact",
+                "idEntity": 8421,
+                "definition": "It identifies the entity or substance that is designed to have a particular #Use. This can refer to physical artifacts, like a mug or computer monitor, or a digital artifact, such as a website or document.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6015
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11187
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11851
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6174
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8409
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14817
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7294
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14810
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11382
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15529
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 5859
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 5602
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10788
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6848
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15332
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9299
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 12224
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9451
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554920
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554857
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554887
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7279
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 129716
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8524
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8485
+                    },
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 14260
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Physical_entity",
+        "idEntity": 3461,
+        "definition": "An #Entity exists in some #Place at some time.",
+        "fes": [
+            {
+                "name": "Entity",
+                "idEntity": 7319,
+                "definition": "A thing (either abstract or physical) that exists with some degree of permanence.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11187
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11851
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10720
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8149
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6651
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8409
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14810
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11382
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7059
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 5859
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1551191
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8122
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1546064
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 47874
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10369
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 124378
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8524
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8485
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Representing",
+        "idEntity": 4142,
+        "definition": "An #Entity represents some #Phenomenon through its existence and\/or defining characteristics.  Sometimes a #Cognizer, a people or group of people who believe in the representation, is expressed.\n<ex>[A bear|Entity] [symbolizes|Target] [strength|Phenomenon] [in some cultures|Cognizer].<\/ex>",
+        "fes": [
+            {
+                "name": "Entity",
+                "idEntity": 13780,
+                "definition": "An object that has some association with a #Phenomenon.",
+                "relations": [
+                    {
+                        "relationType": "rel_perspective_on",
+                        "idEntity": 11349
+                    },
+                    {
+                        "relationType": "rel_perspective_on",
+                        "idEntity": 1547614
+                    },
+                    {
+                        "relationType": "rel_perspective_on",
+                        "idEntity": 1554920
+                    }
+                ]
+            },
+            {
+                "name": "Phenomenon",
+                "idEntity": 13776,
+                "definition": "The event, idea, or emotion evoked by the #Entity.",
+                "relations": [
+                    {
+                        "relationType": "rel_perspective_on",
+                        "idEntity": 11348
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Social_entity",
+        "idEntity": 1557467,
+        "definition": "Social_entity",
+        "fes": [
+            {
+                "name": "Entity",
+                "idEntity": 1557468,
+                "definition": "Entity",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9299
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Locale_by_use",
+        "idEntity": 3361,
+        "definition": "Geography as defined by its use.\n\n<ex>You must land in the next [[airfield|Locale]|Target], as this one is currently having difficulties.<\/ex>\n<ex>The new [sports|Use] [[complex|Target]|Locale] was the tallest building on campus, oddly enough.<\/ex>\n<ex>[[Cities|Locale]|Target] [of the Northeast|Container_possessor] tend to be dingier.<\/ex>",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 6321,
+                "definition": "A stable bounded area.  It is typically the designation of the nouns of Locale-derived frames.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8112
+                    }
+                ]
+            },
+            {
+                "name": "Use",
+                "idEntity": 6324,
+                "definition": "The activity that is carried out in the #Locale.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Biological_area",
+        "idEntity": 3358,
+        "definition": " This frame contains words that denote large ecological areas as well as smaller locations characterized by the type of life present--in other words, geography locations as defined by biota.\n\n<ex>I've spent a long time in the [rugged|Descriptor] [[prairies|Target]|Locale] [of northern Llorwyn|Container_possessor].<\/ex>",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 6300,
+                "definition": "It identifies a stable bounded area, and is typically the designation of the nouns of Locale-derived frames.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Locale_by_ownership",
+        "idEntity": 4145,
+        "definition": "A place defined by an #Owner.\n\n<ex>Get off [my|Owner] [property|Locale]!<\/ex>",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 13803,
+                "definition": "A stable bounded area.  It is typically the designation of the nouns of Locale-derived frames.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6313
+                    }
+                ]
+            },
+            {
+                "name": "Owner",
+                "idEntity": 13805,
+                "definition": "The individual or group of individuals who hold posses the #Locale.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Relational_location",
+        "idEntity": 4271,
+        "definition": "This is a general frame that identifies a #Profiled_region whose configuration is specified by an image schema (specified in more specific child frames) and located relative to a #Ground.",
+        "fes": [
+            {
+                "name": "Ground",
+                "idEntity": 14694,
+                "definition": "An entity whose location is relatively well-known and which, thus, can serve as a land-mark to identify the #Profiled_region.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14703
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10818
+                    }
+                ]
+            },
+            {
+                "name": "Profiled_region",
+                "idEntity": 14686,
+                "definition": "The region which is located relative to the Ground and which is shaped according to an image schema.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10813
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14695
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Assigned_location",
+        "idEntity": 4274,
+        "definition": "An Individual is assigned a #Station to remain at, usually in order to accomplish a task. The #Station may have an intended use based on its features (e.g., a vendor's booth), or it may be temporarily assigned a use.\n\n<ex>The guards who remained at their [stations|Target] had no idea what was going on two floors below.<\/ex>\n\n<ex>Return to your [post|Target]!<\/ex>",
+        "fes": [
+            {
+                "name": "Responsible_party",
+                "idEntity": 14726,
+                "definition": "The #Responsible_party is tasked with remaining at the #Station to perform a #Task.",
+                "relations": []
+            },
+            {
+                "name": "Station",
+                "idEntity": 14718,
+                "definition": "The locale where the Entity is supposed to be.It is typically the designation of the nouns of Locale-derived frames.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Locale_by_characteristic_entity",
+        "idEntity": 4313,
+        "definition": "A #Locale is characterized by the type of entity associated with the #Locale. Some words specifically denote regions characterized by the individuals who typically live or work there. Typcial such #Characteristics include ethnicity, national origin, language, and other shared cultural traits.\n\n<ex>This neighborhood started out as a [Russian|cha] [[enclave|loc]|Target].<\/ex>\n\n<ex>A twenty-minute walk will take you to the [Dutch-speaking|cha] [[quarter|loc]|Target] [of the city|Container_possessor].<\/ex>",
+        "fes": [
+            {
+                "name": "Characteristic",
+                "idEntity": 15122,
+                "definition": "A property or characteristic of the entities in the #Locale.\r\n\r\n<ex>A twenty-minute walk will take you to the <fex name=\"cha\">Dutch-speaking<\/fex> <t>quarter<\/t> of the city.<\/ex>",
+                "relations": []
+            },
+            {
+                "name": "Locale",
+                "idEntity": 15114,
+                "definition": "A stable bounded area characterized by properties of the entities who are typically located there (e.g., work and\/or live there).\r\n\r\n<ex>A twenty-minute walk will take you to the Dutch-speaking <t><fex name=\"loc\">quarter<\/fex><\/t> of the city.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Businesses",
+        "idEntity": 3522,
+        "definition": "A #Proprietor owns or runs a #Business which provides a #Product (which may be goods or services).\n\n<ex>The [consumer electronics|Product] [[company|Target]|Business] [Apple|Business_Name] has exploded with popularity in recent years.<\/ex>",
+        "fes": [
+            {
+                "name": "Business",
+                "idEntity": 7942,
+                "definition": "It identifies the company or establishment. This may be the target itself or the #Business_Name if it is an appositive not set off with commas (i.e. restrictive).",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19298
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19021
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Natural_features",
+        "idEntity": 3356,
+        "definition": "The #Locale is a geographical location as defined by shape.  This frame includes natural geographic features, including land\/ice forms and bodies of water.\n\n<ex> We climbed up the [rock|Constituent_parts] [[cliff|Target]|Locale].<\/ex>\n",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 6283,
+                "definition": "A stable bounded area.  ",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10813
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Buildings",
+        "idEntity": 3342,
+        "definition": "This frame contains words which name permanent fixed structures forming an enclosure and providing protection from the elements.\n\n\n<ex>The [baroque|Type] [church|Target], built in 1635, has a very rich interior<\/ex>\n<ex>The city tour includes the [16th-century|toc] [monastery|Target] of the Transfiguration and Church of Elijah the Prophet<\/ex>\n<ex>An ancient [stone|Mat] [church|Target] stands amid the fields<\/ex>\n\n<ex>Jack <gov>built<\/gov> <x>his [house|Target]<\/x> in the style of the day.<\/ex>",
+        "fes": [
+            {
+                "name": "Building",
+                "idEntity": 6174,
+                "definition": "The entity built by the #Creator which has some #Function.",
+                "relations": [
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 6270
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Sports_venues",
+        "idEntity": 20788,
+        "definition": "A #Venue is a building, structure, or place where a competition of a particular #Sport takes place.",
+        "fes": [
+            {
+                "name": "Venue",
+                "idEntity": 20789,
+                "definition": "It is the building, structure or place where a competition of a particular #Sport takes place.",
+                "relations": [
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 21566
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Reference_universe",
+        "idEntity": 1558392,
+        "definition": "Reference_universe",
+        "fes": [
+            {
+                "name": "Constrast_universe",
+                "idEntity": 1558409,
+                "definition": "Universo_de_contraste",
+                "relations": []
+            },
+            {
+                "name": "Reference_universe",
+                "idEntity": 1558408,
+                "definition": "Reference_universe",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Animals",
+        "idEntity": 4369,
+        "definition": "The LUs in this frame refer to biological entities other than human beings and plants, which are labeled by the FE #Animal.\n\n<ex><\/ex>\n\n<ex>My husband and I adopted a [really sweet|Char] [dog|Animal] last year.<\/ex>\n\n<ex>The [cows|Animal] [that live on the farm down the road|Descriptor] are always mooing loudly.<\/ex>",
+        "fes": [
+            {
+                "name": "Animal",
+                "idEntity": 15558,
+                "definition": "The living organism belonging to the kingdom Animalia.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Plants",
+        "idEntity": 4372,
+        "definition": "The LUs in this frame refer to biological entities other than human beings and animals, which are labeled by the FE #Plant.",
+        "fes": [
+            {
+                "name": "Plant",
+                "idEntity": 15582,
+                "definition": "The living organism belonging to the kingdom Plantae.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People",
+        "idEntity": 3463,
+        "definition": "This frame contains general words for Individuals, i.e. humans. The #Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have an #Age, #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity.\n<ex> A [man|Person] [from Phoenix|Origin] was shot yesterday.<\/ex>\n<ex> She gave birth to a [screaming|Descriptor] [baby|Person]yesterday.<\/ex>\n<ex> I study [16-year-old|Age] [female|Persistent_characteristic] [adolescents|Person].<\/ex>\n<ex> I am dating an [African-American|Ethnicity] [man|Person].<\/ex>\n<ex> She comforted the [terrified|Descriptor] [child|Person].<\/ex>\n<ex> I always thought of him as a [stupid|Persistent_characteristic] [man|Person].<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 7328,
+                "definition": "The #Person is the human being.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14555
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9807
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 11178
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9379
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9712
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14627
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9372
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9595
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9466
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 20473
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9473
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Pathogen",
+        "idEntity": 1550153,
+        "definition": null,
+        "fes": [
+            {
+                "name": "fe_Patógeno",
+                "idEntity": 1550154,
+                "definition": "fe_Patógeno",
+                "relations": []
+            },
+            {
+                "name": "fe_Patógenos_Doença",
+                "idEntity": 1550155,
+                "definition": "fe_Patógenos_Doença",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Biological_entity_by_eating_habits",
+        "idEntity": 1558728,
+        "definition": "Biological_entity_by_eating_habits",
+        "fes": [
+            {
+                "name": "Biological_entity",
+                "idEntity": 1558730,
+                "definition": "Biological_entity",
+                "relations": []
+            },
+            {
+                "name": "Eating_habit",
+                "idEntity": 1558729,
+                "definition": "Eating_habit",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Weapon",
+        "idEntity": 3580,
+        "definition": "A #Weapon is an artifact created specifically to cause harm or damage.  In some cases, a #Use, #Material of construction, #Part or #Type may be more narrowly specified.\n\n<ex>Did you, or did you not, <gov>fire<\/gov> <x>this [[gun|Target]|Weapon]<\/x> with intent to harm my client?<\/ex>\n\n<ex>Cyra tried to <gov>swing<\/gov> <x>[her|Wld] [[sword|Target]|Weapon]<\/x> to parry, but it was to heavy.<\/ex>\n\n<ex>I investigated a specialist <x>[precious metal|Mat] [[firearms|Target]|Weapon]<\/x> <gov>manufacturer<\/gov>.<\/ex>\n\n<ex>My neighbor, a member of the NRA since birth, has got an [AK-47|Type] [fully automatic|Type] [assault|Use] [[rifle|Target]|Weapon].<\/ex>\n\n<ex>Let 's just say that he 's the kind of guy who likes [[guns|Wep]|Target] [with hair triggers|Part].<\/ex>\n",
+        "fes": [
+            {
+                "name": "Weapon",
+                "idEntity": 8485,
+                "definition": "An entity prototypically used by a #Wielder to cause damage.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14663
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Connectors",
+        "idEntity": 3573,
+        "definition": "The #Connector is an artifact created to affix a #Connected_item or to bind onto a #Fixed_location and is primarily so used.  A more specific #Use may also be specified.  Certain words in this frame (e.g. <ment>bond, chain<\/ment> in the phrase <ment>in chains<\/ment>) indicate specifically that the #Connector is being used to immobilize something.  #Connectors have a wide variety of physical forms:  long, thin, and flexible for tying (<ment>ropes, bonds, withies<\/ment>); solid, with a shape corresponding to holes in the entities to be connected (<ment>bolts, nails, pegs<\/ment>); and liquid (<ment>glues, adhesives, pastes<\/ment>).\n<ex>A waterproof [[adhesive|Target]|Connector] should be used for this exterior job.<\/ex>\n<ex><x>[His|Item] [[bonds|Connector]|Target]<\/x> had to be <gov>loosened<\/gov> before they could be cut.<\/ex>\n<ex>She <gov>jerked<\/gov> <x>on [His|Connected_item] [neck|Loc] [[rope|Target]|Connector]<\/x> again, to keep his attention.<\/ex>\n<ex>I think they <gov>cut<\/gov> <x>his [bike|Use] [[chain|Target]|Connector]<\/x> with bolt cutters.<\/ex>",
+        "fes": [
+            {
+                "name": "Connector",
+                "idEntity": 8409,
+                "definition": "The #Connector identifies the entity or substance that forms the bond that maintains the #Item in a fixed position.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Clothing",
+        "idEntity": 3308,
+        "definition": "This frame refers to clothing and its characteristics,  including anything that people conventionally wear.  The #Wearer wears a #Garment that has a certain #Style, is made of a certain #Material, and can be otherwise characterized by a #Descriptor.  In some cases, the #Body_location (where the garment is worn) and #Subregion of the clothing may also be specified.\n\n<ex>Claudia dressed in a [dark|Descriptor] [green|Descriptor] [cotton|Material] [DRESS|Target] clasped round her slender waist with a broad yellow belt , drank a cup of coffee and opened her neglected post .<\/ex>",
+        "fes": [
+            {
+                "name": "Garment",
+                "idEntity": 5859,
+                "definition": "This FE identifes the clothing worn.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Law",
+        "idEntity": 3667,
+        "definition": "A #Law regulates activities or states of affairs within a #Jurisdiction, dictating what #Required states should be the case and what #Forbidden states should not.  Often it also indicates negative consequences for individuals that violate it, and these negative consequences are generally enforced by some official authority.  They may or may not be created by some official legislative body.\n\n<ex>The new [act|Target] [banning smoking in public|Forbidden] will pass soon.<\/ex>",
+        "fes": [
+            {
+                "name": "Forbidden",
+                "idEntity": 9306,
+                "definition": "The state-of-affairs which is disallowed by the #Law.\r\n\r\n<ex>I think we need a <t>law<\/t> <fex name=\"for\">against all firearms within city limits<\/fex>.<\/ex>",
+                "relations": []
+            },
+            {
+                "name": "Law",
+                "idEntity": 9299,
+                "definition": "This FE identifies the rule designed to guide activity, deprecating some types of activity and\/or requiring other types of activity. This FE is incorporated into each LU in this frame.",
+                "relations": []
+            },
+            {
+                "name": "Required",
+                "idEntity": 9307,
+                "definition": "A state-of-affairs which the #Law declares must be maintained.\r\n\r\n<ex>The <t>law<\/t> <fex name=\"req\">that all minors must be accompanied by an adult<\/fex> is a laughingstock.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Ammunition",
+        "idEntity": 3881,
+        "definition": "A piece of #Ammunition is a disposable artifact to be fired as a projectile in a weapon with the purpose of causing harm or damage.\n\n<ex>The octagenarian inventor's vest repels [armor-piercing|Use] [[bullets|amm]|Target]. <\/ex>\n\n<ex>It is armed with a automatic loaded 105 mm gun firing [anti-tank|Use] [[rounds|amm]|Target]<\/ex>\n\n<ex>[Depleted uranium|Material] [[munitions|amm]|Target] are primarily used by the US and the UK.<\/ex>",
+        "fes": [
+            {
+                "name": "Ammunition",
+                "idEntity": 11187,
+                "definition": "This FE identifies the #Ammunition that is designed to have a particular #Use.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Fastener",
+        "idEntity": 3902,
+        "definition": "The #Fastener is an artifact created to close a #Container (e.g. coat, jar). Sometimes, the #Container_portal rather than the #Container is expressed.\n\n<ex>The [door|cop] [[seal|Target]|Fastener] prevented air from getting in and the kids' screams from getting out.<\/ex>\n\n<ex>She has an [antique|Time_of_creation] [ivory|Material] [[button|Target]|Fastener] at the front and another vintage button on her apron.<\/ex>\n\n<ex>NIST designed a [high pressure|Type] [[seal|Target]|Fastener] [for the extension sleeve|Use] using a series of metal washers to load the window under pressure.<\/ex>",
+        "fes": [
+            {
+                "name": "Container",
+                "idEntity": 11381,
+                "definition": "It identifies the item that is closed with the #Fastener.",
+                "relations": []
+            },
+            {
+                "name": "Container_portal",
+                "idEntity": 11383,
+                "definition": "It identifies the active zone of the container where the #Fastener is located.",
+                "relations": []
+            },
+            {
+                "name": "Fastener",
+                "idEntity": 11382,
+                "definition": "The artifact created to close a #Container.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Infrastructure",
+        "idEntity": 3841,
+        "definition": "A group of entities exist (as an infrastructure) such that a particular type of #Activity is either enabled or facilitated.  The entities may or may not have been organized specifically for the #Activity.  The infrastructure is constituted by #Resources that can be made use of by #Users, and the infrastructure may be specified for its #Place or #Possessor.\n\n<ex>While the [US|Possessor] [transportation|Activity] [[infrastructure|Infrastructure]|Target] continues to crumble, competitors in Brazil and Argentina are investing millions to improve their transportation<\/ex>\n\n<ex>The exacerbated sprawl like growth in the last decades has been a direct result of decisions taken in the creation, boost, and development of [highway|Resource] [[infrastructure|Infrastructure]|Target].<\/ex>\n\n<ex>Mexico's Ministry of Tourism expects to see more than $1.78 billion invested to further develop [the country's|Possessor] [tourism|Activity] [[infrastructure|Infrastructure]|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Activity",
+                "idEntity": 10782,
+                "definition": "The #Activity which is enabled or facilitated by the infrastructure.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 20790
+                    }
+                ]
+            },
+            {
+                "name": "Infrastructure",
+                "idEntity": 10788,
+                "definition": "The collection of entities and\/or institutions that help to promote an #Activity of a public character.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 20789
+                    }
+                ]
+            },
+            {
+                "name": "Possessor",
+                "idEntity": 10784,
+                "definition": "The organization, institution, or individual who owns the infrastructure.",
+                "relations": []
+            },
+            {
+                "name": "Resource",
+                "idEntity": 10785,
+                "definition": "The infrastructure may be conceived of as consisting of #Resources that can be made use of by #Users in performing an #Activity.",
+                "relations": []
+            },
+            {
+                "name": "User",
+                "idEntity": 10786,
+                "definition": "The people for whom the infrastructure is designed to be used by.  In the cases where the constituent denoting the user also evokes the #Activity, we annotate this on the second FE layer.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Vehicle",
+        "idEntity": 3583,
+        "definition": "The frame concerns the vehicles that human beings use for the purpose of transportation.\n\n<ex>I drove a [limo|Target] to the school dance.<\/ex>",
+        "fes": [
+            {
+                "name": "Vehicle",
+                "idEntity": 8524,
+                "definition": "Vehicle is the transportation device that the human beings use to travel.This FE is incorporated into each LU in this frame.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Body_decoration",
+        "idEntity": 3458,
+        "definition": "This frame concerns the decorations that human beings have on or apply to their bodies.\n<ex>[Abby|Dec_ind] rarely wears [[lipstick|Target]|Decoration].<\/ex>",
+        "fes": [
+            {
+                "name": "Decoration",
+                "idEntity": 7294,
+                "definition": "It is the decorative item that adorns the body.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Text",
+        "idEntity": 3457,
+        "definition": "A #Text is an entity that contains linguistic, symbolic information on a #Topic, created by an #Author at the #Time_of_creation.  It may be a physical entity that is made of a certain #Material etc.  It may be constructed for a #Beneficiary.\n\n<ex>[It|Text] was a good [book|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Text",
+                "idEntity": 7279,
+                "definition": "The #Text is the entity that contains linguistic information. This an incorporated FE for each LU in this frame.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 8777
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15042
+                    },
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 1554919
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Money",
+        "idEntity": 3976,
+        "definition": "#Money is a medium used for exchanging goods and services. It is in most cases issued by a government (its #Creator) in the form of coins and banknotes. Particular amounts of it may have a designated or planned #Use, or may have come from some #Origin.\n\n<ex>The [[money|Target]|mon] [for our daughter's college education|Inherent_purpose] is currently earning interest in a savings account.<\/ex>\n\n<ex>The entire project ended up being funded with [Swiss|cre] [[funds|Target]|mon].<\/ex>\n\n<ex>The use of [paper|Material] [[money|Target]|mon] really caught on in Europe in the 1700s<\/ex>",
+        "fes": [
+            {
+                "name": "Money",
+                "idEntity": 12224,
+                "definition": "The #Money is used as a medium of exchange.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Information_display",
+        "idEntity": 4283,
+        "definition": "A man-made artifact, digital or physical, which is used to display information presented via the object.\n\n<ex>[4chan|Name] is an [[image|Target]|Type] [board|Target] [for discussing gaming and internet culture|Use].<\/ex>",
+        "fes": [
+            {
+                "name": "Display",
+                "idEntity": 14810,
+                "definition": "It identifies the entity or substance that is designed to have a particular #Use.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Controller_object",
+        "idEntity": 4284,
+        "definition": "This frame contains items which, when manipulated, alter the function of some device, internal or external.\n\n<ex>This [[button|Target]|Control] [makes the radio turn on|Use].<\/ex>",
+        "fes": [
+            {
+                "name": "Control",
+                "idEntity": 14817,
+                "definition": "It identifies the entity or substance that is designed to have a particular #Use. This is often an incorporated FE.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Key",
+        "idEntity": 4341,
+        "definition": "This frame is for objects, physical or otherwise, which are used to grant access to some location or function.\n\n<ex>[Robert's|Creator] [master|Type] [keycard|Target] [opens any door in the building|Function].<\/ex>\n\n<ex>Robert's master [keycard|Target] opens [any door in the building|Object].<\/ex>",
+        "fes": [
+            {
+                "name": "Function",
+                "idEntity": 15333,
+                "definition": "The function that the #Key grants access to.",
+                "relations": []
+            },
+            {
+                "name": "Key",
+                "idEntity": 15332,
+                "definition": "It identifies the object that is designed to grant access to a location or function. This is the target LU, and this frame element is incorporated into each of this frame s LUs.",
+                "relations": []
+            },
+            {
+                "name": "Location",
+                "idEntity": 15339,
+                "definition": "The location that the #Key grants access to.",
+                "relations": []
+            },
+            {
+                "name": "Object",
+                "idEntity": 15340,
+                "definition": "The artifact that the key operates on.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Artifact_subpart",
+        "idEntity": 4214,
+        "definition": "A #Component has a distinct #Function in the operation of a complex #Artifact, which is not regarded as complete unless it is assembled from a number of different #Components. Each #Component may also be described by their #Creator, #Time_of_creation, or #Material.\n\n<ex>Most of the cost comes from the price of [engine|Artifact] [[parts|Target]|Component].<\/ex>\n<ex>We'll need to find a [metal|Material] [[part|Target]|Component][from 1982|Time_of_creation].<\/ex>",
+        "fes": [
+            {
+                "name": "Artifact",
+                "idEntity": 14260,
+                "definition": "A deliberately made entity which fulfilling a purpose, whose complete form is composed of more than one #Component.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554919
+                    }
+                ]
+            },
+            {
+                "name": "Component",
+                "idEntity": 14259,
+                "definition": "An entity that is a part of an #Artifact and serves a distinct #Function.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554921
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Physical_artworks",
+        "idEntity": 3941,
+        "definition": "A physical object, the #Artifact, is produced by a #Creator to stimulate the perceptions, emotions, or cognition of an audience. Though it need not, in many cases, the created #Artifact is intended to represent an actual or imagined entity or event, the #Represented. The #Represented may be specifically shown in a particular state (#State_of_represented).\n\n\n\n<ex>Sir Denis Mahon is the owner of the most important private collection of [Italian Baroque|Time_of_creation] [[paintings|Artifact]|Target].<\/ex>\n\n<ex>He presented Eddie with a [watercolour|Type] [[painting|Artifact]|Target] and a bouquet of flowers to his wife Frances<\/ex>\n\n<ex>I just took a [picture|Target] [of the screen|Represented] and plan to share it with 6.4 billion of my closest friends on the Internet tonight.<\/ex>",
+        "fes": [
+            {
+                "name": "Artifact",
+                "idEntity": 11851,
+                "definition": "This FE identifies the entity or substance that is designed to have a particular #Use.\r\n\r\n<ex>The first of the two <t><fex name=\"Artifact\">drawings<\/fex><\/t> by Parmigianino recently acquired for the National Gallery is a study for the Madonna dal collo lungo.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Fire_break",
+        "idEntity": 4366,
+        "definition": "This frame pertains to #Fire_breaks, entities intended to prevent a fire from traveling in a direction. They are constructed by removing combustible\/flammable material from the predicted path of the flames.\n\n<ex>The firefighters created several [fire breaks|Target] at the outskirts of the wildlife sanctuary to prevent fires from reaching the precious \"\"inner sanctum\"\". <\/ex>",
+        "fes": [
+            {
+                "name": "Fire_break",
+                "idEntity": 15529,
+                "definition": "The constructed entity that is intended to prevent a fire from reaching a protected area.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Furniture",
+        "idEntity": 47873,
+        "definition": "A #Piece_of_furniture is a physical entity, being a type of furniture created for a specific #Use like the decoration of a room. Several properties of the #Piece_of_furniture can be specified, such as its #Creator, #Time_of_creation, #Name, #Type, #Origin, #Constituent_parts, #Description, #Material of which it is composed, #Quantity and the #Place where it is.",
+        "fes": [
+            {
+                "name": "Piece_of_furniture",
+                "idEntity": 47874,
+                "definition": "It indicates a furniture object made for a specific #Use like the decoration of a room.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Utensils",
+        "idEntity": 124371,
+        "definition": "A #Utensil is a container, a tool or something that is especially for household use. It is created for a specific #Use. Several properties of the #Utensil can be specified, such as its #Creator, #Time_of_creation, #Name, #Type, #Origin, #Constituent_parts, #Description, #Material of which it is composed, #Quantity and the #Place where it is.",
+        "fes": [
+            {
+                "name": "Utensil",
+                "idEntity": 124378,
+                "definition": "It indicates a utensil made for a specific #Use.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Appliances",
+        "idEntity": 124390,
+        "definition": "A device or machine, mainly electrical, developed to perform a specific task. Several properties of the #Appliance can be specified, such as its #Creator, #Time_of_creation, #Name, #Type, #Origin, #Constituent_parts, #Description, #Material of which it is composed, #Quantity and the #Place where it is.",
+        "fes": [
+            {
+                "name": "Appliance",
+                "idEntity": 124391,
+                "definition": "A device or machine, mainly electrical, developed to perform a specific task.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Toys",
+        "idEntity": 129715,
+        "definition": "A #Toy is made or modified by a human being or a company to entertain children or make them develop new skills. A #Toy has a certain kind of #Use.  Various properties of the #Toy may be specified, such as its #Creator, #Time_of_creation, #Name, #Type, #Origin, #Description and the #Material of which it is composed.",
+        "fes": [
+            {
+                "name": "Toy",
+                "idEntity": 129716,
+                "definition": "It identifies the toy itself, an object created for children's entertainment or skill development. It is designed to have a specific #Use.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Noise_makers",
+        "idEntity": 3690,
+        "definition": "The #Noise_maker is an artifact used to produce sound, especially for musical effect.\n\n<ex>The [church|Grnd] [[bells|nm]|Target] rang<\/ex>\n<ex>The [car|Grnd] [[alarm|nm]|Target] went off again<\/ex>\n<ex>I have never played an [acoustic|tp]  [[guitar|nm]|Target].<\/ex>\n<ex>Each artist personally owns a Steinway and has chosen to perform on the [Steinway|Creator] [piano|Target] professionally<\/ex>",
+        "fes": [
+            {
+                "name": "Noise_maker",
+                "idEntity": 9451,
+                "definition": "It identifies the entity or substance that is designed to produce sound.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Musical_instruments",
+        "idEntity": 1546038,
+        "definition": "frm_instrumentos_musicais",
+        "fes": [
+            {
+                "name": "Musical_instrument",
+                "idEntity": 1546064,
+                "definition": "An artifact made or adpted to produce musical sounds.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Materials_used_in_healthcare",
+        "idEntity": 3417,
+        "definition": "This frame includes words for medical instruments--i.e. #Instruments designed for  an institutional function or #Purpose.\n\n<ex><gov>Use<\/gov> <x>the[[stethoscope|Target]|Inst]<\/x> [to check his lungs|Purpose].<\/ex>",
+        "fes": [
+            {
+                "name": "Instrument",
+                "idEntity": 6848,
+                "definition": "It identifies the medical #Instrument.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Health_exam",
+        "idEntity": 1550740,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Exam",
+                "idEntity": 1550743,
+                "definition": "The physical form of the test. This can be the request or the result.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Personal_protective_equipment",
+        "idEntity": 1551189,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Individual_protective_equipment",
+                "idEntity": 1551191,
+                "definition": "Individual_protective_equipment",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Accoutrements",
+        "idEntity": 3329,
+        "definition": "A #Wearer wears accessories, which are made of  some #Material and may have a #Style.  Most of the accessories are non-essential (clothing) items. <ex>[She|Wearer] wore [a black|Descriptor] [velvet|Material] [hat|Target] [on her head|Body_location].<\/ex>",
+        "fes": [
+            {
+                "name": "Accoutrement",
+                "idEntity": 6015,
+                "definition": "It identifies  the #Accoutrement.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "School_Supplies",
+        "idEntity": 1554853,
+        "definition": null,
+        "fes": [
+            {
+                "name": "School_Supply",
+                "idEntity": 1554857,
+                "definition": "School_Supply",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Teaching_resource",
+        "idEntity": 1554876,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Teaching_resource",
+                "idEntity": 1554887,
+                "definition": "Teaching_resource",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Object_of_knowledge",
+        "idEntity": 1554885,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Object",
+                "idEntity": 1554920,
+                "definition": "Object",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554744
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Gizmo",
+        "idEntity": 3282,
+        "definition": "This frame contains general words denoting equipment where the #Use or purpose is not specified by the lexeme but (typically) by a separate expression. The words are described with respect to the #Use for which the item is used or its typical #User.\n\n<ex>[coffee|Use] [machine|Target]<\/ex>\n<ex>[dentist's|User] [equipment|Target]<\/ex>",
+        "fes": [
+            {
+                "name": "Gizmo",
+                "idEntity": 5602,
+                "definition": "The complex artifact with a particular use.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Bedding",
+        "idEntity": 1558492,
+        "definition": "Bedding",
+        "fes": [
+            {
+                "name": "Item",
+                "idEntity": 1558494,
+                "definition": "Item",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Tax",
+        "idEntity": 1558790,
+        "definition": "Tax",
+        "fes": [
+            {
+                "name": "Collector",
+                "idEntity": 1558792,
+                "definition": "Collector",
+                "relations": []
+            },
+            {
+                "name": "Debtor",
+                "idEntity": 1558793,
+                "definition": "Debtor",
+                "relations": []
+            },
+            {
+                "name": "Tax",
+                "idEntity": 1558791,
+                "definition": "Tax",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Civil_rights_and_duties",
+        "idEntity": 1558813,
+        "definition": "Civil_rights_and_duties",
+        "fes": [
+            {
+                "name": "Citizen",
+                "idEntity": 1558814,
+                "definition": "Citizen",
+                "relations": []
+            },
+            {
+                "name": "Right_or_duty",
+                "idEntity": 1558815,
+                "definition": "Right_or_duty",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Assistive_Technology",
+        "idEntity": 1557383,
+        "definition": "Resources that provide greater accessibility and autonomy to an #Individual with a #Disability. These can be products, equipments, devices, resources, methodologies, strategies, practices and services that help overcome barriers.",
+        "fes": [
+            {
+                "name": "Assistive Technology",
+                "idEntity": 1557395,
+                "definition": "Resources that help people with disabilities overcome barriers.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Cosmetics",
+        "idEntity": 1561065,
+        "definition": "Cosmetics",
+        "fes": [
+            {
+                "name": "Product",
+                "idEntity": 1561067,
+                "definition": "Product",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Bounded_entity",
+        "idEntity": 3398,
+        "definition": "This is an abstract frame for bounded areas, used mostly for FE inheritance.",
+        "fes": [
+            {
+                "name": "Bounded_area",
+                "idEntity": 6651,
+                "definition": "It identifies a stable #Bounded_area.  It typically serves as the denotation of nouns.",
+                "relations": []
+            },
+            {
+                "name": "Constituent_parts",
+                "idEntity": 6652,
+                "definition": "It identifies the salient #Constituent_parts that make up a bounded area.",
+                "relations": []
+            },
+            {
+                "name": "Formational_cause",
+                "idEntity": 6656,
+                "definition": "It identifies the #Formational_cause (action or agent) that brings about the features of the bounded area.",
+                "relations": []
+            },
+            {
+                "name": "Name",
+                "idEntity": 6654,
+                "definition": "It is used for the #Name of a bounded area.",
+                "relations": []
+            },
+            {
+                "name": "Owner",
+                "idEntity": 6655,
+                "definition": "It identifies the #Owner, generally a person, of the bounded area.",
+                "relations": []
+            },
+            {
+                "name": "Relative_location",
+                "idEntity": 6653,
+                "definition": "The #Relative_location identifies the place in respect to which a bounded area is located.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Food",
+        "idEntity": 3437,
+        "definition": "This frame contains words referring to items of food.\n\n<ex>Specialties include deep fried shredded beef , duck , prawn dishes and [hand-made|Descriptor] [noodles|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Food",
+                "idEntity": 7059,
+                "definition": "The type of foods and drinks.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Body_mark",
+        "idEntity": 3547,
+        "definition": "In this frame a #Body_mark is present on a #Possessor's body.  It may be located at an #Attachment and have a #Descriptor.  A #Cause may also be indicated. It may be a temporary condition or a permanent one.\n\n<ex> [Mark|Possessor] has a [cancerous|Descriptor] [[mole|Target]|Body_mark] [on his back|Attachment].<\/ex>",
+        "fes": [
+            {
+                "name": "Body_mark",
+                "idEntity": 8149,
+                "definition": "This FE identifies  the #Body_mark.\r\n\r\n<ex>Mark has a cancerous <fex name=\"Body_mark\"><t>mole<\/t><\/fex> on his back.<\/ex>",
+                "relations": []
+            },
+            {
+                "name": "Possessor",
+                "idEntity": 8151,
+                "definition": "This Frame Element denotes the #Possessor of the #Body_mark.\r\n\r\n<ex><fex name=\"Poss\">Mark<\/fex> has a cancerous <t>mole<\/t> on his back.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Substance",
+        "idEntity": 3796,
+        "definition": "This frame concerns internally undifferentiated #Substances.\n\n\n<ex>As their gut bacteria ferment cellulose , they generate [methane|con] [gas|Target] , which escapes from the rear ends of the insects.<\/ex>\n\n<ex> The pipes are leaking [noxious|des] [gas|Target].<\/ex>\n\n<ex>Some CH-47 \"\"Bombers\"\" were equipped to roll-out [riot control|use] [gas|Target] or napalm onto Viet Cong bunker complexes from the rear cargo ramp.<\/ex>",
+        "fes": [
+            {
+                "name": "Substance",
+                "idEntity": 10369,
+                "definition": "The undifferentiated entity which is presented as having a permanent existence.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10375
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9967
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Intoxicants",
+        "idEntity": 3544,
+        "definition": "An #Intoxicant is ingested in order to achieve an altered state of consciousness. A #Type or #Descriptor may be indicated as well.\n<ex> We <gov>smoked<\/gov> <x>some [high-grade|Descriptor] [[marijuana|Target]|Intoxicant]<\/x>.<\/ex>\n<ex>They <gov>smoked<\/gov> <x>[freebase|Type] [[cocaine|Target]|Intoxicant]<\/x>.<\/ex>",
+        "fes": [
+            {
+                "name": "Intoxicant",
+                "idEntity": 8122,
+                "definition": "The #Intoxicant is ingested.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Sidereal_appearance",
+        "idEntity": 3833,
+        "definition": "An #Astronomical_entity comes into view above the horizon as part of a regular, periodic process of (apparent) motion of the #Astronomical_entity across the sky. In the case of the sun, the appearance begins the day.\n\n<ex>[Venus|ast] [rose|Target] [at 5:23 AM|tim], twenty minutes before the sun which reached the horizon at 5:43 AM.<\/ex>\n\n<ex>At the time of the new moon, [the moon|ast] [rises|Target] [at about the same time the sun rises|tim], and it sets at about the same time the sun sets.<\/ex>\n\n<ex>And, as [the sun|ast] [came|Target] [up|Target] [over the trees|goa], it became golden, and then turned again into a silvery path; and the water came alive<\/ex>\n\n<ex>Each day [the sun's|ast] [rise|Target] offers us a new day.<\/ex>",
+        "fes": [
+            {
+                "name": "Astronomical_entity",
+                "idEntity": 10720,
+                "definition": "An entity which is periodically visible from the earth s surface.\r\n\r\n\r\n<ex>Heku left one morning as <fex name=\"ast\">the sun<\/fex> <t>rose<\/t> along the plain.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Information",
+        "idEntity": 3897,
+        "definition": "A #Cognizer knows or comes to know some piece of #Information about a #Topic.  In this frame, many LUs encode a specific #Means_of_gathering and\/or #Source, but these may also be expressed separately.\n\n<ex>Also, the big problem is that [our|cog] [[intel|Target]|inf] [about WMD's|top] has many times been wrong.<\/ex>\n\n\n<ex> [Anyone|Cognizer] <m>got<\/m> the [[straight dope|Target]|inf] [on this|Topic]? <\/ex>\n\n<ex><m>Get<\/m> the [inside|Source] [[scoop|Target]|inf] [on sprint football player Austin Wilson|Topic]. [CNI|Cognizer]<\/ex>\n\n<ex>I know him pretty well and [I|Cognizer] <m>have<\/m> a lot of [[dirt|Target]|inf] [on him|Topic] so I can always hold him over a barrel.<\/ex>\n\n<ex>[What|inf]<m>'s<\/m> the [info|Target] [about the new scanner chip|Topic]? [INI|Cognizer]<\/ex>",
+        "fes": [
+            {
+                "name": "Cognizer",
+                "idEntity": 11349,
+                "definition": "The #Cognizer is aware of the #Information.",
+                "relations": []
+            },
+            {
+                "name": "Information",
+                "idEntity": 11348,
+                "definition": "The #Information that the #Cognizer possesses or comes to possess.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7294
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14810
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 7279
+                    }
+                ]
+            },
+            {
+                "name": "Topic",
+                "idEntity": 11350,
+                "definition": "The #Topic is what the Information is about in general.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Prison",
+        "idEntity": 3542,
+        "definition": "This Frame deals with #Penal_institutions. They are run by an #Operator and may be intended to hold certain kinds of #Inmates.  #Penal_institutions may have a special #Name and their #Location may also be indicated.\n\n<ex>He's in [Pelican Bay|Name] [state|Operator] [penitentiary|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Penal_institution",
+                "idEntity": 8112,
+                "definition": "The locale which serves to confine individuals, generally for the purpose of punishment. This FE is incorporated in each LU in this frame.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Roadways",
+        "idEntity": 3368,
+        "definition": "This frame involves stable #Roadways which connect two stable #Endpoints, the #Source and the #Goal.  Being physical objects, these #Roadways may have #Names and #Characteristics; they are also made of a #Material.  They also cover ground, so they may have a #Path or a #Relative_location that the travel occurs in.\n\n<ex> We crossed the [brick|Material] [[road|Target]|Roadway].<\/ex>\n<ex> I prefer to travel on [[highway|Target]|Roadway] [I-80|Name].<\/ex>\n<ex>This is the only [[highway|Target]|Roadway] [between Lodi and Sonoma|Endpoints].<\/ex>\n<ex> She dreaded turning onto the [busy|Frequency_of_use] [[street|Target]|Roadway].<\/ex>",
+        "fes": [
+            {
+                "name": "Roadway",
+                "idEntity": 6403,
+                "definition": "The #Roadway is the roadway that connects locations.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Political_locales",
+        "idEntity": 3360,
+        "definition": "This frame covers words that name Locations as defined politically, or administratively.\n\n<ex>[Berkeley|Name] is a [wonderful|Descriptor] [[city|Target]|Locale].<\/ex>",
+        "fes": [
+            {
+                "name": "Locale",
+                "idEntity": 6313,
+                "definition": "A stable bounded area.  It is typically the designation of the nouns of Locale-derived frames.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 10804
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 12577
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Relational_natural_features",
+        "idEntity": 3844,
+        "definition": "The #Focal_feature is defined in relation to a #Landmark_feature, either as a particular part, or as an immediately bordering entity.\n\n<ex>I'm on the [summit|Target] [of Mt. Shasta|Landmark_feature].<\/ex>",
+        "fes": [
+            {
+                "name": "Focal_feature",
+                "idEntity": 10813,
+                "definition": "A stable bounded area defined by its relation to another landform. This FE is incorporated in each LU in this frame.",
+                "relations": []
+            },
+            {
+                "name": "Landmark_feature",
+                "idEntity": 10818,
+                "definition": "The landform with respect to which the #Focal_feature is defined.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Locale_by_collocation",
+        "idEntity": 4272,
+        "definition": "A #Profiled_region is identified as being the region where an #Entity is located.\n\n<ex>State [your|Entity] [[location|Profiled_region]|Target].<\/ex>\n\n<ex>I can't get a lock on [their|Entity] [[position|Profiled_region]|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Entity",
+                "idEntity": 14703,
+                "definition": "The entity is located at the #Profiled_region.\r\n\r\n<ex>If you sign up for this new service, we can get a fix on <fex name=\"Entity\">your phone s<\/fex> <t>location<\/t> if you lose it or it is stolen.<\/ex>",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 12843
+                    }
+                ]
+            },
+            {
+                "name": "Profiled_region",
+                "idEntity": 14695,
+                "definition": "The region where the #Entity is located.\r\n\r\n<ex>If you sign up for this new service, we can get a fix on your phone s <t><fex name=\"reg\">location<\/fex><\/t> if you lose it or it is stolen.<\/ex>",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 12840
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Accommodation",
+        "idEntity": 17724,
+        "definition": "It describes commercial establishments that offer accommodation services to tourists. Usually the establishments are classified  according to their type and\/or their quality.",
+        "fes": [
+            {
+                "name": "Lodge",
+                "idEntity": 19021,
+                "definition": "The commercial lodge that offers accommodation to tourists.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Dining",
+        "idEntity": 17757,
+        "definition": "It describes buildings and food services offered to the #Tourist.",
+        "fes": [
+            {
+                "name": "Establishment",
+                "idEntity": 19298,
+                "definition": "It refers to places (snack bars, restaurants) and food services (meals) that are offered in a particular place of interest to the tourist.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Building_subparts",
+        "idEntity": 3354,
+        "definition": "This frame includes words that name subparts of buildings that can be occupied by people.\n\n<ex>Mary left the [[room|Target]|Building_part] in a huff.<\/ex>",
+        "fes": [
+            {
+                "name": "Building_part",
+                "idEntity": 6269,
+                "definition": "<def-root>The place or area specified inside a structure.  The <fen>Building_part<\/fen> of the <fen>Whole<\/fen>.\n<ex>She works in the cancer <fex name=\"Building_part\"><t>ward<\/t><\/fex> of the local hospital.<\/ex><\/def-root>",
+                "relations": []
+            },
+            {
+                "name": "Whole",
+                "idEntity": 6270,
+                "definition": "The entirety of a building whose #Part is discussed.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Sports_venues_subparts",
+        "idEntity": 21560,
+        "definition": "This frame refers to the #Parts of a #Venue.",
+        "fes": [
+            {
+                "name": "Part",
+                "idEntity": 21561,
+                "definition": "A given part of a #Venue.",
+                "relations": []
+            },
+            {
+                "name": "Venue",
+                "idEntity": 21566,
+                "definition": "The venue itself.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_age",
+        "idEntity": 3677,
+        "definition": "This frame contains words for individuals as viewed in terms of their age. The #Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have a #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity. A specific #Age may sometimes be specified as well.\n\n<ex>[He|Person] is a [12-year-old|Age] [kid|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Age",
+                "idEntity": 9375,
+                "definition": "The #Age is the length of time the #Person has been alive.",
+                "relations": []
+            },
+            {
+                "name": "Person",
+                "idEntity": 9372,
+                "definition": "The human being of a certain age.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_religion",
+        "idEntity": 3692,
+        "definition": "This frame contains words for individuals, i.e. humans, with respect to their #Religion. The #Religion is generally incorporated, but with some lexical units it is specified separately.\n\n<ex>The bells call the [[faithful|Person]|Target] to evensong [DNI|Religion]<\/ex>\n<ex>A [90-year-old|Age] [[Baptist|Person]|Target] claims to have seen God personally in his backyard.<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 9466,
+                "definition": "The #Person is the human being.",
+                "relations": []
+            },
+            {
+                "name": "Religion",
+                "idEntity": 9471,
+                "definition": "The religious belief system that the #Person follows.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_jurisdiction",
+        "idEntity": 3693,
+        "definition": "This frame contains words for individuals, i.e. humans, who are governed by virtue of being registered in a certain #Jurisdiction. Alternatively, they may be conceptualized with respect to their  governance by a political or religious #Authority  They may have an #Age, #Descriptor, #Persistent_characteristic, or #Ethnicity.\n\n<ex>A [Somali|Ethnicity] [national|Target] entered our office.<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 9473,
+                "definition": "The #Person is the human being.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_morality",
+        "idEntity": 3719,
+        "definition": "This frame contains general words for Individuals, i.e. humans, whose specific acts or general behavior is evaluated against standards of morality or rightness. The #Person may have an #Age, #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity.\n\n<ex>Columbus: Was [he|per] a Hero or a [Villain|Target]?<\/ex>\n<ex>There are endless disputes about this sort of thing, both in and out of the courts, because [wrongdoers|Target] will say and do anything to avoid getting punished.<\/ex>\n<ex>There are endless disputes about this sort of thing, both in and out of the courts,\nbecause [wrongdoers|per] will say and do anything to avoid getting punished.<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 9712,
+                "definition": "The #Person is the human being.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_along_political_spectrum",
+        "idEntity": 3880,
+        "definition": "An #Individual belongs to a  group that is categorized in terms of the political views on particular issues that the members of the group  tend to share, in opposition to other groups that hold different beliefs on the issues. The views on particular issues that the #Individual shares with the other members are assumed to result from general principles or beliefs rather than being accidental or temporary.\n\n<ex>[[Leftists|Target]|Individual] vow huge protests during inauguration<\/ex>",
+        "fes": [
+            {
+                "name": "Individual",
+                "idEntity": 11178,
+                "definition": "The #Individual who is referred to in terms of their place along the political spectrum.\r\n\r\n<ex>Why the <t><fex name=\"Individual\">Left<\/fex><\/t> has lost credibility.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_residence",
+        "idEntity": 3730,
+        "definition": "This frame contains  words for individuals, i.e. humans, with respect to their  proximity of residence. This relationship may be defined either symmetrically (as #Residents) or asymmetrically (in terms of a #Known_resident and a #Indicated_resident).  The #Residents or the #Indicated_resident may have an #Age, #Descriptor, #Persistent_characteristic, or #Ethnicity specified.\n\n\n<ex>The dead included homeowner Todd Underfoot, 33, his wife Spring Back Underfoot, 32, [their|kno] [housemate|Target], [Luisa Life|ind], 46, and two of the Underfoot's three children. <\/ex>\n<ex>[I|kno] <m>have<\/m> a [Swedish|eth] [[roommate|ind]|Target] that translated for me! <\/ex>",
+        "fes": [
+            {
+                "name": "Indicated_resident",
+                "idEntity": 9807,
+                "definition": "A person or group of people defined in terms of the fact that they reside in the proximity of the #Known_resident.",
+                "relations": []
+            },
+            {
+                "name": "Known_resident",
+                "idEntity": 9805,
+                "definition": "The individual(s) that serve(s) as a reference point for the definition of the #Indicated_resident due to the proximity of residences.",
+                "relations": []
+            },
+            {
+                "name": "Residents",
+                "idEntity": 9811,
+                "definition": "The individuals who reside in proximity to each other.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Irregular_combatants",
+        "idEntity": 4257,
+        "definition": "A #Combatant is declared or loyal to a Side in a military Conflict. The #Combatant is not part of any regular or (highly) organized fighting organization (such as an army), and is not necessarily a fighter by vocation.\n\n<ex>A [20-year=old|Age] [Argentinian|Origin] [[guerilla|Target]|Combatant] was firing at our squad.<\/ex>",
+        "fes": [
+            {
+                "name": "Combatant",
+                "idEntity": 14555,
+                "definition": "The #Combatant is the human being involved in combat.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Noncombatant",
+        "idEntity": 4265,
+        "definition": "This frame contains words that denote people who are not participating in a military #Conflict.\n\n<ex>[Jones|Person] <m>was<\/m> a [noncombatant|Target] [in WWII|con].<\/ex>\n\n<ex>News comes in every day of [[civilians|Person]|Target] getting caught up in military operations.<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 14627,
+                "definition": "The #Person is a non-participant in a #Conflict.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_leisure_activity",
+        "idEntity": 20472,
+        "definition": "A #Person is considered in regards to some leisure activity in which she is engaged.",
+        "fes": [
+            {
+                "name": "Leisure_activity",
+                "idEntity": 20480,
+                "definition": "Some activity in which a #Person engages so as to have some fun or rest.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19271
+                    }
+                ]
+            },
+            {
+                "name": "Person",
+                "idEntity": 20473,
+                "definition": "The individual who engages in some leisure activity.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19270
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "People_by_origin",
+        "idEntity": 3678,
+        "definition": "This frame contains  words for individuals, i.e. humans, with respect to their #Origin. The #Origin is generally incorporated, but may occasionally be specified separately.  The #Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have an #Age, #Descriptor, #Persistent_characteristic, or #Ethnicity.\n\n<ex>[I|Person]'m a [proud|Descriptor] [Brit|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Origin",
+                "idEntity": 9378,
+                "definition": "The #Origin is the place where the #Person was born or lived a salient part of her or his life.In this frame, it is generally incorporated in the lexical item, but may be separately specified.",
+                "relations": []
+            },
+            {
+                "name": "Person",
+                "idEntity": 9379,
+                "definition": "The #Person is the human being whose #Origin is specified.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_ethnicity",
+        "idEntity": 124435,
+        "definition": "This frame contains words for individuals, i.e. humans, with respect to their #Ethnicity. The #Ethnicity is generally incorporated, but may occasionally be specified separately. The #Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have an #Age, #Descriptor, #Persistent_characteristic, or #Origin.",
+        "fes": [
+            {
+                "name": "Ethnicity",
+                "idEntity": 124436,
+                "definition": "The #Ethnicity is the religious, racial, national, socio-economic or cultural group to which the #Person belongs.",
+                "relations": []
+            },
+            {
+                "name": "Person",
+                "idEntity": 124437,
+                "definition": "The #Person is the human being whose #Ethnicity is specified.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_transitory_activity",
+        "idEntity": 125206,
+        "definition": "This frame contains words for individuals as viewed in terms of the transitory activities they are performing. The #Person is conceived of as a human being performing a transitory #Activity. They may have a #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity. A specific #Age may sometimes be specified as well as the #Time and the #Place in which the #Person is performing the transitory #Activity. ",
+        "fes": [
+            {
+                "name": "Activity",
+                "idEntity": 125231,
+                "definition": "It is a temporary and transitory #Activity performed by a #Person.",
+                "relations": []
+            },
+            {
+                "name": "Person",
+                "idEntity": 125226,
+                "definition": "It is a human being that performs a transitory #Activity. ",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_gender_or_sexual_orientation",
+        "idEntity": 1547269,
+        "definition": "-",
+        "fes": [
+            {
+                "name": "fe_pessoas_por_gênero_gênero",
+                "idEntity": 1547276,
+                "definition": "fe_pessoas_por_gênero_gênero",
+                "relations": []
+            },
+            {
+                "name": "fe_pessoas_por_gênero_pessoas",
+                "idEntity": 1547275,
+                "definition": "fe_pessoas_por_gênero_pessoas",
+                "relations": []
+            },
+            {
+                "name": "Sexual_orientation",
+                "idEntity": 1560953,
+                "definition": "Sexual_orientation",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_health_condition",
+        "idEntity": 1549364,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 1549367,
+                "definition": "Person",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_transitory_state",
+        "idEntity": 1552083,
+        "definition": null,
+        "fes": [
+            {
+                "name": "People",
+                "idEntity": 1552086,
+                "definition": "People",
+                "relations": []
+            },
+            {
+                "name": "State",
+                "idEntity": 1552085,
+                "definition": "State",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_criminal_framing",
+        "idEntity": 1552073,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Criminal_framing",
+                "idEntity": 1552075,
+                "definition": "Criminal_framing",
+                "relations": []
+            },
+            {
+                "name": "People",
+                "idEntity": 1552076,
+                "definition": "People",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_by_vocation",
+        "idEntity": 3709,
+        "definition": "This frame contains  words for Individuals as viewed in terms of their vocation.\n\nThe #Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have a #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity. A specific #Age may sometimes be specified as well.\n\n<ex>[Humphrey Bogart|Person] was a [great|Descriptor] [actor|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 9595,
+                "definition": "The #Person is the human being.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19591
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554729
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 9608
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14926
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 6832
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 15024
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19580
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 1554867
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Improvised_explosive_device",
+        "idEntity": 4269,
+        "definition": "An improvised explosive device is a #Bomb or similar device used in non-conventional warfare. It consists of explosive material connected to a detonator, possibly including other materials meant to damage nearby people and property.\n\n<ex>An [[IED|Bomb]|Target] struck the lead truck.<\/ex>\n\n<ex>It was determined that the device was an [explosive charge|Type] [IED|Bomb]; no additional shrapnel was located.<\/ex>\n\n<ex>Robots designed to deactivate [[roadside bombs|Bomb]|Target] are currently being deployed in the region.<\/ex>",
+        "fes": [
+            {
+                "name": "Bomb",
+                "idEntity": 14663,
+                "definition": "The #Bomb explodes, injuring or damaging a #Target.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14675
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14870
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Police",
+        "idEntity": 17768,
+        "definition": "Buildings and battalions of police forces are described in this scene. The police battalions and stations are often classified in reference to their jurisdiction.",
+        "fes": [
+            {
+                "name": "Place",
+                "idEntity": 19410,
+                "definition": "Geographic location visited by the #Tourist, in which is the #Police.",
+                "relations": []
+            },
+            {
+                "name": "Police",
+                "idEntity": 19409,
+                "definition": "It refers to buildings, institutions and individuals who represent the forces of public security of some #Place.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Transportation",
+        "idEntity": 17735,
+        "definition": "This scene refers to #Transit services and buildings a given #Place provides to #Tourists.",
+        "fes": [
+            {
+                "name": "Transit",
+                "idEntity": 19148,
+                "definition": "Buildings (airports, bus terminals) and services (shuttles, bus lines, flights) serving a given #Place which is interesting to the #Tourist.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Hospital",
+        "idEntity": 17766,
+        "definition": "This frame depicts establishments that offer health services to tourists. The establishments are usually classified according to their type.",
+        "fes": [
+            {
+                "name": "Hospital",
+                "idEntity": 19390,
+                "definition": "Existing buildings in particular #Place, which have the primary duty to provide health care.",
+                "relations": []
+            },
+            {
+                "name": "Place",
+                "idEntity": 19391,
+                "definition": "Geographical site visited by the #Tourist, where the #Hospital is.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Documents",
+        "idEntity": 3616,
+        "definition": "Words in the frame refer to any #Document that has a legal status or conventional social significance.  Some #Documents empower the #Bearer of the #Document to execute the #Right.  Others indicate the #Obligation of the #Bearer.  Still others show the identity or #Status of the #Bearer.\n\n<ex>They got [their|Bearer] [marriage|Status] [[licence|Target]|Document] [from Canada|Issuer].<\/ex>",
+        "fes": [
+            {
+                "name": "Bearer",
+                "idEntity": 8771,
+                "definition": "The holder of the document.",
+                "relations": []
+            },
+            {
+                "name": "Document",
+                "idEntity": 8777,
+                "definition": "It is the piece of paper that has the legal status.",
+                "relations": []
+            },
+            {
+                "name": "Issuer",
+                "idEntity": 8772,
+                "definition": "The authority that issues the document.",
+                "relations": []
+            },
+            {
+                "name": "Obligation",
+                "idEntity": 8773,
+                "definition": "It is the obligation that is imposed on the #Bearer of the #Document.",
+                "relations": []
+            },
+            {
+                "name": "Right",
+                "idEntity": 8774,
+                "definition": "It is the right of the #Bearer of the #Document that is authorized by the #Document.",
+                "relations": []
+            },
+            {
+                "name": "Status",
+                "idEntity": 8775,
+                "definition": "It is the state of the #Bearer of the #Document indicated by the #Document.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Records",
+        "idEntity": 4307,
+        "definition": "A #Record that contains a permanent account of #Data.  This #Record may be maintained by a #Recorder for a certain #Entity.\n<ex><\/ex>\n<ex>[The bank's|Entity] [[books|Record]|Target] were not accurate.<\/ex>\n\n<ex>He made notes of the subject's responses in the [[journal|Record]|Target] by the desk.<\/ex>\n\n<ex>[She|Recorder] <m>kept<\/m> a [[record|Target]|Record] [of how many times Steven had asked her for money|Data].<\/ex>",
+        "fes": [
+            {
+                "name": "Record",
+                "idEntity": 15042,
+                "definition": "The <fex name=\"Record\">Record<\/fex> is the entity in which events or accounts are permanently recorded.\r\n<ex>She kept a <t><fex name=\"Record\">record<\/fex><\/t> of how many times he asked to borrow money.<\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Textual_Genre",
+        "idEntity": 1554733,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Textual_Genre",
+                "idEntity": 1554744,
+                "definition": "Textual_Genre",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Text_subpart",
+        "idEntity": 1554912,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Component",
+                "idEntity": 1554921,
+                "definition": "Component",
+                "relations": []
+            },
+            {
+                "name": "Text",
+                "idEntity": 1554919,
+                "definition": "Text",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Active_substance",
+        "idEntity": 3797,
+        "definition": "A #Substance causes an #Effect.  The #Substance is produced by a process understood as directed towards the #Effect.  The #Name for the material that makes up the substance may also be given.\n\n<ex>A rationale for using [denatured gp160|sub] as a [therapeutic|eff] [agent|Target] in HIV-infected people is to boost the immune response .<\/ex>\n\n<ex>[The quinolones|sub] now seem to <m>be<\/m> the [antimicrobial|eff] [agents|Target] of choice for acute bacterial prostatitis.<\/ex>\n\n<ex>[Hormonally|eff] [active|Target] [chemicals|sub] have the potential to cause significant environmental injury.<\/ex>\n\n<ex>Only after the potion has been drunk does the [active|Target] [ingredient|sub] form. [DNI|eff]<\/ex>\n\n<ex>The [sarin|nam] [[agent|sub]|Target] might have been a leftover shell from a chemical-arms dump. <\/ex>",
+        "fes": [
+            {
+                "name": "Effect",
+                "idEntity": 10374,
+                "definition": "The change brought about by the Substance.",
+                "relations": []
+            },
+            {
+                "name": "Substance",
+                "idEntity": 10375,
+                "definition": "The internally undifferentiated physical entity that has an #Effect.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Medicines",
+        "idEntity": 1549319,
+        "definition": null,
+        "fes": [
+            {
+                "name": "fe_Medicamento",
+                "idEntity": 1549322,
+                "definition": "fe_Medicamento",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Allergens",
+        "idEntity": 1550147,
+        "definition": null,
+        "fes": [
+            {
+                "name": "fe_Alérgenos_Alérgeno",
+                "idEntity": 1550148,
+                "definition": "fe_Alérgenos_Alérgeno",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Body_substances",
+        "idEntity": 1549488,
+        "definition": null,
+        "fes": [
+            {
+                "name": "fe_Substâncias_corporais_Substância",
+                "idEntity": 1549489,
+                "definition": "fe_Substâncias_corporais_Substância",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Toxic_substance",
+        "idEntity": 3748,
+        "definition": "A #Toxic_substance causes death or harm when introduced into or absorbed by a living organism, the #Victim. The #Toxic_substance may be specified to be produced by or contained in a #Toxin_source. The #Toxic_substance may affect the #Victim as a whole or a particular #Body_part (understood here to include organs and other sub-systems). A #Degree of harmfulness  can be specified  and the #Toxic_substance  may develop  its effect only under particular #Circumstances.\n\n<ex>[The  main product , sulphide ,|Toxic_substance] <m>is<\/m> [toxic|Target] [to cells|Body_part] <\/ex>\n\n<ex>[They|Toxic_substance] are better tolerated and  <m>are<\/m> [less|Degree] [toxic|Target] [in overdose|con]<\/ex>\n\n<ex>The reason he was close to danger was because an extremely [poisonous|Target] [beetle|toxs] was crawling down his shoulder.<\/ex>\n\n<ex>[Ingested gliadin and PT-gliadin|tox] <m>are<\/m> [toxic|Target] [to coeliac patients|vic].<\/ex>",
+        "fes": [
+            {
+                "name": "Toxic_substance",
+                "idEntity": 9967,
+                "definition": "This FE marks expressions that indicate the substance which potentially causes harm to a #Victim.",
+                "relations": []
+            },
+            {
+                "name": "Toxin_source",
+                "idEntity": 9969,
+                "definition": "A living organism, object or process that produces a #Toxic_substance.",
+                "relations": []
+            },
+            {
+                "name": "Victim",
+                "idEntity": 9963,
+                "definition": "The #Victim is the being or entity that is capable of being harmed by the #Toxic_substance.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Foreign_or_domestic_country",
+        "idEntity": 3843,
+        "definition": "A #Current_country is identified as matching or not matching the instance of the #Discourse_salient_country.\n\n<ex>[[Foreign|cur]|Target] sales account for only 20% of IBM's income .<\/ex>",
+        "fes": [
+            {
+                "name": "Current_country",
+                "idEntity": 10804,
+                "definition": "The country or countries that the speaker is indicating in the current instance, which may match or be distinct from the #Discourse_salient_country.",
+                "relations": []
+            },
+            {
+                "name": "Discourse_salient_country",
+                "idEntity": 10809,
+                "definition": "The country that has been featured in the discourse, or that the speaker\/hearer identify with or are located in; it serves to identify the #Current_country by specifying it as the same or different. This FE is incorporated in the targets of this frame.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Relational_political_locales",
+        "idEntity": 4018,
+        "definition": "A #Locale is defined politically to be the head of state of another, larger political locale, the #Container_possessor.\n\n<ex>She had repeatedly been to the [[capital|Locale]|Target] [of the nation|Container_possessor], and there had met with a reception none too cordial.<\/ex>\n\n<ex>He decided to stay in the [[capital|Locale]|Target] [of Iraq|Container_possessor] for two months while he recuperated to fight another day.<\/ex>\n\n<ex>The largest city in the area, [Oakland|Locale] <m>is<\/m> the [county seat|Target] [of Alameda county|Container_possessor].<\/ex>",
+        "fes": [
+            {
+                "name": "Container_possessor",
+                "idEntity": 12576,
+                "definition": "The political locale that the #Locale is a the head of.\r\n<ex>People come from all over the nation to work in and visit the <t>capital<\/t> <fex name=\"ContP\">of the United States<\/fex>.<\/ex>",
+                "relations": []
+            },
+            {
+                "name": "Locale",
+                "idEntity": 12577,
+                "definition": "The politically or administratively-defined locale that functions as the head of state for the containing entity.\r\n\r\n<ex>Most of the major government buildings are in the center of the <fex name=\"Lcl\"><t>capital<\/t><\/fex><\/ex>",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Locale_by_event",
+        "idEntity": 4043,
+        "definition": "A place defined in terms of an event which occurred (or will occur) there.\n<ex>[Woodstock, NY|Locale] <m>was<\/m> the [site|Target] [of the most important rock concert of 1969|DefEvnt].<\/ex>\n<ex>[Our|DefEvnt] [meeting|DefEvnt] [site|Target] was chosen for its solitude.<\/ex>\n\nIn the second example, the event FE is labeled with two labels, because the two words do not form a syntactic constituent; the first would be GF Genitive PT Possessive, and the second, GF Dependent and PT NP.",
+        "fes": [
+            {
+                "name": "Defining_event",
+                "idEntity": 12843,
+                "definition": "The event for which the locale is known or is named\r\n<ex>The driver died at the <t>scene<\/t> <fex name=\"DefEvnt\">of the accident<\/fex>.<\/ex>",
+                "relations": []
+            },
+            {
+                "name": "Locale",
+                "idEntity": 12840,
+                "definition": "A stable bounded area.  It is typically the denotation of the nouns in Locale_by_event, which will be annotated on the target word.\r\n\r\n<ex>We need to find a suitable <t>venue<\/t> <fex name=\"DefEvnt\">for such a large wedding<\/fex>.<\/ex>\r\n<ex><fex name=\"Locale\">Tours<\/fex> <m>was<\/m> the <t>site<\/t> <fex name=\"DefEvnt\">of the defeat of the Turks by the French<\/fex>.<\/ex>",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 14886
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Crowd",
+        "idEntity": 17750,
+        "definition": "Group of people, the #Fans, that support a sports team. The crowd watches the games in stadiums or elsewhere wearing uniforms and flags of their teams.",
+        "fes": [
+            {
+                "name": "Delegation",
+                "idEntity": 19271,
+                "definition": "Group of athletes that play a sport.",
+                "relations": []
+            },
+            {
+                "name": "Fans",
+                "idEntity": 19270,
+                "definition": "Supporters of a team or a #Delegation.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "People_with_disabilities",
+        "idEntity": 1559060,
+        "definition": "A #Person with a #Disability who, depending on the circumstances, may need specific resources and\/or legal rights capable of guaranteeing full and effective participation in society on an equal footing with other people.",
+        "fes": [
+            {
+                "name": "Disability",
+                "idEntity": 1559066,
+                "definition": "Disability that affects a #Person.",
+                "relations": []
+            },
+            {
+                "name": "Person",
+                "idEntity": 1559061,
+                "definition": "Person affected by #Disability.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Performers",
+        "idEntity": 3710,
+        "definition": "This frame contains words for Individuals as viewed in terms of their participation in artistic performances.\n\nThe #Person is conceived of as independent of other specific individuals with whom they have relationships. They may have a #Descriptor, #Origin, #Persistent_characteristic, or #Ethnicity. A specific #Age may sometimes be specified as well.\n\n<ex>[Smithers|Person] is an [actor|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 9608,
+                "definition": "The #Person is the human being. ex:Smithers is a brilliant actor. That actor was terrible. (Note that the Person FE is incorporated in the LU actor.n, so the FE need not be explicitly marked unless an overy Person is named.)",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Member_of_military",
+        "idEntity": 4297,
+        "definition": "A #Person is a member of an organized military organization belonging to a nation-state or similar body. The military membership may be part-time, but is considered a job. This is in opposition to combatants who may be loyal to a particular cause but are not part of the military arm of a government.\n\n<ex>The British at one point had an occupying army of over a million [well-trained|Descriptor] [[soldiers|Person]|Target].<\/ex>\n\n<ex>After 9\/11 she decided to become a [full-time|Contract_basis] [[airman|Person]|Target]<\/ex>.\n\n<ex>[US|Loyal_side] [[soldiers|Person]|Target] have fought in the region for the past twenty years with no end in sight.<\/ex>",
+        "fes": [
+            {
+                "name": "Person",
+                "idEntity": 14926,
+                "definition": "The #Person is the member of the military.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Representative",
+        "idEntity": 4305,
+        "definition": "A #Representative is authorized by a #Represented to communicate on behalf of the #Represented.\n\n<ex>[She|Representative] is a [representative|Target] [for Pepsi|Representative].<\/ex>",
+        "fes": [
+            {
+                "name": "Representative",
+                "idEntity": 15024,
+                "definition": "The #Representative speaks for another.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Referees",
+        "idEntity": 17783,
+        "definition": "The referee and his assistants - or linesmen - are responsible for ensuring that the match happens according to the rules of the game.",
+        "fes": [
+            {
+                "name": "Role",
+                "idEntity": 19580,
+                "definition": "Role of each member of the refereeing at the soccer game.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Athletes",
+        "idEntity": 17785,
+        "definition": "This frame contains individuals who practice a kind of #Sport professionally. ",
+        "fes": [
+            {
+                "name": "Athlete",
+                "idEntity": 19591,
+                "definition": "A person who practices a #Sport.",
+                "relations": [
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 20676
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19383
+                    },
+                    {
+                        "relationType": "rel_inheritance",
+                        "idEntity": 19593
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Delegation",
+        "idEntity": 17765,
+        "definition": "Committe that represents a #Country in a sports event. It is composed of the athletes and coaching staff.",
+        "fes": [
+            {
+                "name": "Country",
+                "idEntity": 19387,
+                "definition": "The #Country represented by the #Delegation in a sports event.",
+                "relations": [
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 19384
+                    },
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 20481
+                    }
+                ]
+            },
+            {
+                "name": "Delegation",
+                "idEntity": 19386,
+                "definition": "Committe that represents a #Country in a sports event.",
+                "relations": [
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 19591
+                    },
+                    {
+                        "relationType": "rel_subframe",
+                        "idEntity": 19383
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "frame": "Medical_professionals",
+        "idEntity": 3415,
+        "definition": "This frame includes words that name medical professionals and is closely related to the Medical_specialties frame. The FE #Type characterizing a #Professional's sub-specialty may also be expressed.\n\n<ex>Ralph is a [[paediatrician|Target]|Prof].<\/ex>\n<ex><x>[Paediatric|Type] [[oncologists|Target]|Prof]<\/x> <gov>treat<\/gov> children with leukemia.<\/ex>",
+        "fes": [
+            {
+                "name": "Professional",
+                "idEntity": 6832,
+                "definition": "It identifies the medical #Professional.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Education_professional",
+        "idEntity": 1554728,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Education_professional",
+                "idEntity": 1554729,
+                "definition": "Education_professional",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Student_body",
+        "idEntity": 1554856,
+        "definition": null,
+        "fes": [
+            {
+                "name": "Student",
+                "idEntity": 1554867,
+                "definition": "Student",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Victim_operated_IED",
+        "idEntity": 4270,
+        "definition": "An improvised explosive device, the #Bomb, is placed so as to be hidden from view or disguised as something not harmful. It is rigged to detonate when triggered by actions of an intended Victim. Possible triggering actions include stepping on a pressure-sensitive plate, activating a trip-wire, or moving an object which activates a spring-loaded device.\n\n<ex>We hit a [VOIED|Target] and the lead truck was destroyed.<\/ex>",
+        "fes": [
+            {
+                "name": "Bomb",
+                "idEntity": 14675,
+                "definition": "The explosive device which activates when set off by the victim.",
+                "relations": []
+            },
+            {
+                "name": "Victim",
+                "idEntity": 14685,
+                "definition": "The #Victim inadvertantly causes the #Bomb to denotate.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Distant_operated_IED",
+        "idEntity": 4289,
+        "definition": "A improvised explosive device, the #Bomb, is rigged to detonate when it receives a signal, typically by a wire that leads to a trigger. The trigger may be operated directly by the #Detonator, in which case the weapon is known as a CWIED (command wire IED). Or, the triggering mechanism may be activated wirelessly, such as by a cell phone. In this case, the weapon is called an RCIED (remote control IED).\n\n<ex>These photographs were taken in the wake of a [[CWIED|Bomb]|Target] attack on the British.<\/ex>\n\n<ex>The purpose of this device is to prevent an [[RCIED|Bomb]|Target] from detonating.<\/ex>",
+        "fes": [
+            {
+                "name": "Bomb",
+                "idEntity": 14870,
+                "definition": "The #Bomb is set off by the #Detonator at a distance, injuring or damaging a #Target.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Firing_point",
+        "idEntity": 4291,
+        "definition": "A location from which a #Detonator activates a distantly-located explosive device.\n\n<ex>Locating the [[firing point|fir]|Target] of remote control IEDs is no easy task.<\/ex>\n\n<ex>The first task is to determine where he located [his|det] [[firing point|fir]|Target].<\/ex>",
+        "fes": [
+            {
+                "name": "Firing_point",
+                "idEntity": 14886,
+                "definition": "The location from which the #Detonator activates an explosive device.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Athletes_by_sport",
+        "idEntity": 20666,
+        "definition": "This frame contains all types of #Athletes that incorporate the name of the #Sport in a competition.",
+        "fes": [
+            {
+                "name": "Athlete",
+                "idEntity": 20676,
+                "definition": "A person who practices a #Sport.",
+                "relations": []
+            },
+            {
+                "name": "Sport",
+                "idEntity": 20677,
+                "definition": "A physical activity practiced by an #Athlete. It can be performed in a competition. Such an activity is organized by rules, using sport equipment and it takes place in a sport venue. It can be practiced individually or in teams.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Athletes_by_position",
+        "idEntity": 17786,
+        "definition": "This frame contains the athletes described based on the #Position they occupy in a sports competition.",
+        "fes": [
+            {
+                "name": "Position",
+                "idEntity": 19593,
+                "definition": "The #Position in which each player plays.",
+                "relations": []
+            }
+        ]
+    },
+    {
+        "frame": "Coaching_staff",
+        "idEntity": 17764,
+        "definition": "Group of coaches, doctors and physical trainers that accompany a squad.",
+        "fes": [
+            {
+                "name": "Coaching_staff",
+                "idEntity": 19383,
+                "definition": "A member of the group of coaches, doctors and physical trainers that accompany a squad.",
+                "relations": []
+            },
+            {
+                "name": "Country",
+                "idEntity": 19384,
+                "definition": "Country represented by the delegation the #Coaching_staff is a part of.",
+                "relations": []
+            }
+        ]
+    }
+]
