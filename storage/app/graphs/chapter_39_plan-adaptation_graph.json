@@ -1,0 +1,2036 @@
+{
+    "metadata": {
+        "chapter": 39,
+        "chapter_title": "Plan Adaptation",
+        "filename": "chapter_39_plan-adaptation",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 10,
+        "predicate_count": 30,
+        "variable_count": 24,
+        "frequent_variable_count": 16
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 3,
+            "simple": 6,
+            "moderate": 1
+        },
+        "pattern_counts": {
+            "definition": 10
+        },
+        "top_predicates": {
+            "planAdaptation": 6,
+            "plan": 5,
+            "change": 3,
+            "ecs'": 3,
+            "subgoalsOf": 3,
+            "tweak": 2,
+            "replaceElt": 2,
+            "similar": 2,
+            "subgoalIn": 2,
+            "thePlan": 2
+        },
+        "predicate_frequencies": {
+            "planAdaptation": 6,
+            "plan": 5,
+            "change": 3,
+            "ecs'": 3,
+            "subgoalsOf": 3,
+            "tweak": 2,
+            "replaceElt": 2,
+            "similar": 2,
+            "subgoalIn": 2,
+            "thePlan": 2,
+            "succeed": 2,
+            "executable": 2,
+            "cwu": 2,
+            "Now": 2,
+            "planning": 1,
+            "first": 1,
+            "last": 1,
+            "successiveElts": 1,
+            "retrievePlan'": 1,
+            "retrieve'": 1,
+            "modifyCurrentlyExecutingPlan": 1,
+            "futurePlanModification": 1,
+            "modifyPlanValue": 1,
+            "at'": 1,
+            "modifyPlanAgency": 1,
+            "subst": 1,
+            "adaptationCost": 1,
+            "card": 1,
+            "successfulAdaptation": 1,
+            "failedAdaptation": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "39.1",
+                "type": "axiom",
+                "name": "Definition of tweak",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a p1 g1 p2 g2) (iff (tweak a p1 g1 p2 g2) (exists (e1 e2 s1 s2 e3 e4) (and (plan p1 a g1)(plan p2 a g2) (change e3 e4) (ecs' e3 p1 a)(ecs' e4 p2 a) (subgoalsOf s1 p1)(subgoalsOf s2 p2) (replaceElt s2 s1 e1 e2) (similar g1 g2)(similar e1 e2)))))",
+                "english": "Agent a tweaks plan p1 for achieving goal g1 into plan p2 for achieving goal g2 by replacing one step e1 in p1 with a similar step e2, where the goals are similar. For example, going to a restaurant where you pay before eating rather than after - you retrieve your standard restaurant plan and tweak it by changing the order of events.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "39.2",
+                "type": "axiom",
+                "name": "Definition of planAdaptation",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a p1 g1 p2 g2 s) (iff (planAdaptation e a p1 g1 p2 g2 s) (and (planning e a g2 s)(plan p1 a g1)(plan p2 a g2) (first p1 s)(last p2 s) (forall (p3 p4) (if (successiveElts p3 p4 s) (exists (g3 g4) (tweak a p3 g3 p4 g4)))))))",
+                "english": "Plan adaptation is a planning activity in which every step is a tweak. Activity e is agent a adapting plan p1 for achieving g1 into plan p2 for achieving g2, producing a sequence of partial plans s that starts with p1 and ends with p2.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "39.3",
+                "type": "axiom",
+                "name": "Definition of retrievePlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p1) (iff (retrievePlan' e a p1) (exists (g1) (and (plan p1 a g1)(retrieve' e a p1)))))",
+                "english": "The first step of plan adaptation is retrieving the source plan from memory. Phrases signaling plan retrieval include 'remember how to,' 'consider an approach,' 'recall a technique,' and 'pull from the playbook.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "39.4",
+                "type": "axiom",
+                "name": "Definition of modifyCurrentlyExecutingPlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a p1 g1 p2 g2 s) (iff (modifyCurrentlyExecutingPlan e a p1 g1 p2 g2 s) (exists (p) (and (planAdaptation e a p1 g1 p2 g2 s)(subgoalIn g1 p) (thePlan p a)))))",
+                "english": "The plan the agent adapts could be the plan currently being executed. thePlan is the plan currently being executed (from Chapter 31).",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "39.5",
+                "type": "axiom",
+                "name": "Definition of futurePlanModification",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a p1 g1 p2 g2 s) (iff (futurePlanModification e a p1 g1 p2 g2 s) (exists (p) (and (planAdaptation e a p1 g1 p2 g2 s) (not (subgoalIn g1 p)) (thePlan p a)))))",
+                "english": "The plan the agent is adapting could be a plan that has not yet begun to be executed. The goal that is the starting point of the adaptation is not a subgoal in the plan currently being executed.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "39.6",
+                "type": "axiom",
+                "name": "Definition of modifyPlanValue",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a p1 g1 p2 g2) (iff (modifyPlanValue a v p1 g1 p2 g2) (exists (e1 e2 s1 s2 e3 e4) (and (plan p1 a g1)(plan p2 a g2) (change e3 e4) (ecs' e3 p1 a)(ecs' e4 p2 a) (subgoalsOf s1 p1)(subgoalsOf s2 p2) (replaceElt s2 s1 e1 e2) (exists (x1 x2 s) (at' e1 v x1 s)(at' e2 v x2 s)) (similar g1 g2)(similar e1 e2)))))",
+                "english": "Retrieved plans can be modified by changing values in a plan, as seen in 'use more,' 'do it with more,' 'try increasing,' and 'correct for.' This means e1 and e2 are at relations of the same external entity v being at different points x1 and x2 in some system s.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "39.7",
+                "type": "axiom",
+                "name": "Definition of modifyPlanAgency",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a1 p1 g1 a p2 g2) (iff (modifyPlanAgency a1 p1 g1 a p2 g2) (exists (e1 e2 s1 s2 e3 e4) (and (plan p1 a1 g1)(plan p2 a g2) (change e3 e4) (ecs' e3 p1 a)(ecs' e4 p2 a) (subgoalsOf s1 p1)(subgoalsOf s2 p2) (subst a s2 a1 s1)))))",
+                "english": "Retrieved plans can be modified by changing the agent who executes a plan, as seen in 'stand in for,' 'play the role of,' 'fill in for,' 'take over for,' and 'what would Jesus do?' This extends tweaking from own previous plans to plans of others. Agent a1 in plan p1 is changed to a to yield plan p2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "39.8",
+                "type": "axiom",
+                "name": "Definition of adaptationCost",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (c e) (iff (adaptationCost c e) (exists (a p1 g1 p2 g2 s) (and (planAdaptation e a p1 g1 p2 g2 s)(card c s)))))",
+                "english": "One measure of difficulty is the number of substitutions needed in plan p1 to arrive at p2. By the theory of envisioning, a substitution is one step in the envisioning process. People judge adaptation difficulty as illustrated by 'difficult to apply,' 'complex application of,' and 'straightforward modification.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "39.9",
+                "type": "axiom",
+                "name": "Definition of successfulAdaptation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a p1 g1 p2 g2 s) (iff (successfulAdaptation e a p1 g1 p2 g2 s) (exists (c t) (and (planAdaptation e a p1 g1 p2 g2 s)(succeed a e) (executable p2 a c t)(cwu c a)(Now t)))))",
+                "english": "The process of plan adaptation is successful when a new plan is created. Seen in 'successful application of' and 'thoroughly reworked the plan.' A successful adaptation is one where the agent succeeds in finding a final plan that is executable by the agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "39.10",
+                "type": "axiom",
+                "name": "Definition of failedAdaptation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e a p1 g1 g2 s) (iff (failedAdaptation e a p1 g1 g2 s) (not (exists (p2) (and (planAdaptation e a p1 g1 p2 g2 s) (succeed a e)(executable p2 a c t)(cwu c a)(Now t))))))",
+                "english": "The process of plan adaptation can fail when a new plan cannot be created from an old one. The expressions 'not applicable here,' 'unsalvageable plan,' and 'not serve one's purposes' are about this concept.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_tweak",
+                "type": "predicate",
+                "name": "tweak",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_change",
+                "type": "predicate",
+                "name": "change",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_ecs'",
+                "type": "predicate",
+                "name": "ecs'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subgoalsOf",
+                "type": "predicate",
+                "name": "subgoalsOf",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_replaceElt",
+                "type": "predicate",
+                "name": "replaceElt",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_similar",
+                "type": "predicate",
+                "name": "similar",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planAdaptation",
+                "type": "predicate",
+                "name": "planAdaptation",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_planning",
+                "type": "predicate",
+                "name": "planning",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_first",
+                "type": "predicate",
+                "name": "first",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_last",
+                "type": "predicate",
+                "name": "last",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_successiveElts",
+                "type": "predicate",
+                "name": "successiveElts",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_retrievePlan'",
+                "type": "predicate",
+                "name": "retrievePlan'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_retrieve'",
+                "type": "predicate",
+                "name": "retrieve'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_modifyCurrentlyExecutingPlan",
+                "type": "predicate",
+                "name": "modifyCurrentlyExecutingPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thePlan",
+                "type": "predicate",
+                "name": "thePlan",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_futurePlanModification",
+                "type": "predicate",
+                "name": "futurePlanModification",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_modifyPlanValue",
+                "type": "predicate",
+                "name": "modifyPlanValue",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at'",
+                "type": "predicate",
+                "name": "at'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_modifyPlanAgency",
+                "type": "predicate",
+                "name": "modifyPlanAgency",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_adaptationCost",
+                "type": "predicate",
+                "name": "adaptationCost",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_card",
+                "type": "predicate",
+                "name": "card",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_successfulAdaptation",
+                "type": "predicate",
+                "name": "successfulAdaptation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_succeed",
+                "type": "predicate",
+                "name": "succeed",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_executable",
+                "type": "predicate",
+                "name": "executable",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cwu",
+                "type": "predicate",
+                "name": "cwu",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Now",
+                "type": "predicate",
+                "name": "Now",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failedAdaptation",
+                "type": "predicate",
+                "name": "failedAdaptation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 9,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 9,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_g1",
+                "type": "variable",
+                "name": "g1",
+                "axiom_count": 9,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 8,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_g2",
+                "type": "variable",
+                "name": "g2",
+                "axiom_count": 8,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_c",
+                "type": "variable",
+                "name": "c",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "39.1",
+                "target": "pred_tweak",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_ecs'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_replaceElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "pred_similar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.1",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_planning",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_last",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_successiveElts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "pred_tweak",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.3",
+                "target": "pred_retrievePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.3",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.3",
+                "target": "pred_retrieve'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.3",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.3",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "pred_modifyCurrentlyExecutingPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.4",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.4",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.4",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "pred_futurePlanModification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.5",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.5",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.5",
+                "target": "pred_thePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "pred_modifyPlanValue",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_ecs'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_replaceElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "pred_similar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "pred_modifyPlanAgency",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "pred_ecs'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.7",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.7",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "pred_adaptationCost",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.8",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.8",
+                "target": "pred_card",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.8",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "pred_successfulAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "pred_succeed",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "pred_executable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "pred_Now",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.9",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "pred_failedAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "pred_planAdaptation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "pred_succeed",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "pred_executable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "pred_Now",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "39.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_g2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "39.10",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tweak",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_replaceElt",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_planning",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_successiveElts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_tweak",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_successiveElts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planning",
+                "target": "pred_tweak",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_successiveElts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_last",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_successiveElts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_tweak",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_last",
+                "target": "pred_successiveElts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_last",
+                "target": "pred_tweak",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successiveElts",
+                "target": "pred_tweak",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_retrievePlan'",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_retrievePlan'",
+                "target": "pred_retrieve'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_retrieve'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCurrentlyExecutingPlan",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCurrentlyExecutingPlan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyCurrentlyExecutingPlan",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_futurePlanModification",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_futurePlanModification",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_futurePlanModification",
+                "target": "pred_thePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_replaceElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanValue",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_replaceElt",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_similar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanAgency",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanAgency",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanAgency",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanAgency",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_modifyPlanAgency",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_adaptationCost",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_adaptationCost",
+                "target": "pred_card",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_card",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successfulAdaptation",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successfulAdaptation",
+                "target": "pred_succeed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successfulAdaptation",
+                "target": "pred_executable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successfulAdaptation",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successfulAdaptation",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_succeed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_executable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planAdaptation",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_succeed",
+                "target": "pred_executable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_succeed",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_succeed",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executable",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executable",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failedAdaptation",
+                "target": "pred_planAdaptation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failedAdaptation",
+                "target": "pred_succeed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failedAdaptation",
+                "target": "pred_executable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failedAdaptation",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failedAdaptation",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

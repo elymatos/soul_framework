@@ -1,0 +1,852 @@
+{
+    "metadata": {
+        "chapter": 34,
+        "chapter_title": "Causes of Failure",
+        "filename": "chapter_34_causes-of-failure",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 6,
+        "predicate_count": 15,
+        "variable_count": 8,
+        "frequent_variable_count": 6
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 2,
+            "simple": 4
+        },
+        "pattern_counts": {
+            "definition": 5,
+            "recursive_definition": 1
+        },
+        "top_predicates": {
+            "failBy": 3,
+            "tryBy": 2,
+            "member": 2,
+            "believe": 2,
+            "cause": 2,
+            "failType2": 2,
+            "causalComplex'": 1,
+            "agentOf": 1,
+            "goal'": 1,
+            "failType1": 1
+        },
+        "predicate_frequencies": {
+            "failBy": 3,
+            "tryBy": 2,
+            "member": 2,
+            "believe": 2,
+            "cause": 2,
+            "failType2": 2,
+            "causalComplex'": 1,
+            "agentOf": 1,
+            "goal'": 1,
+            "failType1": 1,
+            "causalComplex": 1,
+            "failType2a": 1,
+            "hope": 1,
+            "failType3": 1,
+            "failBy'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "34.1",
+                "type": "axiom",
+                "name": "Definition of tryBy",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e e1 s) (iff (tryBy a e e1 s) (exists (e2 e3) (and (causalComplex' e2 s e)(member e1 s)(agentOf a e1) (believe a e2)(goal' e3 e a)(cause e3 e1)))))",
+                "english": "For agent a to try to achieve e by doing e1 is for a to believe that e1 is in a causal complex s for e and for a to do e1 where a's having the goal e causes a to do e1.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "34.2",
+                "type": "axiom",
+                "name": "Definition of failBy",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e e1 s) (iff (failBy a e e1 s) (and (tryBy a e e1 s)(not e))))",
+                "english": "To fail when trying by some means can be defined as trying without the goal coming to exist.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "34.3",
+                "type": "axiom",
+                "name": "Definition of failType1",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e e1 s) (iff (failType1 a e e1 s) (and (failBy a e e1 s)(not (causalComplex s e)))))",
+                "english": "A type 1 failure can be defined as failing to achieve the goal e because s is not a causal complex for e.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "34.4",
+                "type": "axiom",
+                "name": "Definition of failType2",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e e1 s) (iff (failType2 a e e1 s) (and (failBy a e e1 s) (exists (e2) (and (member e2 s)(not e2))))))",
+                "english": "A type 2 failure happens when eventualities in s other than e1 do not hold.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "34.5",
+                "type": "axiom",
+                "name": "Definition of failType2a",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e e1 s) (iff (failType2a a e e1 s) (and (failType2 a e e1 s)(hope a s)(not (believe a s)))))",
+                "english": "A type 2a failure is where a fails to achieve e by means of e1 where a hopes but does not believe that s holds. An example of this is a 'Hail Mary' pass.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "34.6",
+                "type": "axiom",
+                "name": "Definition of failType3",
+                "complexity": "moderate",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e e1 s) (iff (failType3 a e e1 s) (exists (e2 e3 e4 s1) (and (failBy' e2 a e e1 s)(failBy' e3 a e1 e4 s1) (cause e3 e2)))))",
+                "english": "A type 3 failure is the recursive case. The agent a fails to achieve e by means of e1 because a fails to achieve e1. The failure to achieve e1 could be a type 1, 2, or 3 failure.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_tryBy",
+                "type": "predicate",
+                "name": "tryBy",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalComplex'",
+                "type": "predicate",
+                "name": "causalComplex'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_believe",
+                "type": "predicate",
+                "name": "believe",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal'",
+                "type": "predicate",
+                "name": "goal'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failBy",
+                "type": "predicate",
+                "name": "failBy",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_failType1",
+                "type": "predicate",
+                "name": "failType1",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalComplex",
+                "type": "predicate",
+                "name": "causalComplex",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failType2",
+                "type": "predicate",
+                "name": "failType2",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failType2a",
+                "type": "predicate",
+                "name": "failType2a",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_hope",
+                "type": "predicate",
+                "name": "hope",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failType3",
+                "type": "predicate",
+                "name": "failType3",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_failBy'",
+                "type": "predicate",
+                "name": "failBy'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "34.1",
+                "target": "pred_tryBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_causalComplex'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_goal'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.2",
+                "target": "pred_failBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.2",
+                "target": "pred_tryBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.3",
+                "target": "pred_failType1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.3",
+                "target": "pred_failBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.3",
+                "target": "pred_causalComplex",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.4",
+                "target": "pred_failType2",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.4",
+                "target": "pred_failBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.4",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.5",
+                "target": "pred_failType2a",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.5",
+                "target": "pred_failType2",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.5",
+                "target": "pred_hope",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.5",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "pred_failType3",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.6",
+                "target": "pred_failBy'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.6",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "34.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "34.6",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_causalComplex'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tryBy",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex'",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex'",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex'",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalComplex'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_goal'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failBy",
+                "target": "pred_tryBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType1",
+                "target": "pred_failBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType1",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failBy",
+                "target": "pred_causalComplex",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2",
+                "target": "pred_failBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failBy",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2a",
+                "target": "pred_failType2",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2a",
+                "target": "pred_hope",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2a",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2",
+                "target": "pred_hope",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType2",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_hope",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType3",
+                "target": "pred_failBy'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failType3",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_failBy'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

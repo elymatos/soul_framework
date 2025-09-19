@@ -1,0 +1,2290 @@
+{
+    "entity_frame": {
+        "idFrame": 226,
+        "name": "Entity",
+        "idEntity": 3411,
+        "entry": "frm_entity",
+        "description": "This frame is for words that denote highly schematic entities.\n\n<ex>We found an unusual [wooden|Type] [[object|Target]|Entity] in the desert.<\/ex>"
+    },
+    "hierarchy": {
+        "rel_inheritance": [
+            {
+                "idFrame": 708,
+                "name": "Actually_occurring_entity",
+                "idEntity": 3893,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 2936,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": []
+            },
+            {
+                "idFrame": 390,
+                "name": "Artifact",
+                "idEntity": 3575,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5219095,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_inheritance": [
+                        {
+                            "idFrame": 144,
+                            "name": "Accoutrements",
+                            "idEntity": 3329,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5220497,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 696,
+                            "name": "Ammunition",
+                            "idEntity": 3881,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1666,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1427,
+                            "name": "Appliances",
+                            "idEntity": 124390,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 151586,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1566,
+                            "name": "Assistive_Technology",
+                            "idEntity": 1557383,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248791,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1584,
+                            "name": "Bedding",
+                            "idEntity": 1558492,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248771,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 273,
+                            "name": "Body_decoration",
+                            "idEntity": 3458,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1989,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 157,
+                            "name": "Buildings",
+                            "idEntity": 3342,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1460,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_subframe": [
+                                    {
+                                        "idFrame": 169,
+                                        "name": "Building_subparts",
+                                        "idEntity": 3354,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1204,
+                                            "relationType": "rel_subframe",
+                                            "nameCanonical": "SubFrame",
+                                            "nameDirect": "Has as subFrame",
+                                            "nameInverse": "Is subframe of"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1590,
+                            "name": "Civil_rights_and_duties",
+                            "idEntity": 1558813,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248786,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 123,
+                            "name": "Clothing",
+                            "idEntity": 3308,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1237,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 388,
+                            "name": "Connectors",
+                            "idEntity": 3573,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1142,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1099,
+                            "name": "Controller_object",
+                            "idEntity": 4284,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2804,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1593,
+                            "name": "Cosmetics",
+                            "idEntity": 1561065,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248797,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 717,
+                            "name": "Fastener",
+                            "idEntity": 3902,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1687,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1181,
+                            "name": "Fire_break",
+                            "idEntity": 4366,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 3074,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1414,
+                            "name": "Furniture",
+                            "idEntity": 47873,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 116343,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 97,
+                            "name": "Gizmo",
+                            "idEntity": 3282,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5238674,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1478,
+                            "name": "Health_exam",
+                            "idEntity": 1550740,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219097,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1098,
+                            "name": "Information_display",
+                            "idEntity": 4283,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2802,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 656,
+                            "name": "Infrastructure",
+                            "idEntity": 3841,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1820,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1220,
+                                        "name": "Accommodation",
+                                        "idEntity": 17724,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 117871,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1262,
+                                        "name": "Hospital",
+                                        "idEntity": 17766,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 117874,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1264,
+                                        "name": "Police",
+                                        "idEntity": 17768,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 117872,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1342,
+                                        "name": "Sports_venues",
+                                        "idEntity": 20788,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 176907,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_subframe": [
+                                                {
+                                                    "idFrame": 1364,
+                                                    "name": "Sports_venues_subparts",
+                                                    "idEntity": 21560,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 86583,
+                                                        "relationType": "rel_subframe",
+                                                        "nameCanonical": "SubFrame",
+                                                        "nameDirect": "Has as subFrame",
+                                                        "nameInverse": "Is subframe of"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "idFrame": 1231,
+                                        "name": "Transportation",
+                                        "idEntity": 17735,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 117873,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1156,
+                            "name": "Key",
+                            "idEntity": 4341,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2876,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 482,
+                            "name": "Law",
+                            "idEntity": 3667,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1444,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 232,
+                            "name": "Materials_used_in_healthcare",
+                            "idEntity": 3417,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219096,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 791,
+                            "name": "Money",
+                            "idEntity": 3976,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2432,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1441,
+                            "name": "Musical_instruments",
+                            "idEntity": 1546038,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5201691,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 505,
+                            "name": "Noise_makers",
+                            "idEntity": 3690,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5201690,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1517,
+                            "name": "Object_of_knowledge",
+                            "idEntity": 1554885,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5233902,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1497,
+                                        "name": "Textual_Genre",
+                                        "idEntity": 1554733,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5238134,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1485,
+                            "name": "Personal_protective_equipment",
+                            "idEntity": 1551189,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5220496,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 756,
+                            "name": "Physical_artworks",
+                            "idEntity": 3941,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2956,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1508,
+                            "name": "School_Supplies",
+                            "idEntity": 1554853,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5233535,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1588,
+                            "name": "Tax",
+                            "idEntity": 1558790,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248785,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1511,
+                            "name": "Teaching_resource",
+                            "idEntity": 1554876,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5233777,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 272,
+                            "name": "Text",
+                            "idEntity": 3457,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2285,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 431,
+                                        "name": "Documents",
+                                        "idEntity": 3616,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2286,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1122,
+                                        "name": "Records",
+                                        "idEntity": 4307,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 3076,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1497,
+                                        "name": "Textual_Genre",
+                                        "idEntity": 1554733,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5233301,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ],
+                                "rel_subframe": [
+                                    {
+                                        "idFrame": 1519,
+                                        "name": "Text_subpart",
+                                        "idEntity": 1554912,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5238338,
+                                            "relationType": "rel_subframe",
+                                            "nameCanonical": "SubFrame",
+                                            "nameDirect": "Has as subFrame",
+                                            "nameInverse": "Is subframe of"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1431,
+                            "name": "Toys",
+                            "idEntity": 129715,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 157141,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1426,
+                            "name": "Utensils",
+                            "idEntity": 124371,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 151561,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 398,
+                            "name": "Vehicle",
+                            "idEntity": 3583,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1940,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 395,
+                            "name": "Weapon",
+                            "idEntity": 3580,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1136,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1084,
+                                        "name": "Improvised_explosive_device",
+                                        "idEntity": 4269,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2773,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 1104,
+                                                    "name": "Distant_operated_IED",
+                                                    "idEntity": 4289,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2809,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 1085,
+                                                    "name": "Victim_operated_IED",
+                                                    "idEntity": 4270,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2778,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "rel_subframe": [
+                        {
+                            "idFrame": 1029,
+                            "name": "Artifact_subpart",
+                            "idEntity": 4214,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2940,
+                                "relationType": "rel_subframe",
+                                "nameCanonical": "SubFrame",
+                                "nameDirect": "Has as subFrame",
+                                "nameInverse": "Is subframe of"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1519,
+                                        "name": "Text_subpart",
+                                        "idEntity": 1554912,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5233883,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 1050,
+                "name": "Biological_entity",
+                "idEntity": 4235,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5219093,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_inheritance": [
+                        {
+                            "idFrame": 1184,
+                            "name": "Animals",
+                            "idEntity": 4369,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2996,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1587,
+                            "name": "Biological_entity_by_eating_habits",
+                            "idEntity": 1558728,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248779,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1475,
+                            "name": "Pathogen",
+                            "idEntity": 1550153,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219099,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 278,
+                            "name": "People",
+                            "idEntity": 3463,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219092,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1072,
+                                        "name": "Irregular_combatants",
+                                        "idEntity": 4257,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2760,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1080,
+                                        "name": "Noncombatant",
+                                        "idEntity": 4265,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2766,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 695,
+                                        "name": "People_along_political_spectrum",
+                                        "idEntity": 3880,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1665,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 492,
+                                        "name": "People_by_age",
+                                        "idEntity": 3677,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1450,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1486,
+                                        "name": "People_by_criminal_framing",
+                                        "idEntity": 1552073,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5223478,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1429,
+                                        "name": "People_by_ethnicity",
+                                        "idEntity": 124435,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 151641,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1451,
+                                        "name": "People_by_gender_or_sexual_orientation",
+                                        "idEntity": 1547269,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5202260,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1469,
+                                        "name": "People_by_health_condition",
+                                        "idEntity": 1549364,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5219091,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 1591,
+                                                    "name": "People_with_disabilities",
+                                                    "idEntity": 1559060,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 5248787,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "idFrame": 508,
+                                        "name": "People_by_jurisdiction",
+                                        "idEntity": 3693,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1466,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1338,
+                                        "name": "People_by_leisure_activity",
+                                        "idEntity": 20472,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 51273,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 1246,
+                                                    "name": "Crowd",
+                                                    "idEntity": 17750,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 51065,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "idFrame": 534,
+                                        "name": "People_by_morality",
+                                        "idEntity": 3719,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1500,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 493,
+                                        "name": "People_by_origin",
+                                        "idEntity": 3678,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 81353,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 507,
+                                        "name": "People_by_religion",
+                                        "idEntity": 3692,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1463,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 545,
+                                        "name": "People_by_residence",
+                                        "idEntity": 3730,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2120,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1430,
+                                        "name": "People_by_transitory_activity",
+                                        "idEntity": 125206,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 152070,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1487,
+                                        "name": "People_by_transitory_state",
+                                        "idEntity": 1552083,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5223477,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 524,
+                                        "name": "People_by_vocation",
+                                        "idEntity": 3709,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5223488,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 1281,
+                                                    "name": "Athletes",
+                                                    "idEntity": 17785,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 51293,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": {
+                                                        "rel_inheritance": [
+                                                            {
+                                                                "idFrame": 1282,
+                                                                "name": "Athletes_by_position",
+                                                                "idEntity": 17786,
+                                                                "depth": 5,
+                                                                "relation": {
+                                                                    "idEntityRelation": 86604,
+                                                                    "relationType": "rel_inheritance",
+                                                                    "nameCanonical": "Inheritance",
+                                                                    "nameDirect": "Is Inherited By",
+                                                                    "nameInverse": "Inherits from"
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "idFrame": 1341,
+                                                                "name": "Athletes_by_sport",
+                                                                "idEntity": 20666,
+                                                                "depth": 5,
+                                                                "relation": {
+                                                                    "idEntityRelation": 86603,
+                                                                    "relationType": "rel_inheritance",
+                                                                    "nameCanonical": "Inheritance",
+                                                                    "nameDirect": "Is Inherited By",
+                                                                    "nameInverse": "Inherits from"
+                                                                },
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "idFrame": 1261,
+                                                    "name": "Delegation",
+                                                    "idEntity": 17765,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 61466,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": {
+                                                        "rel_subframe": [
+                                                            {
+                                                                "idFrame": 1281,
+                                                                "name": "Athletes",
+                                                                "idEntity": 17785,
+                                                                "depth": 5,
+                                                                "relation": {
+                                                                    "idEntityRelation": 61604,
+                                                                    "relationType": "rel_subframe",
+                                                                    "nameCanonical": "SubFrame",
+                                                                    "nameDirect": "Has as subFrame",
+                                                                    "nameInverse": "Is subframe of"
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "idFrame": 1260,
+                                                                "name": "Coaching_staff",
+                                                                "idEntity": 17764,
+                                                                "depth": 5,
+                                                                "relation": {
+                                                                    "idEntityRelation": 43767,
+                                                                    "relationType": "rel_subframe",
+                                                                    "nameCanonical": "SubFrame",
+                                                                    "nameDirect": "Has as subFrame",
+                                                                    "nameInverse": "Is subframe of"
+                                                                },
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "idFrame": 1494,
+                                                    "name": "Education_professional",
+                                                    "idEntity": 1554728,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 5233273,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 230,
+                                                    "name": "Medical_professionals",
+                                                    "idEntity": 3415,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 5219087,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 1112,
+                                                    "name": "Member_of_military",
+                                                    "idEntity": 4297,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2816,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 525,
+                                                    "name": "Performers",
+                                                    "idEntity": 3710,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 1483,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 1279,
+                                                    "name": "Referees",
+                                                    "idEntity": 17783,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 51079,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 1120,
+                                                    "name": "Representative",
+                                                    "idEntity": 4305,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2832,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 1510,
+                                                    "name": "Student_body",
+                                                    "idEntity": 1554856,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 5238566,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1187,
+                            "name": "Plants",
+                            "idEntity": 4372,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 3026,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 1455,
+                "name": "Languages",
+                "idEntity": 1547613,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5202541,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": []
+            },
+            {
+                "idFrame": 172,
+                "name": "Locale",
+                "idEntity": 3357,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 81289,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_inheritance": [
+                        {
+                            "idFrame": 1089,
+                            "name": "Assigned_location",
+                            "idEntity": 4274,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2788,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 173,
+                            "name": "Biological_area",
+                            "idEntity": 3358,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1134,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 157,
+                            "name": "Buildings",
+                            "idEntity": 3342,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 51834,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 337,
+                            "name": "Businesses",
+                            "idEntity": 3522,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 51832,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1220,
+                                        "name": "Accommodation",
+                                        "idEntity": 17724,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 51814,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1253,
+                                        "name": "Dining",
+                                        "idEntity": 17757,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 51815,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1128,
+                            "name": "Locale_by_characteristic_entity",
+                            "idEntity": 4313,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2840,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 960,
+                            "name": "Locale_by_ownership",
+                            "idEntity": 4145,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2616,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 175,
+                                        "name": "Political_locales",
+                                        "idEntity": 3360,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2617,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 658,
+                                                    "name": "Foreign_or_domestic_country",
+                                                    "idEntity": 3843,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 1639,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                },
+                                                {
+                                                    "idFrame": 833,
+                                                    "name": "Relational_political_locales",
+                                                    "idEntity": 4018,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2391,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 176,
+                            "name": "Locale_by_use",
+                            "idEntity": 3361,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1095,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 357,
+                                        "name": "Prison",
+                                        "idEntity": 3542,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1992,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 183,
+                                        "name": "Roadways",
+                                        "idEntity": 3368,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2118,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ],
+                                "rel_subframe": [
+                                    {
+                                        "idFrame": 1342,
+                                        "name": "Sports_venues",
+                                        "idEntity": 20788,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 86584,
+                                            "relationType": "rel_subframe",
+                                            "nameCanonical": "SubFrame",
+                                            "nameDirect": "Has as subFrame",
+                                            "nameInverse": "Is subframe of"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 171,
+                            "name": "Natural_features",
+                            "idEntity": 3356,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 51833,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 659,
+                                        "name": "Relational_natural_features",
+                                        "idEntity": 3844,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1640,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1581,
+                            "name": "Reference_universe",
+                            "idEntity": 1558392,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248775,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1086,
+                            "name": "Relational_location",
+                            "idEntity": 4271,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2779,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 1087,
+                                        "name": "Locale_by_collocation",
+                                        "idEntity": 4272,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2783,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": {
+                                            "rel_inheritance": [
+                                                {
+                                                    "idFrame": 858,
+                                                    "name": "Locale_by_event",
+                                                    "idEntity": 4043,
+                                                    "depth": 4,
+                                                    "relation": {
+                                                        "idEntityRelation": 2784,
+                                                        "relationType": "rel_inheritance",
+                                                        "nameCanonical": "Inheritance",
+                                                        "nameDirect": "Is Inherited By",
+                                                        "nameInverse": "Inherits from"
+                                                    },
+                                                    "children": {
+                                                        "rel_inheritance": [
+                                                            {
+                                                                "idFrame": 1106,
+                                                                "name": "Firing_point",
+                                                                "idEntity": 4291,
+                                                                "depth": 5,
+                                                                "relation": {
+                                                                    "idEntityRelation": 2811,
+                                                                    "relationType": "rel_inheritance",
+                                                                    "nameCanonical": "Inheritance",
+                                                                    "nameDirect": "Is Inherited By",
+                                                                    "nameInverse": "Inherits from"
+                                                                },
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "idFrame": 659,
+                                        "name": "Relational_natural_features",
+                                        "idEntity": 3844,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 2781,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1342,
+                            "name": "Sports_venues",
+                            "idEntity": 20788,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 51856,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 276,
+                "name": "Physical_entity",
+                "idEntity": 3461,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5219100,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_inheritance": [
+                        {
+                            "idFrame": 696,
+                            "name": "Ammunition",
+                            "idEntity": 3881,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239889,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1566,
+                            "name": "Assistive_Technology",
+                            "idEntity": 1557383,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248813,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1584,
+                            "name": "Bedding",
+                            "idEntity": 1558492,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5248772,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 362,
+                            "name": "Body_mark",
+                            "idEntity": 3547,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2433,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 213,
+                            "name": "Bounded_entity",
+                            "idEntity": 3398,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 1181,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 123,
+                            "name": "Clothing",
+                            "idEntity": 3308,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239887,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 388,
+                            "name": "Connectors",
+                            "idEntity": 3573,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239885,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 717,
+                            "name": "Fastener",
+                            "idEntity": 3902,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239891,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 252,
+                            "name": "Food",
+                            "idEntity": 3437,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 2137,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1414,
+                            "name": "Furniture",
+                            "idEntity": 47873,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239899,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1098,
+                            "name": "Information_display",
+                            "idEntity": 4283,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239895,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 359,
+                            "name": "Intoxicants",
+                            "idEntity": 3544,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219104,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1441,
+                            "name": "Musical_instruments",
+                            "idEntity": 1546038,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239903,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1485,
+                            "name": "Personal_protective_equipment",
+                            "idEntity": 1551189,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239907,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 756,
+                            "name": "Physical_artworks",
+                            "idEntity": 3941,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239897,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 648,
+                            "name": "Sidereal_appearance",
+                            "idEntity": 3833,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5238677,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 611,
+                            "name": "Substance",
+                            "idEntity": 3796,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5219101,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 612,
+                                        "name": "Active_substance",
+                                        "idEntity": 3797,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 1632,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1474,
+                                        "name": "Allergens",
+                                        "idEntity": 1550147,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5222748,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1471,
+                                        "name": "Body_substances",
+                                        "idEntity": 1549488,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5222749,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1466,
+                                        "name": "Medicines",
+                                        "idEntity": 1549319,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5222747,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 563,
+                                        "name": "Toxic_substance",
+                                        "idEntity": 3748,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5222826,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1426,
+                            "name": "Utensils",
+                            "idEntity": 124371,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239901,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 398,
+                            "name": "Vehicle",
+                            "idEntity": 3583,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239893,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 395,
+                            "name": "Weapon",
+                            "idEntity": 3580,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239883,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 957,
+                "name": "Representing",
+                "idEntity": 4142,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5238744,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_perspective_on": [
+                        {
+                            "idFrame": 712,
+                            "name": "Information",
+                            "idEntity": 3897,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5238746,
+                                "relationType": "rel_perspective_on",
+                                "nameCanonical": "Perspective_on",
+                                "nameDirect": "Is perspectivized in",
+                                "nameInverse": "Perspective on"
+                            },
+                            "children": {
+                                "rel_inheritance": [
+                                    {
+                                        "idFrame": 273,
+                                        "name": "Body_decoration",
+                                        "idEntity": 3458,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5239909,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 1098,
+                                        "name": "Information_display",
+                                        "idEntity": 4283,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5239913,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "idFrame": 272,
+                                        "name": "Text",
+                                        "idEntity": 3457,
+                                        "depth": 3,
+                                        "relation": {
+                                            "idEntityRelation": 5239911,
+                                            "relationType": "rel_inheritance",
+                                            "nameCanonical": "Inheritance",
+                                            "nameDirect": "Is Inherited By",
+                                            "nameInverse": "Inherits from"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "idFrame": 1455,
+                            "name": "Languages",
+                            "idEntity": 1547613,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239879,
+                                "relationType": "rel_perspective_on",
+                                "nameCanonical": "Perspective_on",
+                                "nameDirect": "Is perspectivized in",
+                                "nameInverse": "Perspective on"
+                            },
+                            "children": []
+                        },
+                        {
+                            "idFrame": 1517,
+                            "name": "Object_of_knowledge",
+                            "idEntity": 1554885,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239881,
+                                "relationType": "rel_perspective_on",
+                                "nameCanonical": "Perspective_on",
+                                "nameDirect": "Is perspectivized in",
+                                "nameInverse": "Perspective on"
+                            },
+                            "children": []
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 1577,
+                "name": "Social_entity",
+                "idEntity": 1557467,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5239875,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": {
+                    "rel_inheritance": [
+                        {
+                            "idFrame": 482,
+                            "name": "Law",
+                            "idEntity": 3667,
+                            "depth": 2,
+                            "relation": {
+                                "idEntityRelation": 5239877,
+                                "relationType": "rel_inheritance",
+                                "nameCanonical": "Inheritance",
+                                "nameDirect": "Is Inherited By",
+                                "nameInverse": "Inherits from"
+                            },
+                            "children": []
+                        }
+                    ]
+                }
+            },
+            {
+                "idFrame": 1460,
+                "name": "Supernatural_entity",
+                "idEntity": 1548065,
+                "depth": 1,
+                "relation": {
+                    "idEntityRelation": 5202732,
+                    "relationType": "rel_inheritance",
+                    "nameCanonical": "Inheritance",
+                    "nameDirect": "Is Inherited By",
+                    "nameInverse": "Inherits from"
+                },
+                "children": []
+            }
+        ]
+    },
+    "metadata": {
+        "language_id": 2,
+        "extraction_date": "2025-09-18 16:28:28",
+        "max_depth": 10,
+        "total_frames_processed": 128,
+        "relation_types": [
+            "rel_inheritance",
+            "rel_perspective_on",
+            "rel_subframe"
+        ]
+    }
+}

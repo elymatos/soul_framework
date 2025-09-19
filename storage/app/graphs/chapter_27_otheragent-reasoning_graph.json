@@ -1,0 +1,1022 @@
+{
+    "metadata": {
+        "chapter": 27,
+        "chapter_title": "Other-Agent Reasoning",
+        "filename": "chapter_27_otheragent-reasoning",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 8,
+        "predicate_count": 19,
+        "variable_count": 9,
+        "frequent_variable_count": 7
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 3,
+            "simple": 4,
+            "complex": 1
+        },
+        "pattern_counts": {
+            "definition": 5,
+            "defeasible_rule": 1,
+            "existence_claim": 2
+        },
+        "top_predicates": {
+            "envisionMentalState": 3,
+            "thinkOf'": 3,
+            "eventualitiesOf": 3,
+            "member": 3,
+            "person": 3,
+            "fail": 2,
+            "causalSystem": 2,
+            "believe": 2,
+            "ecs": 1,
+            "etc": 1
+        },
+        "predicate_frequencies": {
+            "envisionMentalState": 3,
+            "thinkOf'": 3,
+            "eventualitiesOf": 3,
+            "member": 3,
+            "person": 3,
+            "fail": 2,
+            "causalSystem": 2,
+            "believe": 2,
+            "ecs": 1,
+            "etc": 1,
+            "able": 1,
+            "envisionMentalState'": 1,
+            "otherAgentReason": 1,
+            "nequal": 1,
+            "otherAgentReasonFail": 1,
+            "otherAgentReason'": 1,
+            "introspect": 1,
+            "introspectFail": 1,
+            "introspect'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "27.1",
+                "type": "axiom",
+                "name": "Definition of envisionMentalState",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a b e) (iff (envisionMentalState a b e) (exists (s s1 x) (and (ecs s a)(thinkOf' e b x)(eventualitiesOf s1 s) (member e s1)))))",
+                "english": "Agent a envisions agent b's mental state e if a envisions a causal system s, and if e is b's thinking of something x, and e is a member of s's set of eventualities",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "27.2",
+                "type": "axiom",
+                "name": "People's ability to envision mental states",
+                "complexity": "moderate",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (a b e) (if (and (person a)(person b)(etc)) (exists (e1 c) (and (able a e1 c)(envisionMentalState' e1 a b e)))))",
+                "english": "People are defeasibly able to envision other people's mental states, subject to implicit constraint conditions",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "27.3",
+                "type": "axiom",
+                "name": "Definition of otherAgentReason",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b e) (iff (otherAgentReason a b e) (and (nequal a b)(envisionMentalState a b e))))",
+                "english": "Other-agent reasoning is envisioning the mental state of someone other than the envisioning agent",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "27.4",
+                "type": "axiom",
+                "name": "Definition of otherAgentReasonFail",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a b e) (iff (otherAgentReasonFail a b e) (exists (e1) (and (fail a e1)(otherAgentReason' e1 a b e)))))",
+                "english": "People sometimes fail to envision the mental state of other people",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "27.5",
+                "type": "axiom",
+                "name": "Definition of introspect",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e) (iff (introspect a e)(envisionMentalState a a e)))",
+                "english": "Introspection happens when one envisions one's own mental states",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "27.6",
+                "type": "axiom",
+                "name": "Definition of introspectFail",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e) (iff (introspectFail a e) (exists (e1) (and (fail a e1)(introspect' e1 a e)))))",
+                "english": "Introspection failure happens when an agent fails to introspect",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "27.7",
+                "type": "axiom",
+                "name": "People have models of how others think",
+                "complexity": "moderate",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a b) (if (and (person a)(person b)) (exists (s s1 e x) (and (causalSystem s)(eventualitiesOf s1 s)(member e s1) (thinkOf' e b x)(believe a s)))))",
+                "english": "People have models of how people in general think - one agent has a belief in a causal system involving another agent's thinking",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "27.8",
+                "type": "axiom",
+                "name": "People have models of group thinking",
+                "complexity": "complex",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (if (person a) (exists (g) (forall (b) (if (member b g) (exists (s s1 e x) (and (causalSystem s)(eventualitiesOf s1 s) (member e s1)(thinkOf' e b x) (believe a s))))))))",
+                "english": "More specifically, people have models of how members of certain groups think",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "pred_envisionMentalState",
+                "type": "predicate",
+                "name": "envisionMentalState",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_ecs",
+                "type": "predicate",
+                "name": "ecs",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thinkOf'",
+                "type": "predicate",
+                "name": "thinkOf'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_eventualitiesOf",
+                "type": "predicate",
+                "name": "eventualitiesOf",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_able",
+                "type": "predicate",
+                "name": "able",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_envisionMentalState'",
+                "type": "predicate",
+                "name": "envisionMentalState'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_otherAgentReason",
+                "type": "predicate",
+                "name": "otherAgentReason",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nequal",
+                "type": "predicate",
+                "name": "nequal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_otherAgentReasonFail",
+                "type": "predicate",
+                "name": "otherAgentReasonFail",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_fail",
+                "type": "predicate",
+                "name": "fail",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_otherAgentReason'",
+                "type": "predicate",
+                "name": "otherAgentReason'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_introspect",
+                "type": "predicate",
+                "name": "introspect",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_introspectFail",
+                "type": "predicate",
+                "name": "introspectFail",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_introspect'",
+                "type": "predicate",
+                "name": "introspect'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causalSystem",
+                "type": "predicate",
+                "name": "causalSystem",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_believe",
+                "type": "predicate",
+                "name": "believe",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_b",
+                "type": "variable",
+                "name": "b",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "27.1",
+                "target": "pred_envisionMentalState",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.1",
+                "target": "pred_ecs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.1",
+                "target": "pred_thinkOf'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.1",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.1",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.1",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.2",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.2",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.2",
+                "target": "pred_able",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.2",
+                "target": "pred_envisionMentalState'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.2",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.3",
+                "target": "pred_otherAgentReason",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.3",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.3",
+                "target": "pred_envisionMentalState",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.3",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.4",
+                "target": "pred_otherAgentReasonFail",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.4",
+                "target": "pred_fail",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.4",
+                "target": "pred_otherAgentReason'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.4",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.5",
+                "target": "pred_introspect",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.5",
+                "target": "pred_envisionMentalState",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.6",
+                "target": "pred_introspectFail",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.6",
+                "target": "pred_fail",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.6",
+                "target": "pred_introspect'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "pred_causalSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "pred_thinkOf'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.7",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "pred_causalSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "pred_thinkOf'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "27.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "27.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_envisionMentalState",
+                "target": "pred_ecs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionMentalState",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionMentalState",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionMentalState",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf'",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_able",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_envisionMentalState'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_able",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_envisionMentalState'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_able",
+                "target": "pred_envisionMentalState'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_otherAgentReason",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_otherAgentReason",
+                "target": "pred_envisionMentalState",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nequal",
+                "target": "pred_envisionMentalState",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_otherAgentReasonFail",
+                "target": "pred_fail",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_otherAgentReasonFail",
+                "target": "pred_otherAgentReason'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fail",
+                "target": "pred_otherAgentReason'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_introspect",
+                "target": "pred_envisionMentalState",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_introspectFail",
+                "target": "pred_fail",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_introspectFail",
+                "target": "pred_introspect'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fail",
+                "target": "pred_introspect'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_causalSystem",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalSystem",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalSystem",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalSystem",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_causalSystem",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf'",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

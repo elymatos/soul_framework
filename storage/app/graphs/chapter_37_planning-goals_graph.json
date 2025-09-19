@@ -1,0 +1,4035 @@
+{
+    "metadata": {
+        "chapter": 37,
+        "chapter_title": "Planning Goals",
+        "filename": "chapter_37_planning-goals",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 31,
+        "predicate_count": 59,
+        "variable_count": 29,
+        "frequent_variable_count": 23
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 5,
+            "simple": 23,
+            "complex": 3
+        },
+        "pattern_counts": {
+            "definition": 22,
+            "type_constraint": 1,
+            "defeasible_rule": 6,
+            "ordering_property": 2
+        },
+        "top_predicates": {
+            "prefer": 12,
+            "addGoalToPlan": 6,
+            "not'": 5,
+            "prefer0": 5,
+            "preferEnableEvent": 5,
+            "preferBlockEvent": 5,
+            "plan": 3,
+            "eventualitiesOf": 3,
+            "subgoalsOf": 3,
+            "union": 3
+        },
+        "predicate_frequencies": {
+            "prefer": 12,
+            "addGoalToPlan": 6,
+            "not'": 5,
+            "prefer0": 5,
+            "preferEnableEvent": 5,
+            "preferBlockEvent": 5,
+            "plan": 3,
+            "eventualitiesOf": 3,
+            "subgoalsOf": 3,
+            "union": 3,
+            "possible": 3,
+            "enable": 3,
+            "locateThing": 3,
+            "imply": 2,
+            "cwu": 2,
+            "threat0": 2,
+            "move'": 2,
+            "physobj": 2,
+            "agentOf": 2,
+            "goal": 2,
+            "preferMinimizeValue": 2,
+            "at'": 2,
+            "lts": 2,
+            "preferMaximizeValue": 2,
+            "durationOf": 2,
+            "arg*": 2,
+            "subgoalIn": 2,
+            "and'": 1,
+            "subplan": 1,
+            "planningConstraint": 1,
+            "agent": 1,
+            "eventuality": 1,
+            "cwu0": 1,
+            "Now": 1,
+            "or'": 1,
+            "atTime": 1,
+            "before": 1,
+            "badFor": 1,
+            "moreValuable": 1,
+            "moreCostly": 1,
+            "preferAvoidAction": 1,
+            "prevent": 1,
+            "preferEnableThreat": 1,
+            "preferBlockThreat": 1,
+            "preferEnableTransfer": 1,
+            "preferBlockTransfer": 1,
+            "preferEnableAgency": 1,
+            "preferBlockAgency": 1,
+            "preferEnableOtherAgentGoalSatisfaction": 1,
+            "preferBlockOtherAgentGoalSatisfaction": 1,
+            "preferMinimizeDuration": 1,
+            "preferMaximizeDuration": 1,
+            "wh'": 1,
+            "locateAgent": 1,
+            "person": 1,
+            "locateLocation": 1,
+            "atLoc": 1,
+            "preferMaintainPlanProgress": 1,
+            "changeFrom'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "37.1",
+                "type": "axiom",
+                "name": "Definition of addGoalToPlan",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a g2 p1 p2) (iff (addGoalToPlan a g2 p1 p2) (exists (g1 g) (and (plan p1 a g1)(plan p2 a g)(and' g g1 g2) (subplan p1 p2)))))",
+                "english": "Agent a adds goal g2 to plan p1 to produce p2. This happens when p2 is a plan to achieve g2 in addition to p1's top-level goal g1 and when the original plan p1 is a subplan of the resulting plan p2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "37.2",
+                "type": "axiom",
+                "name": "Definition of planningConstraint",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 a p) (iff (planningConstraint e a p) (exists (p2) (addGoalToPlan a e p p2))))",
+                "english": "Eventuality e is a constraint on agent a's plan p exactly when a adds e as a goal to p. People often have hard constraints for plans that they would consider to be successful.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.3",
+                "type": "axiom",
+                "name": "Preference type constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e1 e2 p) (if (prefer a e1 e2 p) (and (agent a)(eventuality e1)(eventuality e2) (exists (g) (plan p a g)))))",
+                "english": "The predication (prefer a e1 e2 p) says agent a prefers eventuality e1 to eventuality e2 in carrying out plan p. Agent must be valid, both eventualities must exist, and there must be a plan.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.4",
+                "type": "axiom",
+                "name": "Defeasible preference incompatibility",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (a e1 e2 p) (if (and (prefer a e1 e2 p)(etc)) (exists (e)(and (not' e e1)(imply e2 e)))))",
+                "english": "The two eventualities should be incompatible; otherwise there will be no reason to have to choose one over the other. Defeasibly, e2 implies the negation e of e1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.5",
+                "type": "axiom",
+                "name": "Preferred option adoption when possible",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (a e1 e2 p s1 s2 s3 s0) (if (and (prefer a e1 e2 p) (cwu s1 a)(eventualitiesOf s2 s1)(subgoalsOf s3 p) (union s0 s2 s3) (possible e1 s0)(etc)) (exists (p2) (addGoalToPlan a e1 p p2))))",
+                "english": "Preferences are 'goals in waiting.' If they do not contradict any real goals and they are otherwise possible, they will normally be adopted as goals. Agent a prefers e1 to e2 while executing plan p, and if e1 is possible given current world understanding and plan subgoals, then e1 will be incorporated as a goal.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "37.6",
+                "type": "axiom",
+                "name": "Dispreferred option adoption when preferred impossible",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (a e1 e2 p s1 s2 s3 s0) (if (and (prefer a e1 e2 p) (cwu s1 a)(eventualitiesOf s2 s1)(subgoalsOf s3 p) (union s0 s2 s3) (not (possible e1 s0)) (possible e2 s0)(etc)) (exists (p2) (addGoalToPlan a e2 p p2))))",
+                "english": "In normal usage, we will adopt the dispreferred element if the preferred one is not possible. Lines 1-4 are the same as in the previous axiom. Line 5 says e1 is not possible. Line 6 says that the dispreferred item e2 is possible. Line 8 says that in these circumstances, e2 will be incorporated into the plan.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "37.7",
+                "type": "axiom",
+                "name": "Forced choice preference adoption",
+                "complexity": "complex",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (a e1 e2 p s1 s2 s3 s0 e3 t t1) (if (and (prefer a e1 e2 p) (cwu0 s1 a t)(Now t) (eventualitiesOf s2 s1)(subgoalsOf s3 p) (union s0 s2 s3) (possible e1 s0)(possible e2 s0) (or' e3 e1 e2)(atTime e3 t1)(before t t1)(etc)) (exists (p2 e4) (or (and (not (badFor e1 a))(addGoalToPlan a e1 p p2)) (and (badFor e1 a)(not' e4 e2)(addGoalToPlan a e4 p p2))))))",
+                "english": "We can strengthen the preference axiom in forced choice situations where both options are possible and one is going to occur anyway. If the preferred option is bad for you, then the goal you add is the negation of the dispreferred option. Line 6 says both options are possible. Line 7 says that one of them is going to happen anyway. In line 9 we add the preferred option if it is not bad for us. If it is, then in line 10 we add the negation of the dispreferred option.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "37.8",
+                "type": "axiom",
+                "name": "Preference antisymmetry",
+                "complexity": "simple",
+                "pattern": "ordering_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e1 e2 p) (if (prefer a e1 e2 p)(not (prefer a e2 e1 p))))",
+                "english": "Preference is a partial ordering. Hence, it is antisymmetric.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.9",
+                "type": "axiom",
+                "name": "Preference transitivity",
+                "complexity": "simple",
+                "pattern": "ordering_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e1 e2 e3 p) (if (and (prefer a e1 e2 p)(prefer a e2 e3 p)) (prefer a e1 e3 p)))",
+                "english": "Preference is also transitive.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.10",
+                "type": "axiom",
+                "name": "Definition of prefer0",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e1 p) (iff (prefer0 a e1 p) (exists (e2) (and (not' e2 e1)(prefer a e1 e2 p)))))",
+                "english": "It will be convenient to have a predicate meaning that the agent prefers a situation e1 to its absence.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.11",
+                "type": "axiom",
+                "name": "Value-based preference",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e1 e2 a p) (if (and (moreValuable e1 e2 a)(etc)) (prefer a e1 e2 p)))",
+                "english": "If e1 is more valuable than e2, then defeasibly a will prefer e1 to e2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.12",
+                "type": "axiom",
+                "name": "Cost-based preference",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e1e2 a p) (if (and (moreCostly e1 e2 a)(etc)) (prefer a e2 e1 p)))",
+                "english": "If e1 is more costly than e2, then defeasibly a will prefer e2 to e1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.13",
+                "type": "axiom",
+                "name": "Definition of preferAvoidAction",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e p) (iff (preferAvoidAction a e p) (exists (e1) (and (not' e1 e)(prefer0 a e1 p)))))",
+                "english": "An agent a prefers to avoid action e in plan p exactly when a prefers to include its negation in the plan. This captures phrases like 'try to avoid' and 'only as a last resort.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.14",
+                "type": "axiom",
+                "name": "Definition of preferEnableEvent",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e p) (iff (preferEnableEvent a e p) (forall (e1) (if (enable e1 e)(prefer0 a e1 p)))))",
+                "english": "One can prefer to work toward plans that enable an event to occur, as in 'set the stage for.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.15",
+                "type": "axiom",
+                "name": "Definition of preferBlockEvent",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e p) (iff (preferBlockEvent a e p) (forall (e1) (if (prevent e1 e)(prefer0 a e1 p)))))",
+                "english": "One can prefer to work toward plans that prevent an event from occurring, as in 'safeguard against.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.16",
+                "type": "axiom",
+                "name": "Definition of preferEnableThreat",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e p) (iff (preferEnableThreat a e p) (and (preferEnableEvent a e p)(threat0 e a))))",
+                "english": "One can prefer to work toward plans that ensure a threat will actually occur, as in 'set one up to fail.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.17",
+                "type": "axiom",
+                "name": "Definition of preferBlockThreat",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e p) (iff (preferBlockThreat a e p) (and (preferBlockEvent a e p)(threat0 e a))))",
+                "english": "One can prefer to work toward plans that ensure a threat will not actually occur, as in 'take preemptive action' and 'alleviate the risk.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.18",
+                "type": "axiom",
+                "name": "Definition of preferEnableTransfer",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e p) (iff (preferEnableTransfer a e p) (exists (x y z) (and (move' e x y z)(physobj x) (preferEnableEvent a e p)))))",
+                "english": "One can prefer to work toward plans that allow a physical transfer through space, as in 'clear the path' and 'remove obstacles.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.19",
+                "type": "axiom",
+                "name": "Definition of preferBlockTransfer",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e p) (iff (preferBlockTransfer a e p) (exists (x y z) (and (move' e x y z)(physobj x) (preferBlockEvent a e p)))))",
+                "english": "One can prefer to work toward plans that prevent a physical transfer through space, as in 'obstruct' and 'prevent from leaving.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.20",
+                "type": "axiom",
+                "name": "Definition of preferEnableAgency",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b e p) (iff (preferEnableAgency a b e p) (and (agentOf b e)(preferEnableEvent a e p))))",
+                "english": "One can prefer to work toward plans that enable a different agent to act, as in 'make it possible for.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.21",
+                "type": "axiom",
+                "name": "Definition of preferBlockAgency",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b e p) (iff (preferBlockAgency a b e p) (and (agentOf b e)(preferBlockEvent a e p))))",
+                "english": "One can prefer to work toward plans that block a different agent from acting, as in 'paralyze' and 'keep one on a short leash.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.22",
+                "type": "axiom",
+                "name": "Definition of preferEnableOtherAgentGoalSatisfaction",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b e p) (iff (preferEnableOtherAgentGoalSatisfaction a b e p) (exists (g1) (and (goal g1 b)(enable e g1) (preferEnableEvent a e p)))))",
+                "english": "One can prefer to work toward plans that enable others to achieve their goals, as in 'make someone happy.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.23",
+                "type": "axiom",
+                "name": "Definition of preferBlockOtherAgentGoalSatisfaction",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b e p) (iff (preferBlockOtherAgentGoalSatisfaction a b e p) (exists (g1) (and (goal g1 b)(enable e g1) (preferBlockEvent a e p)))))",
+                "english": "One can prefer to work toward plans that prevent others from achieving their goals, as in 'thwart' and 'derail.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.24",
+                "type": "axiom",
+                "name": "Definition of preferMinimizeValue",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a v p) (iff (preferMinimizeValue a v p) (forall (e1 e2 x1 x2 s) (if (and (at' e1 v x1 s)(at' e2 v x2 s) (lts x1 x2 s)) (prefer a e1 e2 p)))))",
+                "english": "One can prefer to try to minimize a value that is part of a plan, as illustrated in 'less is more,' 'be conservative,' and 'frugal.' Lines 4-7 specify conditions e1 and e2, saying that e1 is the eventuality of some value v being at point x1 on some scale s, e2 is the eventuality of v being at x2 on s, where x1 is less than x2 on the scale. Under these circumstances, agent a will prefer e1 to e2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "37.25",
+                "type": "axiom",
+                "name": "Definition of preferMaximizeValue",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a v p) (iff (preferMaximizeValue a v p) (forall (e1 e2 x1 x2 s) (if (and (at' e1 v x1 s)(at' e2 v x2 s) (lts x2 x1 s)) (prefer a e1 e2 p)))))",
+                "english": "One can prefer to try to maximize a value that is part of a plan, as illustrated in the phrases 'bigger is better,' 'as much as possible,' and 'be liberal with.' This definition is the same as the previous one, except x1 and x2 are reversed in line 5.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "37.26",
+                "type": "axiom",
+                "name": "Definition of preferMinimizeDuration",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a p) (iff (preferMinimizeDuration a p) (exists (d u) (and (durationOf d p u) (preferMinimizeValue a d p)))))",
+                "english": "Among the values one can seek to minimize or maximize are the durations of activities and events. Thus, one can prefer to try to minimize the overall duration of a plan, as in 'time is of the essence' and 'not waste time.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.27",
+                "type": "axiom",
+                "name": "Definition of preferMaximizeDuration",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a p) (iff (preferMaximizeDuration a p) (exists (d u) (and (durationOf d p u) (preferMaximizeValue a d p)))))",
+                "english": "One can prefer to try to maximize the overall duration of a plan, as in 'prolong' and 'make it last.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.28",
+                "type": "axiom",
+                "name": "Definition of locateThing",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a x p) (iff (locateThing a x p) (exists (e p2 e1 g) (and (plan p a g)(addGoalToPlan a e p p2)(arg* x e) (imply e e1)(wh' e1 x g)))))",
+                "english": "The expression (locateThing a x p) means that agent a instantiates unspecified entity x in plan p. Line 4 says that p is a plan for achieving g and agent a adds to that plan as a constraint a property e of x. Line 5 says that e implies a property e1 that enables x to be identified. Sometimes unspecified things must be instantiated for plans to be complete, as in 'locate,' 'search for,' and 'get one's hands on.'",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "37.29",
+                "type": "axiom",
+                "name": "Definition of locateAgent",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a x p) (iff (locateAgent a x p) (and (person x)(locateThing a x p))))",
+                "english": "Sometimes unspecified people must be instantiated for plans to be complete, as in 'find someone to' and 'fill the job.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.30",
+                "type": "axiom",
+                "name": "Definition of locateLocation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a x p) (iff (locateLocation a x p) (exists (y s e) (and (atLoc y x s)(arg* y e)(subgoalIn e p) (locateThing a x p)))))",
+                "english": "Sometimes unspecified locations must be instantiated for plans to be complete, as in 'find a place where.' There is no such thing as a location per se. Something is the location of something else, indicated by the atLoc relation. Thus, to identify a location crucial to the execution of a plan is to recognize or decide upon the location of an entity that is an argument of or is involved in one of the subgoals of the plan.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "37.31",
+                "type": "axiom",
+                "name": "Definition of preferMaintainPlanProgress",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a p) (iff (preferMaintainPlanProgress a p) (forall (e e1) (if (and (subgoalIn e p)(changeFrom' e1 e)) (exists (e2) (and (not' e2 e1)(prefer0 a e2 p)))))))",
+                "english": "One can (and generally does) prefer to work toward plans that maintain the progress that has already been achieved. This is illustrated in the phrases 'avoid backpedaling' and 'keep moving forward.' That is, if e is a subgoal of the plan, agent a prefers not to change it. In cases where a previously achieved state must be undone for the plan to succeed, the preference will be overridden.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_addGoalToPlan",
+                "type": "predicate",
+                "name": "addGoalToPlan",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_and'",
+                "type": "predicate",
+                "name": "and'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subplan",
+                "type": "predicate",
+                "name": "subplan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_planningConstraint",
+                "type": "predicate",
+                "name": "planningConstraint",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_prefer",
+                "type": "predicate",
+                "name": "prefer",
+                "frequency": 12,
+                "axiom_count": 12,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_not'",
+                "type": "predicate",
+                "name": "not'",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cwu",
+                "type": "predicate",
+                "name": "cwu",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventualitiesOf",
+                "type": "predicate",
+                "name": "eventualitiesOf",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subgoalsOf",
+                "type": "predicate",
+                "name": "subgoalsOf",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_union",
+                "type": "predicate",
+                "name": "union",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_possible",
+                "type": "predicate",
+                "name": "possible",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_cwu0",
+                "type": "predicate",
+                "name": "cwu0",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Now",
+                "type": "predicate",
+                "name": "Now",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_or'",
+                "type": "predicate",
+                "name": "or'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_badFor",
+                "type": "predicate",
+                "name": "badFor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_prefer0",
+                "type": "predicate",
+                "name": "prefer0",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_moreValuable",
+                "type": "predicate",
+                "name": "moreValuable",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreCostly",
+                "type": "predicate",
+                "name": "moreCostly",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferAvoidAction",
+                "type": "predicate",
+                "name": "preferAvoidAction",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferEnableEvent",
+                "type": "predicate",
+                "name": "preferEnableEvent",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_enable",
+                "type": "predicate",
+                "name": "enable",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_preferBlockEvent",
+                "type": "predicate",
+                "name": "preferBlockEvent",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_prevent",
+                "type": "predicate",
+                "name": "prevent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferEnableThreat",
+                "type": "predicate",
+                "name": "preferEnableThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_threat0",
+                "type": "predicate",
+                "name": "threat0",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferBlockThreat",
+                "type": "predicate",
+                "name": "preferBlockThreat",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferEnableTransfer",
+                "type": "predicate",
+                "name": "preferEnableTransfer",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_move'",
+                "type": "predicate",
+                "name": "move'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_physobj",
+                "type": "predicate",
+                "name": "physobj",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferBlockTransfer",
+                "type": "predicate",
+                "name": "preferBlockTransfer",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferEnableAgency",
+                "type": "predicate",
+                "name": "preferEnableAgency",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferBlockAgency",
+                "type": "predicate",
+                "name": "preferBlockAgency",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferEnableOtherAgentGoalSatisfaction",
+                "type": "predicate",
+                "name": "preferEnableOtherAgentGoalSatisfaction",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferBlockOtherAgentGoalSatisfaction",
+                "type": "predicate",
+                "name": "preferBlockOtherAgentGoalSatisfaction",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferMinimizeValue",
+                "type": "predicate",
+                "name": "preferMinimizeValue",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at'",
+                "type": "predicate",
+                "name": "at'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lts",
+                "type": "predicate",
+                "name": "lts",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferMaximizeValue",
+                "type": "predicate",
+                "name": "preferMaximizeValue",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferMinimizeDuration",
+                "type": "predicate",
+                "name": "preferMinimizeDuration",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_durationOf",
+                "type": "predicate",
+                "name": "durationOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferMaximizeDuration",
+                "type": "predicate",
+                "name": "preferMaximizeDuration",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_locateThing",
+                "type": "predicate",
+                "name": "locateThing",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_wh'",
+                "type": "predicate",
+                "name": "wh'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_locateAgent",
+                "type": "predicate",
+                "name": "locateAgent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_locateLocation",
+                "type": "predicate",
+                "name": "locateLocation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atLoc",
+                "type": "predicate",
+                "name": "atLoc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferMaintainPlanProgress",
+                "type": "predicate",
+                "name": "preferMaintainPlanProgress",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom'",
+                "type": "predicate",
+                "name": "changeFrom'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 28,
+                "frequency": 31,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_g1",
+                "type": "variable",
+                "name": "g1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 17,
+                "frequency": 17,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 28,
+                "frequency": 30,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 15,
+                "frequency": 16,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 12,
+                "frequency": 12,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s3",
+                "type": "variable",
+                "name": "s3",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s0",
+                "type": "variable",
+                "name": "s0",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_b",
+                "type": "variable",
+                "name": "b",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_v",
+                "type": "variable",
+                "name": "v",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x2",
+                "type": "variable",
+                "name": "x2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_d",
+                "type": "variable",
+                "name": "d",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_u",
+                "type": "variable",
+                "name": "u",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "37.1",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.1",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.1",
+                "target": "pred_and'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.1",
+                "target": "pred_subplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.1",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.1",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.1",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.2",
+                "target": "pred_planningConstraint",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.2",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.2",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.3",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.3",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.3",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.3",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.3",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.4",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.4",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.4",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.5",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.6",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_cwu0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_Now",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_possible",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_or'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_badFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_s3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.7",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.8",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.9",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.9",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.10",
+                "target": "pred_prefer0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.10",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.10",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.11",
+                "target": "pred_moreValuable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.11",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.11",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.12",
+                "target": "pred_moreCostly",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.12",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.13",
+                "target": "pred_preferAvoidAction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.13",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.13",
+                "target": "pred_prefer0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.14",
+                "target": "pred_preferEnableEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.14",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.14",
+                "target": "pred_prefer0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.15",
+                "target": "pred_preferBlockEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.15",
+                "target": "pred_prevent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.15",
+                "target": "pred_prefer0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.16",
+                "target": "pred_preferEnableThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.16",
+                "target": "pred_preferEnableEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.16",
+                "target": "pred_threat0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.16",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.17",
+                "target": "pred_preferBlockThreat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.17",
+                "target": "pred_preferBlockEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.17",
+                "target": "pred_threat0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.17",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "pred_preferEnableTransfer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.18",
+                "target": "pred_move'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.18",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.18",
+                "target": "pred_preferEnableEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.18",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "pred_preferBlockTransfer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.19",
+                "target": "pred_move'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.19",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.19",
+                "target": "pred_preferBlockEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.19",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.19",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.20",
+                "target": "pred_preferEnableAgency",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.20",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.20",
+                "target": "pred_preferEnableEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.20",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.20",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.21",
+                "target": "pred_preferBlockAgency",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.21",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.21",
+                "target": "pred_preferBlockEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.21",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.21",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.21",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.21",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.22",
+                "target": "pred_preferEnableOtherAgentGoalSatisfaction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.22",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.22",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.22",
+                "target": "pred_preferEnableEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.22",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.22",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.22",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.22",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.22",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.23",
+                "target": "pred_preferBlockOtherAgentGoalSatisfaction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.23",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.23",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.23",
+                "target": "pred_preferBlockEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.23",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.23",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.23",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.23",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.23",
+                "target": "var_g1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "pred_preferMinimizeValue",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.24",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.24",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.24",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.24",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_v",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.24",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "pred_preferMaximizeValue",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.25",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.25",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.25",
+                "target": "pred_prefer",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_v",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.25",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.26",
+                "target": "pred_preferMinimizeDuration",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.26",
+                "target": "pred_durationOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.26",
+                "target": "pred_preferMinimizeValue",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.26",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.26",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.26",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.26",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.27",
+                "target": "pred_preferMaximizeDuration",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.27",
+                "target": "pred_durationOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.27",
+                "target": "pred_preferMaximizeValue",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.27",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.27",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.27",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "pred_locateThing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "pred_addGoalToPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "pred_wh'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.28",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.28",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.29",
+                "target": "pred_locateAgent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.29",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.29",
+                "target": "pred_locateThing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.29",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.29",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.29",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "pred_locateLocation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.30",
+                "target": "pred_atLoc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.30",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.30",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.30",
+                "target": "pred_locateThing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.30",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.30",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.31",
+                "target": "pred_preferMaintainPlanProgress",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.31",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.31",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.31",
+                "target": "pred_not'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.31",
+                "target": "pred_prefer0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "37.31",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.31",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.31",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.31",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "37.31",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_planningConstraint",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_cwu0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_Now",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_possible",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Now",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_or'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possible",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_or'",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_badFor",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_badFor",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_not'",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer0",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prefer0",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreValuable",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreCostly",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferAvoidAction",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferAvoidAction",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableEvent",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableEvent",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockEvent",
+                "target": "pred_prevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockEvent",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_prevent",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableThreat",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableThreat",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableEvent",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockThreat",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockThreat",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockEvent",
+                "target": "pred_threat0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableTransfer",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableTransfer",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableTransfer",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_physobj",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockTransfer",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockTransfer",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockTransfer",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_physobj",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableAgency",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableAgency",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockAgency",
+                "target": "pred_agentOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockAgency",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableOtherAgentGoalSatisfaction",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableOtherAgentGoalSatisfaction",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferEnableOtherAgentGoalSatisfaction",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_preferEnableEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockOtherAgentGoalSatisfaction",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockOtherAgentGoalSatisfaction",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferBlockOtherAgentGoalSatisfaction",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_enable",
+                "target": "pred_preferBlockEvent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMinimizeValue",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMinimizeValue",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMinimizeValue",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaximizeValue",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaximizeValue",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaximizeValue",
+                "target": "pred_prefer",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMinimizeDuration",
+                "target": "pred_durationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMinimizeDuration",
+                "target": "pred_preferMinimizeValue",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_durationOf",
+                "target": "pred_preferMinimizeValue",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaximizeDuration",
+                "target": "pred_durationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaximizeDuration",
+                "target": "pred_preferMaximizeValue",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_durationOf",
+                "target": "pred_preferMaximizeValue",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateThing",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateThing",
+                "target": "pred_addGoalToPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateThing",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateThing",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateThing",
+                "target": "pred_wh'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_wh'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addGoalToPlan",
+                "target": "pred_wh'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_wh'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_wh'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateAgent",
+                "target": "pred_person",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateAgent",
+                "target": "pred_locateThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_locateThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateLocation",
+                "target": "pred_atLoc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateLocation",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateLocation",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_locateLocation",
+                "target": "pred_locateThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atLoc",
+                "target": "pred_locateThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_locateThing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaintainPlanProgress",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaintainPlanProgress",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaintainPlanProgress",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_preferMaintainPlanProgress",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_not'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_prefer0",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

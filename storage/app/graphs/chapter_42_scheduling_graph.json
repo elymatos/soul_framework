@@ -1,0 +1,5186 @@
+{
+    "metadata": {
+        "chapter": 42,
+        "chapter_title": "Scheduling",
+        "filename": "chapter_42_scheduling",
+        "generated_at": "2025-09-16T13:01:15+00:00",
+        "axiom_count": 33,
+        "predicate_count": 70,
+        "variable_count": 27,
+        "frequent_variable_count": 22
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 19,
+            "moderate": 11,
+            "complex": 3
+        },
+        "pattern_counts": {
+            "axiom_schema": 1,
+            "defeasible_rule": 1,
+            "definition": 31
+        },
+        "top_predicates": {
+            "subgoalIn": 9,
+            "scheduledPlan": 9,
+            "member": 7,
+            "gen": 7,
+            "scheduled": 6,
+            "plan": 6,
+            "timeSpanOf": 6,
+            "before": 6,
+            "schedulePlan'": 5,
+            "subgoalsOf": 4
+        },
+        "predicate_frequencies": {
+            "subgoalIn": 9,
+            "scheduledPlan": 9,
+            "member": 7,
+            "gen": 7,
+            "scheduled": 6,
+            "plan": 6,
+            "timeSpanOf": 6,
+            "before": 6,
+            "schedulePlan'": 5,
+            "subgoalsOf": 4,
+            "lessDuration'": 4,
+            "begins": 4,
+            "unscheduledTime": 3,
+            "scheduleCapacity": 3,
+            "scaleDefinedBy": 3,
+            "inScale": 3,
+            "nontemporal": 3,
+            "pendingPlan": 3,
+            "ends": 3,
+            "slack": 3,
+            "change'": 3,
+            "plan'": 3,
+            "unschedulePlan'": 3,
+            "atTime": 2,
+            "schedule": 2,
+            "durationOf": 2,
+            "schedulednessScale": 2,
+            "Lo": 2,
+            "aDeadline": 2,
+            "cause": 2,
+            "deadline": 2,
+            "equal": 2,
+            "aStartTimeDeadline": 2,
+            "reschedulePlan'": 2,
+            "p'": 1,
+            "q'": 1,
+            "agentOf": 1,
+            "temporal": 1,
+            "temporalEntity": 1,
+            "atTime'": 1,
+            "during'": 1,
+            "imply": 1,
+            "tseq": 1,
+            "insideTime": 1,
+            "lt'": 1,
+            "fullSchedule": 1,
+            "nextUnscheduledMoment": 1,
+            "first": 1,
+            "posInfInterval": 1,
+            "nextScheduledEvent": 1,
+            "scheduledPlanInterval": 1,
+            "convexHull": 1,
+            "scheduledStartTime": 1,
+            "scheduledEndTime": 1,
+            "startTimeDeadline": 1,
+            "scheduledCloseToDeadline": 1,
+            "scheduledFarFromDeadline": 1,
+            "Hi": 1,
+            "schedulePreference": 1,
+            "sameAbstractPlan": 1,
+            "preferGoal": 1,
+            "subset": 1,
+            "schedulePeriodicPlan'": 1,
+            "periodicPlan": 1,
+            "indefinitelyPostponePlan'": 1,
+            "juggleSchedule'": 1,
+            "collaborativelySchedulePlan'": 1,
+            "agent": 1,
+            "schedulingFailure": 1,
+            "fail'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "42.1",
+                "type": "axiom",
+                "name": "Simultaneous action constraint schema",
+                "complexity": "simple",
+                "pattern": "axiom_schema",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 e2 x) (if (and (p' e1 x)(q' e2 x)) (not (exists (t)(and (atTime e1 t)(atTime e2 t))))))",
+                "english": "General rule schema that most simultaneous action constraints instantiate: if e1 is a p-type action by x and e2 is a q-type action by x, then there is no time t such that both e1 and e2 are occurring at t. For example, p might be 'walk' and q might be 'chew-gum' (Gerald Ford couldn't walk and chew gum at the same time).",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.2",
+                "type": "axiom",
+                "name": "Defeasible simultaneous agency constraint",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e1 e2 x) (if (and (agentOf x e1)(agentOf x e2)(etc)) (not (exists (t)(and (atTime e1 t)(atTime e2 t))))))",
+                "english": "Less domain-specific but defeasible rule: x cannot be the agent of two actions simultaneously. This may seem too strong, but we use something like it when we make sense of text like 'Pat couldn't lift the grate; he was carrying a stack of books.' Uses defeasible (etc) condition.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.3",
+                "type": "axiom",
+                "name": "Definition of schedule",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s p) (iff (schedule s p) (forall (e) (iff (member e s) (and (subgoalIn e p)(temporal e))))))",
+                "english": "A schedule is the set of temporal subgoals of a plan. From a logical point of view, we can view a schedule as a particular part of a plan, namely, those subgoals of the form (timeSpan t e) where t is an instant or interval and e is an action or other event in the plan. s is a schedule for plan p if and only if it is the set of temporal properties e that are subgoals in plan p.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.4",
+                "type": "axiom",
+                "name": "Definition of scheduled",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e p t) (iff (scheduled e t p) (and (subgoalIn e p)(temporalEntity t) (exists (e1 s1) (and (or (atTime' e1 e t)(during' e1 e t)) (subgoalsOf s1 p)(imply s1 e1))))))",
+                "english": "A subgoal e of a plan is scheduled for a temporal entity t if it can be inferred from the plan that e is at or during t. Subgoal e is scheduled for t exactly when s1 implies such a relation. It is not enough to say that a temporal relation for e is in the schedule for p, because the temporal relation may not be explicit, but rather may follow from facts about the durations of events and about before relations.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.5",
+                "type": "axiom",
+                "name": "Definition of unscheduledTime",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p t0) (iff (unscheduledTime t p t0) (and (tseq t) (forall (t1) (iff (member t1 t) (and (insideTime t1 t0) (not (exists (e) (and (subgoalIn e p) (scheduled e t1 p)))))))))))",
+                "english": "Unscheduled time as the temporal sequence (tseq) of those intervals which have no associated action in the agent's schedule. We relativize it to a larger containing interval that would normally be supplied by context. A time is unscheduled with respect to a plan if there is no subgoal of the plan which is scheduled for that time ('free time,' 'spare time').",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.6",
+                "type": "axiom",
+                "name": "Definition of scheduleCapacity",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (d p t0 u) (iff (scheduleCapacity d p t0 u) (exists (t) (and (unscheduledTime t p t0)(durationOf d t u)))))",
+                "english": "Because the duration of temporal sequences can be measured, we can talk about the duration of a plan's unscheduled time, relativized to a larger interval (t0) and to a unit (u) of temporal measure. Duration d is the schedule capacity of plan p in interval t0 in units u if there is a temporal sequence t that is the unscheduled time of p in t0 and d is t's duration in units u.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.7",
+                "type": "axiom",
+                "name": "Definition of lessDuration",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e t1 t2) (iff (lessDuration' e t1 t2) (exists (d1 d2 u) (and (durationOf d1 t1 u)(durationOf d2 t2 u) (lt' e d1 d2)))))",
+                "english": "Durations constitute a scale; thus, so do schedule capacities. The partial ordering on these scales is lessDuration. The predicate lessDuration say that one temporal entity or eventuality has less duration than another.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.8",
+                "type": "axiom",
+                "name": "Definition of schedulednessScale",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s p t0 u) (iff (schedulednessScale s p t0 u) (exists (s1 t1 t2) (and (lessDuration' e t1 t2) (forall (d) (if (member d s1) (scheduleCapacity d p t0 u))) (scaleDefinedBy s s1 e)))))",
+                "english": "A scale of 'scheduled-ness' is one in which the elements are schedule capacities and the partial ordering is lessDuration. Scale s is a scale consisting of schedule capacities in units u and having partial ordering lessDuration.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.9",
+                "type": "axiom",
+                "name": "Definition of fullSchedule",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p t0) (iff (fullSchedule p t0) (exists (s d u s1) (and (schedulednessScale s p t0 u) (scheduleCapacity d p t0 u) (Lo s1 s)(inScale d s1)))))",
+                "english": "Because we can make qualitative judgments about whether something lies in the high, medium or low region of a scale, we can talk about an agent's schedule being full, in terms of the duration of the agent's unscheduled time being in the low region of a scale ('overbooked,' 'busy,' 'stretched thin').",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.10",
+                "type": "axiom",
+                "name": "Definition of nextUnscheduledMoment",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p t0) (iff (nextUnscheduledMoment t p t0) (exists (s t1 t2) (and (unscheduledTime s p t1)(first t2 s) (posInfInterval t1)(begins t0 t1) (begins t t2)))))",
+                "english": "The next unscheduled moment t for a plan p at time t0 is the first temporal entity in the unscheduled time for p for a positively infinite interval beginning at t0 ('soonest opportunity,' 'have a chance'). Think of t0 as the present time. Interval t1 is the positive infinite interval beginning at t0, s is the temporal sequence of intervals that are not scheduled for actions in plan p, t2 is the first interval in s, and t is the instant that begins t2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.11",
+                "type": "axiom",
+                "name": "Definition of scheduledPlan",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (iff (scheduledPlan p) (exists (a g) (and (plan p a g) (forall (e) (if (and (subgoalIn e p)(nontemporal e)) (exists (t) (scheduled e t p))))))))",
+                "english": "We will rather arbitrarily say that a scheduled plan is a plan all of whose nontemporal subgoals are scheduled. All of the nontemporal subgoals in plan p have been assigned specific times.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.12",
+                "type": "axiom",
+                "name": "Definition of pendingPlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (iff (pendingPlan p) (exists (a g) (and (plan p a g)(not (scheduledPlan p))))))",
+                "english": "A pending plan is one that is not scheduled. Plan p is pending when it exists as a plan for some agent and goal but is not a scheduled plan.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.13",
+                "type": "axiom",
+                "name": "Plan timeSpanOf definition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p a g) (if (plan p a g) (iff (timeSpanOf t p) (exists (s) (and (subgoalsOf s p)(timeSpanOf t s))))))",
+                "english": "The subgoals of a plan are eventualities. The set of subgoals of a plan can be viewed as a conjunction of eventualities, and hence as an eventuality. This has a time span, and we can define that to be the time span of the plan itself.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.14",
+                "type": "axiom",
+                "name": "Definition of nextScheduledEvent",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 p) (iff (nextScheduledEvent e1 e2 p) (exists (t1 t2) (and (scheduled e1 t1 p)(scheduled e2 t2 p) (before t1 t2) (not (exists (e3 t3) (and (subgoalIn e3 p)(scheduled e3 t3 p) (before t1 t3)(before t3 t2))))))))",
+                "english": "The next scheduled event e2 after event e1 in a plan p is an event such that there is no event in the plan's schedule between e1 and e2. e2 is the next scheduled event in p after e1 if the time t1 scheduled for e1 is before the time t2 scheduled for e2, and there are no subgoals e3 of p scheduled for a time t3 between t1 and t2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.15",
+                "type": "axiom",
+                "name": "Definition of scheduledPlanInterval",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (scheduledPlanInterval t p) (exists (t1) (and (scheduledPlan p)(timeSpanOf t1 p) (convexHull t t1)))))",
+                "english": "The scheduled plan interval is the smallest interval that spans the entire scheduled plan. That is, it is the convex hull of the time span of the plan.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.16",
+                "type": "axiom",
+                "name": "Definition of scheduledStartTime",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t e p) (iff (scheduledStartTime t e p) (exists (t1) (and (scheduledPlan p)(subgoalIn e p) (scheduled e t1 p)(begins t t1)))))",
+                "english": "The scheduled start time of an event in a scheduled plan is the time that that event is scheduled to begin. Plan p is a scheduled plan and its subgoal e is scheduled for temporal entity t1, which begins at time t.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.17",
+                "type": "axiom",
+                "name": "Definition of scheduledEndTime",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t e p) (iff (scheduledEndTime t e p) (exists (t2) (and (scheduledPlan p)(subgoalIn e p) (scheduled e t2 p)(ends t t2)))))",
+                "english": "The scheduled end time of an event in a scheduled plan is the time that that event is scheduled to end. Plan p is a scheduled plan and its subgoal e is scheduled for temporal entity t2, which ends at time t.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.18",
+                "type": "axiom",
+                "name": "Definition of aDeadline",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (aDeadline t p) (exists (a g t1 t2) (and (plan p a g)(timeSpanOf t1 p)(ends t2 t1) (if (before t t2)(not (cause p g)))))))",
+                "english": "The reason for a plan is that it causes a goal to be satisfied. Sometimes this causality is time sensitive; if the plan is not executed by a certain time, it will no longer cause the goal to be satisfied. This certain time is a deadline. t is a deadline for plan p if whenever the end t2 of p's time span t1 is after t, it means that p will not cause or bring about the goal g that p was designed to achieve.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.19",
+                "type": "axiom",
+                "name": "Definition of deadline",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (deadline t p) (and (aDeadline t p) (forall (t1) (if (aDeadline t1 p) (or (before t t1)(equal t t1)))))))",
+                "english": "The deadline for a plan is the earliest such deadline. t is the deadline for plan p if it is a deadline for p and for every other deadline t1 for p, either t is before t1 or t equals t1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.20",
+                "type": "axiom",
+                "name": "Definition of aStartTimeDeadline",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (aStartTimeDeadline t p) (exists (a g t1 t2) (and (plan p a g)(timeSpanOf t1 p)(begins t2 t1) (if (before t t2)(not (cause p g)))))))",
+                "english": "There can be a deadline for starting a plan. t is a start-time deadline for plan p if whenever the beginning t2 of p's time span t1 is after t, it means that p will not cause or bring about the goal g that p was designed to achieve.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.21",
+                "type": "axiom",
+                "name": "Definition of startTimeDeadline",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (startTimeDeadline t p) (and (aStartTimeDeadline t p) (forall (t1) (if (aStartTimeDeadline t1 p) (or (before t t1)(equal t t1)))))))",
+                "english": "The start-time deadline for a plan is the earliest such start-time deadline. t is the start-time deadline for plan p if it is a start-time deadline for p and for every other start-time deadline t1 for p, either t is before t1 or t equals t1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.22",
+                "type": "axiom",
+                "name": "Definition of slack",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (t p) (iff (slack t p) (exists (t0 t1 t2) (and (scheduledPlan p)(timeSpanOf t0 p) (ends t1 t0)(deadline t2 p) (begins t1 t)(ends t2 t)))))",
+                "english": "The amount of time between the end of a scheduled plan and the deadline for that plan occupies a significant share of people's thought. Expressions include 'finish in the nick of time,' 'finished with time to spare,' 'finish in plenty of time,' and 'finished at the very last second.' We can call this interval the 'slack' in a plan. A slack t in plan p is a temporal interval that begins when the plan is to be completed and ends at the plan's deadline.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.23",
+                "type": "axiom",
+                "name": "Definition of scheduledCloseToDeadline",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (iff (scheduledCloseToDeadline p) (exists (s s0 e t2 t3 s1 t) (and (scaleDefinedBy s s0 e) (forall (t1) (if (member t1 s0)(exists (p1) (slack t1 p1)))) (lessDuration' e t2 t3) (Lo s1 s)(slack t p)(inScale t s1)))))",
+                "english": "Slacks have duration and consequently can be located along a scale defined by durations. This scale can have high and low regions, corresponding to the slack being small or large. A plan p is scheduled close to its deadline if its slack is in the low region s1 of a scale s whose elements t1 are 'slacks' and whose partial ordering e is lessDuration.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "42.24",
+                "type": "axiom",
+                "name": "Definition of scheduledFarFromDeadline",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (iff (scheduledFarFromDeadline p) (exists (s s0 e t2 t3 s1 t) (and (scaleDefinedBy s s0 e) (forall (t1) (if (member t1 s0)(exists (p1) (slack t1 p1)))) (lessDuration' e t2 t3) (Hi s1 s)(slack t p)(inScale t s1)))))",
+                "english": "A predicate scheduledFarFromDeadline can be defined similarly to scheduledCloseToDeadline; it picks out the high region of the scale. A plan is scheduled far from its deadline when its slack is in the Hi region of the duration scale.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "42.25",
+                "type": "axiom",
+                "name": "Definition of schedulePreference",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a s1 s2) (iff (schedulePreference a s1 s2) (exists (p p1 p2 g) (and (plan p a g)(sameAbstractPlan p1 p2 p) (schedule s1 p1)(schedule s2 p2) (preferGoal a s1 s2)))))",
+                "english": "A schedule is a set and therefore a conjunction of the temporal subgoals of a plan. Thus, we can define a schedule preference in terms of goal preferences between schedules. Agent a prefers schedule s1 to schedule s2. The predication sameAbstractPlan p1 p2 p, defined in Chapter 45, says that plans p1 and p2 are both instantiations of the same abstract plan p. Examples of preferences are 'Do the most interesting tasks first,' and 'Minimize or maximize the slack.'",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.26",
+                "type": "axiom",
+                "name": "Definition of schedulePlan",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p1 p2) (iff (schedulePlan' e a p1 p2) (exists (e1 e2 g e3) (and (change' e3 e1 e2)(gen e3 e) (plan' e1 p1 a g)(pendingPlan p1) (plan' e2 p2 a g)(scheduledPlan p2) (forall (s1 s2) (if (and (subgoalsOf s1 p1)(subgoalsOf s2 p2)) (subset s1 s2)))))))",
+                "english": "For an agent to schedule a plan is for there to be a change from a state in which one has a pending plan to one in which one has a scheduled plan, where the subgoals of the pending plan are all included in the subgoals of the scheduled plan. There is a change from agent a having a pending plan p1 for achieving goal g to having a scheduled plan p2 for achieving g, where all the subgoals of p1 are also subgoals of p2.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.27",
+                "type": "axiom",
+                "name": "Definition of schedulePeriodicPlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a p1 p2) (iff (schedulePeriodicPlan' e a p1 p2) (exists (g e3) (and (schedulePlan' e3 a p1 p2)(gen e3 e) (periodicPlan p2 a g)))))",
+                "english": "In Chapter 31 we defined a periodic plan as one whose time span is a periodic temporal sequence. To schedule a periodic plan is to schedule a plan that is periodic.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.28",
+                "type": "axiom",
+                "name": "Definition of unschedulePlan",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p1 p2) (iff (unschedulePlan' e a p1 p2) (exists (e1 e2 g e3) (and (change' e3 e1 e2)(gen e3 e) (plan' e1 p1 a g)(scheduledPlan p1) (plan' e2 p2 a g)(pendingPlan p2) (forall (s1 g2) (if (and (subgoalsOf s1 p1)(subgoalIn g2 p2) (nontemporal g2)) (member g2 s1)))))))",
+                "english": "For an agent to unschedule a plan is for there to be a change from a state in which there is a scheduled plan to a state in which there is a pending plan with all the same nontemporal subgoals. The nontemporal subgoals of p2 are subgoals of p1. Thus, only temporal goals are changed in the process.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "42.29",
+                "type": "axiom",
+                "name": "Definition of reschedulePlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p2 p3) (iff (reschedulePlan' e a p2 p3) (exists (e1 p1 e2) (and (schedulePlan' e2 a p2 p3)(gen e2 e) (unschedulePlan' e1 a p1 p2)(before e1 e)))))",
+                "english": "To reschedule a plan is to schedule a plan where there has been a previous unscheduling. e is an action by agent a to reschedule a pending plan p2, resulting in scheduled plan p3. This holds when there was a previous unscheduling event e1 by agent a changing a scheduled plan p1 into the pending plan p2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.30",
+                "type": "axiom",
+                "name": "Definition of indefinitelyPostponePlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p1 p2) (iff (indefinitelyPostponePlan' e a p1 p2) (exists (e4) (and (unschedulePlan' e4 a p1 p2)(gen e4 e) (not (exists (e3 p3) (reschedulePlan' e3 a p2 p3)))))))",
+                "english": "To indefinitely postpone a plan is to unschedule it and not reschedule it. Action e by agent a indefinitely postpones scheduled plan p1 resulting in pending plan p2, where there is no subsequent rescheduling of p2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.31",
+                "type": "axiom",
+                "name": "Definition of juggleSchedule",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a p1 p2) (iff (juggleSchedule' e a p1 p2) (exists (e1 e2 t e3) (and (change' e3 e1 e2)(gen e3 e) (plan' e1 p1 a g)(scheduledPlan p1) (plan' e2 p2 a g)(scheduledPlan p2) (forall (g) (if (nontemporal g) (iff (subgoalIn g p1)(subgoalIn g p2)))) (exists (g1) (and (not (subgoalIn g1 p1))(subgoalIn g1 p2))) (timeSpanOf t p1)(timeSpanOf t p2)))))",
+                "english": "To juggle a schedule is to change from a state in which one's plan is p1 to a state in which one's plan is p2, where the nontemporal subgoals of p1 and p2 are the same and the time spans of p1 and p2 are the same. Action e by agent a changes scheduled plan p1 into scheduled plan p2, where p1 and p2 have all the same nontemporal subgoals, where p1 and p2 differ in at least one temporal subgoal, and where p1 and p2 have the same time spans.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "42.32",
+                "type": "axiom",
+                "name": "Definition of collaborativelySchedulePlan",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e s p1 p2) (iff (collaborativelySchedulePlan' e s p1 p2) (exists (e1) (and (schedulePlan' e1 s p1 p2)(gen e1 e) (forall (a) (if (member a s)(agent a)))))))",
+                "english": "Collaborative scheduling of a plan is the scheduling of a plan by a set of agents. Action e by set s of agents schedules pending plan p1 resulting in scheduled plan p2, where every member of s is an agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "42.33",
+                "type": "axiom",
+                "name": "Definition of schedulingFailure",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e) (iff (schedulingFailure e a p) (exists (e1 p1) (and (fail' e a e1)(schedulePlan' e1 a p p1)))))",
+                "english": "A scheduling failure is to fail to schedule a plan. Action e is a scheduling failure by agent a for plan p when agent a fails in an attempt e1 to schedule plan p into some scheduled plan p1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_p'",
+                "type": "predicate",
+                "name": "p'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_q'",
+                "type": "predicate",
+                "name": "q'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agentOf",
+                "type": "predicate",
+                "name": "agentOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedule",
+                "type": "predicate",
+                "name": "schedule",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 9,
+                "axiom_count": 9,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_temporal",
+                "type": "predicate",
+                "name": "temporal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scheduled",
+                "type": "predicate",
+                "name": "scheduled",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_temporalEntity",
+                "type": "predicate",
+                "name": "temporalEntity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime'",
+                "type": "predicate",
+                "name": "atTime'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_during'",
+                "type": "predicate",
+                "name": "during'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalsOf",
+                "type": "predicate",
+                "name": "subgoalsOf",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unscheduledTime",
+                "type": "predicate",
+                "name": "unscheduledTime",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_tseq",
+                "type": "predicate",
+                "name": "tseq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_insideTime",
+                "type": "predicate",
+                "name": "insideTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scheduleCapacity",
+                "type": "predicate",
+                "name": "scheduleCapacity",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_durationOf",
+                "type": "predicate",
+                "name": "durationOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lessDuration'",
+                "type": "predicate",
+                "name": "lessDuration'",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_lt'",
+                "type": "predicate",
+                "name": "lt'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedulednessScale",
+                "type": "predicate",
+                "name": "schedulednessScale",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_fullSchedule",
+                "type": "predicate",
+                "name": "fullSchedule",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Lo",
+                "type": "predicate",
+                "name": "Lo",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_nextUnscheduledMoment",
+                "type": "predicate",
+                "name": "nextUnscheduledMoment",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_first",
+                "type": "predicate",
+                "name": "first",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_posInfInterval",
+                "type": "predicate",
+                "name": "posInfInterval",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_begins",
+                "type": "predicate",
+                "name": "begins",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scheduledPlan",
+                "type": "predicate",
+                "name": "scheduledPlan",
+                "frequency": 9,
+                "axiom_count": 9,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_nontemporal",
+                "type": "predicate",
+                "name": "nontemporal",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_pendingPlan",
+                "type": "predicate",
+                "name": "pendingPlan",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_timeSpanOf",
+                "type": "predicate",
+                "name": "timeSpanOf",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_nextScheduledEvent",
+                "type": "predicate",
+                "name": "nextScheduledEvent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_scheduledPlanInterval",
+                "type": "predicate",
+                "name": "scheduledPlanInterval",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_convexHull",
+                "type": "predicate",
+                "name": "convexHull",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scheduledStartTime",
+                "type": "predicate",
+                "name": "scheduledStartTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scheduledEndTime",
+                "type": "predicate",
+                "name": "scheduledEndTime",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ends",
+                "type": "predicate",
+                "name": "ends",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_aDeadline",
+                "type": "predicate",
+                "name": "aDeadline",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_deadline",
+                "type": "predicate",
+                "name": "deadline",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_aStartTimeDeadline",
+                "type": "predicate",
+                "name": "aStartTimeDeadline",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_startTimeDeadline",
+                "type": "predicate",
+                "name": "startTimeDeadline",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_slack",
+                "type": "predicate",
+                "name": "slack",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scheduledCloseToDeadline",
+                "type": "predicate",
+                "name": "scheduledCloseToDeadline",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scheduledFarFromDeadline",
+                "type": "predicate",
+                "name": "scheduledFarFromDeadline",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedulePreference",
+                "type": "predicate",
+                "name": "schedulePreference",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_sameAbstractPlan",
+                "type": "predicate",
+                "name": "sameAbstractPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_preferGoal",
+                "type": "predicate",
+                "name": "preferGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedulePlan'",
+                "type": "predicate",
+                "name": "schedulePlan'",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_change'",
+                "type": "predicate",
+                "name": "change'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_plan'",
+                "type": "predicate",
+                "name": "plan'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedulePeriodicPlan'",
+                "type": "predicate",
+                "name": "schedulePeriodicPlan'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_periodicPlan",
+                "type": "predicate",
+                "name": "periodicPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unschedulePlan'",
+                "type": "predicate",
+                "name": "unschedulePlan'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_reschedulePlan'",
+                "type": "predicate",
+                "name": "reschedulePlan'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_indefinitelyPostponePlan'",
+                "type": "predicate",
+                "name": "indefinitelyPostponePlan'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_juggleSchedule'",
+                "type": "predicate",
+                "name": "juggleSchedule'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_collaborativelySchedulePlan'",
+                "type": "predicate",
+                "name": "collaborativelySchedulePlan'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_schedulingFailure",
+                "type": "predicate",
+                "name": "schedulingFailure",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_fail'",
+                "type": "predicate",
+                "name": "fail'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 17,
+                "frequency": 19,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 23,
+                "frequency": 23,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 17,
+                "frequency": 18,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_t0",
+                "type": "variable",
+                "name": "t0",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_t1",
+                "type": "variable",
+                "name": "t1",
+                "axiom_count": 14,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_d",
+                "type": "variable",
+                "name": "d",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_u",
+                "type": "variable",
+                "name": "u",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_t2",
+                "type": "variable",
+                "name": "t2",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 14,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_g",
+                "type": "variable",
+                "name": "g",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_t3",
+                "type": "variable",
+                "name": "t3",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s0",
+                "type": "variable",
+                "name": "s0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 11,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_p3",
+                "type": "variable",
+                "name": "p3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "42.1",
+                "target": "pred_p'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.1",
+                "target": "pred_q'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.1",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.1",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.2",
+                "target": "pred_agentOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.2",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.2",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.3",
+                "target": "pred_schedule",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.3",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.3",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.3",
+                "target": "pred_temporal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.4",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_temporalEntity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_during'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.4",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.4",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.5",
+                "target": "pred_unscheduledTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "pred_tseq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "pred_insideTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.5",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.5",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.5",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.6",
+                "target": "pred_scheduleCapacity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.6",
+                "target": "pred_unscheduledTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.6",
+                "target": "pred_durationOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.6",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.6",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.6",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.6",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.7",
+                "target": "pred_lessDuration'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.7",
+                "target": "pred_durationOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.7",
+                "target": "pred_lt'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.7",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.7",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.7",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "pred_schedulednessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.8",
+                "target": "pred_lessDuration'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.8",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.8",
+                "target": "pred_scheduleCapacity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.8",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.8",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "pred_fullSchedule",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.9",
+                "target": "pred_schedulednessScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.9",
+                "target": "pred_scheduleCapacity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.9",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.9",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "var_u",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.9",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "pred_nextUnscheduledMoment",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.10",
+                "target": "pred_unscheduledTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.10",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.10",
+                "target": "pred_posInfInterval",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.10",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.10",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.10",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.11",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.11",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.11",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.11",
+                "target": "pred_nontemporal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.11",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.11",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.11",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.12",
+                "target": "pred_pendingPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.12",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.12",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.12",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.12",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.13",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.13",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.13",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.13",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.13",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "pred_nextScheduledEvent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.14",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.14",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.14",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.14",
+                "target": "var_t3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.15",
+                "target": "pred_scheduledPlanInterval",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.15",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.15",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.15",
+                "target": "pred_convexHull",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.15",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.15",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.16",
+                "target": "pred_scheduledStartTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.16",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.16",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.16",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.16",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.16",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.16",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.16",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.17",
+                "target": "pred_scheduledEndTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.17",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.17",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.17",
+                "target": "pred_scheduled",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.17",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.17",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.17",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.17",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "pred_aDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.18",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.18",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.19",
+                "target": "pred_deadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.19",
+                "target": "pred_aDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.19",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.19",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.19",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.19",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "pred_aStartTimeDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.20",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.20",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.21",
+                "target": "pred_startTimeDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.21",
+                "target": "pred_aStartTimeDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.21",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.21",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.21",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.21",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.21",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.22",
+                "target": "pred_slack",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "pred_deadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.22",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.22",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.22",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.22",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.22",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "pred_scheduledCloseToDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_slack",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_lessDuration'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.23",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_t3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.23",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "pred_scheduledFarFromDeadline",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_slack",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_lessDuration'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.24",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_t3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.24",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "pred_schedulePreference",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.25",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.25",
+                "target": "pred_sameAbstractPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.25",
+                "target": "pred_schedule",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.25",
+                "target": "pred_preferGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.25",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "pred_schedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_plan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_pendingPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.26",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.26",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "pred_schedulePeriodicPlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.27",
+                "target": "pred_schedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.27",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.27",
+                "target": "pred_periodicPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.27",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.27",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "pred_unschedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_plan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_pendingPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_subgoalsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_nontemporal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.28",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "pred_reschedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.29",
+                "target": "pred_schedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.29",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.29",
+                "target": "pred_unschedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.29",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.29",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_p3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.29",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "pred_indefinitelyPostponePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.30",
+                "target": "pred_unschedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.30",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.30",
+                "target": "pred_reschedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.30",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.30",
+                "target": "var_p3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "pred_juggleSchedule'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_plan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_scheduledPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_nontemporal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "pred_timeSpanOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.31",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.31",
+                "target": "var_g",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "pred_collaborativelySchedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.32",
+                "target": "pred_schedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.32",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.32",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.32",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.32",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.32",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.33",
+                "target": "pred_schedulingFailure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.33",
+                "target": "pred_fail'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.33",
+                "target": "pred_schedulePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "42.33",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.33",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.33",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.33",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "42.33",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_q'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_p'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_q'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agentOf",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedule",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedule",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedule",
+                "target": "pred_temporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_temporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_temporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_temporalEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_during'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_temporalEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_during'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_temporalEntity",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_temporalEntity",
+                "target": "pred_during'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_temporalEntity",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_temporalEntity",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_during'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_during'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_during'",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_tseq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_insideTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tseq",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tseq",
+                "target": "pred_insideTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tseq",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_tseq",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_insideTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_insideTime",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_insideTime",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduleCapacity",
+                "target": "pred_unscheduledTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduleCapacity",
+                "target": "pred_durationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_durationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_durationOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_lt'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_durationOf",
+                "target": "pred_lt'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_lessDuration'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_scheduleCapacity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_scheduleCapacity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scheduleCapacity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduleCapacity",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fullSchedule",
+                "target": "pred_schedulednessScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fullSchedule",
+                "target": "pred_scheduleCapacity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fullSchedule",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fullSchedule",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulednessScale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduleCapacity",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduleCapacity",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextUnscheduledMoment",
+                "target": "pred_unscheduledTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextUnscheduledMoment",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextUnscheduledMoment",
+                "target": "pred_posInfInterval",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextUnscheduledMoment",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_posInfInterval",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unscheduledTime",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_posInfInterval",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_first",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInfInterval",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nontemporal",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextScheduledEvent",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextScheduledEvent",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextScheduledEvent",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlanInterval",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlanInterval",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlanInterval",
+                "target": "pred_convexHull",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_convexHull",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_convexHull",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledStartTime",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledStartTime",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledStartTime",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledStartTime",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledEndTime",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledEndTime",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledEndTime",
+                "target": "pred_scheduled",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledEndTime",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduled",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deadline",
+                "target": "pred_aDeadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deadline",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deadline",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aDeadline",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startTimeDeadline",
+                "target": "pred_aStartTimeDeadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startTimeDeadline",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startTimeDeadline",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aStartTimeDeadline",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_deadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_deadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_timeSpanOf",
+                "target": "pred_deadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_deadline",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deadline",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_slack",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_lessDuration'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledCloseToDeadline",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_slack",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_slack",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_lessDuration'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_slack",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_lessDuration'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledFarFromDeadline",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_slack",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lessDuration'",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePreference",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePreference",
+                "target": "pred_sameAbstractPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePreference",
+                "target": "pred_schedule",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePreference",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_sameAbstractPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_schedule",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameAbstractPlan",
+                "target": "pred_schedule",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameAbstractPlan",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedule",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_plan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_pendingPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_plan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_pendingPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_plan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_pendingPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_pendingPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePeriodicPlan'",
+                "target": "pred_schedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePeriodicPlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePeriodicPlan'",
+                "target": "pred_periodicPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_periodicPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_periodicPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_plan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_pendingPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_subgoalsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scheduledPlan",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pendingPlan",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nontemporal",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reschedulePlan'",
+                "target": "pred_schedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reschedulePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reschedulePlan'",
+                "target": "pred_unschedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_reschedulePlan'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_unschedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unschedulePlan'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_indefinitelyPostponePlan'",
+                "target": "pred_unschedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_indefinitelyPostponePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_indefinitelyPostponePlan'",
+                "target": "pred_reschedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_plan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_scheduledPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_nontemporal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_juggleSchedule'",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan'",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nontemporal",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subgoalIn",
+                "target": "pred_timeSpanOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_collaborativelySchedulePlan'",
+                "target": "pred_schedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_collaborativelySchedulePlan'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_collaborativelySchedulePlan'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_collaborativelySchedulePlan'",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulePlan'",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulingFailure",
+                "target": "pred_fail'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_schedulingFailure",
+                "target": "pred_schedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fail'",
+                "target": "pred_schedulePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

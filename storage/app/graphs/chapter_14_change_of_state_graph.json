@@ -1,0 +1,1395 @@
+{
+    "metadata": {
+        "chapter": 14,
+        "chapter_title": "Change of State",
+        "filename": "chapter_14_change_of_state",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 13,
+        "predicate_count": 20,
+        "variable_count": 11,
+        "frequent_variable_count": 10
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 6,
+            "complex": 1,
+            "moderate": 6
+        },
+        "pattern_counts": {
+            "type_constraint": 2,
+            "common_entity_constraint": 1,
+            "defeasible_transitivity": 1,
+            "change_inconsistency_requirement": 1,
+            "defeasible_inconsistency": 1,
+            "change_in_definition": 1,
+            "change_from_definition": 1,
+            "change_to_definition": 1,
+            "move_definition": 1,
+            "scale_verticality": 1,
+            "increase_definition": 1,
+            "decrease_definition": 1
+        },
+        "top_predicates": {
+            "change": 6,
+            "change'": 5,
+            "gen": 5,
+            "inconsistent": 4,
+            "vertical": 4,
+            "at'": 3,
+            "arg*": 2,
+            "etc": 2,
+            "subst": 2,
+            "lts": 2
+        },
+        "predicate_frequencies": {
+            "change": 6,
+            "change'": 5,
+            "gen": 5,
+            "inconsistent": 4,
+            "vertical": 4,
+            "at'": 3,
+            "arg*": 2,
+            "etc": 2,
+            "subst": 2,
+            "lts": 2,
+            "eventuality": 1,
+            "and'": 1,
+            "changeIn'": 1,
+            "changeFrom'": 1,
+            "changeTo'": 1,
+            "move'": 1,
+            "nonNegNumericScale": 1,
+            "scale": 1,
+            "increase": 1,
+            "decrease": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "14.1",
+                "type": "axiom",
+                "name": "Change argument constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2) (if (change e1 e2)(and (eventuality e1)(eventuality e2))))",
+                "english": "The arguments of change are eventualities",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.2",
+                "type": "axiom",
+                "name": "Change involves common entity",
+                "complexity": "simple",
+                "pattern": "common_entity_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2) (if (change e1 e2) (exists (x)(and (arg* x e1)(arg* x e2)))))",
+                "english": "A change of state is a change of state of something - the eventualities e1 and e2 have to involve some common entity x",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.3",
+                "type": "axiom",
+                "name": "Change is defeasibly transitive",
+                "complexity": "simple",
+                "pattern": "defeasible_transitivity",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e1 e2 e3) (if (and (change e1 e2)(change e2 e3)(etc)) (change e1 e3)))",
+                "english": "Change is defeasibly transitive - if e1 changes into e2 and e2 changes into e3, then generally there is a change from e1 to e3",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.4",
+                "type": "axiom",
+                "name": "Change requires inconsistency or intermediate state",
+                "complexity": "complex",
+                "pattern": "change_inconsistency_requirement",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e2) (if (change' e e1 e2) (or (inconsistent e1 e2) (exists (e3 e4 e5 e6) (and (change' e4 e1 e3)(change' e5 e3 e2) (and' e6 e4 e5)(gen e6 e))))))",
+                "english": "If the states are not inconsistent, then the change must be a composite of two changes through an inconsistent intermediate state",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "14.5",
+                "type": "axiom",
+                "name": "Change defeasibly implies inconsistency",
+                "complexity": "simple",
+                "pattern": "defeasible_inconsistency",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e e1 e2) (if (and (change e1 e2) (etc)) (inconsistent e1 e2)))",
+                "english": "Because change is not normally cyclic, we can defeasibly infer that start and end states are inconsistent",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.6",
+                "type": "axiom",
+                "name": "Definition of changeIn",
+                "complexity": "moderate",
+                "pattern": "change_in_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x) (iff (changeIn' e x) (exists (e1 e2 e3) (and (arg* x e1)(arg* x e2)(change' e3 e1 e2)(gen e3 e)))))",
+                "english": "There is a changeIn something when there is a change in its properties",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "14.7",
+                "type": "axiom",
+                "name": "Definition of changeFrom",
+                "complexity": "moderate",
+                "pattern": "change_from_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e1 e3) (if (subst e3 e3 e1 e1) (iff (changeFrom' e e1) (exists (e2 e5) (and (change' e5 e1 e2)(gen e5 e)(inconsistent e3 e2))))))",
+                "english": "changeFrom requires that after the change, no eventuality of the same type as the start state really exists",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "14.8",
+                "type": "axiom",
+                "name": "Definition of changeTo",
+                "complexity": "moderate",
+                "pattern": "change_to_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e2 e4) (if (subst e4 e4 e2 e2) (iff (changeTo' e e2) (exists (e1 e5) (and (change' e5 e1 e2)(gen e5 e)(inconsistent e4 e1))))))",
+                "english": "changeTo requires that the start state must exclude any other instance of the type which the end state instantiates",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "14.9",
+                "type": "axiom",
+                "name": "Definition of move",
+                "complexity": "moderate",
+                "pattern": "move_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z) (iff (move' e x y z) (exists (e1 e2 e3 s) (and (at' e1 x y s)(at' e2 x z s)(change' e3 e1 e2) (gen e3 e)))))",
+                "english": "An entity x moves from y to z exactly when there is a change from x's being at y to its being at z",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "14.10",
+                "type": "axiom",
+                "name": "Nonnegative numeric scales are vertical",
+                "complexity": "simple",
+                "pattern": "scale_verticality",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (nonNegNumericScale s)(vertical s)))",
+                "english": "A nonnegative numeric scale is vertical",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.11",
+                "type": "axiom",
+                "name": "Vertical argument constraint",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (if (vertical s) (scale s)))",
+                "english": "The argument of vertical has to be a scale",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "14.12",
+                "type": "axiom",
+                "name": "Definition of increase",
+                "complexity": "moderate",
+                "pattern": "increase_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z s) (iff (increase x s) (exists (y z e1 e2) (and (at' e1 x y s)(at' e2 x z s)(lts y z s) (vertical s)(change e1 e2)))))",
+                "english": "If an entity moves from a point on vertical scale to a higher point, there has been an increase",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "14.13",
+                "type": "axiom",
+                "name": "Definition of decrease",
+                "complexity": "moderate",
+                "pattern": "decrease_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y z s) (iff (decrease x s) (exists (y z e1 e2) (and (at' e1 x y s)(at' e2 x z s)(lts z y s) (vertical s)(change e1 e2)))))",
+                "english": "If an entity moves from a point on a vertical scale to a lower point, there has been a decrease",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_change",
+                "type": "predicate",
+                "name": "change",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_change'",
+                "type": "predicate",
+                "name": "change'",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_inconsistent",
+                "type": "predicate",
+                "name": "inconsistent",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_and'",
+                "type": "predicate",
+                "name": "and'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_changeIn'",
+                "type": "predicate",
+                "name": "changeIn'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeFrom'",
+                "type": "predicate",
+                "name": "changeFrom'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_move'",
+                "type": "predicate",
+                "name": "move'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at'",
+                "type": "predicate",
+                "name": "at'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_nonNegNumericScale",
+                "type": "predicate",
+                "name": "nonNegNumericScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_vertical",
+                "type": "predicate",
+                "name": "vertical",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scale",
+                "type": "predicate",
+                "name": "scale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_increase",
+                "type": "predicate",
+                "name": "increase",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lts",
+                "type": "predicate",
+                "name": "lts",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decrease",
+                "type": "predicate",
+                "name": "decrease",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 11,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 11,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e5",
+                "type": "variable",
+                "name": "e5",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "14.1",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.1",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.2",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.2",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.3",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.3",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.3",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.4",
+                "target": "pred_inconsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.4",
+                "target": "pred_and'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.4",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.4",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.5",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.5",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.5",
+                "target": "pred_inconsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.6",
+                "target": "pred_changeIn'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.6",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.6",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.6",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.6",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.6",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.7",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.7",
+                "target": "pred_changeFrom'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.7",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.7",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.7",
+                "target": "pred_inconsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.7",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.7",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.8",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.8",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.8",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.8",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.8",
+                "target": "pred_inconsistent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.8",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.8",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "pred_move'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.9",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.9",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.9",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.10",
+                "target": "pred_nonNegNumericScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.10",
+                "target": "pred_vertical",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.11",
+                "target": "pred_vertical",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.11",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "pred_increase",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.12",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.12",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.12",
+                "target": "pred_vertical",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.12",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "pred_decrease",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.13",
+                "target": "pred_at'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.13",
+                "target": "pred_lts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.13",
+                "target": "pred_vertical",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.13",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "14.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "14.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inconsistent",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inconsistent",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_change",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeIn'",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeIn'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeIn'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_changeFrom'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeFrom'",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_inconsistent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_vertical",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_vertical",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_increase",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_increase",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_increase",
+                "target": "pred_vertical",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_increase",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_vertical",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_at'",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_vertical",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lts",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_vertical",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decrease",
+                "target": "pred_at'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decrease",
+                "target": "pred_lts",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decrease",
+                "target": "pred_vertical",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decrease",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

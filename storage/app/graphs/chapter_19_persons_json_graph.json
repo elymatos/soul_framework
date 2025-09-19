@@ -1,0 +1,1543 @@
+{
+    "metadata": {
+        "chapter": 19,
+        "chapter_title": "Persons",
+        "filename": "chapter_19_persons_json",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 14,
+        "predicate_count": 24,
+        "variable_count": 13,
+        "frequent_variable_count": 10
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 7,
+            "moderate": 6,
+            "complex": 1
+        },
+        "pattern_counts": {
+            "type_constraint": 5,
+            "existence_claim": 1,
+            "definition": 4,
+            "enabling_condition": 2,
+            "logical_implication": 1,
+            "example": 1
+        },
+        "top_predicates": {
+            "person": 8,
+            "body": 4,
+            "mind": 3,
+            "member": 3,
+            "bodyPartsOf": 3,
+            "senseOrgan": 3,
+            "agent": 2,
+            "physobj": 2,
+            "componentsOf": 2,
+            "bodyPart": 2
+        },
+        "predicate_frequencies": {
+            "person": 8,
+            "body": 4,
+            "mind": 3,
+            "member": 3,
+            "bodyPartsOf": 3,
+            "senseOrgan": 3,
+            "agent": 2,
+            "physobj": 2,
+            "componentsOf": 2,
+            "bodyPart": 2,
+            "perceive'": 2,
+            "enable": 2,
+            "subset": 2,
+            "will'": 2,
+            "dcause": 2,
+            "compositeEntity": 1,
+            "spatialSystem": 1,
+            "perceive": 1,
+            "externalTo": 1,
+            "near'": 1,
+            "intact'": 1,
+            "move'": 1,
+            "lift'": 1,
+            "arm": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "19.1",
+                "type": "axiom",
+                "name": "Person is Agent",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (if (person p)(agent p)))",
+                "english": "A person is a kind of agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.2",
+                "type": "axiom",
+                "name": "Person is Physical Object",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (if (person p)(physobj p)))",
+                "english": "A person is also a kind of physical object.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.3",
+                "type": "axiom",
+                "name": "Person Has Body and Mind",
+                "complexity": "simple",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p) (if (person p) (exists (b m)(and (body b p)(mind m p)))))",
+                "english": "A person has a body and a mind.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.4",
+                "type": "axiom",
+                "name": "Mind is Composite Entity",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m p) (if (mind m p) (compositeEntity m)))",
+                "english": "A mind is a composite entity, allowing us to talk about entities external to the mind.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.5",
+                "type": "axiom",
+                "name": "Body is Physical Object",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (b p) (if (body b p)(physobj b)))",
+                "english": "A body is a physical object.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.6",
+                "type": "axiom",
+                "name": "Body is Spatial System",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (b p) (if (body b p) (and (spatialSystem b) (exists (s) (and (componentsOf s b) (forall (x) (iff (member x s)(bodyPart x p))))))))",
+                "english": "A body is a spatial system whose components are body parts, since all body parts are physical objects.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "19.7",
+                "type": "axiom",
+                "name": "Body Parts Set Definition",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p s) (iff (bodyPartsOf s p) (exists (b) (and (person p)(body b p)(componentsOf s b)))))",
+                "english": "A person p has a set of body parts, namely, the components of the body.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "19.8",
+                "type": "axiom",
+                "name": "Perceive Argument Constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a x m) (if (and (perceive a x)(mind m a)) (and (agent a)(externalTo x m))))",
+                "english": "Perception is a relation between an agent and an entity or eventuality external to the mind.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.9",
+                "type": "axiom",
+                "name": "Nearness Enables Perception",
+                "complexity": "moderate",
+                "pattern": "enabling_condition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (p x e2) (if (perceive' e2 p x) (exists (e1 s) (and (near' e1 x p s)(enable e1 e2)))))",
+                "english": "Something being near a person is an enabling condition for perceiving it.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "19.10",
+                "type": "axiom",
+                "name": "Sense Organs Subset",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p x) (if (and (person p)(bodyPartsOf s1 p)) (exists (s2) (and (subset s2 s1) (forall (o) (iff (member o s2)(senseOrgan o p)))))))",
+                "english": "The sense organs are a subset of the body parts.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "19.11",
+                "type": "axiom",
+                "name": "Sense Organ is Body Part",
+                "complexity": "simple",
+                "pattern": "logical_implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (o p) (if (senseOrgan o p)(bodyPart o p)))",
+                "english": "It follows that sense organs are body parts.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "19.12",
+                "type": "axiom",
+                "name": "Intact Sense Organ Enables Perception",
+                "complexity": "moderate",
+                "pattern": "enabling_condition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (p x e2) (if (and (person p)(perceive' e2 p x)) (exists (o e1) (and (senseOrgan o p)(intact' e1 o)(enable e1 e2)))))",
+                "english": "When something is perceived, there is a sense organ whose intact-ness enables the perception.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "19.13",
+                "type": "axiom",
+                "name": "Voluntary Body Part Control",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (p s1) (if (and (person p)(bodyPartsOf s1 p)) (exists (s2) (and (subset s2 s1) (forall (x) (if (member x s2) (exists (e1 e2 y z) (and (move' e2 x y z)(will' e1 p e2) (dcause e1 e2)))))))))",
+                "english": "A subset of body parts can be directly controlled by a person's will - the person's willing an event is the direct cause of the motion of the body part.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "19.14",
+                "type": "axiom",
+                "name": "Voluntary Arm Lifting Example",
+                "complexity": "moderate",
+                "pattern": "example",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (p) (if (person p) (exists (e1 e2 x) (and (lift' e2 p x)(arm x p)(will' e1 p e2) (dcause e1 e2)))))",
+                "english": "Example: a person can voluntarily lift his or her arm - the lifting is directly caused by willing it.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 8,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_agent",
+                "type": "predicate",
+                "name": "agent",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_physobj",
+                "type": "predicate",
+                "name": "physobj",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_body",
+                "type": "predicate",
+                "name": "body",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_mind",
+                "type": "predicate",
+                "name": "mind",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_compositeEntity",
+                "type": "predicate",
+                "name": "compositeEntity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_spatialSystem",
+                "type": "predicate",
+                "name": "spatialSystem",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentsOf",
+                "type": "predicate",
+                "name": "componentsOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_bodyPart",
+                "type": "predicate",
+                "name": "bodyPart",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_bodyPartsOf",
+                "type": "predicate",
+                "name": "bodyPartsOf",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_perceive",
+                "type": "predicate",
+                "name": "perceive",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_externalTo",
+                "type": "predicate",
+                "name": "externalTo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_perceive'",
+                "type": "predicate",
+                "name": "perceive'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_near'",
+                "type": "predicate",
+                "name": "near'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_enable",
+                "type": "predicate",
+                "name": "enable",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_senseOrgan",
+                "type": "predicate",
+                "name": "senseOrgan",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_intact'",
+                "type": "predicate",
+                "name": "intact'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_move'",
+                "type": "predicate",
+                "name": "move'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_will'",
+                "type": "predicate",
+                "name": "will'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_dcause",
+                "type": "predicate",
+                "name": "dcause",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_lift'",
+                "type": "predicate",
+                "name": "lift'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arm",
+                "type": "predicate",
+                "name": "arm",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 12,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_b",
+                "type": "variable",
+                "name": "b",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_m",
+                "type": "variable",
+                "name": "m",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_o",
+                "type": "variable",
+                "name": "o",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "19.1",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.1",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.2",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.2",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.3",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.3",
+                "target": "pred_body",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.3",
+                "target": "pred_mind",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.3",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.3",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.4",
+                "target": "pred_mind",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.4",
+                "target": "pred_compositeEntity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.4",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.5",
+                "target": "pred_body",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.5",
+                "target": "pred_physobj",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.5",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.6",
+                "target": "pred_body",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.6",
+                "target": "pred_spatialSystem",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.6",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.6",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.6",
+                "target": "pred_bodyPart",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.6",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.6",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.7",
+                "target": "pred_bodyPartsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.7",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.7",
+                "target": "pred_body",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.7",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.7",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.7",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.8",
+                "target": "pred_perceive",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.8",
+                "target": "pred_mind",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.8",
+                "target": "pred_agent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.8",
+                "target": "pred_externalTo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.8",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.8",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.9",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.9",
+                "target": "pred_near'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.9",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.9",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.10",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.10",
+                "target": "pred_bodyPartsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.10",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.10",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.10",
+                "target": "pred_senseOrgan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.10",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.10",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.10",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.10",
+                "target": "var_o",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.11",
+                "target": "pred_senseOrgan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.11",
+                "target": "pred_bodyPart",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.11",
+                "target": "var_o",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.12",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.12",
+                "target": "pred_perceive'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.12",
+                "target": "pred_senseOrgan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.12",
+                "target": "pred_intact'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.12",
+                "target": "pred_enable",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.12",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.12",
+                "target": "var_o",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_bodyPartsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_move'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_will'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "pred_dcause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.13",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.14",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.14",
+                "target": "pred_lift'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.14",
+                "target": "pred_arm",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.14",
+                "target": "pred_will'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.14",
+                "target": "pred_dcause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "19.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.14",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "19.14",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_body",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_mind",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_mind",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mind",
+                "target": "pred_compositeEntity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_physobj",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_spatialSystem",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_body",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_spatialSystem",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_person",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_body",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_mind",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive",
+                "target": "pred_externalTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mind",
+                "target": "pred_agent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_mind",
+                "target": "pred_externalTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_agent",
+                "target": "pred_externalTo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_near'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_near'",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_senseOrgan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_senseOrgan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_senseOrgan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_senseOrgan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_senseOrgan",
+                "target": "pred_bodyPart",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_perceive'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_senseOrgan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_perceive'",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_senseOrgan",
+                "target": "pred_intact'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_senseOrgan",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intact'",
+                "target": "pred_enable",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bodyPartsOf",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_move'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_move'",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_will'",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_lift'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_arm",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lift'",
+                "target": "pred_arm",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lift'",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lift'",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arm",
+                "target": "pred_will'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arm",
+                "target": "pred_dcause",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

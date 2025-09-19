@@ -1,0 +1,4842 @@
+{
+    "metadata": {
+        "chapter": 41,
+        "chapter_title": "Decisions",
+        "filename": "chapter_41_decisions",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 34,
+        "predicate_count": 71,
+        "variable_count": 19,
+        "frequent_variable_count": 15
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 5,
+            "moderate": 5,
+            "simple": 24
+        },
+        "pattern_counts": {
+            "definition": 30,
+            "defeasible_rule": 1,
+            "recursive_definition": 1,
+            "type_constraint": 1,
+            "implication": 1
+        },
+        "top_predicates": {
+            "decision": 23,
+            "member": 14,
+            "before": 6,
+            "nequal": 6,
+            "selection": 5,
+            "possibleChoice": 5,
+            "betterChoice": 4,
+            "deliberation": 3,
+            "envisionChoiceConsequences": 3,
+            "decisionConsequence": 3
+        },
+        "predicate_frequencies": {
+            "decision": 23,
+            "member": 14,
+            "before": 6,
+            "nequal": 6,
+            "selection": 5,
+            "possibleChoice": 5,
+            "betterChoice": 4,
+            "deliberation": 3,
+            "envisionChoiceConsequences": 3,
+            "decisionConsequence": 3,
+            "choiceEnumeration": 2,
+            "subevent": 2,
+            "thinkAbout'": 2,
+            "decideTo'": 2,
+            "suspendDecision": 2,
+            "linkedDecisions": 2,
+            "causallyInvolved": 2,
+            "doubleton": 2,
+            "choiceSet": 2,
+            "bestChoice": 2,
+            "pro": 2,
+            "goodFor": 2,
+            "con": 2,
+            "badFor": 2,
+            "chooseOver": 2,
+            "decisionFactor": 2,
+            "decisionJustification": 2,
+            "changeTo'": 1,
+            "believe": 1,
+            "plan": 1,
+            "subgoalIn": 1,
+            "preferGoal": 1,
+            "decisionRevision": 1,
+            "change'": 1,
+            "suspend'": 1,
+            "resumeDecision": 1,
+            "resume'": 1,
+            "decisionSeries": 1,
+            "addElt": 1,
+            "cause": 1,
+            "goal": 1,
+            "moreImportant": 1,
+            "choiceCharacteristic": 1,
+            "arg*": 1,
+            "goalRelevant": 1,
+            "equal": 1,
+            "selectedChoice": 1,
+            "unselectedChoice": 1,
+            "previouslySelectedChoice": 1,
+            "and'": 1,
+            "cwu": 1,
+            "envisionFromTo'": 1,
+            "costBenefitAnalysis": 1,
+            "subset": 1,
+            "thinkOf'": 1,
+            "pro'": 1,
+            "con'": 1,
+            "choiceCriterion": 1,
+            "subst": 1,
+            "Rexist": 1,
+            "obviousDecision": 1,
+            "betterChoice'": 1,
+            "scaleDefinedBy": 1,
+            "Hi": 1,
+            "inScale": 1,
+            "uncertainDecision": 1,
+            "insignificantDecision": 1,
+            "arbitraryDecision": 1,
+            "null": 1,
+            "positiveDecisionConsequence": 1,
+            "negativeDecisionConsequence": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "41.1",
+                "type": "axiom",
+                "name": "Definition of decision",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e0 a s e) (iff (decision e0 a s e) (exists (e1 e2 e3) (and (choiceEnumeration e1 a s)(deliberation e2 a s) (selection e3 a e s)(member e s) (before e1 e3)(before e2 e3)(subevent e1 e0) (subevent e2 e0)(subevent e3 e0)))))",
+                "english": "Decision-making process follows three steps: 1. Identify choices ('think of the possibilities') 2. Deliberate about choices ('think about the possibilities') 3. Select one choice ('settle on'). Restaurant example: look at menu to identify choices, think about them, then select one. Choice enumeration e1 and deliberation e2 must occur before selection e3, but e1 and e2 can be interleaved.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "41.2",
+                "type": "axiom",
+                "name": "Definition of choiceEnumeration",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e1 a s) (iff (choiceEnumeration e1 a s) (exists (e5 e) (and (changeTo' e1 e4)(thinkAbout' e4 a s) (believe a e5)(decideTo' e5 a e)(member e s) (before e4 e5)))))",
+                "english": "Choice enumeration is the process of identifying a set of options. It's a change to a situation where agent is thinking about the set of options, and agent believes he will decide on some member e of s after thinking about s. Coming to think of options or have them in focus, recognizing that one must be chosen.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "41.3",
+                "type": "axiom",
+                "name": "Definition of deliberation",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e2 a s) (iff (deliberation e2 a s) (exists (p g e) (and (plan p a g)(selection g a e s) (forall (e4) (if (member e4 s) (exists (e5) (and (thinkAbout' e5 a e4) (subgoalIn e5 p)))))))))",
+                "english": "Deliberation is thinking about the options with the goal of selecting one. There is a plan p whose top-level goal is to select an option and thinking about each option constitutes a subgoal in the plan. The thinking is in service of the selection.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "41.4",
+                "type": "axiom",
+                "name": "Definition of selection",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e3 a e s) (iff (selection e3 a e s) (and (decideTo' e3 a e)(member e s) (exists (e2) (and (deliberation e2 a s)(before e2 e3))))))",
+                "english": "Selection is the third part of making a decision - to select one option from the choice set, after deliberating. The act by agent a to select option e from set s amounts to deciding to do e after deliberating about the set s of options.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.5",
+                "type": "axiom",
+                "name": "Selection preference implication",
+                "complexity": "simple",
+                "pattern": "defeasible_rule",
+                "defeasible": true,
+                "reified": false,
+                "fol": "(forall (e e3 e4 a s) (if (and (selection e a e3 s)(member e3 s)(member e4 s) (nequal e3 e4)(etc)) (preferGoal a e3 e4)))",
+                "english": "If one eventuality e3 is selected and another e4 is not, then we should expect the agent a to prefer e3 over e4 as goals to achieve (or actions to perform). This is a defeasible rule with (etc) condition.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.6",
+                "type": "axiom",
+                "name": "Definition of decisionRevision",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e a e3 e4 s) (iff (decisionRevision e a e3 e4 s) (exists (e1 e2) (and (decision e1 a s e3)(decision e2 a s e4) (change' e e1 e2)))))",
+                "english": "A person may change his or her mind after making a decision ('renege on,' 'go back on'). A decision revision is a decision to choose an alternative once a decision has already been made. A change from decision e1 selecting e3 to decision e2 selecting e4.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.7",
+                "type": "axiom",
+                "name": "Definition of suspendDecision",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e1) (iff (suspendDecision e0 e1) (exists (a s e e3 t) (and (decision e1 a s e)(suspend' e0 a e1 t) (selection e3 a e s)(subevent e3 e1) (before t e3)))))",
+                "english": "People can suspend a decision before they make a selection ('sleep on it'). The suspend action e0 applied to decision-making process e1 takes place before the selection subevent e3 of e1.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "41.8",
+                "type": "axiom",
+                "name": "Definition of resumeDecision",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 e1) (iff (resumeDecision e0 e1) (exists (a s e e2 t) (and (decision e1 a s e)(resume' e0 a e1 t) (suspendDecision e2 e1)(before e2 t)))))",
+                "english": "People can resume decision-making processes that they earlier suspended ('finish deciding'). The resume action e0 applied to decision-making process e1, where there was a suspend-decision action e2 before the resumption.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.9",
+                "type": "axiom",
+                "name": "Definition of linkedDecisions",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2) (iff (linkedDecisions e1 e2) (exists (a s1 s2 e3 e4) (and (decision e1 a s1 e3)(decision e2 a s2 e4) (causallyInvolved e3 e2)))))",
+                "english": "Some sets of decisions are interrelated, in that the options chosen have a causal influence on the other decisions. Decision processes e1 and e2 are causally linked when the choice e3 from decision e1 is causally involved in decision process e2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.10",
+                "type": "axiom",
+                "name": "Definition of decisionSeries",
+                "complexity": "moderate",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (iff (decisionSeries s e1) (exists (e2) (or (and (linkedDecisions e1 e2)(doubleton s e1 e2)) (exists (s1) (and (linkedDecisions e1 e2) (decisionSeries s1 e2) (addElt s e1 s1)))))))",
+                "english": "Linked decisions can constitute a series of decisions. A pair of linked decisions is a decision series. Adding a decision at the beginning of a decision series results in a decision series.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "41.11",
+                "type": "axiom",
+                "name": "Definition of choiceSet",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s e) (iff (choiceSet s e) (exists (a e1) (decision e a s e1))))",
+                "english": "For any decision there are a number of possible choices ('range of candidates'). This is the third argument of the predicate decision - the set s of alternatives considered.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.12",
+                "type": "axiom",
+                "name": "Definition of possibleChoice",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 s) (iff (possibleChoice e1 s) (exists (e) (and (choiceSet s e)(member e1 s)))))",
+                "english": "Any member in the choice set is a possible choice ('option,' 'prospect,' 'alternative'). An element e1 of choice set s for some decision process e.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.13",
+                "type": "axiom",
+                "name": "betterChoice constraint definition",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 s a e) (if (betterChoice e1 e2 s a e) (exists (e3) (and (decision e a s e3)(possibleChoice e1 e) (possibleChoice e2 e)))))",
+                "english": "Constraints on the arguments of the predicate betterChoice. For e1 to be a better choice than e2, both must be possible choices in some decision process e by agent a with choice set s. The actual choice e3 may or may not equal e1 or e2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.14",
+                "type": "axiom",
+                "name": "betterChoice utility constraint",
+                "complexity": "complex",
+                "pattern": "implication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 s a e e3 g1 g2) (if (and (decision e a s e3) (possibleChoice e1 e)(cause e1 g1)(goal g1 a) (possibleChoice e2 e)(nequal e1 e2) (forall (g2) (if (and (cause e2 g2)(goal g2 a)) (moreImportant g1 g2 a)))) (betterChoice e1 e2 s a e)))",
+                "english": "A weak constraint capturing something like utility: that choice that leads to achieving a more important goal is a better choice. If e1 causes goal g1 and e2 causes goals that are all less important than g1, then e1 is a better choice than e2.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "41.15",
+                "type": "axiom",
+                "name": "Definition of choiceCharacteristic",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e0 e1 e a) (iff (choiceCharacteristic e0 e1 e a) (exists (s e3) (and (decision e a s e3)(possibleChoice e1 e) (arg* e1 e0)(goalRelevant e0 a)))))",
+                "english": "Each possible choice has different characteristics relevant to the decision ('distinguishing features,' 'pros and cons'). These are properties of the possible choices that are relevant to the agent's goals. e0 is goal-relevant to agent a and involves choice e1.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.16",
+                "type": "axiom",
+                "name": "Definition of bestChoice",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 s a e) (iff (bestChoice e1 s a e) (forall (e2) (if (possibleChoice e2 e) (or (equal e1 e2) (betterChoice e1 e2 s a e))))))",
+                "english": "After deliberation, one may be able to identify the best choice ('frontrunner,' 'cream of the crop,' 'leading candidate'). Choice e1 is best if for every other possible choice e2, either e1 equals e2 or e1 is a better choice than e2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.17",
+                "type": "axiom",
+                "name": "Definition of selectedChoice",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e3 e a) (iff (selectedChoice e3 e a) (exists (s) (decision e a s e3))))",
+                "english": "After selecting, one of the possible choices becomes the selected choice ('one's pick,' 'one's decision'). Choice e3 is selected in decision process e by agent a.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.18",
+                "type": "axiom",
+                "name": "Definition of unselectedChoice",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e a) (iff (unselectedChoice e2 e a) (exists (s e3) (and (decision e a s e3)(nequal e2 e3)))))",
+                "english": "After selecting, all but one of the possible choices become unselected choices ('not make the cut,' 'decided against'). Choice e2 is unselected when it's not equal to the selected choice e3 in decision e by agent a.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.19",
+                "type": "axiom",
+                "name": "Definition of previouslySelectedChoice",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e3 e1 a s) (iff (previouslySelectedChoice e3 e1 a s) (exists (e2 e4) (and (decision e1 a s e3)(decision e2 a s e4) (nequal e3 e4)(before e1 e2)))))",
+                "english": "When given the same choice set another time, there is a previously selected choice. Item e3 was chosen by agent a out of set s in decision process e1, when there's also a later decision process e2 by agent a selecting a different e4 out of the same set s.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.20",
+                "type": "axiom",
+                "name": "Definition of envisionChoiceConsequences",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e3 e s1) (iff (envisionChoiceConsequences e3 e s1) (exists (a s e0 e1 e2) (and (decision e a s e1)(and' e2 e0 e1)(cwu e0 a) (envisionFromTo' e3 a e2 s1)))))",
+                "english": "One way people come to decisions is by predicting the outcome of a particular choice ('look before you leap'). We add a possible choice to our current world understanding and envision from that to a set of consequences. Process e3 envisions consequences s1 of choice e1 in decision e.",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "41.21",
+                "type": "axiom",
+                "name": "Definition of pro",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e1 e) (iff (pro e2 e1 e) (exists (e3 s1 a s) (and (envisionChoiceConsequences e3 e s1) (decision e a s e1)(member e2 s1) (goodFor e2 a)))))",
+                "english": "One way people make decisions is by weighing pros and cons. A pro is an envisioned consequence that is good for the agent. Consequence e2 of choice e1 in decision process e is a pro when it's good for the agent making the decision.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.22",
+                "type": "axiom",
+                "name": "Definition of con",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e1 e) (iff (con e2 e1 e) (exists (e3 s1 a s) (and (envisionChoiceConsequences e3 e s1) (decision e a s e1)(member e2 s1) (badFor e2 a)))))",
+                "english": "A con is an envisioned consequence that is bad for the agent. Consequence e2 of choice e1 in decision process e is a con when it's bad for the agent making the decision.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.23",
+                "type": "axiom",
+                "name": "Definition of costBenefitAnalysis",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e e0 a s) (iff (costBenefitAnalysis e e0 a s) (exists (s1) (and (decision e0 a s e1)(subset s1 s)(not (null s1)) (forall (e3) (iff (member e3 e) (exists (e4 e5 e6) (and (thinkOf' e3 a e4)(member e6 s1) (or (pro' e4 e5 e6 e0) (con' e4 e5 e6 e0))))))))))",
+                "english": "A cost-benefit analysis is the agent's considering each alternative in the choice set and determining if it results in a pro or a con. (A cost is a con; a benefit is a pro.) It's a set of envisionChoiceConsequences activities by the agent - a set of thinking-of actions about whether consequences are pros or cons.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "41.24",
+                "type": "axiom",
+                "name": "Definition of chooseOver",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e1 e2) (iff (chooseOver a e1 e2) (exists (e0 s) (and (decision e0 a s e1)(doubleton s e1 e2)))))",
+                "english": "An agent can choose one option over another. Agent a chooses option e1 over e2 if and only if there is a decision process e0 in which the choice set consists of e1 and e2 and e1 is the option that is chosen.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.25",
+                "type": "axiom",
+                "name": "Definition of choiceCriterion",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e p e0) (iff (choiceCriterion e p e0) (exists (a s e1) (and (decision e0 a s e1) (forall (e2 e3) (if (and (member e2 s)(member e3 s) (subst e2 e4 p e)(Rexist e4) (subst e3 e5 p e)(not e5)) (chooseOver a e2 e3)))))))",
+                "english": "People have criteria ('yardstick,' 'benchmark,' 'litmus test') by which they determine which possible choice is the best choice. e is choice criterion for options p in decision process e0; if e is true of e2 but not e3, then agent will choose e2 over e3.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "41.26",
+                "type": "axiom",
+                "name": "Definition of obviousDecision",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e) (iff (obviousDecision e) (exists (a s e1 e0 e3 e4 s1 s2) (and (decision e a s e1)(betterChoice' e0 e3 e4 s a e) (scaleDefinedBy s1 s e0)(Hi s2 s1)(inScale e1 s2) (forall (e2) (if (and (member e2 s)(nequal e2 e1)) (not (inScale e2 s2))))))))",
+                "english": "After deliberation, people find that some decisions are obvious ('no brainer,' 'clear cut'). One way to characterize this is that one option is a much better choice than any other. The best choice e1 is in the Hi region of the scale while no other choice is in the Hi region.",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "41.27",
+                "type": "axiom",
+                "name": "Definition of uncertainDecision",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (uncertainDecision e) (exists (a s e1) (and (decision e a s e1) (not (exists (e2) (bestChoice e2 s a e)))))))",
+                "english": "After deliberation, people may not have any certainty about the best choice. Decision e is uncertain when there is no identifiable best choice among the alternatives.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.28",
+                "type": "axiom",
+                "name": "Definition of insignificantDecision",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (insignificantDecision e) (exists (a s e1) (and (decision e a s e1) (forall (e2 e3) (if (and (member e2 s)(member e3 s)) (not (betterChoice e2 e3 s a e))))))))",
+                "english": "After deliberation, one may feel that it doesn't matter which choice is made ('inconsequential,' 'immaterial'). No option in the choice set s is a better choice than any other option.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.29",
+                "type": "axiom",
+                "name": "Definition of decisionFactor",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f e) (iff (decisionFactor f e) (exists (a s e1 e2) (and (decision e a s e1) (or (pro f e1 e) (and (con f e2 e)(member e2 s) (nequal e2 e1)))))))",
+                "english": "People have justifications for the choices that they select. A factor in a decision is a pro for the option selected or a con for an option not selected. Factor f in decision e is either a pro for the selected choice or a con for an unselected alternative.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.30",
+                "type": "axiom",
+                "name": "Definition of decisionJustification",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (j e) (iff (decisionJustification j e) (forall (f) (iff (member f j)(decisionFactor f e)))))",
+                "english": "A decision justification is the set of decision factors. Because of the definitions of 'pro' and 'con,' it is the causal story built up by envisioning from the options during the course of deliberation. Set j contains exactly the decision factors for decision e.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.31",
+                "type": "axiom",
+                "name": "Definition of arbitraryDecision",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e) (iff (arbitraryDecision e) (exists (j) (and (decisionJustification j e)(null j)))))",
+                "english": "Sometimes people have no justification for the decision they make ('whim,' 'impulsive decision,' 'crap shoot'). Decision e is arbitrary when its decision justification j is null (empty).",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.32",
+                "type": "axiom",
+                "name": "Definition of decisionConsequence",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e a) (iff (decisionConsequence e2 e a) (exists (s e1) (and (decision e a s e1)(causallyInvolved e1 e2) (causallyInvolved e e2)))))",
+                "english": "There can be decision processes that are not carried to completion. When they are, however, they have consequences. By making a decision, people make things happen in the world. Eventuality e2 is a consequence when both the selected option e1 and the decision process e itself are causally involved in e2.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.33",
+                "type": "axiom",
+                "name": "Definition of positiveDecisionConsequence",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e a) (iff (positiveDecisionConsequence e2 e a) (and (decisionConsequence e2 e a)(goodFor e2 a))))",
+                "english": "Sometimes the effects of a decision are in accord with the agent's goals. A positive decision consequence is a decision consequence that is good for the agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "41.34",
+                "type": "axiom",
+                "name": "Definition of negativeDecisionConsequence",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e a) (iff (negativeDecisionConsequence e2 e a) (and (decisionConsequence e2 e a)(badFor e2 a))))",
+                "english": "Sometimes the effects of a decision are counter to people's goals. A negative decision consequence is a decision consequence that is bad for the agent.",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_decision",
+                "type": "predicate",
+                "name": "decision",
+                "frequency": 23,
+                "axiom_count": 23,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_choiceEnumeration",
+                "type": "predicate",
+                "name": "choiceEnumeration",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_deliberation",
+                "type": "predicate",
+                "name": "deliberation",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_selection",
+                "type": "predicate",
+                "name": "selection",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 14,
+                "axiom_count": 13,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_subevent",
+                "type": "predicate",
+                "name": "subevent",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thinkAbout'",
+                "type": "predicate",
+                "name": "thinkAbout'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_believe",
+                "type": "predicate",
+                "name": "believe",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decideTo'",
+                "type": "predicate",
+                "name": "decideTo'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subgoalIn",
+                "type": "predicate",
+                "name": "subgoalIn",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nequal",
+                "type": "predicate",
+                "name": "nequal",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_preferGoal",
+                "type": "predicate",
+                "name": "preferGoal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decisionRevision",
+                "type": "predicate",
+                "name": "decisionRevision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_change'",
+                "type": "predicate",
+                "name": "change'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_suspendDecision",
+                "type": "predicate",
+                "name": "suspendDecision",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_suspend'",
+                "type": "predicate",
+                "name": "suspend'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_resumeDecision",
+                "type": "predicate",
+                "name": "resumeDecision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_resume'",
+                "type": "predicate",
+                "name": "resume'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_linkedDecisions",
+                "type": "predicate",
+                "name": "linkedDecisions",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_causallyInvolved",
+                "type": "predicate",
+                "name": "causallyInvolved",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decisionSeries",
+                "type": "predicate",
+                "name": "decisionSeries",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_doubleton",
+                "type": "predicate",
+                "name": "doubleton",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_addElt",
+                "type": "predicate",
+                "name": "addElt",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_choiceSet",
+                "type": "predicate",
+                "name": "choiceSet",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_possibleChoice",
+                "type": "predicate",
+                "name": "possibleChoice",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_betterChoice",
+                "type": "predicate",
+                "name": "betterChoice",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goal",
+                "type": "predicate",
+                "name": "goal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreImportant",
+                "type": "predicate",
+                "name": "moreImportant",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_choiceCharacteristic",
+                "type": "predicate",
+                "name": "choiceCharacteristic",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goalRelevant",
+                "type": "predicate",
+                "name": "goalRelevant",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_bestChoice",
+                "type": "predicate",
+                "name": "bestChoice",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_selectedChoice",
+                "type": "predicate",
+                "name": "selectedChoice",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unselectedChoice",
+                "type": "predicate",
+                "name": "unselectedChoice",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_previouslySelectedChoice",
+                "type": "predicate",
+                "name": "previouslySelectedChoice",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_envisionChoiceConsequences",
+                "type": "predicate",
+                "name": "envisionChoiceConsequences",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_and'",
+                "type": "predicate",
+                "name": "and'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cwu",
+                "type": "predicate",
+                "name": "cwu",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_envisionFromTo'",
+                "type": "predicate",
+                "name": "envisionFromTo'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pro",
+                "type": "predicate",
+                "name": "pro",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_goodFor",
+                "type": "predicate",
+                "name": "goodFor",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_con",
+                "type": "predicate",
+                "name": "con",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_badFor",
+                "type": "predicate",
+                "name": "badFor",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_costBenefitAnalysis",
+                "type": "predicate",
+                "name": "costBenefitAnalysis",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset",
+                "type": "predicate",
+                "name": "subset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thinkOf'",
+                "type": "predicate",
+                "name": "thinkOf'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pro'",
+                "type": "predicate",
+                "name": "pro'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_con'",
+                "type": "predicate",
+                "name": "con'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_chooseOver",
+                "type": "predicate",
+                "name": "chooseOver",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_choiceCriterion",
+                "type": "predicate",
+                "name": "choiceCriterion",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_obviousDecision",
+                "type": "predicate",
+                "name": "obviousDecision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_betterChoice'",
+                "type": "predicate",
+                "name": "betterChoice'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_uncertainDecision",
+                "type": "predicate",
+                "name": "uncertainDecision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_insignificantDecision",
+                "type": "predicate",
+                "name": "insignificantDecision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decisionFactor",
+                "type": "predicate",
+                "name": "decisionFactor",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decisionJustification",
+                "type": "predicate",
+                "name": "decisionJustification",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arbitraryDecision",
+                "type": "predicate",
+                "name": "arbitraryDecision",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_null",
+                "type": "predicate",
+                "name": "null",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_decisionConsequence",
+                "type": "predicate",
+                "name": "decisionConsequence",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_positiveDecisionConsequence",
+                "type": "predicate",
+                "name": "positiveDecisionConsequence",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_negativeDecisionConsequence",
+                "type": "predicate",
+                "name": "negativeDecisionConsequence",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 29,
+                "frequency": 30,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 27,
+                "frequency": 29,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 28,
+                "frequency": 30,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 23,
+                "frequency": 25,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 23,
+                "frequency": 24,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 19,
+                "frequency": 19,
+                "group": "variable"
+            },
+            {
+                "id": "var_e5",
+                "type": "variable",
+                "name": "e5",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_f",
+                "type": "variable",
+                "name": "f",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_j",
+                "type": "variable",
+                "name": "j",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "41.1",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_choiceEnumeration",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_deliberation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_selection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "pred_subevent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.1",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "pred_choiceEnumeration",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_thinkAbout'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_believe",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_decideTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.2",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "pred_deliberation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "pred_selection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "pred_thinkAbout'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "pred_subgoalIn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.3",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.4",
+                "target": "pred_selection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.4",
+                "target": "pred_decideTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.4",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.4",
+                "target": "pred_deliberation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.4",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.4",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.4",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.5",
+                "target": "pred_selection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.5",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.5",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.5",
+                "target": "pred_preferGoal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.5",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.5",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.5",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "pred_decisionRevision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.6",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.6",
+                "target": "pred_change'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "pred_suspendDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "pred_suspend'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "pred_selection",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "pred_subevent",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.7",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.7",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "pred_resumeDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.8",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.8",
+                "target": "pred_resume'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.8",
+                "target": "pred_suspendDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.8",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.8",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.8",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "pred_linkedDecisions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.9",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.9",
+                "target": "pred_causallyInvolved",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.9",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.10",
+                "target": "pred_decisionSeries",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.10",
+                "target": "pred_linkedDecisions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.10",
+                "target": "pred_doubleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.10",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.10",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.11",
+                "target": "pred_choiceSet",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.11",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.12",
+                "target": "pred_possibleChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.12",
+                "target": "pred_choiceSet",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.12",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "pred_betterChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.13",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.13",
+                "target": "pred_possibleChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.13",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_possibleChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_goal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_moreImportant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "pred_betterChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.14",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "pred_choiceCharacteristic",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.15",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.15",
+                "target": "pred_possibleChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.15",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.15",
+                "target": "pred_goalRelevant",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.15",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.15",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.16",
+                "target": "pred_bestChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.16",
+                "target": "pred_possibleChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.16",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.16",
+                "target": "pred_betterChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.16",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.17",
+                "target": "pred_selectedChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.17",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.17",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.17",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.18",
+                "target": "pred_unselectedChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.18",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.18",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.18",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.18",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.18",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.18",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.18",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "pred_previouslySelectedChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.19",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.19",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.19",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.19",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.19",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "pred_envisionChoiceConsequences",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.20",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.20",
+                "target": "pred_and'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.20",
+                "target": "pred_cwu",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.20",
+                "target": "pred_envisionFromTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.20",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.20",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "pred_pro",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.21",
+                "target": "pred_envisionChoiceConsequences",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.21",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.21",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.21",
+                "target": "pred_goodFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.21",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.21",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "pred_con",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.22",
+                "target": "pred_envisionChoiceConsequences",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.22",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.22",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.22",
+                "target": "pred_badFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.22",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.22",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "pred_costBenefitAnalysis",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_subset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_thinkOf'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_pro'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "pred_con'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.23",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.23",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.24",
+                "target": "pred_chooseOver",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.24",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.24",
+                "target": "pred_doubleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.24",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.24",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.24",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.24",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.24",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "pred_choiceCriterion",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "pred_chooseOver",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.25",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.25",
+                "target": "var_e5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "pred_obviousDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_betterChoice'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.26",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.26",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.27",
+                "target": "pred_uncertainDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.27",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.27",
+                "target": "pred_bestChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.27",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.27",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.27",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.27",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "pred_insignificantDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.28",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.28",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.28",
+                "target": "pred_betterChoice",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.28",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "pred_decisionFactor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "pred_pro",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "pred_con",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.29",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.29",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.30",
+                "target": "pred_decisionJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.30",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.30",
+                "target": "pred_decisionFactor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.30",
+                "target": "var_j",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.30",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.30",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.31",
+                "target": "pred_arbitraryDecision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.31",
+                "target": "pred_decisionJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.31",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.31",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.31",
+                "target": "var_j",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.32",
+                "target": "pred_decisionConsequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.32",
+                "target": "pred_decision",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.32",
+                "target": "pred_causallyInvolved",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.32",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.32",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.32",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.32",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.32",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.33",
+                "target": "pred_positiveDecisionConsequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.33",
+                "target": "pred_decisionConsequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.33",
+                "target": "pred_goodFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.33",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.33",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.33",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.34",
+                "target": "pred_negativeDecisionConsequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.34",
+                "target": "pred_decisionConsequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.34",
+                "target": "pred_badFor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "41.34",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.34",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "41.34",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_choiceEnumeration",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_deliberation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_deliberation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_thinkAbout'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceEnumeration",
+                "target": "pred_decideTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_thinkAbout'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_decideTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkAbout'",
+                "target": "pred_believe",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkAbout'",
+                "target": "pred_decideTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkAbout'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkAbout'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_decideTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decideTo'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decideTo'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_thinkAbout'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_deliberation",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_thinkAbout'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_thinkAbout'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkAbout'",
+                "target": "pred_subgoalIn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_decideTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decideTo'",
+                "target": "pred_deliberation",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selection",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nequal",
+                "target": "pred_preferGoal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionRevision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionRevision",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_change'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendDecision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendDecision",
+                "target": "pred_suspend'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendDecision",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendDecision",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspendDecision",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_suspend'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspend'",
+                "target": "pred_selection",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspend'",
+                "target": "pred_subevent",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_suspend'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resumeDecision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resumeDecision",
+                "target": "pred_resume'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resumeDecision",
+                "target": "pred_suspendDecision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resumeDecision",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_resume'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resume'",
+                "target": "pred_suspendDecision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_resume'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_linkedDecisions",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_linkedDecisions",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionSeries",
+                "target": "pred_linkedDecisions",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionSeries",
+                "target": "pred_doubleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionSeries",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_linkedDecisions",
+                "target": "pred_doubleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_linkedDecisions",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_doubleton",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceSet",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_choiceSet",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceSet",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice",
+                "target": "pred_possibleChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_possibleChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_moreImportant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_moreImportant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_goal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_moreImportant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_moreImportant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_goal",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nequal",
+                "target": "pred_moreImportant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nequal",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreImportant",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCharacteristic",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCharacteristic",
+                "target": "pred_possibleChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCharacteristic",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCharacteristic",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_goalRelevant",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bestChoice",
+                "target": "pred_possibleChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bestChoice",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bestChoice",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_possibleChoice",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_selectedChoice",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unselectedChoice",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unselectedChoice",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previouslySelectedChoice",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previouslySelectedChoice",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previouslySelectedChoice",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nequal",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_envisionFromTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_and'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_envisionFromTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_cwu",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_and'",
+                "target": "pred_envisionFromTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu",
+                "target": "pred_envisionFromTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_envisionChoiceConsequences",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_con",
+                "target": "pred_envisionChoiceConsequences",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_con",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_con",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_con",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_envisionChoiceConsequences",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_pro'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_costBenefitAnalysis",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_subset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_pro'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_pro'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_thinkOf'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_pro'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf'",
+                "target": "pred_pro'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf'",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro'",
+                "target": "pred_con'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_chooseOver",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_chooseOver",
+                "target": "pred_doubleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_doubleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCriterion",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCriterion",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCriterion",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCriterion",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_choiceCriterion",
+                "target": "pred_chooseOver",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_chooseOver",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_chooseOver",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Rexist",
+                "target": "pred_chooseOver",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_betterChoice'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_obviousDecision",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_betterChoice'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice'",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice'",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_betterChoice'",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_uncertainDecision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_uncertainDecision",
+                "target": "pred_bestChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decision",
+                "target": "pred_bestChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_insignificantDecision",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_insignificantDecision",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_insignificantDecision",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_betterChoice",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionFactor",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionFactor",
+                "target": "pred_pro",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionFactor",
+                "target": "pred_con",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionFactor",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionFactor",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_con",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pro",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_con",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionJustification",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionJustification",
+                "target": "pred_decisionFactor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arbitraryDecision",
+                "target": "pred_decisionJustification",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arbitraryDecision",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionJustification",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionConsequence",
+                "target": "pred_decision",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionConsequence",
+                "target": "pred_causallyInvolved",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_positiveDecisionConsequence",
+                "target": "pred_decisionConsequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_positiveDecisionConsequence",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionConsequence",
+                "target": "pred_goodFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_negativeDecisionConsequence",
+                "target": "pred_decisionConsequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_negativeDecisionConsequence",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_decisionConsequence",
+                "target": "pred_badFor",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

@@ -1,0 +1,1399 @@
+{
+    "metadata": {
+        "chapter": 26,
+        "chapter_title": "Managing Expectations",
+        "filename": "chapter_26_managing-expectations",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 9,
+        "predicate_count": 23,
+        "variable_count": 12,
+        "frequent_variable_count": 11
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 4,
+            "moderate": 1,
+            "simple": 4
+        },
+        "pattern_counts": {
+            "definition": 7,
+            "existence_claim": 2
+        },
+        "top_predicates": {
+            "atTime": 4,
+            "atTime'": 3,
+            "expectationJustification": 3,
+            "expect'": 2,
+            "believe'": 2,
+            "ecs'": 2,
+            "change": 2,
+            "person": 2,
+            "able": 2,
+            "expect": 2
+        },
+        "predicate_frequencies": {
+            "atTime": 4,
+            "atTime'": 3,
+            "expectationJustification": 3,
+            "expect'": 2,
+            "believe'": 2,
+            "ecs'": 2,
+            "change": 2,
+            "person": 2,
+            "able": 2,
+            "expect": 2,
+            "before": 1,
+            "gen": 1,
+            "unexpect": 1,
+            "cwu0'": 1,
+            "eventualitiesOf": 1,
+            "member": 1,
+            "cause": 1,
+            "addExpectation": 1,
+            "removeExpectation": 1,
+            "addExpectation'": 1,
+            "removeExpectation'": 1,
+            "expectationConfirmation": 1,
+            "expectationViolation": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "26.1",
+                "type": "axiom",
+                "name": "Definition of expect",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 a e t1 t0) (iff (expect' e0 a e t1 t0) (exists (e1 e2) (and (atTime' e1 e t1)(believe' e2 a e1) (atTime e2 t0)(before t0 t1)(gen e2 e0)))))",
+                "english": "e0 is the eventuality of agent a, at time t0, expecting that e will happen or hold at time t1. The belief e2 that e will happen or hold at t1 constitutes the expectation",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "26.2",
+                "type": "axiom",
+                "name": "Definition of unexpect",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e t1 t0) (iff (unexpect a e t1 t0) (exists (e1 e2) (and (atTime' e1 e t1)(believe' e2 a e1) (not (atTime e2 t0))))))",
+                "english": "It is possible to fail to believe some event will occur at some future time - unexpect means this",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "26.3",
+                "type": "axiom",
+                "name": "Definition of expectationJustification",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s a e t1 t0) (iff (expectationJustification s a e t1 t0) (exists (e0 e1 s1 e2) (and (expect' e0 a e t1 t0)(cwu0' e1 s a t0) (eventualitiesOf s1 s)(atTime' e2 e t1) (member e2 s1)(cause e1 e0)))))",
+                "english": "Agent a's current world understanding s at time t0 includes e being true at time t1. The fact e1 that s is the current world understanding causes the expectation e0",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "26.4",
+                "type": "axiom",
+                "name": "Definition of addExpectation",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e t1) (iff (addExpectation a e t1 t0) (exists (s0 s1 e0 e1 t2) (and (ecs' e0 s0 a)(ecs' e1 s1 a) (not (expectationJustification s0 a e t1 t2)) (expectationJustification s1 a e t1 t0) (change e0 e1)))))",
+                "english": "To add a justified expectation e is to extend an envisioned causal system to the point where e is predicted",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "26.5",
+                "type": "axiom",
+                "name": "Definition of removeExpectation",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e t1) (iff (removeExpectation a e t1 t0) (exists (s0 s1 e0 e1 t2) (and (ecs' e0 s0 a)(ecs' e1 s1 a) (expectationJustification s0 a e t1 t2) (not (expectationJustification s1 a e t1 t0)) (change e0 e1)))))",
+                "english": "To remove a justified expectation is just the opposite - move from having justification to not having justification",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "26.6",
+                "type": "axiom",
+                "name": "Person ability to add expectations",
+                "complexity": "simple",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (if (person a) (exists (e0 c e t1 t0) (and (able a e0 c)(addExpectation' e0 a e t1 t0)))))",
+                "english": "People have an ability to add expectations",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "26.7",
+                "type": "axiom",
+                "name": "Person ability to remove expectations",
+                "complexity": "simple",
+                "pattern": "existence_claim",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a) (if (person a) (exists (e0 c e t1 t0) (and (able a e0 c)(removeExpectation' e0 a e t1 t0)))))",
+                "english": "People have an ability to remove expectations",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "26.8",
+                "type": "axiom",
+                "name": "Definition of expectationConfirmation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e t1) (iff (expectationConfirmation a e t1) (exists (t0) (and (expect a e t1 t0)(atTime e t1)))))",
+                "english": "When the future time of an expectation arrives, the expectation is confirmed if the expected event actually occurs at that time",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "26.9",
+                "type": "axiom",
+                "name": "Definition of expectationViolation",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e t1) (iff (expectationViolation a e t1) (exists (t0) (and (expect a e t1 t0)(not (atTime e t1))))))",
+                "english": "When the future time of an expectation arrives, the expectation is violated if the expected event does not occur at that time",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_expect'",
+                "type": "predicate",
+                "name": "expect'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime'",
+                "type": "predicate",
+                "name": "atTime'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_believe'",
+                "type": "predicate",
+                "name": "believe'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_atTime",
+                "type": "predicate",
+                "name": "atTime",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_unexpect",
+                "type": "predicate",
+                "name": "unexpect",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_expectationJustification",
+                "type": "predicate",
+                "name": "expectationJustification",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_cwu0'",
+                "type": "predicate",
+                "name": "cwu0'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_eventualitiesOf",
+                "type": "predicate",
+                "name": "eventualitiesOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_addExpectation",
+                "type": "predicate",
+                "name": "addExpectation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ecs'",
+                "type": "predicate",
+                "name": "ecs'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_change",
+                "type": "predicate",
+                "name": "change",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_removeExpectation",
+                "type": "predicate",
+                "name": "removeExpectation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_person",
+                "type": "predicate",
+                "name": "person",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_able",
+                "type": "predicate",
+                "name": "able",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_addExpectation'",
+                "type": "predicate",
+                "name": "addExpectation'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_removeExpectation'",
+                "type": "predicate",
+                "name": "removeExpectation'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_expectationConfirmation",
+                "type": "predicate",
+                "name": "expectationConfirmation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_expect",
+                "type": "predicate",
+                "name": "expect",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_expectationViolation",
+                "type": "predicate",
+                "name": "expectationViolation",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_t1",
+                "type": "variable",
+                "name": "t1",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_t0",
+                "type": "variable",
+                "name": "t0",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s0",
+                "type": "variable",
+                "name": "s0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t2",
+                "type": "variable",
+                "name": "t2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_c",
+                "type": "variable",
+                "name": "c",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "26.1",
+                "target": "pred_expect'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.1",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "pred_unexpect",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.2",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.2",
+                "target": "pred_believe'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.2",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "pred_expectationJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_expect'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_cwu0'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_eventualitiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_atTime'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "pred_addExpectation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.4",
+                "target": "pred_ecs'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.4",
+                "target": "pred_expectationJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.4",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.4",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "pred_removeExpectation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.5",
+                "target": "pred_ecs'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.5",
+                "target": "pred_expectationJustification",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.5",
+                "target": "pred_change",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_s0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.5",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.6",
+                "target": "pred_able",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.6",
+                "target": "pred_addExpectation'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.6",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "pred_person",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.7",
+                "target": "pred_able",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.7",
+                "target": "pred_removeExpectation'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.7",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.8",
+                "target": "pred_expectationConfirmation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.8",
+                "target": "pred_expect",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.8",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.8",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.8",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.9",
+                "target": "pred_expectationViolation",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.9",
+                "target": "pred_expect",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.9",
+                "target": "pred_atTime",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "26.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.9",
+                "target": "var_t1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "26.9",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_believe'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unexpect",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unexpect",
+                "target": "pred_believe'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_unexpect",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_expect'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_cwu0'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_cwu0'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0'",
+                "target": "pred_eventualitiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0'",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cwu0'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_atTime'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventualitiesOf",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_atTime'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addExpectation",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addExpectation",
+                "target": "pred_expectationJustification",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addExpectation",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_expectationJustification",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ecs'",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationJustification",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeExpectation",
+                "target": "pred_ecs'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeExpectation",
+                "target": "pred_expectationJustification",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_removeExpectation",
+                "target": "pred_change",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_able",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_addExpectation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_able",
+                "target": "pred_addExpectation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_person",
+                "target": "pred_removeExpectation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_able",
+                "target": "pred_removeExpectation'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationConfirmation",
+                "target": "pred_expect",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationConfirmation",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expect",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationViolation",
+                "target": "pred_expect",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_expectationViolation",
+                "target": "pred_atTime",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

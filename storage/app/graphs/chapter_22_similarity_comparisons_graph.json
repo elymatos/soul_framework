@@ -1,0 +1,5083 @@
+{
+    "metadata": {
+        "chapter": 22,
+        "chapter_title": "Similarity Comparisons",
+        "filename": "chapter_22_similarity_comparisons",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 28,
+        "predicate_count": 69,
+        "variable_count": 41,
+        "frequent_variable_count": 27
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "moderate": 16,
+            "complex": 10,
+            "simple": 2
+        },
+        "pattern_counts": {
+            "definition": 3,
+            "recursive_definition": 3,
+            "graded_definition": 1,
+            "graded_recursive_definition": 2,
+            "iterative_definition": 2,
+            "equivalence_theorem": 1,
+            "ordering_constraint": 1,
+            "scale_relation": 1,
+            "scale_definition": 1,
+            "scale_based_definition": 2,
+            "symmetry": 1,
+            "structural_mapping": 1,
+            "pattern_instantiation": 1,
+            "pattern_sharing": 1,
+            "predicate_mapping": 1,
+            "composite_mapping": 1,
+            "analogy_definition": 1,
+            "cognitive_process": 1,
+            "defeasible_causation": 1,
+            "cognitive_achievement": 2
+        },
+        "top_predicates": {
+            "pair": 9,
+            "member": 7,
+            "null": 6,
+            "addElt": 6,
+            "pred": 6,
+            "argn": 5,
+            "equal": 4,
+            "similarityScale": 4,
+            "simPr0": 3,
+            "eventuality": 3
+        },
+        "predicate_frequencies": {
+            "pair": 9,
+            "member": 7,
+            "null": 6,
+            "addElt": 6,
+            "pred": 6,
+            "argn": 5,
+            "equal": 4,
+            "similarityScale": 4,
+            "simPr0": 3,
+            "eventuality": 3,
+            "simStr0": 3,
+            "similar1": 3,
+            "simPr1": 3,
+            "simStr1": 3,
+            "singleton": 3,
+            "union": 3,
+            "ceMapping": 3,
+            "map": 3,
+            "changeTo'": 3,
+            "thinkThat'": 3,
+            "similarInThat": 2,
+            "arg*": 2,
+            "subst": 2,
+            "Rexist": 2,
+            "differentInThat": 2,
+            "similar0": 2,
+            "iterArgs": 2,
+            "iterProps": 2,
+            "moreSimilar": 2,
+            "similar": 2,
+            "inScale": 2,
+            "propertiesOf": 2,
+            "relationsOf": 2,
+            "exhibitPattern": 2,
+            "cePredReplace": 2,
+            "structureMapping": 2,
+            "successor": 1,
+            "arity": 1,
+            "leq": 1,
+            "gt": 1,
+            "imply": 1,
+            "properSubset": 1,
+            "moreSimScale": 1,
+            "pair0": 1,
+            "moreSimScale'": 1,
+            "scaleDefinedBy": 1,
+            "Hi": 1,
+            "different": 1,
+            "Lo": 1,
+            "union3": 1,
+            "componentsOf": 1,
+            "function": 1,
+            "pattern": 1,
+            "patternInstance": 1,
+            "commonPattern": 1,
+            "analogous": 1,
+            "compare": 1,
+            "thinkOf": 1,
+            "compare'": 1,
+            "etc": 1,
+            "cause": 1,
+            "similar'": 1,
+            "different'": 1,
+            "comparisonMetric": 1,
+            "findPattern'": 1,
+            "commonPattern'": 1,
+            "gen": 1,
+            "drawAnalogy'": 1,
+            "structureMapping'": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "22.1",
+                "type": "axiom",
+                "name": "Definition of similarInThat",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall(x y e1 e2) (iff(similarInThat x y e1 e2) (and(arg* x e1)(arg* y e2)(subst x e1 y e2)(Rexist e1)(Rexist e2))))",
+                "english": "x and y are similar in that e1 holds for x and e2 holds for y, where e1 and e2 are substitutable properties that both really exist",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.2",
+                "type": "axiom",
+                "name": "Definition of differentInThat",
+                "complexity": "moderate",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y e1 e2) (iff (differentInThat x y e1 e2) (and (arg* x e1)(arg* y e2)(subst x e1 y e2)(Rexist e1) (not (Rexist e2)))))",
+                "english": "x and y are different in that e1 holds for x but the corresponding property e2 does not hold for y",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.3",
+                "type": "axiom",
+                "name": "Definition of similar0",
+                "complexity": "moderate",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2) (iff (similar0 x1 x2) (exists (m p) (and (null m) (or (simPr0 x1 x2 m) (and (eventuality x1)(eventuality x2) (simStr0 x1 x2 m)))))))",
+                "english": "Two entities are similar0 if they have similar properties or if they are eventualities with similar structure",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.4",
+                "type": "axiom",
+                "name": "Definition of simStr0 - similar structure",
+                "complexity": "complex",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 m) (iff (simStr0 e1 e2 m) (or (equal e1 e2) (exists (p d m1) (and (pair d e1 e2)(addElt m1 m d) (pred p e1)(pred p e2) (forall (n x1 x2 d1) (if (and (argn x1 n e1)(argn x2 n e2) (pair d1 x1 x2)(not (member d1 m))) (simPr0 x1 x2 m1))))))))",
+                "english": "Two eventualities have similar structure if they are equal or have the same predicate and similar arguments",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.5",
+                "type": "axiom",
+                "name": "Definition of simPr0 - similar properties",
+                "complexity": "complex",
+                "pattern": "recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 m) (iff (simPr0 x1 x2 m) (exists (d m1) (and (pair d x1 x2)(addElt m1 m d) (or (equal x1 x2) (exists (e3 e4 p n d1) (and (pred p e3)(pred p e4) (argn x1 n e3)(argn x2 n e4) (pair d1 e3 e4)(not (member d1 m)) (simStr0 e3 e4 m1))))))))",
+                "english": "Two entities have similar properties if they are equal or share a property with the same predicate and corresponding arguments",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.6",
+                "type": "axiom",
+                "name": "Definition of similar1 - graded similarity",
+                "complexity": "moderate",
+                "pattern": "graded_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 s) (iff (similar1 x1 x2 s) (exists (m p) (and (null m) (or (simPr1 x1 x2 m s) (and (eventuality x1)(eventuality x2) (simStr1 x1 x2 m s)))))))",
+                "english": "Two entities are similar1 with shared properties s if they have similar properties or similar structure as eventualities",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.7",
+                "type": "axiom",
+                "name": "Definition of simStr1 - graded similar structure",
+                "complexity": "complex",
+                "pattern": "graded_recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 m s) (iff (simStr1 e1 e2 m s) (or (and (equal e1 e2)(singleton s e2)) (exists (p d) (and (pair d e1 e2)(addElt m1 m d) (pred p e1)(pred p e2) (iterArgs e1 e2 1 m1 s1) (addElt s s1 e2))))))",
+                "english": "Two eventualities have similar structure with shared properties s, either by equality or by having the same predicate and similar arguments",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.8",
+                "type": "axiom",
+                "name": "Definition of iterArgs - iterate through arguments",
+                "complexity": "complex",
+                "pattern": "iterative_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e1 e2 n m s) (iff (iterArgs e1 e2 n m s) (exists (x1 x2 d1 s1 s2 n1 n0) (and (argn x1 n e1)(argn x2 n e2) (pair d1 x1 x2)(addElt m1 m d1) (if (member d1 m)(null s1)) (or (member d1 m)(simPr1 x1 x2 m s1)) (successor n1 n)(arity n0 e2) (if (leq n1 n0)(iterArgs e1 e2 n1 m1 s2)) (if (gt n1 n0)(null s2)) (union s s1 s2)))))",
+                "english": "Iterate through corresponding arguments of two eventualities to accumulate shared properties",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.9",
+                "type": "axiom",
+                "name": "Definition of simPr1 - graded similar properties",
+                "complexity": "complex",
+                "pattern": "graded_recursive_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 m s) (iff (simPr1 x1 x2 m s) (or (and (equal x1 x2)(eventuality x2)(singleton s x2)) (and (equal x1 x2)(not (eventuality x2))(null s)) (exists (d m1 t) (and (pair d x1 x2)(addElt m1 m d)(null t) (iterProps x1 x2 t m1 s) (not (null s)))))))",
+                "english": "Two entities have similar properties with shared property set s, handling equality cases and iterating through properties",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.10",
+                "type": "axiom",
+                "name": "Definition of iterProps - iterate through properties",
+                "complexity": "complex",
+                "pattern": "iterative_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2 t m s) (iff (iterProps x1 x2 t m s) (or (exists (e3 e4 p n t1 d1) (and (pred p e3)(pred p e4) (argn x1 n e3)(argn x2 n e4) (not (imply t e4)) (addElt t1 t e4) (pair d1 e3 e4)(addElt m1 m d1) (if (member d1 m)(singleton s1 e4)) (or (member d1 m)(simStr1 e3 e4 m s1)) (iterProps x1 x2 t1 m1 s2) (union s s1 s2))) (null s))))",
+                "english": "Iterate through inferentially independent properties of two entities to find matches",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.11",
+                "type": "axiom",
+                "name": "Equivalence theorem for similar0 and similar1",
+                "complexity": "moderate",
+                "pattern": "equivalence_theorem",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2) (iff (similar0 x1 x2) (exists (s) (and (similar1 x1 x2 s)(not (null s))))))",
+                "english": "Two entities are similar0 if and only if they are similar1 with a non-empty set of shared properties",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.12",
+                "type": "axiom",
+                "name": "Subset consistency for similarity ordering",
+                "complexity": "moderate",
+                "pattern": "ordering_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y z) (if (and (similar1 x z s1)(similar1 y z s2) (properSubset s2 s1)) (moreSimilar x y z)))",
+                "english": "If x and y are both similar to z, and x's shared properties with z properly contain y's shared properties, then x is more similar to z than y is",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.13",
+                "type": "axiom",
+                "name": "Definition of moreSimScale",
+                "complexity": "moderate",
+                "pattern": "scale_relation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (p1 p2 e) (iff (moreSimScale p1 p2) (exists (x y z) (and (pair p1 x z)(pair p2 y z) (moreSimilar x y z)))))",
+                "english": "One pair is more similar than another if the first element of each pair is more similar to their common standard than the second",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.14",
+                "type": "axiom",
+                "name": "Definition of similarityScale",
+                "complexity": "moderate",
+                "pattern": "scale_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s) (iff (similarityScale s) (exists (s1 e p1 p2) (and (forall (p)(if (member p s1)(pair0 p))) (moreSimScale' e p1 p2) (scaleDefinedBy s s1 e)))))",
+                "english": "A similarity scale is defined by the moreSimScale relation over pairs",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.15",
+                "type": "axiom",
+                "name": "Definition of similar - high on similarity scale",
+                "complexity": "moderate",
+                "pattern": "scale_based_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x z) (iff (similar x z) (exists (s s1 p) (and (similarityScale s)(Hi s1 s)(inScale p s1) (pair p x z)))))",
+                "english": "Two things are similar if their pair is in the high region of a similarity scale",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.16",
+                "type": "axiom",
+                "name": "Definition of different - low on similarity scale",
+                "complexity": "moderate",
+                "pattern": "scale_based_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x z) (iff (different x z) (exists (s s1 p) (and (similarityScale s)(Lo s1 s)(inScale p s1) (pair p x z)))))",
+                "english": "Two things are different if their pair is in the low region of a similarity scale",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.17",
+                "type": "axiom",
+                "name": "Symmetry of similarity",
+                "complexity": "simple",
+                "pattern": "symmetry",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y) (iff (similar x y)(similar y x)))",
+                "english": "Similarity is symmetric - if x is similar to y, then y is similar to x",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "22.18",
+                "type": "axiom",
+                "name": "Definition of ceMapping - composite entity mapping",
+                "complexity": "complex",
+                "pattern": "structural_mapping",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m x1 x2) (iff (ceMapping m x1 x2) (exists (u1 s11 s12 s13 u2 s21 s22 s23) (and (union3 u1 s11 s12 s13)(componentsOf s11 x1) (propertiesOf s12 x1)(relationsOf s13 x1) (union3 u2 s21 s22 s23)(componentsOf s21 x2) (propertiesOf s22 x2)(relationsOf s23 x2) (function m u1 u2) (forall (y1) (if (member y1 s11) (exists (y2) (and (member y2 s21)(map m y1 y2))))) (forall (y1 y2 e1 e2 n p) (if (and (member y1 s11) (or (member e1 s12)(member e1 s13)) (map m y1 y2)(map m e1 e2)) (and (iff (argn y1 n e1)(argn y2 n e2)) (iff (pred p e1)(pred p e2)))))))))",
+                "english": "A composite entity mapping preserves components, properties, relations, and their structural relationships",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.19",
+                "type": "axiom",
+                "name": "Definition of exhibitPattern",
+                "complexity": "moderate",
+                "pattern": "pattern_instantiation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x p) (iff (exhibitPattern x p) (exists (m) (and (pattern p)(patternInstance x p) (ceMapping m p x)))))",
+                "english": "A composite entity exhibits a pattern if it is an instance of the pattern with a proper mapping",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.20",
+                "type": "axiom",
+                "name": "Definition of commonPattern",
+                "complexity": "moderate",
+                "pattern": "pattern_sharing",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2) (iff (commonPattern x1 x2) (exists (p) (and (exhibitPattern x1 p)(exhibitPattern x2 p)))))",
+                "english": "Two composite entities have a common pattern if they both exhibit the same pattern",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.21",
+                "type": "axiom",
+                "name": "Definition of cePredReplace",
+                "complexity": "complex",
+                "pattern": "predicate_mapping",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m p x1 x2) (iff (cePredReplace m p x1 x2) (exists (s12 s13 u1) (and (propertiesOf s12 x1)(relationsOf x13 x1) (union u1 s12 s13) (forall (e1 e2 q1 q2) (if (and (member e1 u1)(map m e1 e2) (pred q1 e1)(map p q1 q2)) (pred q2 e2)))))))",
+                "english": "Composite entity predicate replacement maps one entity to another by changing predicates according to mapping p",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.22",
+                "type": "axiom",
+                "name": "Definition of structureMapping",
+                "complexity": "complex",
+                "pattern": "composite_mapping",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m p x1 x2) (iff (structureMapping m p x1 x2) (exists (x3) (and (cePredReplace m1 p x1 x3) (ceMapping m2 x3 x2) (iff (map m x y) (exists (z) (and (map m1 x z)(map m2 z y))))))))",
+                "english": "A structure mapping combines predicate replacement with composite entity mapping",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.23",
+                "type": "axiom",
+                "name": "Definition of analogous",
+                "complexity": "moderate",
+                "pattern": "analogy_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x1 x2) (iff (analogous x1 x2) (exists (m p) (structureMapping m p x1 x2))))",
+                "english": "Two things are analogous if there is a structure mapping between them",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.24",
+                "type": "axiom",
+                "name": "Definition of compare",
+                "complexity": "moderate",
+                "pattern": "cognitive_process",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a x y) (iff (compare a x y) (exists (e1 e2 e3 e4) (and (thinkOf a e1)(thinkOf a e2) (similarInThat x y e1 e2) (thinkOf a e3)(thinkOf a e4) (differentInThat x y e3 e4)))))",
+                "english": "To compare entities is to think about their shared and differing properties",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.25",
+                "type": "axiom",
+                "name": "Comparison causes similarity or difference judgment",
+                "complexity": "complex",
+                "pattern": "defeasible_causation",
+                "defeasible": true,
+                "reified": true,
+                "fol": "(forall (e0 a x1 x2) (if (and (compare' e0 a x1 x2) (etc)) (exists (e e2 e3 e4) (and (cause e0 e)(changeTo' e e2) (or (thinkThat' e2 a e3)(thinkThat' e2 a e4)) (similar' e3 x1 x2)(different' e4 x1 x2)))))",
+                "english": "Comparing entities defeasibly causes one to think they are either similar or different",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "22.26",
+                "type": "axiom",
+                "name": "Similarity scale as comparison metric",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s) (iff (comparisonMetric s)(similarityScale s)))",
+                "english": "A similarity scale constitutes a comparison metric",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "22.27",
+                "type": "axiom",
+                "name": "Definition of findPattern",
+                "complexity": "moderate",
+                "pattern": "cognitive_achievement",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 a x1 x2) (iff (findPattern' e0 a x1 x2) (exists (e e2 e3) (and (changeTo' e e2)(thinkThat' e2 a e3) (commonPattern' e3 x1 x2)(gen e e0)))))",
+                "english": "To find a pattern in two things is to come to think that pattern holds in them",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "22.28",
+                "type": "axiom",
+                "name": "Definition of drawAnalogy",
+                "complexity": "moderate",
+                "pattern": "cognitive_achievement",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e0 a x1 x2) (iff (drawAnalogy' e0 a x1 x2) (exists (e e2 e3 m) (and (changeTo' e e2)(thinkThat' e2 a e3) (structureMapping' e3 m x1 x2)))))",
+                "english": "To draw an analogy between two things is to think that a structure mapping holds between them",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_similarInThat",
+                "type": "predicate",
+                "name": "similarInThat",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Rexist",
+                "type": "predicate",
+                "name": "Rexist",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_differentInThat",
+                "type": "predicate",
+                "name": "differentInThat",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_similar0",
+                "type": "predicate",
+                "name": "similar0",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_null",
+                "type": "predicate",
+                "name": "null",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_simPr0",
+                "type": "predicate",
+                "name": "simPr0",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_eventuality",
+                "type": "predicate",
+                "name": "eventuality",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_simStr0",
+                "type": "predicate",
+                "name": "simStr0",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_pair",
+                "type": "predicate",
+                "name": "pair",
+                "frequency": 9,
+                "axiom_count": 9,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_addElt",
+                "type": "predicate",
+                "name": "addElt",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_pred",
+                "type": "predicate",
+                "name": "pred",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_argn",
+                "type": "predicate",
+                "name": "argn",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_similar1",
+                "type": "predicate",
+                "name": "similar1",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_simPr1",
+                "type": "predicate",
+                "name": "simPr1",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_simStr1",
+                "type": "predicate",
+                "name": "simStr1",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_singleton",
+                "type": "predicate",
+                "name": "singleton",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_iterArgs",
+                "type": "predicate",
+                "name": "iterArgs",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_successor",
+                "type": "predicate",
+                "name": "successor",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_arity",
+                "type": "predicate",
+                "name": "arity",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_leq",
+                "type": "predicate",
+                "name": "leq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gt",
+                "type": "predicate",
+                "name": "gt",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_union",
+                "type": "predicate",
+                "name": "union",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_iterProps",
+                "type": "predicate",
+                "name": "iterProps",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_imply",
+                "type": "predicate",
+                "name": "imply",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_properSubset",
+                "type": "predicate",
+                "name": "properSubset",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSimilar",
+                "type": "predicate",
+                "name": "moreSimilar",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSimScale",
+                "type": "predicate",
+                "name": "moreSimScale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_similarityScale",
+                "type": "predicate",
+                "name": "similarityScale",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_pair0",
+                "type": "predicate",
+                "name": "pair0",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_moreSimScale'",
+                "type": "predicate",
+                "name": "moreSimScale'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_similar",
+                "type": "predicate",
+                "name": "similar",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Hi",
+                "type": "predicate",
+                "name": "Hi",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_different",
+                "type": "predicate",
+                "name": "different",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_Lo",
+                "type": "predicate",
+                "name": "Lo",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ceMapping",
+                "type": "predicate",
+                "name": "ceMapping",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_union3",
+                "type": "predicate",
+                "name": "union3",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_componentsOf",
+                "type": "predicate",
+                "name": "componentsOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_propertiesOf",
+                "type": "predicate",
+                "name": "propertiesOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_relationsOf",
+                "type": "predicate",
+                "name": "relationsOf",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_function",
+                "type": "predicate",
+                "name": "function",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_map",
+                "type": "predicate",
+                "name": "map",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_exhibitPattern",
+                "type": "predicate",
+                "name": "exhibitPattern",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_pattern",
+                "type": "predicate",
+                "name": "pattern",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_patternInstance",
+                "type": "predicate",
+                "name": "patternInstance",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_commonPattern",
+                "type": "predicate",
+                "name": "commonPattern",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cePredReplace",
+                "type": "predicate",
+                "name": "cePredReplace",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_structureMapping",
+                "type": "predicate",
+                "name": "structureMapping",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_analogous",
+                "type": "predicate",
+                "name": "analogous",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_compare",
+                "type": "predicate",
+                "name": "compare",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_thinkOf",
+                "type": "predicate",
+                "name": "thinkOf",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_compare'",
+                "type": "predicate",
+                "name": "compare'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_etc",
+                "type": "predicate",
+                "name": "etc",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_cause",
+                "type": "predicate",
+                "name": "cause",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_changeTo'",
+                "type": "predicate",
+                "name": "changeTo'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_thinkThat'",
+                "type": "predicate",
+                "name": "thinkThat'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_similar'",
+                "type": "predicate",
+                "name": "similar'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_different'",
+                "type": "predicate",
+                "name": "different'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_comparisonMetric",
+                "type": "predicate",
+                "name": "comparisonMetric",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_findPattern'",
+                "type": "predicate",
+                "name": "findPattern'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_commonPattern'",
+                "type": "predicate",
+                "name": "commonPattern'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_drawAnalogy'",
+                "type": "predicate",
+                "name": "drawAnalogy'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_structureMapping'",
+                "type": "predicate",
+                "name": "structureMapping'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 11,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_x1",
+                "type": "variable",
+                "name": "x1",
+                "axiom_count": 16,
+                "frequency": 16,
+                "group": "variable"
+            },
+            {
+                "id": "var_x2",
+                "type": "variable",
+                "name": "x2",
+                "axiom_count": 16,
+                "frequency": 16,
+                "group": "variable"
+            },
+            {
+                "id": "var_m",
+                "type": "variable",
+                "name": "m",
+                "axiom_count": 14,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 15,
+                "frequency": 15,
+                "group": "variable"
+            },
+            {
+                "id": "var_d",
+                "type": "variable",
+                "name": "d",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_m1",
+                "type": "variable",
+                "name": "m1",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_n",
+                "type": "variable",
+                "name": "n",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_d1",
+                "type": "variable",
+                "name": "d1",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e4",
+                "type": "variable",
+                "name": "e4",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 7,
+                "frequency": 7,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_z",
+                "type": "variable",
+                "name": "z",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_p1",
+                "type": "variable",
+                "name": "p1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_p2",
+                "type": "variable",
+                "name": "p2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_u1",
+                "type": "variable",
+                "name": "u1",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s12",
+                "type": "variable",
+                "name": "s12",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_s13",
+                "type": "variable",
+                "name": "s13",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "22.1",
+                "target": "pred_similarInThat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.1",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.1",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.1",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.1",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.1",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.2",
+                "target": "pred_differentInThat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.2",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.2",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.2",
+                "target": "pred_Rexist",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.2",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.2",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.3",
+                "target": "pred_similar0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.3",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.3",
+                "target": "pred_simPr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.3",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.3",
+                "target": "pred_simStr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.3",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.3",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.3",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "pred_simStr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "pred_simPr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.4",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "pred_simPr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "pred_simStr0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.5",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.5",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.6",
+                "target": "pred_similar1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.6",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.6",
+                "target": "pred_simPr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.6",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.6",
+                "target": "pred_simStr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.6",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.6",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.6",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "pred_simStr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_singleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "pred_iterArgs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.7",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "pred_iterArgs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_simPr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_arity",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_gt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.8",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "pred_simPr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_eventuality",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_singleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "pred_iterProps",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.9",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_d",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.9",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "pred_iterProps",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_imply",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_addElt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_singleton",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_simStr1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.10",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_d1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.10",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.11",
+                "target": "pred_similar0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.11",
+                "target": "pred_similar1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.11",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.11",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.11",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.12",
+                "target": "pred_similar1",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.12",
+                "target": "pred_properSubset",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.12",
+                "target": "pred_moreSimilar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.12",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.12",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.12",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "pred_moreSimScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.13",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.13",
+                "target": "pred_moreSimilar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.13",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.13",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "pred_similarityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.14",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.14",
+                "target": "pred_pair0",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.14",
+                "target": "pred_moreSimScale'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.14",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "var_p1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "var_p2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.14",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.15",
+                "target": "pred_similar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.15",
+                "target": "pred_similarityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.15",
+                "target": "pred_Hi",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.15",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.15",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.15",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.15",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.15",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.16",
+                "target": "pred_different",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.16",
+                "target": "pred_similarityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.16",
+                "target": "pred_Lo",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.16",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.16",
+                "target": "pred_pair",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.16",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.16",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.16",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.16",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.17",
+                "target": "pred_similar",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.17",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.17",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "pred_ceMapping",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_union3",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_componentsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_propertiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_relationsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_argn",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.18",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_u1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_s12",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_s13",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.18",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.19",
+                "target": "pred_exhibitPattern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.19",
+                "target": "pred_pattern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.19",
+                "target": "pred_patternInstance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.19",
+                "target": "pred_ceMapping",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.19",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.19",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.19",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.20",
+                "target": "pred_commonPattern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.20",
+                "target": "pred_exhibitPattern",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.20",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.20",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.20",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "pred_cePredReplace",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_propertiesOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_relationsOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_union",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "pred_pred",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.21",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_s12",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_s13",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_u1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.21",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "pred_structureMapping",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.22",
+                "target": "pred_cePredReplace",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.22",
+                "target": "pred_ceMapping",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.22",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.22",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_m1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.22",
+                "target": "var_z",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.23",
+                "target": "pred_analogous",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.23",
+                "target": "pred_structureMapping",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.23",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.23",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.23",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.23",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "pred_compare",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.24",
+                "target": "pred_thinkOf",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.24",
+                "target": "pred_similarInThat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.24",
+                "target": "pred_differentInThat",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.24",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.24",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "pred_compare'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_etc",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_cause",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_thinkThat'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_similar'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "pred_different'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.25",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.25",
+                "target": "var_e4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.26",
+                "target": "pred_comparisonMetric",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.26",
+                "target": "pred_similarityScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.26",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "pred_findPattern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.27",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.27",
+                "target": "pred_thinkThat'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.27",
+                "target": "pred_commonPattern'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.27",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.27",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.27",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "pred_drawAnalogy'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.28",
+                "target": "pred_changeTo'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.28",
+                "target": "pred_thinkThat'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.28",
+                "target": "pred_structureMapping'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "22.28",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_x1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_x2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "22.28",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_similarInThat",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarInThat",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarInThat",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subst",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_differentInThat",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_differentInThat",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_differentInThat",
+                "target": "pred_Rexist",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar0",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar0",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar0",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar0",
+                "target": "pred_simStr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_simStr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr0",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr0",
+                "target": "pred_simStr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_simStr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr0",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_simPr0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_iterArgs",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterArgs",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_simPr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_arity",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arity",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leq",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leq",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gt",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simPr1",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_eventuality",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_eventuality",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_addElt",
+                "target": "pred_iterProps",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterProps",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pred",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_imply",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_argn",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_addElt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_imply",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_singleton",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_simStr1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_singleton",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_simStr1",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar0",
+                "target": "pred_similar1",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_properSubset",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar1",
+                "target": "pred_moreSimilar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_properSubset",
+                "target": "pred_moreSimilar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreSimScale",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreSimScale",
+                "target": "pred_moreSimilar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair",
+                "target": "pred_moreSimilar",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_pair0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_moreSimScale'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_pair0",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_moreSimScale'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair0",
+                "target": "pred_moreSimScale'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pair0",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_moreSimScale'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar",
+                "target": "pred_similarityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_Hi",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Hi",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_different",
+                "target": "pred_similarityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_different",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_different",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_different",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarityScale",
+                "target": "pred_Lo",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_Lo",
+                "target": "pred_pair",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_union3",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_propertiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ceMapping",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_componentsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_propertiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union3",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_propertiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_componentsOf",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_argn",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_exhibitPattern",
+                "target": "pred_pattern",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_exhibitPattern",
+                "target": "pred_patternInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_exhibitPattern",
+                "target": "pred_ceMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_patternInstance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_pattern",
+                "target": "pred_ceMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_patternInstance",
+                "target": "pred_ceMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_commonPattern",
+                "target": "pred_exhibitPattern",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_propertiesOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_relationsOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_pred",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_propertiesOf",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_relationsOf",
+                "target": "pred_union",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_union",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_structureMapping",
+                "target": "pred_cePredReplace",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_structureMapping",
+                "target": "pred_ceMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_structureMapping",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cePredReplace",
+                "target": "pred_ceMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_analogous",
+                "target": "pred_structureMapping",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare",
+                "target": "pred_thinkOf",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare",
+                "target": "pred_similarInThat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare",
+                "target": "pred_differentInThat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf",
+                "target": "pred_similarInThat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkOf",
+                "target": "pred_differentInThat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similarInThat",
+                "target": "pred_differentInThat",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_etc",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_similar'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_compare'",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_cause",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_similar'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_etc",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_similar'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_cause",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_similar'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkThat'",
+                "target": "pred_similar'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkThat'",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_similar'",
+                "target": "pred_different'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_comparisonMetric",
+                "target": "pred_similarityScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_findPattern'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_findPattern'",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_findPattern'",
+                "target": "pred_commonPattern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_findPattern'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_commonPattern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkThat'",
+                "target": "pred_commonPattern'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkThat'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_commonPattern'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_drawAnalogy'",
+                "target": "pred_changeTo'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_drawAnalogy'",
+                "target": "pred_thinkThat'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_drawAnalogy'",
+                "target": "pred_structureMapping'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_changeTo'",
+                "target": "pred_structureMapping'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_thinkThat'",
+                "target": "pred_structureMapping'",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

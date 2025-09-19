@@ -1,0 +1,3047 @@
+{
+    "metadata": {
+        "chapter": 46,
+        "chapter_title": "Repetitive Execution",
+        "filename": "chapter_46_repetitive_execution",
+        "generated_at": "2025-09-16T13:01:15+00:00",
+        "axiom_count": 17,
+        "predicate_count": 41,
+        "variable_count": 21,
+        "frequent_variable_count": 16
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "complex": 4,
+            "simple": 4,
+            "moderate": 9
+        },
+        "pattern_counts": {
+            "definition": 3,
+            "temporal_ordering": 4,
+            "set_characterization": 3,
+            "temporal_state": 1,
+            "counting_definition": 1,
+            "iteration_definition": 1,
+            "sequence_ordering": 1,
+            "action_definition": 3
+        },
+        "top_predicates": {
+            "repetition": 11,
+            "instance": 6,
+            "aRepetition": 6,
+            "before": 6,
+            "iterationThru": 6,
+            "executePlan'": 3,
+            "startRepetition": 3,
+            "terminateRepetition": 3,
+            "member": 3,
+            "ends": 3
+        },
+        "predicate_frequencies": {
+            "repetition": 11,
+            "instance": 6,
+            "aRepetition": 6,
+            "before": 6,
+            "iterationThru": 6,
+            "executePlan'": 3,
+            "startRepetition": 3,
+            "terminateRepetition": 3,
+            "member": 3,
+            "ends": 3,
+            "equal": 2,
+            "completedRepetitions": 2,
+            "executed": 2,
+            "begins": 2,
+            "nequal": 2,
+            "nextRepetition": 2,
+            "repeatUntil'": 1,
+            "executePlan": 1,
+            "gen": 1,
+            "plan": 1,
+            "subplan": 1,
+            "intermediateRepetition": 1,
+            "remainingRepetitions": 1,
+            "currentRepetition": 1,
+            "previousRepetition": 1,
+            "repetitionsCount": 1,
+            "card": 1,
+            "arg*": 1,
+            "sequence": 1,
+            "inSeq": 1,
+            "nth": 1,
+            "subst": 1,
+            "startIterationThru": 1,
+            "first": 1,
+            "completedIterationsThru": 1,
+            "doNextIterationThru'": 1,
+            "execute": 1,
+            "abortIterationThru": 1,
+            "abort": 1,
+            "completeIterationThru": 1,
+            "executedPlan": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "46.1",
+                "type": "axiom",
+                "name": "Definition of repetition structure",
+                "complexity": "complex",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (a e e1 c p) (iff (repetition a e e1 c p) (exists (g p1 e3) (and (repeatUntil' e3 e1 c)(executePlan e a p)(gen e3 e) (plan p a g)(subplan p1 p) (forall (e2) (if (executePlan' e2 a p1) (instance e2 e1)))))))",
+                "english": "Agent a's execution e of plan p is a repetition of executions e1 until condition c is satisfied, with e3 having repeatUntil structure generating the execution",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "46.2",
+                "type": "axiom",
+                "name": "Definition of aRepetition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e) (iff (aRepetition e2 e) (exists (a e1 c p) (and (repetition a e e1 c p)(instance e2 e1)))))",
+                "english": "Execution e2 is an instance of the body of repetitive execution e",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "46.3",
+                "type": "axiom",
+                "name": "Definition of startRepetition",
+                "complexity": "moderate",
+                "pattern": "temporal_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e) (iff (startRepetition e2 e) (exists (a e1 c p) (and (repetition a e e1 c p)(instance e2 e1) (forall (e3) (if (instance e3 e1) (or (equal e3 e2)(before e2 e3))))))))",
+                "english": "Execution e2 is the first repetition of the body of repetitive execution e, occurring before all other instances",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.4",
+                "type": "axiom",
+                "name": "Definition of terminateRepetition",
+                "complexity": "moderate",
+                "pattern": "temporal_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e) (iff (terminateRepetition e2 e) (exists (a e1 c p) (and (repetition a e e1 c p)(instance e2 e1) (forall (e3) (if (instance e3 e1) (or (equal e3 e2)(before e3 e2))))))))",
+                "english": "Execution e2 is the last repetition of the body of repetitive execution e, occurring after all other instances",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.5",
+                "type": "axiom",
+                "name": "Definition of intermediateRepetition",
+                "complexity": "simple",
+                "pattern": "definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e) (iff (intermediateRepetition e2 e) (exists (a e1 c p) (and (repetition a e e1 c p)(instance e2 e1) (not (startRepetition e2 e)) (not (terminateRepetition e2 e))))))",
+                "english": "Execution e2 is an intermediate repetition that is neither the first nor last instance of the body",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "46.6",
+                "type": "axiom",
+                "name": "Definition of completedRepetitions",
+                "complexity": "moderate",
+                "pattern": "set_characterization",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s e t) (iff (completedRepetitions s e t) (and (repetition a e e1 c p) (forall (e2) (iff (member e2 s) (and (aRepetition e2 e) (executed a e2 p t)))))))",
+                "english": "Set s contains the repetitions of execution e that have been completed by time t",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.7",
+                "type": "axiom",
+                "name": "Definition of remainingRepetitions",
+                "complexity": "moderate",
+                "pattern": "set_characterization",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s e t) (iff (remainingRepetitions s e t) (and (repetition a e e1 c p) (forall (e2) (iff (member e2 s) (and (aRepetition e2 e) (not (executed a e2 p t))))))))",
+                "english": "Set s contains the repetitions of execution e that remain to be executed at time t",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.8",
+                "type": "axiom",
+                "name": "Definition of currentRepetition",
+                "complexity": "moderate",
+                "pattern": "temporal_state",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e t) (iff (currentRepetition e2 e t) (exists (a e1 c p t1 t2) (and (repetition a e e1 c p)(aRepetition e2 e) (begins t1 e2)(before t1 t) (ends t2 e2)(before t t2)))))",
+                "english": "Execution e2 is the current repetition in repetitive execution e at time t, with t between its start and end times",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.9",
+                "type": "axiom",
+                "name": "Definition of previousRepetition",
+                "complexity": "complex",
+                "pattern": "temporal_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e t) (iff (previousRepetition e2 e t) (exists (a e1 c p t2 e0 t0) (and (repetition a e e1 c p)(aRepetition e2 e) (ends t2 e2)(before t2 t) (startRepetition e0 e)(ends t0 e0)(before t0 t) (not (exists (e3 t3) (and (aRepetition e3 e)(nequal e3 e2) (ends t3 e3)(before t2 t3) (before t3 t))))))))",
+                "english": "Execution e2 is the most recent repetition that ended before time t, with no other repetitions ending between e2 and t",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "46.10",
+                "type": "axiom",
+                "name": "Definition of nextRepetition",
+                "complexity": "complex",
+                "pattern": "temporal_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e t) (iff (nextRepetition e2 e t) (exists (a e1 c p t2 e0 t0) (and (repetition a e e1 c p)(aRepetition e2 e) (begins t2 e2)(before t t2) (terminateRepetition e0 e)(begins t0 e0) (before t t0) (not (exists (e3 t3) (and (aRepetition e3 e)(nequal e3 e2) (begins t3 e3)(before t3 t2) (before t t3))))))))",
+                "english": "Execution e2 is the next repetition that begins after time t, with no other repetitions beginning between t and e2",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "46.11",
+                "type": "axiom",
+                "name": "Definition of repetitionsCount",
+                "complexity": "simple",
+                "pattern": "counting_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n e t) (iff (repetitionsCount n e t) (exists (a e1 c p s) (and (repetition a e e1 c p) (completedRepetitions s e t)(card n s)))))",
+                "english": "Integer n is the number of repetitions of execution e that have been completed by time t",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "46.12",
+                "type": "axiom",
+                "name": "Definition of iterationThru",
+                "complexity": "complex",
+                "pattern": "iteration_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e e1 x s s1) (iff (iterationThru e e1 x s s1) (and (arg* x e1)(sequence s)(sequence s1) (forall (y) (if (inSeq y s)(instance y x))) (forall (e2 n) (iff (nth e2 n s1) (exists (y) (and (nth y n s) (subst x e1 y e2))))))))",
+                "english": "Execution e is an iteration through sequence s where entity x in body e1 is substituted by successive elements of s to create sequence s1 of instantiated executions",
+                "group": "axiom_complex"
+            },
+            {
+                "id": "46.13",
+                "type": "axiom",
+                "name": "Definition of startIterationThru",
+                "complexity": "simple",
+                "pattern": "sequence_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (e2 e) (iff (startIterationThru e2 e) (exists (e1 x s s1) (and (iterationThru e e1 x s s1)(first e2 s1)))))",
+                "english": "Execution e2 is the first iteration in the iterationThru e, being the first element in the sequence of iterations",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "46.14",
+                "type": "axiom",
+                "name": "Definition of completedIterationsThru",
+                "complexity": "moderate",
+                "pattern": "set_characterization",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (s0 e t) (iff (completedIterationsThru s0 e t) (exists (e1 x s s1) (and (iterationThru e e1 x s s1) (forall (e2) (iff (member e2 s0) (exists (t2) (and (member e2 s1)(ends t2 e2) (before t2 t)))))))))",
+                "english": "Set s0 contains the iterations through e that have been completed by time t",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.15",
+                "type": "axiom",
+                "name": "Definition of doNextIterationThru'",
+                "complexity": "moderate",
+                "pattern": "action_definition",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e3 a e t) (iff (doNextIterationThru' e3 a e t) (exists (e1 x s s1 p) (and (iterationThru e e1 x s s1) (execute a e3 p) (nextRepetition e3 e t)))))",
+                "english": "Action e3 is agent a's execution of the next iteration in the iterationThru e at time t",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.16",
+                "type": "axiom",
+                "name": "Definition of abortIterationThru",
+                "complexity": "moderate",
+                "pattern": "action_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e t) (iff (abortIterationThru a e t) (exists (e1 x s s1 p) (and (iterationThru e e1 x s s1) (executePlan' e a p) (abort a p t)))))",
+                "english": "Agent a aborts iterationThru e at time t before completing the entire sequence of entities",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "46.17",
+                "type": "axiom",
+                "name": "Definition of completeIterationThru",
+                "complexity": "moderate",
+                "pattern": "action_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a e t) (iff (completeIterationThru a e t) (exists (e1 x s s1 p) (and (iterationThru e e1 x s s1) (executePlan' e a p) (executedPlan a p t)))))",
+                "english": "Agent a completes iterationThru e at time t when all entities in the sequence have been processed",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "pred_repetition",
+                "type": "predicate",
+                "name": "repetition",
+                "frequency": 11,
+                "axiom_count": 10,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_repeatUntil'",
+                "type": "predicate",
+                "name": "repeatUntil'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_executePlan",
+                "type": "predicate",
+                "name": "executePlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gen",
+                "type": "predicate",
+                "name": "gen",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_plan",
+                "type": "predicate",
+                "name": "plan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subplan",
+                "type": "predicate",
+                "name": "subplan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_executePlan'",
+                "type": "predicate",
+                "name": "executePlan'",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_instance",
+                "type": "predicate",
+                "name": "instance",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_aRepetition",
+                "type": "predicate",
+                "name": "aRepetition",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_startRepetition",
+                "type": "predicate",
+                "name": "startRepetition",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_before",
+                "type": "predicate",
+                "name": "before",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_terminateRepetition",
+                "type": "predicate",
+                "name": "terminateRepetition",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_intermediateRepetition",
+                "type": "predicate",
+                "name": "intermediateRepetition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_completedRepetitions",
+                "type": "predicate",
+                "name": "completedRepetitions",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_executed",
+                "type": "predicate",
+                "name": "executed",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_remainingRepetitions",
+                "type": "predicate",
+                "name": "remainingRepetitions",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_currentRepetition",
+                "type": "predicate",
+                "name": "currentRepetition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_begins",
+                "type": "predicate",
+                "name": "begins",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_ends",
+                "type": "predicate",
+                "name": "ends",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_previousRepetition",
+                "type": "predicate",
+                "name": "previousRepetition",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nequal",
+                "type": "predicate",
+                "name": "nequal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nextRepetition",
+                "type": "predicate",
+                "name": "nextRepetition",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_repetitionsCount",
+                "type": "predicate",
+                "name": "repetitionsCount",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_card",
+                "type": "predicate",
+                "name": "card",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_iterationThru",
+                "type": "predicate",
+                "name": "iterationThru",
+                "frequency": 6,
+                "axiom_count": 6,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_arg*",
+                "type": "predicate",
+                "name": "arg*",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_sequence",
+                "type": "predicate",
+                "name": "sequence",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inSeq",
+                "type": "predicate",
+                "name": "inSeq",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_nth",
+                "type": "predicate",
+                "name": "nth",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subst",
+                "type": "predicate",
+                "name": "subst",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_startIterationThru",
+                "type": "predicate",
+                "name": "startIterationThru",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_first",
+                "type": "predicate",
+                "name": "first",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_completedIterationsThru",
+                "type": "predicate",
+                "name": "completedIterationsThru",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_doNextIterationThru'",
+                "type": "predicate",
+                "name": "doNextIterationThru'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_execute",
+                "type": "predicate",
+                "name": "execute",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_abortIterationThru",
+                "type": "predicate",
+                "name": "abortIterationThru",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_abort",
+                "type": "predicate",
+                "name": "abort",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_completeIterationThru",
+                "type": "predicate",
+                "name": "completeIterationThru",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_executedPlan",
+                "type": "predicate",
+                "name": "executedPlan",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 13,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 16,
+                "frequency": 17,
+                "group": "variable"
+            },
+            {
+                "id": "var_e1",
+                "type": "variable",
+                "name": "e1",
+                "axiom_count": 16,
+                "frequency": 17,
+                "group": "variable"
+            },
+            {
+                "id": "var_c",
+                "type": "variable",
+                "name": "c",
+                "axiom_count": 10,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_p",
+                "type": "variable",
+                "name": "p",
+                "axiom_count": 13,
+                "frequency": 14,
+                "group": "variable"
+            },
+            {
+                "id": "var_e3",
+                "type": "variable",
+                "name": "e3",
+                "axiom_count": 5,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_e2",
+                "type": "variable",
+                "name": "e2",
+                "axiom_count": 12,
+                "frequency": 13,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_t",
+                "type": "variable",
+                "name": "t",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_t2",
+                "type": "variable",
+                "name": "t2",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_e0",
+                "type": "variable",
+                "name": "e0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t0",
+                "type": "variable",
+                "name": "t0",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_t3",
+                "type": "variable",
+                "name": "t3",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_n",
+                "type": "variable",
+                "name": "n",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 6,
+                "frequency": 6,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "46.1",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_repeatUntil'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_executePlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_gen",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_plan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_subplan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.1",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.1",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.2",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.2",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.2",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.2",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "pred_startRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.3",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.3",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.3",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.3",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.3",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.3",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "pred_terminateRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.4",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.4",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.4",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.4",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.4",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.4",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "pred_intermediateRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.5",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.5",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.5",
+                "target": "pred_startRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.5",
+                "target": "pred_terminateRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.5",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.5",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "pred_completedRepetitions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.6",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.6",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.6",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.6",
+                "target": "pred_executed",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.6",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.6",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "pred_remainingRepetitions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.7",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.7",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.7",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.7",
+                "target": "pred_executed",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.7",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.7",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "pred_currentRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.8",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.8",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "pred_previousRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_startRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.9",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.9",
+                "target": "var_t3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "pred_nextRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_aRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_begins",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_terminateRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.10",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_e0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_t0",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.10",
+                "target": "var_t3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "pred_repetitionsCount",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.11",
+                "target": "pred_repetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.11",
+                "target": "pred_completedRepetitions",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.11",
+                "target": "pred_card",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.11",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_c",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.11",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_arg*",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_sequence",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_inSeq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_instance",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_nth",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "pred_subst",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.12",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.12",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "pred_startIterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.13",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.13",
+                "target": "pred_first",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.13",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.13",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "pred_completedIterationsThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.14",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.14",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.14",
+                "target": "pred_ends",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.14",
+                "target": "pred_before",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.14",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_e2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.14",
+                "target": "var_t2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "pred_doNextIterationThru'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.15",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.15",
+                "target": "pred_execute",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.15",
+                "target": "pred_nextRepetition",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.15",
+                "target": "var_e3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.15",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "pred_abortIterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.16",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.16",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.16",
+                "target": "pred_abort",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.16",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.16",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "pred_completeIterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.17",
+                "target": "pred_iterationThru",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.17",
+                "target": "pred_executePlan'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.17",
+                "target": "pred_executedPlan",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "46.17",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_t",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_e1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "46.17",
+                "target": "var_p",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_repeatUntil'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_executePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_executePlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repeatUntil'",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan",
+                "target": "pred_gen",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_plan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gen",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_subplan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_plan",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subplan",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_equal",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateRepetition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateRepetition",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intermediateRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intermediateRepetition",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intermediateRepetition",
+                "target": "pred_startRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_intermediateRepetition",
+                "target": "pred_terminateRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_terminateRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedRepetitions",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedRepetitions",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedRepetitions",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedRepetitions",
+                "target": "pred_executed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_executed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_executed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_executed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_remainingRepetitions",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_remainingRepetitions",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_remainingRepetitions",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_remainingRepetitions",
+                "target": "pred_executed",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_currentRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_currentRepetition",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_currentRepetition",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_currentRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_currentRepetition",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_startRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_previousRepetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_startRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_startRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_ends",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_before",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startRepetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_aRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_begins",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_terminateRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nextRepetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_aRepetition",
+                "target": "pred_terminateRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_terminateRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_begins",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_terminateRepetition",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitionsCount",
+                "target": "pred_repetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitionsCount",
+                "target": "pred_completedRepetitions",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetitionsCount",
+                "target": "pred_card",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_repetition",
+                "target": "pred_card",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedRepetitions",
+                "target": "pred_card",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_arg*",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_sequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_sequence",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_arg*",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_inSeq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sequence",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inSeq",
+                "target": "pred_instance",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inSeq",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inSeq",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_nth",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_instance",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nth",
+                "target": "pred_subst",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startIterationThru",
+                "target": "pred_iterationThru",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_startIterationThru",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_first",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedIterationsThru",
+                "target": "pred_iterationThru",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedIterationsThru",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedIterationsThru",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completedIterationsThru",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_ends",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_before",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_doNextIterationThru'",
+                "target": "pred_iterationThru",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_doNextIterationThru'",
+                "target": "pred_execute",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_doNextIterationThru'",
+                "target": "pred_nextRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_execute",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_nextRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_execute",
+                "target": "pred_nextRepetition",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abortIterationThru",
+                "target": "pred_iterationThru",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abortIterationThru",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_abortIterationThru",
+                "target": "pred_abort",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_abort",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_abort",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completeIterationThru",
+                "target": "pred_iterationThru",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completeIterationThru",
+                "target": "pred_executePlan'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_completeIterationThru",
+                "target": "pred_executedPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_iterationThru",
+                "target": "pred_executedPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_executePlan'",
+                "target": "pred_executedPlan",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}

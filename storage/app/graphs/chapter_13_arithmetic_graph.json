@@ -1,0 +1,3617 @@
+{
+    "metadata": {
+        "chapter": 13,
+        "chapter_title": "Arithmetic",
+        "filename": "chapter_13_arithmetic",
+        "generated_at": "2025-09-16T13:01:14+00:00",
+        "axiom_count": 43,
+        "predicate_count": 36,
+        "variable_count": 28,
+        "frequent_variable_count": 24
+    },
+    "statistics": {
+        "complexity_distribution": {
+            "simple": 26,
+            "moderate": 17
+        },
+        "pattern_counts": {
+            "base_case": 1,
+            "successor_existence": 1,
+            "type_constraint": 1,
+            "numeric_constants": 1,
+            "positive_integer_definition": 1,
+            "zero_predecessor": 1,
+            "successor_uniqueness": 1,
+            "addition_base_case": 1,
+            "addition_recursive_step": 1,
+            "closure_property": 2,
+            "associativity": 2,
+            "commutativity": 2,
+            "multiplication_base_case": 1,
+            "multiplication_recursive_step": 1,
+            "multiplicative_identity": 1,
+            "distributivity": 1,
+            "ordering_definition": 1,
+            "inclusive_ordering": 2,
+            "reverse_ordering": 1,
+            "type_inheritance": 2,
+            "fraction_existence": 1,
+            "fraction_equality": 1,
+            "number_embedding": 1,
+            "fraction_ordering": 1,
+            "fraction_multiplication": 1,
+            "fraction_constraints": 1,
+            "numeric_scale_existence": 1,
+            "numeric_scale_characterization": 1,
+            "measure_definition": 1,
+            "cardinality_measure_example": 1,
+            "proportion_definition": 1,
+            "argument_constraint": 2,
+            "identity_function_definition": 1,
+            "identity_measure": 1,
+            "measure_at_relation": 1,
+            "half_order_magnitude_definition": 1,
+            "half_order_magnitude_symmetry": 1
+        },
+        "top_predicates": {
+            "nonNegInteger": 14,
+            "product": 11,
+            "measure": 9,
+            "sum": 8,
+            "fraction": 8,
+            "successor": 7,
+            "number": 5,
+            "equal": 4,
+            "lt": 4,
+            "member": 4
+        },
+        "predicate_frequencies": {
+            "nonNegInteger": 14,
+            "product": 11,
+            "measure": 9,
+            "sum": 8,
+            "fraction": 8,
+            "successor": 7,
+            "number": 5,
+            "equal": 4,
+            "lt": 4,
+            "member": 4,
+            "nonNegNumericScale": 4,
+            "map": 4,
+            "posInteger": 3,
+            "geq": 3,
+            "scaleDefinedBy": 3,
+            "inScale": 3,
+            "proportion": 3,
+            "sameHOM": 3,
+            "nequal": 2,
+            "leq": 2,
+            "gt": 2,
+            "lt'": 2,
+            "identityFunction": 2,
+            "function": 2,
+            "scale": 1,
+            "functionInto": 1,
+            "monotoneIncreasing": 1,
+            "bottom": 1,
+            "set": 1,
+            "null": 1,
+            "subset'": 1,
+            "card'": 1,
+            "disjoint": 1,
+            "at": 1,
+            "leqs": 1,
+            "gts": 1
+        }
+    },
+    "graph": {
+        "nodes": [
+            {
+                "id": "13.1",
+                "type": "axiom",
+                "name": "Zero is a nonnegative integer",
+                "complexity": "simple",
+                "pattern": "base_case",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(nonNegInteger 0)",
+                "english": "Zero is a nonnegative integer",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.2",
+                "type": "axiom",
+                "name": "Every nonnegative integer has a successor",
+                "complexity": "moderate",
+                "pattern": "successor_existence",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n) (exists (n1) (and (nonNegInteger n1)(successor n1 n)))))",
+                "english": "Every nonnegative integer has a successor which is also a nonnegative integer",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.3",
+                "type": "axiom",
+                "name": "Successor argument constraints",
+                "complexity": "simple",
+                "pattern": "type_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n) (if (successor n1 n) (and (nonNegInteger n1)(nonNegInteger n))))",
+                "english": "The arguments of successor are nonnegative integers",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.4",
+                "type": "axiom",
+                "name": "Definition of first ten integers",
+                "complexity": "simple",
+                "pattern": "numeric_constants",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(and (successor 1 0)(successor 2 1)(successor 3 2) (successor 4 3)(successor 5 4)(successor 6 5) (successor 7 6)(successor 8 7)(successor 9 8) (successor 10 9))",
+                "english": "Definition of integers 1 through 10 using successor relation",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.5",
+                "type": "axiom",
+                "name": "Definition of positive integer",
+                "complexity": "simple",
+                "pattern": "positive_integer_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (iff (posInteger n)(and (nonNegInteger n)(nequal n 0))))",
+                "english": "A positive integer is any nonnegative integer except zero",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.6",
+                "type": "axiom",
+                "name": "Zero has no predecessor",
+                "complexity": "simple",
+                "pattern": "zero_predecessor",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(not (exists (n) (and (nonNegInteger n)(successor 0 n))))",
+                "english": "No nonnegative integer has zero as its successor",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.7",
+                "type": "axiom",
+                "name": "Successors are unique",
+                "complexity": "simple",
+                "pattern": "successor_uniqueness",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2) (if (and (successor n1 n)(successor n2 n)) (equal n1 n2)))",
+                "english": "Successors are unique - each number has exactly one successor",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.8",
+                "type": "axiom",
+                "name": "Addition base case",
+                "complexity": "simple",
+                "pattern": "addition_base_case",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n)(sum n n 0)))",
+                "english": "The sum of a number n and zero is n",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.9",
+                "type": "axiom",
+                "name": "Addition recursive step",
+                "complexity": "moderate",
+                "pattern": "addition_recursive_step",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2 n3 n4) (if (and (successor n3 n2)(sum n4 n1 n2)) (iff (sum n n1 n3)(successor n n4))))",
+                "english": "Recursive definition of addition: n1 + S(n2) = S(n1 + n2)",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.10",
+                "type": "axiom",
+                "name": "Nonnegative integers closed under addition",
+                "complexity": "simple",
+                "pattern": "closure_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2 n3) (if (and (nonNegInteger n2)(nonNegInteger n3)(sum n1 n2 n3)) (nonNegInteger n1)))",
+                "english": "The nonnegative integers are closed under addition",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.11",
+                "type": "axiom",
+                "name": "Addition is associative",
+                "complexity": "moderate",
+                "pattern": "associativity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2 n3 n4 n5) (if (and (sum n4 n2 n3)(sum n5 n1 n2)) (iff (sum n n1 n4)(sum n n5 n3))))",
+                "english": "Addition is associative: n1 + (n2 + n3) = (n1 + n2) + n3",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.12",
+                "type": "axiom",
+                "name": "Addition is commutative",
+                "complexity": "simple",
+                "pattern": "commutativity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2) (iff (sum n n1 n2)(sum n n2 n1)))",
+                "english": "Addition is commutative: n1 + n2 = n2 + n1",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.13",
+                "type": "axiom",
+                "name": "Multiplication base case",
+                "complexity": "simple",
+                "pattern": "multiplication_base_case",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n)(product 0 n 0)))",
+                "english": "The product of a number n and zero is zero",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.14",
+                "type": "axiom",
+                "name": "Multiplication recursive step",
+                "complexity": "moderate",
+                "pattern": "multiplication_recursive_step",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2 n3 n4) (if (and (successor n3 n2)(product n4 n1 n2)) (iff (product n n1 n3)(sum n n4 n1))))",
+                "english": "Recursive definition of multiplication: n1 * S(n2) = (n1 * n2) + n1",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.15",
+                "type": "axiom",
+                "name": "Nonnegative integers closed under multiplication",
+                "complexity": "simple",
+                "pattern": "closure_property",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2 n3) (if (and (nonNegInteger n2)(nonNegInteger n3) (product n1 n2 n3)) (nonNegInteger n1)))",
+                "english": "The nonnegative integers are closed under multiplication",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.16",
+                "type": "axiom",
+                "name": "One is multiplicative identity",
+                "complexity": "simple",
+                "pattern": "multiplicative_identity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n)(product n n 1)))",
+                "english": "One is the identity under multiplication",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.17",
+                "type": "axiom",
+                "name": "Multiplication is associative",
+                "complexity": "moderate",
+                "pattern": "associativity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2 n3 n4 n5) (if (and (product n4 n2 n3)(product n5 n1 n2)) (iff (product n n1 n4)(product n n5 n3))))",
+                "english": "Multiplication is associative: n1 * (n2 * n3) = (n1 * n2) * n3",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.18",
+                "type": "axiom",
+                "name": "Multiplication is commutative",
+                "complexity": "simple",
+                "pattern": "commutativity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2) (iff (product n n1 n2)(product n n2 n1)))",
+                "english": "Multiplication is commutative: n1 * n2 = n2 * n1",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.19",
+                "type": "axiom",
+                "name": "Distributive law",
+                "complexity": "moderate",
+                "pattern": "distributivity",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n n1 n2 n3 n4 n5 n6) (if (and (sum n4 n2 n3)(product n5 n1 n2)(product n6 n1 n3)) (iff (product n n1 n4)(sum n n5 n6))))",
+                "english": "Distributive law: n1 * (n2 + n3) = n1 * n2 + n1 * n3",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.20",
+                "type": "axiom",
+                "name": "Definition of less than for integers",
+                "complexity": "moderate",
+                "pattern": "ordering_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2) (if (and (nonNegInteger n1)(nonNegInteger n2)) (iff (lt n1 n2) (exists (n3)(and (posInteger n3)(sum n2 n1 n3))))))",
+                "english": "n1 is less than n2 if there is some positive integer n3 such that n2 = n1 + n3",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.21",
+                "type": "axiom",
+                "name": "Definition of less than or equal",
+                "complexity": "simple",
+                "pattern": "inclusive_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2)(iff (leq n1 n2)(or (lt n1 n2)(equal n1 n2))))",
+                "english": "Less than or equal is either less than or equal",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.22",
+                "type": "axiom",
+                "name": "Definition of greater than",
+                "complexity": "simple",
+                "pattern": "reverse_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2)(iff (gt n1 n2)(lt n2 n1)))",
+                "english": "Greater than is the reverse of less than",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.23",
+                "type": "axiom",
+                "name": "Definition of greater than or equal",
+                "complexity": "simple",
+                "pattern": "inclusive_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n1 n2)(iff (geq n1 n2)(or (gt n1 n2)(equal n1 n2))))",
+                "english": "Greater than or equal is either greater than or equal",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.24",
+                "type": "axiom",
+                "name": "Nonnegative integers are numbers",
+                "complexity": "simple",
+                "pattern": "type_inheritance",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n)(number n)))",
+                "english": "A nonnegative integer is a number",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.25",
+                "type": "axiom",
+                "name": "Existence of fractions",
+                "complexity": "simple",
+                "pattern": "fraction_existence",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (a b) (if (and (nonNegInteger a)(posInteger b)) (exists (f) (fraction f a b))))",
+                "english": "Fractions a\/b exist for nonnegative integer numerator and positive integer denominator",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.26",
+                "type": "axiom",
+                "name": "Fraction equality",
+                "complexity": "moderate",
+                "pattern": "fraction_equality",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f1 f2 a1 a2 b1 b2 c1 c2) (if (and (fraction f1 a1 b1)(fraction f2 a2 b2) (product c1 a1 b2)(product c2 a2 b1)) (iff (equal f1 f2)(equal c1 c2))))",
+                "english": "Two fractions are equal under the usual conditions: a1\/b1 = a2\/b2 iff a1*b2 = a2*b1",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.27",
+                "type": "axiom",
+                "name": "Integer embedding in rationals",
+                "complexity": "simple",
+                "pattern": "number_embedding",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (n) (if (nonNegInteger n)(fraction n n 1)))",
+                "english": "Nonnegative integers can be embedded in rational numbers: n = n\/1",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.28",
+                "type": "axiom",
+                "name": "Less than for fractions",
+                "complexity": "moderate",
+                "pattern": "fraction_ordering",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f1 f2 a1 a2 b1 b2 c1 c2) (if (and (fraction f1 a1 b1)(fraction f2 a2 b2) (product c1 a1 b2)(product c2 a2 b1)) (iff (lt f1 f2)(lt c1 c2))))",
+                "english": "Extension of lt relation to rational numbers: a1\/b1 < a2\/b2 iff a1*b2 < a2*b1",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.29",
+                "type": "axiom",
+                "name": "Fraction multiplication",
+                "complexity": "moderate",
+                "pattern": "fraction_multiplication",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f f1 f2 a1 a2 b1 b2 c1 c2) (if (and (fraction f1 a1 b1)(fraction f2 a2 b2) (product c1 a1 a2)(product c2 b1 b2)) (iff (product f f1 f2)(fraction f c1 c2))))",
+                "english": "Product of two fractions: (a1\/b1) * (a2\/b2) = (a1*a2)\/(b1*b2)",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.30",
+                "type": "axiom",
+                "name": "Fractions are numbers",
+                "complexity": "simple",
+                "pattern": "type_inheritance",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f a b)(if (fraction f a b)(number f)))",
+                "english": "A fraction is a number",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.31",
+                "type": "axiom",
+                "name": "Fraction component constraints",
+                "complexity": "simple",
+                "pattern": "fraction_constraints",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f a b) (if (fraction f a b)(and (number a)(number b)(nequal b 0))))",
+                "english": "Product requires a number and a nonzero number for numerator and denominator",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.32",
+                "type": "axiom",
+                "name": "Existence of nonnegative numeric scales",
+                "complexity": "moderate",
+                "pattern": "numeric_scale_existence",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s1 e x y) (if (and (lt' e x y) (forall (n)(if (member n s1) (and (geq n 0)(number n)))) (member 0 s1)) (exists (s) (and (scaleDefinedBy s s1 e)(nonNegNumericScale s)))))",
+                "english": "If e is lt relation and s1 is a set of nonnegative numbers containing 0, then there is a nonnegative numeric scale",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.33",
+                "type": "axiom",
+                "name": "Characterization of nonnegative numeric scales",
+                "complexity": "moderate",
+                "pattern": "numeric_scale_characterization",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (s) (if (nonNegNumericScale s) (exists (s1 e x y) (and (lt' e x y) (forall (n)(if (member n s1) (and (geq n 0)(number n)))) (member 0 s1) (scaleDefinedBy s s1 e)))))",
+                "english": "A nonnegative numeric scale has the lt relation for its ordering and a set of numbers, including zero, as its components",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.34",
+                "type": "axiom",
+                "name": "Definition of measure",
+                "complexity": "moderate",
+                "pattern": "measure_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m s1) (iff (measure m s1) (exists (s2) (and (scale s1)(nonNegNumericScale s2) (functionInto m s1 s2) (monotoneIncreasing m) (forall (x)(if (bottom x s1)(map m x 0)))))))",
+                "english": "A measure is a monotone increasing function from a scale into a nonnegative numeric scale, mapping the bottom to zero",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.35",
+                "type": "axiom",
+                "name": "Cardinality as measure",
+                "complexity": "moderate",
+                "pattern": "cardinality_measure_example",
+                "defeasible": false,
+                "reified": true,
+                "fol": "(forall (e x y s1 s m n u) (if (and (forall (z)(if (member z s1)(set z))) (exists (w)(and (member w s1)(null w))) (subset' e x y) (scaleDefinedBy s s1 e) (card' m n u)) (measure m s)))",
+                "english": "Cardinality is a measure on the scale of sets ordered by subset relation",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.36",
+                "type": "axiom",
+                "name": "Definition of proportion",
+                "complexity": "moderate",
+                "pattern": "proportion_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f x y m s1) (if (and (measure m s1)(inScale x s1)(inScale y s1)) (iff (proportion f x y m) (exists (n1 n2) (and (map m x n1)(map m y n2) (fraction f n1 n2))))))",
+                "english": "The proportion of x to y is the fraction f = m(x)\/m(y) where m is a measure",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.37",
+                "type": "axiom",
+                "name": "Proportion argument constraints",
+                "complexity": "simple",
+                "pattern": "argument_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f x y m) (if (proportion f x y m) (exists (s1) (and (measure m s1)(inScale x s1)(inScale y s1)))))",
+                "english": "The constraints on the arguments of proportion ensure they're on a scale with the given measure",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.38",
+                "type": "axiom",
+                "name": "Definition of identity function",
+                "complexity": "simple",
+                "pattern": "identity_function_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s) (iff (identityFunction f s) (and (function f s s) (forall (x)(if (member x s)(map f x x))))))",
+                "english": "The identity function maps every element of s into itself",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.39",
+                "type": "axiom",
+                "name": "Identity function as measure",
+                "complexity": "simple",
+                "pattern": "identity_measure",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (f s) (if (and (nonNegNumericScale s)(identityFunction f s)) (measure f s)))",
+                "english": "The identity function on a nonnegative numeric scale is a measure",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.40",
+                "type": "axiom",
+                "name": "Measure as at relation",
+                "complexity": "moderate",
+                "pattern": "measure_at_relation",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (m s1 s2 x y) (if (and (measure m s1)(function m s1 s2)(disjoint s1 s2) (map m x y)) (at x y s2)))",
+                "english": "When scales are disjoint, if an entity is mapped to a point by a measure, it is at that point",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.41",
+                "type": "axiom",
+                "name": "Same half-order of magnitude (case 1)",
+                "complexity": "moderate",
+                "pattern": "half_order_magnitude_definition",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s1 m) (if (and (leqs x y s1)(measure m s1)) (iff (sameHOM x y s1 m) (exists (f f2) (and (proportion f y x m)(product f2 f f) (leq f2 10))))))",
+                "english": "Two entities are the same half-order of magnitude if the proportion squared is \u2264 10 (when x \u2264 y)",
+                "group": "axiom_moderate"
+            },
+            {
+                "id": "13.42",
+                "type": "axiom",
+                "name": "Same half-order of magnitude (case 2)",
+                "complexity": "simple",
+                "pattern": "half_order_magnitude_symmetry",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s1 m) (if (and (gts x y s1)(measure m s1)) (iff (sameHOM x y s1 m)(sameHOM y x s1 m))))",
+                "english": "Same half-order of magnitude is symmetric (when x > y, use the other direction)",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "13.43",
+                "type": "axiom",
+                "name": "Same half-order of magnitude constraints",
+                "complexity": "simple",
+                "pattern": "argument_constraint",
+                "defeasible": false,
+                "reified": false,
+                "fol": "(forall (x y s1 m) (if (sameHOM x y s1 m) (and (inScale x s1)(inScale y s1)(measure m s1))))",
+                "english": "The constraints on the arguments of sameHOM ensure they're on a scale with the given measure",
+                "group": "axiom_simple"
+            },
+            {
+                "id": "pred_nonNegInteger",
+                "type": "predicate",
+                "name": "nonNegInteger",
+                "frequency": 14,
+                "axiom_count": 12,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_successor",
+                "type": "predicate",
+                "name": "successor",
+                "frequency": 7,
+                "axiom_count": 7,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_posInteger",
+                "type": "predicate",
+                "name": "posInteger",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_nequal",
+                "type": "predicate",
+                "name": "nequal",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_equal",
+                "type": "predicate",
+                "name": "equal",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_sum",
+                "type": "predicate",
+                "name": "sum",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_product",
+                "type": "predicate",
+                "name": "product",
+                "frequency": 11,
+                "axiom_count": 11,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_lt",
+                "type": "predicate",
+                "name": "lt",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_leq",
+                "type": "predicate",
+                "name": "leq",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_gt",
+                "type": "predicate",
+                "name": "gt",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_geq",
+                "type": "predicate",
+                "name": "geq",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_number",
+                "type": "predicate",
+                "name": "number",
+                "frequency": 5,
+                "axiom_count": 5,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_fraction",
+                "type": "predicate",
+                "name": "fraction",
+                "frequency": 8,
+                "axiom_count": 8,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_lt'",
+                "type": "predicate",
+                "name": "lt'",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_member",
+                "type": "predicate",
+                "name": "member",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_scaleDefinedBy",
+                "type": "predicate",
+                "name": "scaleDefinedBy",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_nonNegNumericScale",
+                "type": "predicate",
+                "name": "nonNegNumericScale",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_measure",
+                "type": "predicate",
+                "name": "measure",
+                "frequency": 9,
+                "axiom_count": 9,
+                "importance": "high",
+                "group": "predicate_high"
+            },
+            {
+                "id": "pred_scale",
+                "type": "predicate",
+                "name": "scale",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_functionInto",
+                "type": "predicate",
+                "name": "functionInto",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_monotoneIncreasing",
+                "type": "predicate",
+                "name": "monotoneIncreasing",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_bottom",
+                "type": "predicate",
+                "name": "bottom",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_map",
+                "type": "predicate",
+                "name": "map",
+                "frequency": 4,
+                "axiom_count": 4,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_set",
+                "type": "predicate",
+                "name": "set",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_null",
+                "type": "predicate",
+                "name": "null",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_subset'",
+                "type": "predicate",
+                "name": "subset'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_card'",
+                "type": "predicate",
+                "name": "card'",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_inScale",
+                "type": "predicate",
+                "name": "inScale",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_proportion",
+                "type": "predicate",
+                "name": "proportion",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_identityFunction",
+                "type": "predicate",
+                "name": "identityFunction",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_function",
+                "type": "predicate",
+                "name": "function",
+                "frequency": 2,
+                "axiom_count": 2,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_disjoint",
+                "type": "predicate",
+                "name": "disjoint",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_at",
+                "type": "predicate",
+                "name": "at",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_leqs",
+                "type": "predicate",
+                "name": "leqs",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "pred_sameHOM",
+                "type": "predicate",
+                "name": "sameHOM",
+                "frequency": 3,
+                "axiom_count": 3,
+                "importance": "medium",
+                "group": "predicate_medium"
+            },
+            {
+                "id": "pred_gts",
+                "type": "predicate",
+                "name": "gts",
+                "frequency": 1,
+                "axiom_count": 1,
+                "importance": "low",
+                "group": "predicate_low"
+            },
+            {
+                "id": "var_n",
+                "type": "variable",
+                "name": "n",
+                "axiom_count": 20,
+                "frequency": 20,
+                "group": "variable"
+            },
+            {
+                "id": "var_n1",
+                "type": "variable",
+                "name": "n1",
+                "axiom_count": 16,
+                "frequency": 17,
+                "group": "variable"
+            },
+            {
+                "id": "var_n2",
+                "type": "variable",
+                "name": "n2",
+                "axiom_count": 15,
+                "frequency": 15,
+                "group": "variable"
+            },
+            {
+                "id": "var_n3",
+                "type": "variable",
+                "name": "n3",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_n4",
+                "type": "variable",
+                "name": "n4",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_n5",
+                "type": "variable",
+                "name": "n5",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_a",
+                "type": "variable",
+                "name": "a",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_b",
+                "type": "variable",
+                "name": "b",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_f",
+                "type": "variable",
+                "name": "f",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_f1",
+                "type": "variable",
+                "name": "f1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_f2",
+                "type": "variable",
+                "name": "f2",
+                "axiom_count": 4,
+                "frequency": 4,
+                "group": "variable"
+            },
+            {
+                "id": "var_a1",
+                "type": "variable",
+                "name": "a1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_a2",
+                "type": "variable",
+                "name": "a2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_b1",
+                "type": "variable",
+                "name": "b1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_b2",
+                "type": "variable",
+                "name": "b2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_c1",
+                "type": "variable",
+                "name": "c1",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_c2",
+                "type": "variable",
+                "name": "c2",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_s1",
+                "type": "variable",
+                "name": "s1",
+                "axiom_count": 10,
+                "frequency": 10,
+                "group": "variable"
+            },
+            {
+                "id": "var_e",
+                "type": "variable",
+                "name": "e",
+                "axiom_count": 3,
+                "frequency": 3,
+                "group": "variable"
+            },
+            {
+                "id": "var_x",
+                "type": "variable",
+                "name": "x",
+                "axiom_count": 11,
+                "frequency": 11,
+                "group": "variable"
+            },
+            {
+                "id": "var_y",
+                "type": "variable",
+                "name": "y",
+                "axiom_count": 9,
+                "frequency": 9,
+                "group": "variable"
+            },
+            {
+                "id": "var_s",
+                "type": "variable",
+                "name": "s",
+                "axiom_count": 5,
+                "frequency": 5,
+                "group": "variable"
+            },
+            {
+                "id": "var_m",
+                "type": "variable",
+                "name": "m",
+                "axiom_count": 8,
+                "frequency": 8,
+                "group": "variable"
+            },
+            {
+                "id": "var_s2",
+                "type": "variable",
+                "name": "s2",
+                "axiom_count": 2,
+                "frequency": 2,
+                "group": "variable"
+            }
+        ],
+        "links": [
+            {
+                "source": "13.1",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.2",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.2",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.2",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.2",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.3",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.3",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.3",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.3",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.4",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.5",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.5",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.5",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.5",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.6",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.6",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.6",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.7",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.7",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.7",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.7",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.7",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.8",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.8",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.8",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.9",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.9",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.9",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.9",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.9",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.9",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.9",
+                "target": "var_n4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.10",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.10",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.10",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.10",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.10",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.11",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "var_n4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.11",
+                "target": "var_n5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.12",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.12",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.12",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.12",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.13",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.13",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.13",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.14",
+                "target": "pred_successor",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.14",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.14",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.14",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.14",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.14",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.14",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.14",
+                "target": "var_n4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.15",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.15",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.15",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.15",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.15",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.16",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.16",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.16",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.17",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "var_n4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.17",
+                "target": "var_n5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.18",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.18",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.18",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.18",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.19",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.19",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "var_n4",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.19",
+                "target": "var_n5",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.20",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.20",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.20",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.20",
+                "target": "pred_sum",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.20",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.20",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.20",
+                "target": "var_n3",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.21",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.21",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.21",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.21",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.21",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.22",
+                "target": "pred_gt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.22",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.22",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.22",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.23",
+                "target": "pred_geq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.23",
+                "target": "pred_gt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.23",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.23",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.23",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.24",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.24",
+                "target": "pred_number",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.24",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.25",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.25",
+                "target": "pred_posInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.25",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.25",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.25",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.25",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.26",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.26",
+                "target": "pred_equal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.26",
+                "target": "var_f1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_f2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_a1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_a2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_b1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_b2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_c1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.26",
+                "target": "var_c2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.27",
+                "target": "pred_nonNegInteger",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.27",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.27",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.28",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.28",
+                "target": "pred_lt",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.28",
+                "target": "var_f1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_f2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_a1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_a2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_b1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_b2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_c1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.28",
+                "target": "var_c2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.29",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.29",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_f1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_f2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_a1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_a2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_b1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_b2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_c1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.29",
+                "target": "var_c2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.30",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.30",
+                "target": "pred_number",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.30",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.30",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.30",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.31",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.31",
+                "target": "pred_number",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.31",
+                "target": "pred_nequal",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.31",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.31",
+                "target": "var_a",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.31",
+                "target": "var_b",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "pred_lt'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "pred_geq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "pred_number",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "pred_nonNegNumericScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.32",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.32",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "pred_nonNegNumericScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "pred_lt'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "pred_geq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "pred_number",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.33",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.33",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.34",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_scale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_nonNegNumericScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_functionInto",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_monotoneIncreasing",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_bottom",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.34",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.34",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.34",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.34",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_set",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_null",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_subset'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_scaleDefinedBy",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_card'",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.35",
+                "target": "var_e",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.35",
+                "target": "var_n",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.36",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.36",
+                "target": "pred_proportion",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.36",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.36",
+                "target": "pred_fraction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.36",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_n1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.36",
+                "target": "var_n2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.37",
+                "target": "pred_proportion",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.37",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.37",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.37",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.37",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.37",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.37",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.37",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.38",
+                "target": "pred_identityFunction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.38",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.38",
+                "target": "pred_member",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.38",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.38",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.38",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.38",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.39",
+                "target": "pred_nonNegNumericScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.39",
+                "target": "pred_identityFunction",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.39",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.39",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.39",
+                "target": "var_s",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.40",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.40",
+                "target": "pred_function",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.40",
+                "target": "pred_disjoint",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.40",
+                "target": "pred_map",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.40",
+                "target": "pred_at",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.40",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.40",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.40",
+                "target": "var_s2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.40",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.40",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "pred_leqs",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "pred_sameHOM",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "pred_proportion",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "pred_product",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "pred_leq",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.41",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "var_f",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.41",
+                "target": "var_f2",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.42",
+                "target": "pred_gts",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.42",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.42",
+                "target": "pred_sameHOM",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.42",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.42",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.42",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.42",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.43",
+                "target": "pred_sameHOM",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.43",
+                "target": "pred_inScale",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.43",
+                "target": "pred_measure",
+                "type": "uses_predicate",
+                "weight": 1
+            },
+            {
+                "source": "13.43",
+                "target": "var_x",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.43",
+                "target": "var_y",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.43",
+                "target": "var_s1",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "13.43",
+                "target": "var_m",
+                "type": "has_variable",
+                "weight": 0.5
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_successor",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_nonNegInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_successor",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_product",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt",
+                "target": "pred_posInteger",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_sum",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leq",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leq",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gt",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geq",
+                "target": "pred_gt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geq",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gt",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_number",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegInteger",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_posInteger",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fraction",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fraction",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_product",
+                "target": "pred_equal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fraction",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_product",
+                "target": "pred_lt",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fraction",
+                "target": "pred_number",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_fraction",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_number",
+                "target": "pred_nequal",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt'",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt'",
+                "target": "pred_geq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt'",
+                "target": "pred_number",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_lt'",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_geq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_number",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geq",
+                "target": "pred_number",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geq",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_geq",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_number",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_number",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_scale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_functionInto",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_nonNegNumericScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_functionInto",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scale",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_functionInto",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_monotoneIncreasing",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_functionInto",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monotoneIncreasing",
+                "target": "pred_bottom",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_monotoneIncreasing",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_bottom",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_set",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_subset'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_card'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_null",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_subset'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_card'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_set",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_subset'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_card'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_null",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_scaleDefinedBy",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_card'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_subset'",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_card'",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_scaleDefinedBy",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_card'",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_proportion",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_proportion",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_inScale",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_proportion",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_proportion",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_fraction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_identityFunction",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_identityFunction",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_identityFunction",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_member",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_member",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_nonNegNumericScale",
+                "target": "pred_identityFunction",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_identityFunction",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_function",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_disjoint",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_disjoint",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_function",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjoint",
+                "target": "pred_map",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_disjoint",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_map",
+                "target": "pred_at",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_sameHOM",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_proportion",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_leqs",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_sameHOM",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_measure",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameHOM",
+                "target": "pred_proportion",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameHOM",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameHOM",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_proportion",
+                "target": "pred_product",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_proportion",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_product",
+                "target": "pred_leq",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gts",
+                "target": "pred_measure",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_gts",
+                "target": "pred_sameHOM",
+                "type": "co_occurs",
+                "weight": 0.3
+            },
+            {
+                "source": "pred_sameHOM",
+                "target": "pred_inScale",
+                "type": "co_occurs",
+                "weight": 0.3
+            }
+        ]
+    },
+    "legend": {
+        "node_types": {
+            "axiom": "Axioms from this chapter",
+            "predicate": "Predicates used in this chapter",
+            "variable": "Frequently used variables (2+ axioms in chapter)"
+        },
+        "link_types": {
+            "uses_predicate": "Axiom uses this predicate",
+            "has_variable": "Axiom contains this variable",
+            "co_occurs": "Predicates appear together in axioms"
+        }
+    }
+}
