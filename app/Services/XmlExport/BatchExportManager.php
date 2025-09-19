@@ -8,7 +8,9 @@ namespace App\Services\XmlExport;
 class BatchExportManager
 {
     private int $batchSize;
+
     private string $outputDir;
+
     private array $statistics;
 
     public function __construct(int $batchSize = 100, string $outputDir = 'exports')
@@ -19,7 +21,7 @@ class BatchExportManager
             'processed' => 0,
             'errors' => 0,
             'files_created' => 0,
-            'start_time' => time()
+            'start_time' => time(),
         ];
     }
 
@@ -48,7 +50,7 @@ class BatchExportManager
                     $batchResults[] = [
                         'success' => false,
                         'error' => $e->getMessage(),
-                        'item_id' => $item->id ?? 'unknown'
+                        'item_id' => $item->id ?? 'unknown',
                     ];
                 }
             }
@@ -70,6 +72,7 @@ class BatchExportManager
     public function getStatistics(): array
     {
         $this->statistics['duration'] = time() - $this->statistics['start_time'];
+
         return $this->statistics;
     }
 
@@ -82,7 +85,7 @@ class BatchExportManager
             'processed' => 0,
             'errors' => 0,
             'files_created' => 0,
-            'start_time' => time()
+            'start_time' => time(),
         ];
     }
 }

@@ -8,13 +8,12 @@ class SearchData extends Data
 {
     public function __construct(
         public ?string $frame = '',
-        public ?int    $idFramalDomain = 0,
+        public ?int $idFramalDomain = 0,
         public ?string $id = '',
-        public ?int    $idFrame = 0,
-        public string  $type = '',
-        public string  $_token = '',
-    )
-    {
+        public ?int $idFrame = 0,
+        public string $type = '',
+        public string $_token = '',
+    ) {
         if ($this->id != '') {
             $type = $this->id[0];
             if ($type == 'n') {

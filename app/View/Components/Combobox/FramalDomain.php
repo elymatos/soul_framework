@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class FramalDomain extends Component
 {
     public $options;
+
     /**
      * Create a new component instance.
      */
@@ -18,12 +19,11 @@ class FramalDomain extends Component
         public string $value = '',
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
+    ) {
         $domains = SemanticType::listFrameDomain()->all();
         $this->options = [[
             'idSemanticType' => null,
-            'name' => '-- all --'
+            'name' => '-- all --',
         ]];
         foreach ($domains as $domain) {
             $this->options[] = $domain;

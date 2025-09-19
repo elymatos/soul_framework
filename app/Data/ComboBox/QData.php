@@ -11,7 +11,5 @@ class QData extends Data
         public ?string $frame = '',
         public ?string $lu = '',
         public ?int $idLanguage = 0
-    )
-    {
-    }
+    ) {}
 }

@@ -3,7 +3,6 @@
 namespace App\View\_Components\Combobox;
 
 use App\Database\Criteria;
-use App\Repositories\Qualia;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,19 +13,19 @@ class QualiaRelations extends Component
      * Create a new component instance.
      */
     public array $options = [];
+
     public function __construct(
         public string $id,
         public string $label
-    )
-    {
-        $list = Criteria::byFilterLanguage("view_qualia",[])
-            ->orderBy("type")->orderBy("name")
+    ) {
+        $list = Criteria::byFilterLanguage('view_qualia', [])
+            ->orderBy('type')->orderBy('name')
             ->all();
         $this->options = [];
-        foreach($list as $qualia) {
+        foreach ($list as $qualia) {
             $this->options[$qualia->type][] = [
                 'idQualia' => $qualia->idQualia,
-                'category' => ucFirst($qualia->type),
+                'category' => ucfirst($qualia->type),
                 'name' => $qualia->name,
                 'frame' => $qualia->frameName,
             ];

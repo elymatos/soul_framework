@@ -11,13 +11,12 @@ class CreateData extends Data
         public ?int $idConstruction,
         public ?string $nameEn,
         public ?int $idColor,
-        public ?int $head = 0,
-        public ?int $optional = 0,
-        public ?int $multiple = 0,
+        public ?int $head,
+        public ?int $optional,
+        public ?int $multiple,
         public ?int $idUser,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
         if (is_null($this->head)) {
             $this->head = 0;

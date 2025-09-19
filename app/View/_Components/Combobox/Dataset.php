@@ -13,15 +13,15 @@ class Dataset extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public int $value
-    )
-    {
-        $list = Criteria::table("dataset")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('dataset')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $d) {
+        foreach ($list as $d) {
             $this->options[$d->idDataset] = [
                 'id' => $d->idDataset,
                 'text' => $d->name,

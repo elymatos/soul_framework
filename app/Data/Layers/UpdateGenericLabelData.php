@@ -2,7 +2,6 @@
 
 namespace App\Data\Layers;
 
-use App\Services\AppService;
 use Spatie\LaravelData\Data;
 
 class UpdateGenericLabelData extends Data
@@ -14,7 +13,5 @@ class UpdateGenericLabelData extends Data
         public ?int $idLayerType = null,
         public ?int $idColor = null,
         public ?string $definition = '',
-    )
-    {
-    }
+    ) {}
 }

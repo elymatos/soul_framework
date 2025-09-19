@@ -6,11 +6,11 @@ use App\Database\Criteria;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Color as ColorRepository;
 
 class Color extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
@@ -19,19 +19,18 @@ class Color extends Component
         public string $label,
         public string $value = '',
         public string $defaultText = '',
-    )
-    {
+    ) {
         $this->defaultText = '';
-        $list = Criteria::table("color")->orderBy("rgbBg")->all();
+        $list = Criteria::table('color')->orderBy('rgbBg')->all();
         $this->options = [];
-        foreach($list as $c) {
+        foreach ($list as $c) {
             if ($this->value == $c->idColor) {
                 $this->defaultText = $c->name;
             }
             $this->options[] = [
                 'id' => $c->idColor,
                 'text' => $c->name,
-                'color' => "color_{$c->idColor}"
+                'color' => "color_{$c->idColor}",
             ];
         }
 

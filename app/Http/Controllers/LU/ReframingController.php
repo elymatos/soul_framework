@@ -16,7 +16,6 @@ use App\Repositories\User;
 use App\Services\AppService;
 use App\Services\Frame\BrowseService;
 use App\Services\MessageService;
-use Carbon\Carbon;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
@@ -31,16 +30,17 @@ class ReframingController extends Controller
     {
         $search = session('searchLU') ?? SearchData::from();
         if (($idLU == 'list') || ($idLU == '')) {
-            return view("LU.Reframing.browse", [
+            return view('LU.Reframing.browse', [
                 'data' => [],
-                'search' => $search
+                'search' => $search,
             ]);
         } else {
             $lu = LU::byId($idLU);
             $search->lu = $lu->name;
-            return view("LU.Reframing.main", [
+
+            return view('LU.Reframing.main', [
                 'search' => $search,
-                'idLU' => $idLU
+                'idLU' => $idLU,
             ]);
         }
     }
@@ -56,45 +56,45 @@ class ReframingController extends Controller
 
     }
 
-//    #[Get(path: '/reframing')]
-//    public function reframing(int|string $idLU = '')
-//    {
-//        $search = session('searchLU') ?? SearchData::from();
-//        if (($idLU == 'list') || ($idLU == '')) {
-//            return view("LU.Reframing.main", [
-//                'search' => $search
-//            ]);
-//        } else {
-//            $lu = LU::byId($idLU);
-//            $search->lu = $lu->name;
-//            return view("LU.Reframing.main", [
-//                'search' => $search,
-//                'idLU' => $idLU
-//            ]);
-//        }
-//    }
-//
-//    #[Post(path: '/reframing/grid')]
-//    public function grid(SearchData $search)
-//    {
-//        return view("LU.Reframing.grid", [
-//            'search' => $search,
-//        ]);
-//    }
-//
-//    #[Get(path: '/reframing/data')]
-//    public function data(SearchData $search)
-//    {
-//        $lus = [];
-//        if ($search->lu != '') {
-//            $lus = Criteria::byFilterLanguage("view_lu",
-//                ['name', "startswith", $search->lu])
-//                ->select("idLU", "name", "frameName")
-//                ->orderBy('name')
-//                ->all();
-//        }
-//        return $lus;
-//    }
+    //    #[Get(path: '/reframing')]
+    //    public function reframing(int|string $idLU = '')
+    //    {
+    //        $search = session('searchLU') ?? SearchData::from();
+    //        if (($idLU == 'list') || ($idLU == '')) {
+    //            return view("LU.Reframing.main", [
+    //                'search' => $search
+    //            ]);
+    //        } else {
+    //            $lu = LU::byId($idLU);
+    //            $search->lu = $lu->name;
+    //            return view("LU.Reframing.main", [
+    //                'search' => $search,
+    //                'idLU' => $idLU
+    //            ]);
+    //        }
+    //    }
+    //
+    //    #[Post(path: '/reframing/grid')]
+    //    public function grid(SearchData $search)
+    //    {
+    //        return view("LU.Reframing.grid", [
+    //            'search' => $search,
+    //        ]);
+    //    }
+    //
+    //    #[Get(path: '/reframing/data')]
+    //    public function data(SearchData $search)
+    //    {
+    //        $lus = [];
+    //        if ($search->lu != '') {
+    //            $lus = Criteria::byFilterLanguage("view_lu",
+    //                ['name', "startswith", $search->lu])
+    //                ->select("idLU", "name", "frameName")
+    //                ->orderBy('name')
+    //                ->all();
+    //        }
+    //        return $lus;
+    //    }
 
     #[Get(path: '/reframing/lu/{idLU}')]
     public function reframingLU(string $idLU)
@@ -105,10 +105,11 @@ class ReframingController extends Controller
         $lu = LU::byId($idLU);
         $data = [
             'lu' => $lu,
-            'language' => Criteria::byId("language", "idLanguage", $lu->idLanguage),
+            'language' => Criteria::byId('language', 'idLanguage', $lu->idLanguage),
             'isMaster' => $isMaster,
         ];
-        return view("LU.Reframing.reframing", $data);
+
+        return view('LU.Reframing.reframing', $data);
     }
 
     #[Get(path: '/reframing/edit/{idLU}/{idNewFrame}')]
@@ -116,20 +117,21 @@ class ReframingController extends Controller
     {
         $lu = LU::byId($idLU);
         $alreadyExists = false;
-        $exists = Criteria::table("lu")
-            ->where("idLemma", $lu->idLemma)
-            ->where("idFrame", $idNewFrame)
+        $exists = Criteria::table('lu')
+            ->where('idLemma', $lu->idLemma)
+            ->where('idFrame', $idNewFrame)
             ->first();
-        if (!is_null($exists)) {
+        if (! is_null($exists)) {
             $alreadyExists = true;
         }
         $data = [
             'lu' => $lu,
             'idNewFrame' => $idNewFrame,
             'alreadyExists' => $alreadyExists,
-            'language' => Criteria::byId("language", "idLanguage", $lu->idLanguage),
+            'language' => Criteria::byId('language', 'idLanguage', $lu->idLanguage),
         ];
-        return view("LU.Reframing.edit", $data);
+
+        return view('LU.Reframing.edit', $data);
     }
 
     #[Get(path: '/reframing/fes/{idLU}/{idNewFrame}')]
@@ -137,23 +139,23 @@ class ReframingController extends Controller
     {
         $newFrame = Frame::byId($idNewFrame);
         $lu = LU::byId($idLU);
-        $as = Criteria::table("view_annotationset as a")
-            ->where("a.idLU", $idLU)
-            ->select("a.idAnnotationSet")
+        $as = Criteria::table('view_annotationset as a')
+            ->where('a.idLU', $idLU)
+            ->select('a.idAnnotationSet')
             ->all();
-        $idAS = collect($as)->pluck("idAnnotationSet")->toArray();
-        $afe = Criteria::table("view_annotation_text_fe as afe")
-            ->whereIN("afe.idAnnotationSet", $idAS)
+        $idAS = collect($as)->pluck('idAnnotationSet')->toArray();
+        $afe = Criteria::table('view_annotation_text_fe as afe')
+            ->whereIN('afe.idAnnotationSet', $idAS)
             ->distinct()
-            ->select("afe.idFrameElement")
+            ->select('afe.idFrameElement')
             ->all();
-        $idFE = collect($afe)->pluck("idFrameElement")->toArray();
-        $fes = Criteria::table("view_frameelement as fe")
-            ->where("fe.idLanguage", AppService::getCurrentIdLanguage())
-            ->whereIN("fe.idFrameElement", $idFE)
+        $idFE = collect($afe)->pluck('idFrameElement')->toArray();
+        $fes = Criteria::table('view_frameelement as fe')
+            ->where('fe.idLanguage', AppService::getCurrentIdLanguage())
+            ->whereIN('fe.idFrameElement', $idFE)
             ->distinct()
-            ->select("fe.idFrameElement", "fe.name", "fe.coreType", "fe.idColor", "fe.idEntity")
-            ->orderBy("fe.name")
+            ->select('fe.idFrameElement', 'fe.name', 'fe.coreType', 'fe.idColor', 'fe.idEntity')
+            ->orderBy('fe.name')
             ->all();
         $data = [
             'lu' => $lu,
@@ -161,10 +163,11 @@ class ReframingController extends Controller
             'newFrame' => $newFrame,
             'fes' => $fes,
             'countAS' => count($as),
-            'language' => Criteria::byId("language", "idLanguage", $lu->idLanguage),
+            'language' => Criteria::byId('language', 'idLanguage', $lu->idLanguage),
         ];
-//        debug($data);
-        return view("LU.Reframing.fes", $data);
+
+        //        debug($data);
+        return view('LU.Reframing.fes', $data);
     }
 
     #[Put(path: '/reframing')]
@@ -172,9 +175,10 @@ class ReframingController extends Controller
     {
         try {
             LU::reframing($data);
-            return $this->renderNotify("success", "Reframing done.");
+
+            return $this->renderNotify('success', 'Reframing done.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
 
     }

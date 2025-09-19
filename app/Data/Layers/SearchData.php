@@ -12,9 +12,8 @@ class SearchData extends Data
         public ?string $id = '',
         public ?int $idLayerType = 0,
         public ?int $idGenericLabel = 0,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         if ($this->id != '') {
             if ($this->id[0] == 'l') {
                 $this->idLayerType = substr($this->id, 1);

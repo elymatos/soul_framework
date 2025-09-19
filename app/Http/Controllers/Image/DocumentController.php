@@ -13,36 +13,37 @@ use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class DocumentController extends Controller
 {
     #[Get(path: '/image/{id}/document')]
     public function document(int $id)
     {
-        return view("Image.document", [
-            'image' => Image::byId($id)
+        return view('Image.document', [
+            'image' => Image::byId($id),
         ]);
     }
 
     #[Get(path: '/image/{id}/document/formNew')]
     public function documentFormNew(int $id)
     {
-        return view("Image.documentNew", [
-            'idImage' => $id
+        return view('Image.documentNew', [
+            'idImage' => $id,
         ]);
     }
 
     #[Get(path: '/image/{id}/document/grid')]
     public function documentGrid(int $id)
     {
-        $documents = Criteria::table("view_document_image as di")
-            ->join("view_document as d", "di.idDocument", "=", "d.idDocument")
-            ->where("di.idImage", $id)
-            ->where("d.idLanguage", AppService::getCurrentIdLanguage())
+        $documents = Criteria::table('view_document_image as di')
+            ->join('view_document as d', 'di.idDocument', '=', 'd.idDocument')
+            ->where('di.idImage', $id)
+            ->where('d.idLanguage', AppService::getCurrentIdLanguage())
             ->all();
-        return view("Image.documentGrid", [
+
+        return view('Image.documentGrid', [
             'idImage' => $id,
-            'documents' => $documents
+            'documents' => $documents,
         ]);
     }
 
@@ -55,11 +56,12 @@ class DocumentController extends Controller
         $json = json_encode([
             'idAnnotationObject1' => $document->idAnnotationObject,
             'idAnnotationObject2' => $image->idAnnotationObject,
-            'relationType' => 'rel_document_image'
+            'relationType' => 'rel_document_image',
         ]);
-        Criteria::function("objectrelation_create(?)",[$json]);
+        Criteria::function('objectrelation_create(?)', [$json]);
         $this->trigger('reload-gridImageDocument');
-        return $this->renderNotify("success", "Image associated with Document.");
+
+        return $this->renderNotify('success', 'Image associated with Document.');
     }
 
     #[Delete(path: '/image/{id}/document/{idDocument}')]
@@ -68,16 +70,15 @@ class DocumentController extends Controller
         try {
             $image = Image::byId($id);
             $document = Document::byId($idDocument);
-            Criteria::table("annotationobjectrelation")
-                ->where("idAnnotationObject1", $document->idAnnotationObject)
-                ->where("idAnnotationObject2", $image->idAnnotationObject)
+            Criteria::table('annotationobjectrelation')
+                ->where('idAnnotationObject1', $document->idAnnotationObject)
+                ->where('idAnnotationObject2', $image->idAnnotationObject)
                 ->delete();
             $this->trigger('reload-gridImageDocument');
-            return $this->renderNotify("success", "Image removed from Document.");
+
+            return $this->renderNotify('success', 'Image removed from Document.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
-
 }

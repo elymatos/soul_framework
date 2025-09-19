@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Script executado a partir de services/MultimodalService.php
  * Parâmetros: {$video_path} {$idDocument} {$idLanguage} {$idUser} {$email}
@@ -22,25 +23,36 @@ Scale the video to max-height of 480 pixels
 Compress the video with CRF of 23 (constant rate factor)
 */
 
-use thiagoalessio\TesseractOCR\TesseractOCR;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class Multimodal
 {
     public $videoFile;
+
     public $audioFile;
+
     public $transcriptFile;
+
     public $combinedFile;
+
     public $idDocument;
+
     public $idLanguage;
+
     public $idUser;
+
     public $email;
+
     public $dataPath;
+
     public $videoSize;
+
     public $videoFileOriginal;
+
     public $video;
+
     public $ffmpegConfig;
 
     public $testingPhase;
@@ -73,8 +85,8 @@ class Multimodal
             $this->charon('frames', $this->videoFile);
 
         }
-        $emailService = new EmailService();
-        //$emailService->sendSystemEmail($email, 'Webtool: upload Video MM', "The video {$videoFile} was processed.<br>FNBr Webtool Team");
+        $emailService = new EmailService;
+        // $emailService->sendSystemEmail($email, 'Webtool: upload Video MM', "The video {$videoFile} was processed.<br>FNBr Webtool Team");
         mdump('finished!!');
 
     }
@@ -85,7 +97,7 @@ class Multimodal
         $this->ffmpegConfig = $config = [
             'dataPath' => $this->dataPath,
             'ffmpeg.binaries' => 'ffmpeg', // '/var/www/html/core/support/charon/bin/ffmpeg',
-            'ffprobe.binaries' => 'ffprobe',//'/var/www/html/core/support/charon/bin/ffprobe',
+            'ffprobe.binaries' => 'ffprobe', // '/var/www/html/core/support/charon/bin/ffprobe',
         ];
         $logger = null;
         // video attributes
@@ -103,23 +115,23 @@ class Multimodal
             ->first();
         $duration = $first->get('duration');
 
-        mdump('duration 1 :' . $duration);
+        mdump('duration 1 :'.$duration);
 
         $frameRate = $first->get('r_frame_rate');
-        mdump('framerate 1 :' . $frameRate);
+        mdump('framerate 1 :'.$frameRate);
 
         $duration = floor($duration) * 60;
-        mdump('duration 2 :' . $duration);
+        mdump('duration 2 :'.$duration);
         $frameRate = round($frameRate) / 1000;
-        mdump('framerate 2 :' . $frameRate);
+        mdump('framerate 2 :'.$frameRate);
         $n = round($duration / $frameRate);
-        mdump('n :' . $n);
+        mdump('n :'.$n);
         $frameRate = round($duration / $n);
-        mdump('framerate 3 :' . $frameRate);
-        $frameRate = '1/' . $frameRate;
-        mdump('framerate 4 :' . $frameRate);
+        mdump('framerate 3 :'.$frameRate);
+        $frameRate = '1/'.$frameRate;
+        mdump('framerate 4 :'.$frameRate);
 
-        //mdump($first->getDimensions());
+        // mdump($first->getDimensions());
         // using getID3
         $getID3 = new getID3;
         $file = $getID3->analyze($this->videoFile);
@@ -127,10 +139,10 @@ class Multimodal
         $height = $file['video']['resolution_y'];
         $this->videoSize = 'small';
         if ($width > 240 and $height > 180) {
-            $this->videoSize = "large";
+            $this->videoSize = 'large';
         }
-        mdump('width = ' . $width);
-        mdump('height = ' . $height);
+        mdump('width = '.$width);
+        mdump('height = '.$height);
 
         // video compression
         $this->ffmpeg = FFMpeg\FFMpeg::create([
@@ -140,8 +152,8 @@ class Multimodal
             'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
         ], @$logger);
         $this->videoFileOriginal = $this->videoFile;
-        $videoFile = str_replace("_original", "", $this->videoFile);
-        if (!file_exists($videoFile)) {
+        $videoFile = str_replace('_original', '', $this->videoFile);
+        if (! file_exists($videoFile)) {
             $newWidth = floor(((480 / $height) * $width) / 2) * 2;
             $originalVideo = $this->ffmpeg->open($this->videoFileOriginal);
             $originalVideo
@@ -159,22 +171,22 @@ class Multimodal
     {
         // getting frame
         $shaName = basename($this->videoFile, '.mp4');
-        $path = $this->dataPath . "Images_Store/thumbs/{$this->videoSize}/";
+        $path = $this->dataPath."Images_Store/thumbs/{$this->videoSize}/";
         $name = "{$shaName}.jpeg";
         $this->video = $this->ffmpeg->open($this->videoFileOriginal);
-        $this->video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))->save($path . $name);
+        $this->video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))->save($path.$name);
     }
 
     public function getAudio()
     {
         // Set the formats
         $shaName = basename($this->videoFile, '.mp4');
-        $output_format = new FFMpeg\Format\Audio\Flac(); // Here you choose your output format
-        $output_format->setAudioCodec("flac");
-        $audioPath = $this->dataPath . "Audio_Store/audio/";
-        $this->audioFile = $audioPath . $shaName . ".flac";
-        if (!file_exists($this->audioFile)) {
-            mdump("saving audio " . $this->audioFile);
+        $output_format = new FFMpeg\Format\Audio\Flac; // Here you choose your output format
+        $output_format->setAudioCodec('flac');
+        $audioPath = $this->dataPath.'Audio_Store/audio/';
+        $this->audioFile = $audioPath.$shaName.'.flac';
+        if (! file_exists($this->audioFile)) {
+            mdump('saving audio '.$this->audioFile);
             $this->video->save($output_format, $this->audioFile);
         }
 
@@ -187,11 +199,11 @@ class Multimodal
  */
         if (($this->testingPhase == 2) || ($this->testingPhase == 3)) {
             $shaName = basename($this->videoFile, '.mp4');
-            $transcriptPath = $this->dataPath . "Text_Store/transcripts/";
-            $this->transcriptFile = $transcriptPath . $shaName . ".txt";
+            $transcriptPath = $this->dataPath.'Text_Store/transcripts/';
+            $this->transcriptFile = $transcriptPath.$shaName.'.txt';
 
-            if (!file_exists($this->transcriptFile)) {
-                mdump("calling Watson");
+            if (! file_exists($this->transcriptFile)) {
+                mdump('calling Watson');
                 $audio = fopen($this->audioFile, 'r');
                 $client = new \GuzzleHttp\Client([
                     'base_uri' => 'https://stream.watsonplatform.net/',
@@ -200,49 +212,50 @@ class Multimodal
                     'POST',
                     'speech-to-text/api/v1/recognize?end_of_phrase_silence_time=0.3&split_transcript_at_phrase_end=true&speaker_labels=true&model=pt-BR_NarrowbandModel',
                     [
-                        //'auth' => ['apikey', '0J34Y-yMVfdnaZpxdEwc8c-FoRPrpeTXcOOsxYM6lLls'],
-                        'auth' => ['apikey', "jHVAXaIqW_Zj7iPA8HzNk2Mf-qnROtm5ZQ7IOJyX9Zb1"],
-                        //'auth' => ['apikey', "jrdLqCqvqz9JU8Eu8Ls7c40_uXTmCFrb3iWbLk77KgvJ"],
+                        // 'auth' => ['apikey', '0J34Y-yMVfdnaZpxdEwc8c-FoRPrpeTXcOOsxYM6lLls'],
+                        'auth' => ['apikey', 'jHVAXaIqW_Zj7iPA8HzNk2Mf-qnROtm5ZQ7IOJyX9Zb1'],
+                        // 'auth' => ['apikey', "jrdLqCqvqz9JU8Eu8Ls7c40_uXTmCFrb3iWbLk77KgvJ"],
                         'headers' => [
                             'Content-Type' => 'audio/flac',
                         ],
                         'body' => $audio,
-                        //'debug' => true,
-                        //'verify' => false,
-                        //'curl.options' =>[ 'CURLOPT_BUFFERSIZE' =>'120000L'],
-                        //'timeout' => 3000
+                        // 'debug' => true,
+                        // 'verify' => false,
+                        // 'curl.options' =>[ 'CURLOPT_BUFFERSIZE' =>'120000L'],
+                        // 'timeout' => 3000
                     ]
                 );
 
                 $transcript = $response->getBody();
-                //$myfile = fopen($target_file1, "w");
-                //fwrite($myfile, $transcript);
-                //fclose($myfile);
+                // $myfile = fopen($target_file1, "w");
+                // fwrite($myfile, $transcript);
+                // fclose($myfile);
                 file_put_contents($this->transcriptFile, $transcript);
             }
 
-            mdump("Audio Transcripts generated.");
-
+            mdump('Audio Transcripts generated.');
 
         }
 
     }
 
-    public function tesseract() {
-        mdump("going to Tesseract");
+    public function tesseract()
+    {
+        mdump('going to Tesseract');
         $shaName = basename($this->videoFile, '.mp4');
-        $subtitlesPath = $this->dataPath . "Text_Store/subtitles/";
-        $subtitlesFile = $subtitlesPath . $shaName . ".srt";
+        $subtitlesPath = $this->dataPath.'Text_Store/subtitles/';
+        $subtitlesFile = $subtitlesPath.$shaName.'.srt';
         $mp4Format = new FFMpeg\Format\Video\X264('libmp3lame', 'libx264');
 
-        $val = "";
+        $val = '';
 
-        if ($n < 100)
-            $val = "02";
-        elseif ($n < 1000)
-            $val = "03";
-        else
-            $val = "06";
+        if ($n < 100) {
+            $val = '02';
+        } elseif ($n < 1000) {
+            $val = '03';
+        } else {
+            $val = '06';
+        }
 
         $dir = "/tmp/{$shaName}";
 
@@ -251,15 +264,15 @@ class Multimodal
         }
         mkdir($dir, 0777);
 
-        $cmd = $this->ffmpegConfig['ffmpeg.binaries'] . " -i {$this->videoFile} -vf fps=1/5 {$dir}/img%{$val}d.jpg";
+        $cmd = $this->ffmpegConfig['ffmpeg.binaries']." -i {$this->videoFile} -vf fps=1/5 {$dir}/img%{$val}d.jpg";
         exec($cmd);
 
         $files = array_diff(scandir($dir), ['..', '.']);
 
-        $subtitlesFile = fopen($this->dataPath . "Text_Store/subtitles/{$shaName}.srt", "w");
+        $subtitlesFile = fopen($this->dataPath."Text_Store/subtitles/{$shaName}.srt", 'w');
         asort($files);
         foreach ($files as $file) {
-            $full_path = $dir . '/' . $file;
+            $full_path = $dir.'/'.$file;
             $tesseract = new TesseractOCR($full_path);
             $text = $tesseract->run();
             fwrite($subtitlesFile, $text);
@@ -272,20 +285,20 @@ class Multimodal
 
     public function alignment()
     {
-        //Decode JSON
+        // Decode JSON
         $shaName = basename($this->videoFile, '.mp4');
         $json = file_get_contents($this->transcriptFile);
         $json_data = json_decode($json, true);
-        $results = $json_data["results"];
+        $results = $json_data['results'];
         $parsed_transcript = [];
         $i = -1;
         foreach ($results as $key => $value) {
             $i = $i + 1;
             $det1 = $results[$key];
-            $alternatives = $det1["alternatives"];
+            $alternatives = $det1['alternatives'];
             $det2 = $alternatives[0];
-            $transcript = $det2["transcript"];
-            $timestamps = $det2["timestamps"];
+            $transcript = $det2['transcript'];
+            $timestamps = $det2['timestamps'];
             $num = count($timestamps);
             $start_time = $timestamps[0][1];
             $end_time = $timestamps[$num - 1][2];
@@ -293,12 +306,12 @@ class Multimodal
             $parsed_transcript[$i][1] = $transcript;
             $parsed_transcript[$i][2] = $end_time;
         }
-        $subtitles = file_get_contents($this->dataPath . "./Text_Store/subtitles/{$shaName}.srt");
-        $subtitles = str_replace("\n", " ", $subtitles);
-        $subtitles = str_replace("‘", "'", $subtitles);
-        $sub_ar = explode(" ", $subtitles);
-        $this->combinedFile = $this->dataPath . "Text_Store/combined/{$shaName}.txt";
-        $combined_file = fopen($this->combinedFile, "w");
+        $subtitles = file_get_contents($this->dataPath."./Text_Store/subtitles/{$shaName}.srt");
+        $subtitles = str_replace("\n", ' ', $subtitles);
+        $subtitles = str_replace('‘', "'", $subtitles);
+        $sub_ar = explode(' ', $subtitles);
+        $this->combinedFile = $this->dataPath."Text_Store/combined/{$shaName}.txt";
+        $combined_file = fopen($this->combinedFile, 'w');
         foreach ($parsed_transcript as $key => $value) {
             $tr = $parsed_transcript[$key][1];
             $tr_ar = explode(' ', $tr);
@@ -317,23 +330,25 @@ class Multimodal
                         for ($k = $x; $k <= $cnt - 2; $k++) {
                             if ($tr_ar[$k] === $sub_ar[$y + $k - $x] || $tr_ar[$k + 1] === $sub_ar[$y + $k - $x + 1] || $tr_ar[$k] === $sub_ar[$y + $k - $x + 1]) {
                                 if ($tr_ar[$k] === $sub_ar[$y + $k - $x + 1]) {
-                                    $inserted = array($sub_ar[$y + $k - $x]);
+                                    $inserted = [$sub_ar[$y + $k - $x]];
 
                                     array_splice($tr_ar, $k, 0, $inserted);
 
-                                } else
+                                } else {
                                     $tr_ar[$k] = $sub_ar[$y + $k - $x];
+                                }
                             } else {
                                 $val = 1;
                                 break;
                             }
 
-                            if ($tr_ar[$k] === $tr_ar[$k + 1])
+                            if ($tr_ar[$k] === $tr_ar[$k + 1]) {
                                 unset($arr1[$k]);
+                            }
                         }
-                        if ($val === 1)
+                        if ($val === 1) {
                             $tr_ar[$k] = $sub_ar[$y + $k - $x];
-                        else {
+                        } else {
                             $tr_ar[$k] = $sub_ar[$y + $k - $x + 1];
                         }
 
@@ -341,16 +356,17 @@ class Multimodal
                         break;
                     }
                 }
-                if ($flag === 1)
+                if ($flag === 1) {
                     break;
+                }
             }
 
-            list($sec, $ms) = explode('.', $parsed_transcript[$key][0]);
-            $parsed_transcript[$key][3] = gmdate("H:i:s", $sec) . '.' . substr($ms . '000', 0, 3);
-            list($sec, $ms) = explode('.', $parsed_transcript[$key][2]);
-            $parsed_transcript[$key][4] = gmdate("H:i:s", $sec) . '.' . substr($ms . '000', 0, 3);
-            //fwrite($combined_file, $parsed_transcript[$key][0] . "\n" . $parsed_transcript[$key][1] . "\n" . $parsed_transcript[$key][2] . "\n\n");
-            fwrite($combined_file, $parsed_transcript[$key][3] . "|" . $parsed_transcript[$key][4] . "|" . $parsed_transcript[$key][1] . "\n");
+            [$sec, $ms] = explode('.', $parsed_transcript[$key][0]);
+            $parsed_transcript[$key][3] = gmdate('H:i:s', $sec).'.'.substr($ms.'000', 0, 3);
+            [$sec, $ms] = explode('.', $parsed_transcript[$key][2]);
+            $parsed_transcript[$key][4] = gmdate('H:i:s', $sec).'.'.substr($ms.'000', 0, 3);
+            // fwrite($combined_file, $parsed_transcript[$key][0] . "\n" . $parsed_transcript[$key][1] . "\n" . $parsed_transcript[$key][2] . "\n\n");
+            fwrite($combined_file, $parsed_transcript[$key][3].'|'.$parsed_transcript[$key][4].'|'.$parsed_transcript[$key][1]."\n");
         }
 
         mdump("Alignments Done.\r\n");
@@ -359,28 +375,28 @@ class Multimodal
 
     public function saveToDatabase()
     {
-        $documentMM = new fnbr\models\DocumentMM();
+        $documentMM = new fnbr\models\DocumentMM;
         $documentMM->getByIdDocument($this->idDocument);
         $visualPath = $this->videoFile;
-        $dataMM = (object)[
+        $dataMM = (object) [
             'audioPath' => $this->audioFile,
             'visualPath' => $visualPath,
             'alignPath' => $this->combinedFile,
-            'idDocument' => $this->idDocument
+            'idDocument' => $this->idDocument,
         ];
         $documentMM->setData($dataMM);
         $documentMM->saveMM();
 
-        $dataVideo = (object)[
+        $dataVideo = (object) [
             'idLanguage' => $this->idLanguage,
-            'idDocument' => $this->idDocument
+            'idDocument' => $this->idDocument,
         ];
-        //$document->uploadMultimodalText($dataVideo, $combinedFileName);
+        // $document->uploadMultimodalText($dataVideo, $combinedFileName);
 
-        //$sql = "insert into $pathtable (audioPath,visualPath,alignPath,idDocument) values ('$target_file2','$target_file','$p',$id)";
-        //if ($con->query($sql) === TRUE) {
+        // $sql = "insert into $pathtable (audioPath,visualPath,alignPath,idDocument) values ('$target_file2','$target_file','$p',$id)";
+        // if ($con->query($sql) === TRUE) {
         //    echo nl2br("New record created successfully\r\n");
-        //} else {
+        // } else {
         //    echo nl2br("Error: " . $sql . "<br>" . $con->error . "\r\n");
         // }
 
@@ -389,7 +405,7 @@ class Multimodal
 
     public function charon($action, $videoFile)
     {
-        $videoURL = str_replace("/var/www/html", "http://server3.framenetbr.ufjf.br:8201", $videoFile);
+        $videoURL = str_replace('/var/www/html', 'http://server3.framenetbr.ufjf.br:8201', $videoFile);
         mdump($videoURL);
         $client = new Client([
             // Base URI is used with relative requests
@@ -401,17 +417,19 @@ class Multimodal
             $response = $client->request('post', 'frames', [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
+                    'Content-Type' => 'application/json',
                 ],
                 'json' => [
                     'url_video' => $videoURL,
-                ]
+                ],
             ]);
             $body = json_decode($response->getBody());
             mdump($body);
+
             return $body;
         } catch (Exception $e) {
-            echo $e->getMessage() . "\n";
+            echo $e->getMessage()."\n";
+
             return '';
         }
     }
@@ -423,10 +441,10 @@ class Multimodal
 
             foreach ($objects as $object) {
                 if ($object != '.' && $object != '..') {
-                    if (filetype($dir . '/' . $object) == 'dir') {
-                        rrmdir($dir . '/' . $object);
+                    if (filetype($dir.'/'.$object) == 'dir') {
+                        rrmdir($dir.'/'.$object);
                     } else {
-                        unlink($dir . '/' . $object);
+                        unlink($dir.'/'.$object);
                     }
                 }
             }
@@ -440,14 +458,14 @@ class Multimodal
     {
         $filename = $audioFile;
         $filesize = filesize($filename);
-        //$boundary  = '----iCEBrkUploaderBoundary' . uniqid();
+        // $boundary  = '----iCEBrkUploaderBoundary' . uniqid();
 
         $fileout = str_replace('.flac', '.chunked', $audioFile);
         $fo = fopen($fileout, 'w');
         $fh = fopen($filename, 'r');
         $chunkSize = 1024 * 1000;
         rewind($fh); // probably not necessary
-        while (!feof($fh)) {
+        while (! feof($fh)) {
             $pos = ftell($fh);
             $chunk = fread($fh, $chunkSize);
             fwrite($fo, sprintf("%x\r\n", strlen($chunk)));
@@ -474,12 +492,11 @@ class Multimodal
                 ],
                 'debug' => true,
                 'verify' => false,
-                'body' => $fi
+                'body' => $fi,
             ]
         );
         $transcript = $request->getBody();
         mdump($transcript);
-
 
         /*
         rewind($fh); // probably not necessary
@@ -513,19 +530,17 @@ class Multimodal
         */
 
     }
-
-
 }
 
 $app = 'webtool';
 $db = 'webtool';
 
 $dirScript = dirname(__FILE__);
-include $dirScript . "/offline.php";
-require_once($dirScript . '/../vendor/autoload.php');
-include $dirScript . "/../services/EmailService.php";
+include $dirScript.'/offline.php';
+require_once $dirScript.'/../vendor/autoload.php';
+include $dirScript.'/../services/EmailService.php';
 
-$configFile = Manager::getHome() . "/apps/{$app}/conf/conf.php";
+$configFile = Manager::getHome()."/apps/{$app}/conf/conf.php";
 Manager::loadConf($configFile);
 Manager::setConf('logs.level', 2);
 Manager::setConf('logs.port', 9998);
@@ -537,4 +552,3 @@ try {
 } catch (Exception $e) {
     mdump($e->getMessage());
 }
-

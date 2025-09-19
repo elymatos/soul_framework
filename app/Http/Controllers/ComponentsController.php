@@ -14,12 +14,13 @@ class ComponentsController extends Controller
     #[Get(path: '/components/fesByFrame')]
     public function feCombobox(FrameFEData $frame)
     {
-        $frameElement = Criteria::table("view_frameelement")
-            ->where("idFrame", $frame->idFrame)
-            ->where("coreType","cty_core")
-            ->where("idLanguage", AppService::getCurrentIdLanguage())
-            ->orderBy("name")
+        $frameElement = Criteria::table('view_frameelement')
+            ->where('idFrame', $frame->idFrame)
+            ->where('coreType', 'cty_core')
+            ->where('idLanguage', AppService::getCurrentIdLanguage())
+            ->orderBy('name')
             ->first();
+
         return view('components.fesByFrame', [
             'idFrame' => $frame->idFrame,
             'idFrameElement' => $frameElement->idFrameElement,

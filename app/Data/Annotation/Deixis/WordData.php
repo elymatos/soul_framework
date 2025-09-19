@@ -2,8 +2,6 @@
 
 namespace App\Data\Annotation\DynamicMode;
 
-use App\Services\AppService;
-use Doctrine\Inflector\Rules\Word;
 use Spatie\LaravelData\Data;
 
 class WordData extends Data
@@ -13,10 +11,9 @@ class WordData extends Data
         public ?int $idVideo = null,
         public ?int $idLanguage = null,
         public ?array $words = [],
-    )
-    {
+    ) {
         foreach ($words as $i => $word) {
-            $this->words[$i] = (object)$word;
+            $this->words[$i] = (object) $word;
         }
     }
 

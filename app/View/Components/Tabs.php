@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class Tabs extends Component
 {
     public string $active;
+
     /**
      * Create a new component instance.
      */
@@ -17,8 +18,7 @@ class Tabs extends Component
         public array $tabs,
         public array $slots,
         public ?string $onSelect = ''
-    )
-    {
+    ) {
         $this->active = array_keys($tabs)[0];
     }
 

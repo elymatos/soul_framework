@@ -24,12 +24,12 @@ return [
     'actions' => [
         'concept' => ['Concepts', '/concept', '', []],
         'graph_editor' => ['Graph Editor', '/graph-editor', '', []],
-//        'dashboard' => ['Dashboard', '/dashboard', '', []],
-//        'grapher' => ['Grapher', '/grapher', '', []],
-//        'annotation' => ['Annotation', '/annotation', 'MASTER', []],
-//        'structure' => ['Structure', '/structure', 'MASTER', []],
-//        'manager' => ['Manager', '/manager', 'MANAGER', []],
-//        'admin' => ['Admin', '/admin', 'ADMIN', []],
+        //        'dashboard' => ['Dashboard', '/dashboard', '', []],
+        //        'grapher' => ['Grapher', '/grapher', '', []],
+        //        'annotation' => ['Annotation', '/annotation', 'MASTER', []],
+        //        'structure' => ['Structure', '/structure', 'MASTER', []],
+        //        'manager' => ['Manager', '/manager', 'MANAGER', []],
+        //        'admin' => ['Admin', '/admin', 'ADMIN', []],
     ],
     'user' => ['userPanel', '/admin/user/main', '', [
         'language' => ['Language', '/language', '', [
@@ -44,108 +44,108 @@ return [
     ]],
     'relations' => [
         'rel_inheritance' => [
-            'direct' => "Is inherited by",
-            'inverse' => "Inherits from",
-            'color' => '#FF0000'
+            'direct' => 'Is inherited by',
+            'inverse' => 'Inherits from',
+            'color' => '#FF0000',
         ],
         'rel_subframe' => [
-            'direct' => "Has as subframe",
-            'inverse' => "Is subframe of",
-            'color' => '#0000FF'
+            'direct' => 'Has as subframe',
+            'inverse' => 'Is subframe of',
+            'color' => '#0000FF',
         ],
         'rel_perspective_on' => [
-            'direct' => "Is perspectivized in",
-            'inverse' => "Perspective on",
-            'color' => '#fdbeca'
+            'direct' => 'Is perspectivized in',
+            'inverse' => 'Perspective on',
+            'color' => '#fdbeca',
         ],
         'rel_using' => [
-            'direct' => "Is used by",
-            'inverse' => "Uses",
-            'color' => '#006301'
+            'direct' => 'Is used by',
+            'inverse' => 'Uses',
+            'color' => '#006301',
         ],
         'rel_precedes' => [
-            'direct' => "Precedes",
-            'inverse' => "Is preceded by",
-            'color' => '#000000'
+            'direct' => 'Precedes',
+            'inverse' => 'Is preceded by',
+            'color' => '#000000',
         ],
         'rel_causative_of' => [
-            'direct' => "Is causative of",
-            'inverse' => "Has as causative",
-            'color' => '#fdd101'
+            'direct' => 'Is causative of',
+            'inverse' => 'Has as causative',
+            'color' => '#fdd101',
         ],
         'rel_inchoative_of' => [
-            'direct' => "Is inchoative of",
-            'inverse' => "Has as inchoative",
-            'color' => '#897201'
+            'direct' => 'Is inchoative of',
+            'inverse' => 'Has as inchoative',
+            'color' => '#897201',
         ],
         'rel_see_also' => [
-            'direct' => "See also",
-            'inverse' => "Has as see_also",
-            'color' => '#9e1fee'
+            'direct' => 'See also',
+            'inverse' => 'Has as see_also',
+            'color' => '#9e1fee',
         ],
         'rel_inheritance_cxn' => [
-            'direct' => "Is inherited by",
-            'inverse' => "Inherits from",
-            'color' => '#FF0000'
+            'direct' => 'Is inherited by',
+            'inverse' => 'Inherits from',
+            'color' => '#FF0000',
         ],
         'rel_daughter_of' => [
-            'direct' => "Is daughter of",
-            'inverse' => "Has as daughter",
-            'color' => '#0000FF'
+            'direct' => 'Is daughter of',
+            'inverse' => 'Has as daughter',
+            'color' => '#0000FF',
         ],
         'rel_subtypeof' => [
-            'direct' => "Is subtype of",
-            'inverse' => "Has as subtype",
-            'color' => '#9e1fee'
+            'direct' => 'Is subtype of',
+            'inverse' => 'Has as subtype',
+            'color' => '#9e1fee',
         ],
         'rel_standsfor' => [
-            'direct' => "Stands for",
-            'inverse' => "Has as stands_for",
-            'color' => '#9e1fee'
+            'direct' => 'Stands for',
+            'inverse' => 'Has as stands_for',
+            'color' => '#9e1fee',
         ],
         'rel_partwhole' => [
-            'direct' => "Part of",
-            'inverse' => "Has as part",
-            'color' => '#9e1fee'
+            'direct' => 'Part of',
+            'inverse' => 'Has as part',
+            'color' => '#9e1fee',
         ],
         'rel_hasconcept' => [
-            'direct' => "Has concept",
-            'inverse' => "Is concept of",
-            'color' => '#9e1fee'
+            'direct' => 'Has concept',
+            'inverse' => 'Is concept of',
+            'color' => '#9e1fee',
         ],
         'rel_coreset' => [
-            'direct' => "CoreSet",
-            'inverse' => "CoreSet",
-            'color' => '##000'
+            'direct' => 'CoreSet',
+            'inverse' => 'CoreSet',
+            'color' => '##000',
         ],
         'rel_excludes' => [
-            'direct' => "Excludes",
-            'inverse' => "Excludes",
-            'color' => '#000'
+            'direct' => 'Excludes',
+            'inverse' => 'Excludes',
+            'color' => '#000',
         ],
         'rel_requires' => [
-            'direct' => "Requires",
-            'inverse' => "Requires",
-            'color' => '#000'
+            'direct' => 'Requires',
+            'inverse' => 'Requires',
+            'color' => '#000',
         ],
         'rel_structure' => [
-            'direct' => "Structure",
-            'inverse' => "Structured by",
-            'color' => '#000'
+            'direct' => 'Structure',
+            'inverse' => 'Structured by',
+            'color' => '#000',
         ],
     ],
     'fe' => [
         'icon' => [
-            "cty_core" => "black circle",
-            "cty_core-unexpressed" => "black dot circle",
-            "cty_peripheral" => "black stop circle outline",
-            "cty_extra-thematic" => "black circle outline",
+            'cty_core' => 'black circle',
+            'cty_core-unexpressed' => 'black dot circle',
+            'cty_peripheral' => 'black stop circle outline',
+            'cty_extra-thematic' => 'black circle outline',
         ],
         'coreness' => [
-            "cty_core" => "Core",
-            "cty_core-unexpressed" => "Core-Unexpressed",
-            "cty_peripheral" => "Peripheral",
-            "cty_extra-thematic" => "Extra-thematic",
-        ]
-    ]
+            'cty_core' => 'Core',
+            'cty_core-unexpressed' => 'Core-Unexpressed',
+            'cty_peripheral' => 'Peripheral',
+            'cty_extra-thematic' => 'Extra-thematic',
+        ],
+    ],
 ];

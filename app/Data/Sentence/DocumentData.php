@@ -11,10 +11,8 @@ class DocumentData extends Data
         public ?int $idSentence = null,
         public ?int $idDocument = null,
         public ?int $idUser = null
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
     }
-
 
 }

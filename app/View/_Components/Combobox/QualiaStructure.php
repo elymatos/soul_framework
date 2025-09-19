@@ -18,8 +18,7 @@ class QualiaStructure extends Component
         public string $placeholder = '',
         public ?string $onChange = null,
         public ?string $onSelect = null,
-    )
-    {
+    ) {
         $this->onChange = $onChange ?? null;
     }
 

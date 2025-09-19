@@ -16,8 +16,7 @@ class NumberField extends Component
         public string $label,
         public ?string $value,
         public string $placeholder = ''
-    )
-    {
+    ) {
         //
     }
 

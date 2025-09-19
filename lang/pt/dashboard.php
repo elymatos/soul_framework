@@ -1,17 +1,18 @@
 <?php
+
 return [
     'subcorpus' => 'Subcorpus',
     'totals' => 'Total',
     'annotatorProfile' => 'Perfil do anotador',
-    'textualAnnotation' => "Anotação de Texto",
+    'textualAnnotation' => 'Anotação de Texto',
     'videoAnnotation' => 'Anotação de Vídeo',
     'imageAnnotation' => 'Anotação de Imagem',
     'origin' => 'Origem',
     'sentences' => 'Sentenças',
     'averages' => 'Médias',
-    'ptt' => "PTT: Tradução para Português",
-    'pto' => "PTO: Português Original",
-    'eno' => "ENO: Inglês Original",
+    'ptt' => 'PTT: Tradução para Português',
+    'pto' => 'PTO: Português Original',
+    'eno' => 'ENO: Inglês Original',
     'annotatedSentences' => 'Sentenças anotadas',
     'annotatedImages' => 'Imagens anotadas',
     'annotatedObjects' => 'Objetos anotados',
@@ -55,7 +56,7 @@ return [
         'related_to',
         'subtype_of',
         'used_by',
-        'used_for'
+        'used_for',
     ],
     'profileQualia' => 'Relation types',
     'origin_Audio description' => 'Audiodescrição',

@@ -16,10 +16,9 @@ class FramalType extends Component
     public function __construct(
         public string $id,
         public string $label,
-        public int    $idFrame,
-        public array  $options = []
-    )
-    {
+        public int $idFrame,
+        public array $options = []
+    ) {
         $frameClassification = Frame::getClassification($idFrame);
         $classification = $frameClassification['rel_framal_type'] ?? collect([]);
         $names = $classification->pluck('name')->all();

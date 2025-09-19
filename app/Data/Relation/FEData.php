@@ -10,7 +10,5 @@ class FEData extends Data
         public int $idEntityRelation,
         public int $idFrameElement,
         public int $idFrameElementRelated,
-    )
-    {
-    }
+    ) {}
 }

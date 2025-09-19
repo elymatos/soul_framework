@@ -2,10 +2,10 @@
 
 namespace App\View\_Components\Combobox;
 
+use App\Repositories\Frame as FrameRepository;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Frame as FrameRepository;
 
 class Frame extends Component
 {
@@ -13,6 +13,7 @@ class Frame extends Component
      * Create a new component instance.
      */
     public ?string $description = '';
+
     public function __construct(
         public string $id,
         public string $label,
@@ -23,9 +24,7 @@ class Frame extends Component
         public ?string $onChange = '',
         public ?string $onSelect = '',
         public ?bool $hasDescription = true,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -36,12 +35,13 @@ class Frame extends Component
             $frame = FrameRepository::byId($this->value);
             $this->placeholder = $frame->name;
         } else {
-            $this->placeholder = "Search Frame";
+            $this->placeholder = 'Search Frame';
         }
         if ($this->idName == '') {
             $this->idName = $this->id;
         }
         $this->description = $this->hasDescription ? 'description' : '';
+
         return view('components.combobox.frame');
     }
 }

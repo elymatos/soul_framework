@@ -13,8 +13,7 @@ class UserTaskData extends Data
         public ?int $isActive = null,
         public ?int $isIgnore = null,
         public ?string $createdAt = null
-    )
-    {
+    ) {
         $this->createdAt = Carbon::now();
     }
 

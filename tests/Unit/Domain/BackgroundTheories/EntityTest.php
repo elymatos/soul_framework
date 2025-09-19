@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Domain\BackgroundTheories;
 
-use Tests\TestCase;
 use App\Domain\BackgroundTheories\Entities\EventualityEntity;
 use App\Domain\BackgroundTheories\Entities\SetEntity;
+use Tests\TestCase;
 
 /**
  * Test suite for Background Theory entities
@@ -16,7 +16,7 @@ class EntityTest extends TestCase
     {
         $eventuality = new EventualityEntity([
             'predicate_name' => 'run',
-            'arguments' => ['john', 'park']
+            'arguments' => ['john', 'park'],
         ]);
 
         $this->assertEquals('eventuality', $eventuality->getType());
@@ -33,10 +33,10 @@ class EntityTest extends TestCase
         $eventuality = new EventualityEntity(['predicate_name' => 'exist']);
 
         $this->assertFalse($eventuality->reallyExists());
-        
+
         $eventuality->realize();
         $this->assertTrue($eventuality->reallyExists());
-        
+
         $eventuality->unrealize();
         $this->assertFalse($eventuality->reallyExists());
     }
@@ -72,12 +72,12 @@ class EntityTest extends TestCase
     /** @test */
     public function set_entity_handles_duplicates(): void
     {
-        $set = new SetEntity();
-        
+        $set = new SetEntity;
+
         $set->addElement('a');
         $set->addElement('a'); // Duplicate
         $set->addElement('b');
-        
+
         $this->assertEquals(2, $set->cardinality());
         $this->assertEquals(['a', 'b'], $set->getElements());
     }
@@ -89,7 +89,7 @@ class EntityTest extends TestCase
         $set2 = new SetEntity(['elements' => [3, 4, 5]]);
 
         $union = $set1->union($set2);
-        
+
         $this->assertEquals(5, $union->cardinality());
         $this->assertTrue($union->contains(1));
         $this->assertTrue($union->contains(5));
@@ -102,7 +102,7 @@ class EntityTest extends TestCase
         $set2 = new SetEntity(['elements' => [3, 4, 5, 6]]);
 
         $intersection = $set1->intersection($set2);
-        
+
         $this->assertEquals(2, $intersection->cardinality());
         $this->assertTrue($intersection->contains(3));
         $this->assertTrue($intersection->contains(4));
@@ -138,11 +138,11 @@ class EntityTest extends TestCase
     {
         $eventuality = new EventualityEntity([
             'predicate_name' => 'serialize_test',
-            'arguments' => ['arg1']
+            'arguments' => ['arg1'],
         ]);
 
         $json = $eventuality->jsonSerialize();
-        
+
         $this->assertIsArray($json);
         $this->assertEquals('eventuality', $json['type']);
         $this->assertEquals('serialize_test', $json['attributes']['predicate_name']);
@@ -152,17 +152,17 @@ class EntityTest extends TestCase
     public function entities_handle_database_serialization(): void
     {
         $set = new SetEntity(['elements' => ['db', 'test']]);
-        
+
         $dbArray = $set->toDatabaseArray();
-        
+
         $this->assertIsArray($dbArray);
         $this->assertEquals('set', $dbArray['type']);
         $this->assertJson($dbArray['attributes']);
-        
+
         // Test deserialization
-        $newSet = new SetEntity();
+        $newSet = new SetEntity;
         $newSet->fromDatabaseArray($dbArray);
-        
+
         $this->assertEquals($set->getId(), $newSet->getId());
         $this->assertEquals($set->getType(), $newSet->getType());
         $this->assertEquals($set->getElements(), $newSet->getElements());
@@ -173,11 +173,11 @@ class EntityTest extends TestCase
     {
         $original = new EventualityEntity([
             'predicate_name' => 'copy_test',
-            'arguments' => ['original']
+            'arguments' => ['original'],
         ]);
 
         $copy = $original->copy();
-        
+
         $this->assertNotEquals($original->getId(), $copy->getId());
         $this->assertEquals($original->getType(), $copy->getType());
         $this->assertEquals($original->getPredicateName(), $copy->getPredicateName());
@@ -187,15 +187,15 @@ class EntityTest extends TestCase
     /** @test */
     public function entities_handle_attribute_operations(): void
     {
-        $entity = new EventualityEntity();
-        
+        $entity = new EventualityEntity;
+
         $entity->setAttribute('test_key', 'test_value');
         $this->assertEquals('test_value', $entity->getAttribute('test_key'));
-        
+
         $entity->setAttributes(['key1' => 'value1', 'key2' => 'value2']);
         $this->assertEquals('value1', $entity->getAttribute('key1'));
         $this->assertEquals('value2', $entity->getAttribute('key2'));
-        
+
         // Test default value
         $this->assertEquals('default', $entity->getAttribute('nonexistent', 'default'));
     }
@@ -206,13 +206,13 @@ class EntityTest extends TestCase
         // Valid eventuality
         $validEventuality = new EventualityEntity([
             'predicate_name' => 'valid',
-            'arguments' => ['arg1']
+            'arguments' => ['arg1'],
         ]);
         $this->assertTrue($validEventuality->validate());
 
         // Invalid eventuality (missing predicate name)
         $invalidEventuality = new EventualityEntity([
-            'arguments' => ['arg1']
+            'arguments' => ['arg1'],
         ]);
         $this->assertFalse($invalidEventuality->validate());
 

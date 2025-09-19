@@ -17,12 +17,12 @@ class XmlExportConfig
         'fulltextIndex' => 'Fulltext Index',
         'luIndex' => 'Lexical Unit Index',
         'semTypes' => 'Semantic Types',
-        'all' => 'All Export Types'
+        'all' => 'All Export Types',
     ];
 
     public const XML_NAMESPACES = [
         'fn' => 'http://frame.net.ufjf.br',
-        'default' => 'http://frame.net.ufjf.br'
+        'default' => 'http://frame.net.ufjf.br',
     ];
 
     public const XSD_SCHEMAS = [
@@ -39,7 +39,7 @@ class XmlExportConfig
     public const OUTPUT_FORMATS = [
         'individual' => 'Separate file per item',
         'grouped' => 'Group by type',
-        'single' => 'Single consolidated file'
+        'single' => 'Single consolidated file',
     ];
 
     /**
@@ -47,7 +47,7 @@ class XmlExportConfig
      */
     public static function getNamespaceDeclarations(): string
     {
-        return 'xmlns:fn="' . self::XML_NAMESPACES['fn'] . '" xmlns="' . self::XML_NAMESPACES['default'] . '"';
+        return 'xmlns:fn="'.self::XML_NAMESPACES['fn'].'" xmlns="'.self::XML_NAMESPACES['default'].'"';
     }
 
     /**

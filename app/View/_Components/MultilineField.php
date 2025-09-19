@@ -17,8 +17,7 @@ class MultilineField extends Component
         public string $value,
         public int $rows = 5,
         public string $placeholder = ''
-    )
-    {
+    ) {
         if (is_null($this->value)) {
             $this->value = '';
         }

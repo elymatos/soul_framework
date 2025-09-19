@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use OpenAI\Laravel\Facades\OpenAI;
-use Exception;
 
 class OpenAITestCommand extends Command
 {
@@ -33,6 +33,7 @@ class OpenAITestCommand extends Command
         // Check API key configuration
         if (empty(config('openai.api_key'))) {
             $this->error('❌ OpenAI API key is not configured. Please set OPENAI_API_KEY in your .env file.');
+
             return 1;
         }
 
@@ -43,30 +44,32 @@ class OpenAITestCommand extends Command
         try {
             // Test 1: Simple Chat Completion
             $this->testChatCompletion($model);
-            
+
             // Test 2: Conversation Flow
             $this->testConversationFlow($model);
-            
+
             // Test 3: Text Generation with System Message
             $this->testTextGenerationWithSystem($model);
-            
+
             // Test 4: List Available Models
             $this->testListModels();
 
         } catch (Exception $e) {
-            $this->error("❌ Error: " . $e->getMessage());
+            $this->error('❌ Error: '.$e->getMessage());
+
             return 1;
         }
 
         $this->newLine();
         $this->info('✅ All OpenAI tests completed successfully!');
+
         return 0;
     }
 
     private function testChatCompletion(string $model): void
     {
         $this->info('🔸 Test 1: Simple Chat Completion');
-        
+
         $response = OpenAI::chat()->create([
             'model' => $model,
             'messages' => [
@@ -84,7 +87,7 @@ class OpenAITestCommand extends Command
     private function testConversationFlow(string $model): void
     {
         $this->info('🔸 Test 2: Multi-turn Conversation');
-        
+
         $response = OpenAI::chat()->create([
             'model' => $model,
             'messages' => [
@@ -104,17 +107,17 @@ class OpenAITestCommand extends Command
     private function testTextGenerationWithSystem(string $model): void
     {
         $this->info('🔸 Test 3: Text Generation with System Message');
-        
+
         $response = OpenAI::chat()->create([
             'model' => $model,
             'messages' => [
                 [
-                    'role' => 'system', 
-                    'content' => 'You are a helpful assistant specialized in linguistic annotation and FrameNet. Provide concise, technical responses.'
+                    'role' => 'system',
+                    'content' => 'You are a helpful assistant specialized in linguistic annotation and FrameNet. Provide concise, technical responses.',
                 ],
                 [
-                    'role' => 'user', 
-                    'content' => 'Explain semantic roles in one sentence.'
+                    'role' => 'user',
+                    'content' => 'Explain semantic roles in one sentence.',
                 ],
             ],
             'max_tokens' => 80,
@@ -130,13 +133,13 @@ class OpenAITestCommand extends Command
     private function testListModels(): void
     {
         $this->info('🔸 Test 4: Available Models');
-        
+
         $response = OpenAI::models()->list();
-        
+
         $gptModels = collect($response->data)
-            ->filter(fn($model) => str_contains($model->id, 'gpt'))
+            ->filter(fn ($model) => str_contains($model->id, 'gpt'))
             ->take(5)
-            ->map(fn($model) => $model->id);
+            ->map(fn ($model) => $model->id);
 
         $this->line('Available GPT models (first 5):');
         foreach ($gptModels as $model) {

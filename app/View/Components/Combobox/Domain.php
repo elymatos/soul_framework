@@ -11,22 +11,22 @@ use Illuminate\View\Component;
 class Domain extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
     public function __construct(
         public string $id,
-        public ?string $value = "",
+        public ?string $value = '',
         public ?string $label = '',
         public ?string $placeholder = ''
-    )
-    {
-        $this->options = Criteria::table("view_domain")
-            ->select("idDomain","name")
+    ) {
+        $this->options = Criteria::table('view_domain')
+            ->select('idDomain', 'name')
             ->distinct()
-            ->where("idLanguage",AppService::getCurrentIdLanguage())
-            ->orderBy("name")
-            ->keyBy("idDomain")
+            ->where('idLanguage', AppService::getCurrentIdLanguage())
+            ->orderBy('name')
+            ->keyBy('idDomain')
             ->toArray();
     }
 

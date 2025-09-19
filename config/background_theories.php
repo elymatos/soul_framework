@@ -16,7 +16,7 @@ return [
     | System Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'system' => [
         'enable_execution_trace' => env('BT_ENABLE_TRACE', true),
         'max_trace_entries' => env('BT_MAX_TRACE_ENTRIES', 1000),
@@ -29,7 +29,7 @@ return [
     | Reasoning Engine Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'reasoning' => [
         'max_execution_depth' => env('BT_MAX_EXECUTION_DEPTH', 10),
         'execution_timeout' => env('BT_EXECUTION_TIMEOUT', 30), // seconds
@@ -43,7 +43,7 @@ return [
     | Entity and Predicate Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'entities' => [
         'auto_realize' => env('BT_AUTO_REALIZE_ENTITIES', false),
         'validate_on_creation' => env('BT_VALIDATE_ENTITIES', true),
@@ -63,7 +63,7 @@ return [
     | Axiom Execution Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'axioms' => [
         'auto_register_executors' => env('BT_AUTO_REGISTER_AXIOMS', true),
         'execution_retry_attempts' => env('BT_AXIOM_RETRY_ATTEMPTS', 2),
@@ -80,7 +80,7 @@ return [
     | when the service boots. Format: 'axiom_id' => 'ClassName'
     |
     */
-    
+
     'axiom_executors' => [
         '5.1' => \App\Domain\BackgroundTheories\AxiomExecutors\Axiom5_1Executor::class,
         '6.13' => \App\Domain\BackgroundTheories\AxiomExecutors\Axiom6_13Executor::class,
@@ -92,7 +92,7 @@ return [
     | JSON Processing Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'json' => [
         'auto_load_yaml' => env('BT_AUTO_LOAD_YAML', false),
         'yaml_directory' => env('BT_YAML_DIRECTORY', storage_path('background_theories/yaml')),
@@ -105,7 +105,7 @@ return [
     | Database Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'database' => [
         'connection' => env('BT_DB_CONNECTION', 'mysql'),
         'enable_foreign_keys' => env('BT_DB_FOREIGN_KEYS', true),
@@ -118,7 +118,7 @@ return [
     | Monitoring and Debugging
     |--------------------------------------------------------------------------
     */
-    
+
     'monitoring' => [
         'enable_performance_tracking' => env('BT_PERFORMANCE_TRACKING', true),
         'log_slow_queries' => env('BT_LOG_SLOW_QUERIES', true),
@@ -138,14 +138,14 @@ return [
     | Cross-Theory Integration
     |--------------------------------------------------------------------------
     */
-    
+
     'integration' => [
         'soul_framework' => [
             'enabled' => env('BT_SOUL_INTEGRATION', true),
             'sync_entities' => env('BT_SOUL_SYNC_ENTITIES', false),
             'sync_predicates' => env('BT_SOUL_SYNC_PREDICATES', false),
         ],
-        
+
         'psychology_theories' => [
             'enabled' => env('BT_PSYCHOLOGY_INTEGRATION', false),
             'namespace' => 'App\\Domain\\PsychologyTheories',
@@ -157,7 +157,7 @@ return [
     | Security Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'security' => [
         'enable_axiom_sandboxing' => env('BT_AXIOM_SANDBOXING', true),
         'max_memory_usage' => env('BT_MAX_MEMORY_USAGE', '256M'),
@@ -190,7 +190,7 @@ return [
     | Settings specific to individual chapters of Gordon & Hobbs' theory
     |
     */
-    
+
     'chapters' => [
         'chapter_5' => [
             'name' => 'Eventualities and Their Structure',
@@ -198,21 +198,21 @@ return [
             'auto_create_rexist_predicates' => true,
             'eventuality_validation_strict' => true,
         ],
-        
+
         'chapter_6' => [
             'name' => 'Traditional Set Theory',
             'enable_set_operations' => true,
             'auto_create_unions' => false,
             'validate_set_membership' => true,
         ],
-        
+
         'chapter_9' => [
             'name' => 'Functions and Sequences',
             'enable_function_creation' => false,
             'validate_function_domains' => true,
             'sequence_max_length' => 10000,
         ],
-        
+
         // Add more chapters as implemented
     ],
 
@@ -221,7 +221,7 @@ return [
     | API Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'api' => [
         'enable_rest_api' => env('BT_ENABLE_API', true),
         'api_prefix' => env('BT_API_PREFIX', 'background-theories'),
@@ -234,7 +234,7 @@ return [
     | Export/Import Settings
     |--------------------------------------------------------------------------
     */
-    
+
     'export' => [
         'default_format' => env('BT_EXPORT_FORMAT', 'json'),
         'include_metadata' => env('BT_EXPORT_METADATA', true),

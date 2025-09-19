@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\DB;
 
 class WordForm
 {
-//    public static function listByFilter($filter)
-//    {
-//        $idLanguage = AppService::getCurrentIdLanguage();
-//        $criteria = self::getCriteria()
-//            ->select(['idWordform','form','md5','idEntity', 'idLexeme'])
-//            ->distinct()
-//            ->orderBy('form');
-//        return self::filter([
-//            ['lexeme.idLanguage','=',$idLanguage],
-//            ['form','startswith',$filter?->form ?? null],
-//            ['idLexeme','=',$filter?->idLexeme ?? null],
-//            ['lexeme.name','startswith',$filter?->lexeme ?? null],
-//        ], $criteria);
-//    }
+    //    public static function listByFilter($filter)
+    //    {
+    //        $idLanguage = AppService::getCurrentIdLanguage();
+    //        $criteria = self::getCriteria()
+    //            ->select(['idWordform','form','md5','idEntity', 'idLexeme'])
+    //            ->distinct()
+    //            ->orderBy('form');
+    //        return self::filter([
+    //            ['lexeme.idLanguage','=',$idLanguage],
+    //            ['form','startswith',$filter?->form ?? null],
+    //            ['idLexeme','=',$filter?->idLexeme ?? null],
+    //            ['lexeme.name','startswith',$filter?->lexeme ?? null],
+    //        ], $criteria);
+    //    }
 
     /*
     public function listByFilter($filter)
@@ -104,16 +104,16 @@ class WordForm
             return false;
         }
         $idLanguage = AppService::getCurrentIdLanguage();
-//        $wf1 = md5(mb_strtolower($wordform));
-//        debug(strtolower($wordform),md5(strtolower(utf8_encode($wordform))),mb_strtolower($wordform),$wf1);
-//        $r = DB::select("
-//                    select l.form,count(l.idLU) as n
-//                    from view_lexicon l
-//                    where (l.md5 = '{$wf1}')
-//                    and (idLanguageLM = {$idLanguage})
-//                    group by l.form
-//                    having count(l.idLU) > 0
-//                ");
+        //        $wf1 = md5(mb_strtolower($wordform));
+        //        debug(strtolower($wordform),md5(strtolower(utf8_encode($wordform))),mb_strtolower($wordform),$wf1);
+        //        $r = DB::select("
+        //                    select l.form,count(l.idLU) as n
+        //                    from view_lexicon l
+        //                    where (l.md5 = '{$wf1}')
+        //                    and (idLanguageLM = {$idLanguage})
+        //                    group by l.form
+        //                    having count(l.idLU) > 0
+        //                ");
         $wf1 = mb_strtolower($wordform);
         if ($wf1 == "'") {
             $wf1 = "\'";
@@ -126,7 +126,8 @@ class WordForm
                     group by l.form
                     having count(l.idLU) > 0
                 ");
-        return !empty($r);
+
+        return ! empty($r);
     }
 
     public static function hasLU(array $wordformList): bool
@@ -150,10 +151,11 @@ class WordForm
                 }
             }
         }
-        return !empty($list);
+
+        return ! empty($list);
     }
 
-    public static function getLUs(string $wordform, int $idLanguageBase = null)
+    public static function getLUs(string $wordform, ?int $idLanguageBase = null)
     {
         if (trim($wordform) == '') {
             return [];
@@ -161,24 +163,25 @@ class WordForm
         $idLanguage = AppService::getCurrentIdLanguage();
         $wf1 = mb_strtolower(str_replace("'", "\'", $wordform));
         debug($wf1, md5($wf1));
-//        $criteria = Criteria::table("view_lexicon as l")
-//            ->select("idLU", "lu", "senseDescription", "frame.name as frameName")
-//            ->join("view_frame as frame", "l.idFrame", "=", "frame.idFrame")
-//            ->where("l.md5", md5($wf1))
-//            ->where("l.idLanguageLM", "=", $idLanguageBase ?? $idLanguage)
-//            ->where("l.lexemeOrder", "=", 1)
-//            ->where("frame.idLanguage", "=", $idLanguage)
-//            ->orderBy("frame.name")
-//            ->orderBy("l.lu");
-        $criteria = Criteria::table("view_lexicon as l")
-            ->select("idLU", "lu", "senseDescription", "frame.name as frameName")
-            ->join("view_frame as frame", "l.idFrame", "=", "frame.idFrame")
+        //        $criteria = Criteria::table("view_lexicon as l")
+        //            ->select("idLU", "lu", "senseDescription", "frame.name as frameName")
+        //            ->join("view_frame as frame", "l.idFrame", "=", "frame.idFrame")
+        //            ->where("l.md5", md5($wf1))
+        //            ->where("l.idLanguageLM", "=", $idLanguageBase ?? $idLanguage)
+        //            ->where("l.lexemeOrder", "=", 1)
+        //            ->where("frame.idLanguage", "=", $idLanguage)
+        //            ->orderBy("frame.name")
+        //            ->orderBy("l.lu");
+        $criteria = Criteria::table('view_lexicon as l')
+            ->select('idLU', 'lu', 'senseDescription', 'frame.name as frameName')
+            ->join('view_frame as frame', 'l.idFrame', '=', 'frame.idFrame')
             ->whereRaw("l.form = '{$wf1}'  collate 'utf8mb4_bin'")
-            ->where("l.idLanguageLM", "=", $idLanguageBase ?? $idLanguage)
-            ->where("l.position", "=", 1)
-            ->where("frame.idLanguage", "=", $idLanguage)
-            ->orderBy("frame.name")
-            ->orderBy("l.lu");
+            ->where('l.idLanguageLM', '=', $idLanguageBase ?? $idLanguage)
+            ->where('l.position', '=', 1)
+            ->where('frame.idLanguage', '=', $idLanguage)
+            ->orderBy('frame.name')
+            ->orderBy('l.lu');
+
         return $criteria->all();
     }
 
@@ -194,21 +197,20 @@ class WordForm
                 $criteria->select([
                     'lexeme.lexemeEntries.lemma.lus.idLU',
                     'lexeme.lexemeEntries.lemma.lus.name',
-                    'lexeme.lexemeEntries.lemma.lus.frame.name as frameName'
+                    'lexeme.lexemeEntries.lemma.lus.frame.name as frameName',
                 ]);
-                $criteria->where("form", "=", $wf1);
-                $criteria->where("lexeme.lexemeEntries.lemma.idLanguage", "=", $idLanguage);
-                $criteria->where("lexeme.lexemeEntries.lemma.lus.frame.idLanguage", "=", $idLanguage);
-                $criteria->where("lexeme.lexemeEntries.headWord", "=", 1);
-                $criteria->orderBy("lexeme.lexemeEntries.lemma.lus.frame.name,lexeme.lexemeEntries.lemma.lus.name");
+                $criteria->where('form', '=', $wf1);
+                $criteria->where('lexeme.lexemeEntries.lemma.idLanguage', '=', $idLanguage);
+                $criteria->where('lexeme.lexemeEntries.lemma.lus.frame.idLanguage', '=', $idLanguage);
+                $criteria->where('lexeme.lexemeEntries.headWord', '=', 1);
+                $criteria->orderBy('lexeme.lexemeEntries.lemma.lus.frame.name,lexeme.lexemeEntries.lemma.lus.name');
                 $r = $criteria->all();
                 if (count($r)) {
                     $list[$wf] = $r;
                 }
             }
         }
+
         return $list;
     }
-
 }
-

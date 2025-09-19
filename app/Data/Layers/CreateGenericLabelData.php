@@ -14,8 +14,7 @@ class CreateGenericLabelData extends Data
         public ?int $idLayerType = null,
         public ?string $definition = '',
         public ?int $idUser = null,
-    )
-    {
+    ) {
         $user = AppService::getCurrentUser();
         $this->idUser = $user ? $user->idUser : 0;
     }

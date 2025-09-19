@@ -14,8 +14,7 @@ class HiddenField extends Component
     public function __construct(
         public string $id,
         public string $value
-    )
-    {
+    ) {
         //
     }
 

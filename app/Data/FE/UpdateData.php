@@ -13,8 +13,7 @@ class UpdateData extends Data
         public ?string $coreType,
         public ?int $idColor,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->_token = csrf_token();
         $this->coreType = $this->coreTypeEdit;
         $this->idColor = $this->idColorEdit;

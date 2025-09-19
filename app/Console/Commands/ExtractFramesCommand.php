@@ -41,20 +41,21 @@ class ExtractFramesCommand extends Command
                 ->orderBy('entry')
                 ->all();
 
-            $this->info("Found " . count($frames) . " frames");
+            $this->info('Found '.count($frames).' frames');
 
             if (empty($frames)) {
                 $this->warn("No frames found for language ID {$languageId}");
+
                 return 0;
             }
 
             // Create output directory if it doesn't exist
-            if (!Storage::exists($outputFolder)) {
+            if (! Storage::exists($outputFolder)) {
                 Storage::makeDirectory($outputFolder);
             }
 
             // Convert to array for JSON serialization
-            $framesArray = array_map(function($frame) {
+            $framesArray = array_map(function ($frame) {
                 return (array) $frame;
             }, $frames);
 
@@ -67,7 +68,8 @@ class ExtractFramesCommand extends Command
             return 0;
 
         } catch (\Exception $e) {
-            $this->error("Export failed: " . $e->getMessage());
+            $this->error('Export failed: '.$e->getMessage());
+
             return 1;
         }
     }

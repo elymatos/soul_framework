@@ -13,7 +13,5 @@ class CreateData extends Data
         public ?int $idLabelType = null,
         public ?int $idLayer = null,
         public ?int $idInstantiationType = 12, // Normal
-    )
-    {
-    }
+    ) {}
 }

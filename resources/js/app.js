@@ -9,7 +9,7 @@ import { DataSet } from 'vis-data';
 
 import svgPanZoom from "svg-pan-zoom";
 import ky from 'ky';
-import Split from 'split.js'
+import Split from 'split.js';
 
 // Component imports
 import './components/messengerComponent.js';

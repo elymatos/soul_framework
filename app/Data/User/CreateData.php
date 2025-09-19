@@ -14,8 +14,6 @@ class CreateData extends Data
         public ?array $groups = [],
         public ?string $passMD5 = '',
         public ?string $status = '0',
-    )
-    {
-    }
+    ) {}
 
 }

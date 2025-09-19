@@ -9,8 +9,6 @@ class UpdateData extends Data
     public function __construct(
         public int $idDomain,
         public ?string $nameEn = '',
-    )
-    {
-    }
+    ) {}
 
 }

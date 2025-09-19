@@ -10,7 +10,5 @@ class UpdateLemmaData extends Data
         public string $idLemma,
         public string $name,
         public int $idPOS,
-    )
-    {
-    }
+    ) {}
 }

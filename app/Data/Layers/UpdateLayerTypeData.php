@@ -12,7 +12,5 @@ class UpdateLayerTypeData extends Data
         public ?int $isAnnotation = 1,
         public ?int $layerOrder = 1,
         public ?int $idLayerGroup = 0,
-    )
-    {
-    }
+    ) {}
 }

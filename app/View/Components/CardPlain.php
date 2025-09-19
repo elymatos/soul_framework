@@ -13,8 +13,7 @@ class CardPlain extends Component
      */
     public function __construct(
         public string $title
-    )
-    {
+    ) {
         //
     }
 

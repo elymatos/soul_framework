@@ -10,7 +10,5 @@ class CreateData extends Data
         public string $alias,
         public string $type,
         public ?int $idOld = null,
-    )
-    {
-    }
+    ) {}
 }

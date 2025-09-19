@@ -9,9 +9,8 @@ class SearchData extends Data
     public function __construct(
         public ?string $video = '',
         public ?int $idVideo = null,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         $this->_token = csrf_token();
     }
 

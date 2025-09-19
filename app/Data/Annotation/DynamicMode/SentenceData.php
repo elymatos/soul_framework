@@ -15,8 +15,7 @@ class SentenceData extends Data
         public ?string $endTime = '',
         public ?int $idOriginMM = null,
         public ?string $text = ''
-    )
-    {
+    ) {
         if (is_null($this->idLanguage)) {
             $this->idLanguage = AppService::getCurrentIdLanguage();
         }

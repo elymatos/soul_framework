@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\axioms;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\axioms\axiomsService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for axioms background theory

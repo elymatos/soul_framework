@@ -7,12 +7,11 @@ use App\Repositories\Frame;
 
 class ReportFrameService
 {
-
     public static function report(int|string $idFrame, string $lang = ''): array
     {
         $report = [];
         if ($lang != '') {
-            $language = Criteria::byId("language", "language", $lang);
+            $language = Criteria::byId('language', 'language', $lang);
             $idLanguage = $language->idLanguage;
             AppService::setCurrentLanguage($idLanguage);
         } else {
@@ -21,9 +20,9 @@ class ReportFrameService
         if (is_numeric($idFrame)) {
             $frame = Frame::byId($idFrame);
         } else {
-            $frame = Criteria::table("view_frame")
-                ->where("name", $idFrame)
-                ->where("idLanguage", $idLanguage)
+            $frame = Criteria::table('view_frame')
+                ->where('name', $idFrame)
+                ->where('idLanguage', $idLanguage)
                 ->first();
         }
         $report['frame'] = $frame;
@@ -34,14 +33,15 @@ class ReportFrameService
         $report['classification'] = Frame::getClassificationLabels($idFrame);
         $report['lus'] = self::getLUs($frame, $idLanguage);
         $report['vus'] = self::getVUs($frame, $idLanguage);
+
         return $report;
     }
 
     public static function getFEData($frame, int $idLanguage): array
     {
-        $fes = Criteria::table("view_frameelement")
-            ->where("idLanguage", "=", $idLanguage)
-            ->where("idFrame", "=", $frame->idFrame)
+        $fes = Criteria::table('view_frameelement')
+            ->where('idLanguage', '=', $idLanguage)
+            ->where('idFrame', '=', $frame->idFrame)
             ->all();
         $core = [];
         $coreun = [];
@@ -52,7 +52,7 @@ class ReportFrameService
         foreach ($fes as $fe) {
             $feByEntry[$fe->entry] = $fe;
         }
-        //$config = config('webtool.relations');
+        // $config = config('webtool.relations');
         $relations = RelationService::listRelationsFEInternal($frame->idFrame);
         $relationsByIdFE = [];
         foreach ($relations as $relation) {
@@ -74,7 +74,7 @@ class ReportFrameService
             $fe->description = self::decorate($fe->description, $styles);
             if ($fe->coreType == 'cty_core') {
                 $core[] = $fe;
-            } else if ($fe->coreType == 'cty_core-unexpressed') {
+            } elseif ($fe->coreType == 'cty_core-unexpressed') {
                 $coreun[] = $fe;
             } else {
                 if ($fe->coreType == 'cty_peripheral') {
@@ -86,6 +86,7 @@ class ReportFrameService
                 $noncore[] = $fe;
             }
         }
+
         return [
             'styles' => $styles,
             'core' => $core,
@@ -93,7 +94,7 @@ class ReportFrameService
             'peripheral' => $coreper,
             'extra_thematic' => $coreext,
             'noncore' => $noncore,
-            'semanticTypes' => $semanticTypes
+            'semanticTypes' => $semanticTypes,
         ];
     }
 
@@ -102,9 +103,10 @@ class ReportFrameService
         $feCoreSet = Frame::listFECoreSet($frame->idFrame);
         $s = [];
         foreach ($feCoreSet as $i => $cs) {
-            $s[$i] = "{" . implode(',', $cs) . "}";
+            $s[$i] = '{'.implode(',', $cs).'}';
         }
         $result = implode(', ', $s);
+
         return $result;
     }
 
@@ -113,33 +115,36 @@ class ReportFrameService
         $relations = [];
         $result = RelationService::listRelationsFrame($frame->idFrame);
         foreach ($result as $row) {
-            $relationName = $row->relationType . '|' . $row->name;
+            $relationName = $row->relationType.'|'.$row->name;
             $relations[$relationName][$row->idFrameRelated] = [
                 'idEntityRelation' => $row->idEntityRelation,
                 'idFrame' => $row->idFrameRelated,
                 'name' => $row->related,
-                'color' => $row->color
+                'color' => $row->color,
             ];
         }
         ksort($relations);
+
         return $relations;
     }
 
     public static function getLUs($frame, $idLanguage)
     {
-        $lus = Criteria::table("view_lu as lu")
-            ->join("pos","lu.idPOS","=","pos.idPOS")
-            ->where("idFrame", $frame->idFrame)
-            ->where("idLanguage", $idLanguage)
-            ->orderBy("name")
-            ->treeResult("POS")->all();
+        $lus = Criteria::table('view_lu as lu')
+            ->join('pos', 'lu.idPOS', '=', 'pos.idPOS')
+            ->where('idFrame', $frame->idFrame)
+            ->where('idLanguage', $idLanguage)
+            ->orderBy('name')
+            ->treeResult('POS')->all();
         ksort($lus);
+
         return $lus;
     }
 
     public static function getVUs($frame, $idLanguage)
     {
         $vus = AnnotationStaticEventService::getDocumentsForVU($frame->idFrame, $idLanguage);
+
         return $vus;
     }
 
@@ -152,10 +157,10 @@ class ReportFrameService
                 $classification[$framal][] = $row->name;
             }
         }
-        $classification['id'][] = "#" . $frame->idFrame;
+        $classification['id'][] = '#'.$frame->idFrame;
+
         return $classification;
     }
-
 
     public static function decorate($description, $styles)
     {
@@ -166,10 +171,11 @@ class ReportFrameService
                 $m = substr($matches[0], 1);
                 $l = strtolower($m);
                 foreach ($styles as $fe => $s) {
-                    if(utf8_encode($l) ==  $fe) {
+                    if (utf8_encode($l) == $fe) {
                         return "<span class='{$s}'>{$m}</span>";
                     }
                 }
+
                 return $m;
             },
             $sentence
@@ -183,20 +189,22 @@ class ReportFrameService
                 foreach ($styles as $fe => $s) {
                     if (str_contains(utf8_encode($l), '|target')) {
                         $m = substr($m, 0, strpos($m, '|'));
+
                         return "<span class='color_target'>{$m}</span>";
                     } else {
-                        if (str_contains(utf8_encode($l), '|' . $fe)) {
+                        if (str_contains(utf8_encode($l), '|'.$fe)) {
                             $m = substr($m, 0, strpos($m, '|'));
+
                             return "<span class='{$s}'>{$m}</span>";
                         }
                     }
                 }
+
                 return $m;
             },
             $partial
         );
+
         return $final;
     }
-
-
 }

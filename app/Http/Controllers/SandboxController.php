@@ -13,9 +13,10 @@ class SandboxController extends Controller
     public function page1()
     {
         $object = AnnotationDeixisService::getObject(12861);
-        return view("Sandbox.page1", [
+
+        return view('Sandbox.page1', [
             'data' => [],
-            'object' => $object
+            'object' => $object,
         ]);
     }
 
@@ -23,9 +24,10 @@ class SandboxController extends Controller
     public function page2()
     {
         $object = AnnotationDeixisService::getObject(12861);
-        return view("Sandbox.page2", [
+
+        return view('Sandbox.page2', [
             'data' => [],
-            'object' => $object
+            'object' => $object,
         ]);
     }
 }

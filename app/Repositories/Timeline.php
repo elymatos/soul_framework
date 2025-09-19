@@ -13,9 +13,9 @@ class Timeline
         $data = CreateData::from([
             'tableName' => $tableName,
             'id' => $idTable,
-            'operation' => $operation
+            'operation' => $operation,
         ]);
-        Criteria::table("timeline")
+        Criteria::table('timeline')
             ->insert($data->toArray());
     }
 
@@ -57,6 +57,4 @@ class Timeline
 
     */
 
-
 }
-

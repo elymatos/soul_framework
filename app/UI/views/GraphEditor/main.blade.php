@@ -208,6 +208,10 @@
                                             <i class="circle icon"></i>
                                             Slot
                                         </div>
+                                        <div class="item" data-value="lu">
+                                            <i class="diamond icon"></i>
+                                            LU
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -521,7 +525,19 @@
                         border: '#228B22'
                     }
                 };
+            } else if (nodeData.type === 'lu') {
+                nodeData.size = 15;
+                nodeData.shape = 'diamond';
+                nodeData.color = {
+                    background: '#FFB347',
+                    border: '#FF8C00',
+                    highlight: {
+                        background: '#FFA500',
+                        border: '#FF6600'
+                    }
+                };
             } else {
+                // Default for 'frame' type
                 nodeData.size = 20;
                 nodeData.color = {
                     background: '#97C2FC',
@@ -578,6 +594,10 @@
                         const styledNodes = data.nodes.map(node => {
                             const nodeData = { ...node };
                             if (!nodeData.type) {
+                                nodeData.type = 'frame';
+                            }
+                            // Ensure valid node types
+                            if (!['frame', 'slot', 'lu'].includes(nodeData.type)) {
                                 nodeData.type = 'frame';
                             }
                             applyNodeStyling(nodeData);

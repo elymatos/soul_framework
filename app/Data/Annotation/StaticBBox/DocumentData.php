@@ -19,8 +19,6 @@ class DocumentData extends Data
         public ?array $frames = null,
         public ?string $type = '',
         public ?string $comment = '',
-    )
-    {
-    }
+    ) {}
 
 }

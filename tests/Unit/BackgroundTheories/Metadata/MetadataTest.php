@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\metadata;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\metadata\metadataService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for metadata background theory

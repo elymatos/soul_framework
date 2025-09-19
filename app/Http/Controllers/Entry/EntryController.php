@@ -31,10 +31,10 @@ class EntryController extends Controller
             if ($data->trigger != '') {
                 $this->trigger($data->trigger);
             }
-            return $this->renderNotify("success", "Translations recorded.");
+
+            return $this->renderNotify('success', 'Translations recorded.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 }

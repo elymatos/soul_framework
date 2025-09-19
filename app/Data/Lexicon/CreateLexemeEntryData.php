@@ -9,17 +9,16 @@ use Spatie\LaravelData\Data;
 class CreateLexemeEntryData extends Data
 {
     public function __construct(
-        public ?int    $idLemma = null,
-        public ?int    $idLemmaEntry = null,
+        public ?int $idLemma = null,
+        public ?int $idLemmaEntry = null,
         public ?string $lexeme = '',
-        public ?int    $idLexeme = null,
-        public ?int    $idPOSLexeme = null,
-        public ?int    $lexemeOrder = null,
-        public ?int    $breakBefore = null,
-        public ?int    $headWord = null,
-        public string  $_token = '',
-    )
-    {
+        public ?int $idLexeme = null,
+        public ?int $idPOSLexeme = null,
+        public ?int $lexemeOrder = null,
+        public ?int $breakBefore = null,
+        public ?int $headWord = null,
+        public string $_token = '',
+    ) {
         if (is_null($this->idLemma)) {
             $this->idLemma = $this->idLemmaEntry;
         }
@@ -32,12 +31,12 @@ class CreateLexemeEntryData extends Data
         if (is_null($this->headWord)) {
             $this->headWord = 0;
         }
-        $lexeme = Criteria::table("lexeme")
+        $lexeme = Criteria::table('lexeme')
             ->whereRaw("name = '{$this->lexeme}' collate 'utf8mb4_bin'")
-            ->where("idPOS", "=", $this->idPOSLexeme)
-            ->where("idLanguage", "=", AppService::getCurrentIdLanguage())
+            ->where('idPOS', '=', $this->idPOSLexeme)
+            ->where('idLanguage', '=', AppService::getCurrentIdLanguage())
             ->first();
-        if (!is_null($lexeme)) {
+        if (! is_null($lexeme)) {
             $this->idLexeme = $lexeme->idLexeme;
         }
     }

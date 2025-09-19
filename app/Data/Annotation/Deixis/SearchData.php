@@ -14,8 +14,7 @@ class SearchData extends Data
         public ?int $idDocument = null,
         public ?string $annotation = 'dynamic',
         public string $_token = '',
-    )
-    {
+    ) {
         if ($this->id != '') {
             $type = $this->id[0];
             if ($type == 'c') {

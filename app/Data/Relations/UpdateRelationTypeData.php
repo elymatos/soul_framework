@@ -14,7 +14,5 @@ class UpdateRelationTypeData extends Data
         public ?string $color = '#000000',
         public ?string $prefix = '',
         public ?int $idRelationGroup = 0,
-    )
-    {
-    }
+    ) {}
 }

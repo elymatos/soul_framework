@@ -4,11 +4,11 @@ namespace App\Repositories;
 
 use App\Database\Criteria;
 
-class Lexeme {
-
+class Lexeme
+{
     public static function byId(int $id): object
     {
-        return Criteria::byFilterLanguage("lexeme", ['idLexeme', '=', $id])->first();
+        return Criteria::byFilterLanguage('lexeme', ['idLexeme', '=', $id])->first();
     }
     /*
     public function getIdEntity()
@@ -210,8 +210,9 @@ class Lexeme {
     /**
      * Register lexeme+wordform from an array of lines as (wordform POS lexeme)
      * Parâmetro data informa: idLanguage
-     * @param type $data
-     * @param type $array
+     *
+     * @param  type  $data
+     * @param  type  $array
      */
     /*
     public function registerLexemeWordform($data, $rows) {
@@ -242,8 +243,9 @@ class Lexeme {
     /**
      * Upload de lexeme+wordform em texto simples (wordform POS lexeme)
      * Parâmetro data informa: idLanguage
-     * @param type $data
-     * @param type $file
+     *
+     * @param  type  $data
+     * @param  type  $file
      */
     /*
     public function uploadLexemeWordformOffline($data) {
@@ -272,4 +274,3 @@ class Lexeme {
     }
     */
 }
-

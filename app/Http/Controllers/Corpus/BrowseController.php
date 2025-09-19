@@ -11,7 +11,7 @@ use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-#[Middleware("auth")]
+#[Middleware('auth')]
 class BrowseController extends Controller
 {
     #[Get(path: '/corpus')]
@@ -27,9 +27,9 @@ class BrowseController extends Controller
     #[Post(path: '/corpus/browse/search')]
     public function search(SearchData $search)
     {
-        if (!is_null($search->idCorpus)) {
+        if (! is_null($search->idCorpus)) {
             $data = $this->browseDocumentsByCorpus($search->idCorpus);
-        } else if ($search->document != '') {
+        } elseif ($search->document != '') {
             $data = $this->browseDocumentBySearch($search);
         } else {
             $data = $this->browseCorpusBySearch($search);
@@ -40,18 +40,18 @@ class BrowseController extends Controller
         ]);
     }
 
-//    #[Post(path: '/corpus/browse/treeDocument')]
-//    public function treeDocument(TreeData $search)
-//    {
-//        $data = [];
-//        if (!is_null($search->idCorpus)) {
-//            $data = $this->browseDocumentsByCorpus($search->idCorpus);
-//        }
-//
-//        return view('Corpus.tree', [
-//            'data' => $data,
-//        ]);
-//    }
+    //    #[Post(path: '/corpus/browse/treeDocument')]
+    //    public function treeDocument(TreeData $search)
+    //    {
+    //        $data = [];
+    //        if (!is_null($search->idCorpus)) {
+    //            $data = $this->browseDocumentsByCorpus($search->idCorpus);
+    //        }
+    //
+    //        return view('Corpus.tree', [
+    //            'data' => $data,
+    //        ]);
+    //    }
 
     private function browseCorpusBySearch(object $search): array
     {
@@ -62,7 +62,7 @@ class BrowseController extends Controller
         foreach ($corpus as $c) {
             $data[] = [
                 'id' => $c->idCorpus,
-                'text' => $corpusIcon . $c->name,
+                'text' => $corpusIcon.$c->name,
                 'type' => 'corpus',
                 'leaf' => false,
             ];
@@ -78,12 +78,13 @@ class BrowseController extends Controller
             ->where('idCorpus', $idCorpus)
             ->where('idLanguage', AppService::getCurrentIdLanguage())
             ->orderBy('corpusName')->orderBy('name')->all();
-        $data = array_map(fn($item) => [
+        $data = array_map(fn ($item) => [
             'id' => $item->idDocument,
-            'text' => view('Annotation.partials.document', (array)$item)->render(),
+            'text' => view('Annotation.partials.document', (array) $item)->render(),
             'type' => 'document',
             'leaf' => true,
         ], $documents);
+
         return $data;
     }
 
@@ -97,21 +98,20 @@ class BrowseController extends Controller
                     ->select('idDocument', 'name', 'corpusName', 'idCorpus')
                     ->orderBy('corpusName')->orderBy('name');
                 if ($search->corpus != '') {
-                    $criteria = $criteria->where("corpusName", "startswith", $search->corpus);
+                    $criteria = $criteria->where('corpusName', 'startswith', $search->corpus);
                 }
                 $documents = $criteria->all();
                 foreach ($documents as $document) {
                     $data[] = [
                         'id' => $document->idDocument,
-                        'text' => $documentIcon . $document->corpusName . ' / ' . $document->name,
+                        'text' => $documentIcon.$document->corpusName.' / '.$document->name,
                         'type' => 'document',
                         'leaf' => true,
                     ];
                 }
             }
         }
+
         return $data;
     }
-
 }
-

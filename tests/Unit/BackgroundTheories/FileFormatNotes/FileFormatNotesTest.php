@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\file_format_notes;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\file_format_notes\file_format_notesService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for file_format_notes background theory

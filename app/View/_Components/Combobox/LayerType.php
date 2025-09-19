@@ -14,23 +14,23 @@ class LayerType extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public int $value
-    )
-    {
-        $list = Criteria::table("view_layertype as lt")
-            ->join("layergroup as lg", "lg.idLayerGroup", "=", "lt.idLayerGroup")
-            ->select("lt.idLayerType", "lg.name as layerGroup", "lt.name")
-            ->where("lt.idLanguage", AppService::getCurrentIdLanguage())
-            ->orderBy("lg.name")
-            ->orderBy("lt.name")->all();
+    ) {
+        $list = Criteria::table('view_layertype as lt')
+            ->join('layergroup as lg', 'lg.idLayerGroup', '=', 'lt.idLayerGroup')
+            ->select('lt.idLayerType', 'lg.name as layerGroup', 'lt.name')
+            ->where('lt.idLanguage', AppService::getCurrentIdLanguage())
+            ->orderBy('lg.name')
+            ->orderBy('lt.name')->all();
         $this->options = [];
-        foreach($list as $lt) {
+        foreach ($list as $lt) {
             $this->options[$lt->idLayerType] = [
                 'id' => $lt->idLayerType,
-                'text' => $lt->layerGroup . '.' . $lt->name,
+                'text' => $lt->layerGroup.'.'.$lt->name,
             ];
         }
     }

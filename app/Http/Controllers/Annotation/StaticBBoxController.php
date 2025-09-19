@@ -10,20 +10,19 @@ use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 
-
 #[Middleware(name: 'auth')]
 class StaticBBoxController extends Controller
 {
     #[Get(path: '/annotation/staticBBox')]
     public function browse(SearchData $search)
     {
-        $data = BrowseService::browseCorpusBySearch($search, [], "StaticBBoxAnnotation");
+        $data = BrowseService::browseCorpusBySearch($search, [], 'StaticBBoxAnnotation');
 
         return view('Annotation.browseDocuments', [
-            'page' => "StaticBBox Annotation",
-            'url' => "/annotation/staticBBox",
+            'page' => 'StaticBBox Annotation',
+            'url' => '/annotation/staticBBox',
             'data' => $data,
-            'taskGroupName' => 'StaticBBoxAnnotation'
+            'taskGroupName' => 'StaticBBoxAnnotation',
         ]);
     }
 
@@ -31,10 +30,12 @@ class StaticBBoxController extends Controller
     public function gridSentences(int $idDocument)
     {
         $sentences = BrowseService::listSentences($idDocument);
-        return view("Annotation.Image.Panes.sentences", [
-            'sentences' => $sentences
+
+        return view('Annotation.Image.Panes.sentences', [
+            'sentences' => $sentences,
         ]);
     }
+
     private function getData(int $idDocument, ?int $idStaticObject = null): array
     {
         return ImageService::getResourceData($idDocument, $idStaticObject, 'staticBBox');
@@ -61,6 +62,4 @@ class StaticBBoxController extends Controller
             return $this->renderNotify('error', $e->getMessage());
         }
     }
-
-
 }

@@ -14,10 +14,8 @@ class Relation extends Component
     public function __construct(
         public string $id,
         public string $label,
-        public array  $relations = []
-    )
-    {
-    }
+        public array $relations = []
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

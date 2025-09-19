@@ -10,49 +10,52 @@ class SessionService
     public static function startSession(SessionData $data): object
     {
         // End any existing active sessions for this user
-        Criteria::table("annotation_session")
-            ->where("idUser", $data->idUser)
+        Criteria::table('annotation_session')
+            ->where('idUser', $data->idUser)
             ->where('active', true)
             ->update([
                 'endedAt' => $data->timestamp,
-                'active' => false
+                'active' => false,
             ]);
 
         // Create new session
-        $idAnnotationSession = Criteria::create("annotation_session", [
+        $idAnnotationSession = Criteria::create('annotation_session', [
             'idUser' => $data->idUser,
             'idDocumentSentence' => $data->idDocumentSentence,
             'startedAt' => $data->timestamp,
-//            'last_heartbeat_at' => now(),
+            //            'last_heartbeat_at' => now(),
             'active' => true,
         ]);
-        $session = Criteria::byId("annotation_session","idAnnotationSession", $idAnnotationSession);
+        $session = Criteria::byId('annotation_session', 'idAnnotationSession', $idAnnotationSession);
+
         return $session;
     }
 
     public static function endSession(SessionData $data): object
     {
-        $session = Criteria::table("annotation_session")
-            ->where("idUser", $data->idUser)
+        $session = Criteria::table('annotation_session')
+            ->where('idUser', $data->idUser)
             ->where('active', true)
-            ->where("idDocumentSentence", $data->idDocumentSentence)
+            ->where('idDocumentSentence', $data->idDocumentSentence)
             ->first();
-        Criteria::table("annotation_session")
-            ->where("idAnnotationSession", $session->idAnnotationSession)
+        Criteria::table('annotation_session')
+            ->where('idAnnotationSession', $session->idAnnotationSession)
             ->update([
                 'endedAt' => $data->timestamp,
-                'active' => false
+                'active' => false,
             ]);
+
         return $session;
     }
 
-    public static function isActive(int $idDocumentSentence, int $idUser): bool {
-        $session = Criteria::table("annotation_session")
-            ->where("idUser", $idUser)
+    public static function isActive(int $idDocumentSentence, int $idUser): bool
+    {
+        $session = Criteria::table('annotation_session')
+            ->where('idUser', $idUser)
             ->where('idDocumentSentence', $idDocumentSentence)
             ->where('active', true)
             ->first();
-        return !is_null($session);
-    }
 
+        return ! is_null($session);
+    }
 }

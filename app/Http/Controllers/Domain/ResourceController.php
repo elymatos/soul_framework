@@ -13,20 +13,19 @@ use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
     #[Get(path: '/domain')]
     public function resource()
     {
-        return view("Domain.resource");
+        return view('Domain.resource');
     }
 
     #[Get(path: '/domain/new')]
     public function new()
     {
-        return view("Domain.formNew");
+        return view('Domain.formNew');
     }
 
     #[Get(path: '/domain/grid/{fragment?}')]
@@ -35,26 +34,27 @@ class ResourceController extends Controller
     {
         debug($search);
         $domains = Domain::listToGrid($search);
-        //debug($users);
-        $view = view("Domain.grid", [
-            'domains' => $domains
+        // debug($users);
+        $view = view('Domain.grid', [
+            'domains' => $domains,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     #[Get(path: '/domain/{id}/edit')]
     public function edit(string $id)
     {
-        return view("Domain.edit", [
-            'domain' => Domain::byId($id)
+        return view('Domain.edit', [
+            'domain' => Domain::byId($id),
         ]);
     }
 
     #[Get(path: '/domain/{id}/formEdit')]
     public function formEdit(string $id)
     {
-        return view("Domain.formEdit", [
-            'domain' => Domain::getById($id)
+        return view('Domain.formEdit', [
+            'domain' => Domain::getById($id),
         ]);
     }
 
@@ -63,9 +63,10 @@ class ResourceController extends Controller
     {
         try {
             Domain::update($data);
-            return $this->renderNotify("success", "Domain updated.");
+
+            return $this->renderNotify('success', 'Domain updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -74,10 +75,11 @@ class ResourceController extends Controller
     {
         try {
             $idDomain = Criteria::function('domain_create(?)', [$data->toJson()]);
-            $this->trigger("reload-gridSemanticType");
-            return $this->renderNotify("success", "Domain created.");
+            $this->trigger('reload-gridSemanticType');
+
+            return $this->renderNotify('success', 'Domain created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -85,10 +87,11 @@ class ResourceController extends Controller
     public function delete(string $id)
     {
         try {
-            Criteria::deleteById("domain","idDomain", $id);
-            return $this->clientRedirect("/semanticType");
+            Criteria::deleteById('domain', 'idDomain', $id);
+
+            return $this->clientRedirect('/semanticType');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

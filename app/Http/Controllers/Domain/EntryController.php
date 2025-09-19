@@ -9,17 +9,18 @@ use App\Services\AppService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class EntryController extends Controller
 {
     #[Get(path: '/domain/{id}/entries')]
     public function entries(string $id)
     {
         $domain = Domain::byId($id);
-        return view("Entry.edit", [
+
+        return view('Entry.edit', [
             'trigger' => 'reload-gridDomain',
             'entries' => Entry::listByIdEntity($domain->idEntity),
-            'languages' => AppService::availableLanguages()
+            'languages' => AppService::availableLanguages(),
         ]);
     }
 }

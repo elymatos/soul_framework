@@ -12,8 +12,7 @@ class UpdateData extends Data
         public array $description,
         public ?string $trigger = '',
         public string $_token = '',
-    )
-    {
+    ) {
         $this->_token = csrf_token();
     }
 }

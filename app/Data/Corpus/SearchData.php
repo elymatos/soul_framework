@@ -13,9 +13,8 @@ class SearchData extends Data
         public ?string $type = '',
         public ?int $idCorpus = null,
         public ?int $idDocument = null,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         if ($type == 'corpus') {
             $this->idCorpus = $id;
         } elseif ($type == 'document') {

@@ -44,10 +44,11 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
 
             if (empty($allFrameIds)) {
                 $this->warn("No frames found in '{$frameName}' hierarchy for language ID {$languageId}");
+
                 return 0;
             }
 
-            $this->info("Found " . count($allFrameIds) . " frames in '{$frameName}' hierarchy");
+            $this->info('Found '.count($allFrameIds)." frames in '{$frameName}' hierarchy");
 
             $simplifiedFrames = [];
             $progressBar = $this->output->createProgressBar(count($allFrameIds));
@@ -65,29 +66,30 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
             $this->newLine();
 
             // Create output directory if it doesn't exist
-            if (!Storage::exists($outputFolder)) {
+            if (! Storage::exists($outputFolder)) {
                 Storage::makeDirectory($outputFolder);
             }
 
             // Generate filename
             $filename = $customFilename
                 ? "{$outputFolder}/{$customFilename}.json"
-                : "{$outputFolder}/" . strtolower(str_replace(' ', '_', $frameName)) . "_hierarchy_lang_{$languageId}.json";
+                : "{$outputFolder}/".strtolower(str_replace(' ', '_', $frameName))."_hierarchy_lang_{$languageId}.json";
 
             // Save as JSON
             Storage::put($filename, json_encode($simplifiedFrames, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
             $this->info("'{$frameName}' hierarchy exported to: storage/app/{$filename}");
-            $this->info("Total frames: " . count($simplifiedFrames));
+            $this->info('Total frames: '.count($simplifiedFrames));
 
             // Calculate statistics
-            $totalFEs = array_sum(array_map(fn($frame) => count($frame['fes']), $simplifiedFrames));
+            $totalFEs = array_sum(array_map(fn ($frame) => count($frame['fes']), $simplifiedFrames));
             $this->info("Total core frame elements: {$totalFEs}");
 
             return 0;
 
         } catch (\Exception $e) {
-            $this->error("Export failed: " . $e->getMessage());
+            $this->error('Export failed: '.$e->getMessage());
+
             return 1;
         }
     }
@@ -103,8 +105,9 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
             ->where('name', $frameName)
             ->first();
 
-        if (!$topFrame) {
+        if (! $topFrame) {
             $this->error("Frame '{$frameName}' not found for language ID {$languageId}");
+
             return [];
         }
 
@@ -115,7 +118,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
         $framesToProcess = [$topFrame->idFrame];
 
         // Recursively get all descendant frames
-        while (!empty($framesToProcess)) {
+        while (! empty($framesToProcess)) {
             $currentFrameId = array_shift($framesToProcess);
 
             if (in_array($currentFrameId, $processedFrames)) {
@@ -133,7 +136,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
                 ->all();
 
             foreach ($childFrames as $child) {
-                if (!in_array($child->f2IdFrame, $allFrameIds)) {
+                if (! in_array($child->f2IdFrame, $allFrameIds)) {
                     $allFrameIds[] = $child->f2IdFrame;
                     $framesToProcess[] = $child->f2IdFrame;
                 }
@@ -154,7 +157,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
             ->where('idFrame', $frameId)
             ->first();
 
-        if (!$frame) {
+        if (! $frame) {
             return null;
         }
 
@@ -175,7 +178,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
                 'name' => $fe->name,
                 'idEntity' => $fe->idEntity,
                 'definition' => $fe->description ?? null,
-                'relations' => $relations
+                'relations' => $relations,
             ];
         }
 
@@ -183,7 +186,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
             'frame' => $frame->name,
             'idEntity' => $frame->idEntity,
             'definition' => $frame->description ?? null,
-            'fes' => $fes
+            'fes' => $fes,
         ];
     }
 
@@ -205,7 +208,7 @@ class ExtractFrameHierarchySimplifiedCommand extends Command
         foreach ($relations as $relation) {
             $relationData[] = [
                 'relationType' => $relation->relationType,
-                'idEntity' => $relation->fe2IdEntity
+                'idEntity' => $relation->fe2IdEntity,
             ];
         }
 

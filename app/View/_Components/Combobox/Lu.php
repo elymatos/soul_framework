@@ -18,9 +18,7 @@ class Lu extends Component
         public string $pos = '',
         public string $name = '',
         public ?int $value = null,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

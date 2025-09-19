@@ -19,8 +19,9 @@ class Session
             if ($idLanguage == '') {
                 $idLanguage = 1;
             }
-            AppService::setCurrentLanguage((int)$idLanguage);
+            AppService::setCurrentLanguage((int) $idLanguage);
         }
+
         return $next($request);
     }
 }

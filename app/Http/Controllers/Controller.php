@@ -13,16 +13,17 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     protected object $data;
+
     protected array $hx_trigger;
 
     public function __construct(
         protected readonly Request $request
-    )
-    {
+    ) {
         $this->hx_trigger = [];
     }
 
-    public function isHtmx(): bool {
+    public function isHtmx(): bool
+    {
         return $this->request->header('HX-Request') === 'true';
     }
 
@@ -30,6 +31,7 @@ class Controller extends BaseController
     public function empty()
     {
         $response = response('', 200);
+
         return $response;
     }
 
@@ -37,22 +39,24 @@ class Controller extends BaseController
     {
         $response = response()
             ->view($viewName, $data);
-        if (!is_null($fragment)) {
+        if (! is_null($fragment)) {
             $response->fragment($fragment);
         }
-        if (!empty($this->hx_trigger)) {
+        if (! empty($this->hx_trigger)) {
             $trigger = json_encode($this->hx_trigger);
             $response->header('HX-Trigger', $trigger);
         }
+
         return $response;
     }
 
     public function clientRedirect(string $url)
     {
         $response = response();
+
         return response('')
             ->withHeaders([
-                'HX-Redirect' => $url
+                'HX-Redirect' => $url,
             ]);
     }
 
@@ -60,7 +64,7 @@ class Controller extends BaseController
     {
         return response('')
             ->withHeaders([
-                'HX-Redirect' => $url
+                'HX-Redirect' => $url,
             ]);
     }
 
@@ -68,7 +72,7 @@ class Controller extends BaseController
     {
         $this->hx_trigger['notify'] = [
             'type' => $type,
-            'message' => $message
+            'message' => $message,
         ];
     }
 
@@ -82,15 +86,16 @@ class Controller extends BaseController
         $this->notify($type, $message);
         $trigger = json_encode($this->hx_trigger);
         $response = response('', 204)->header('HX-Trigger', $trigger);
+
         return $response;
     }
 
     public function renderTrigger(string $trigger, array $params = [])
     {
-        $this->trigger($trigger,$params);
+        $this->trigger($trigger, $params);
         $trigger = json_encode($this->hx_trigger);
         $response = response('', 204)->header('HX-Trigger', $trigger);
+
         return $response;
     }
-
 }

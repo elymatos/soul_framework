@@ -18,8 +18,7 @@ class LinkButton extends Component
         public string $color = '',
         public string $plain = 'true',
         public string $href = '#'
-    )
-    {
+    ) {
         //
     }
 

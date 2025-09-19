@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Annotation;
 
 use App\Data\Annotation\StaticEvent\AnnotationCommentData;
 use App\Data\Annotation\StaticEvent\CreateData;
+use App\Data\Annotation\StaticEvent\ObjectFrameData;
 use App\Data\Annotation\StaticEvent\SearchData;
 use App\Data\Annotation\StaticEvent\SentenceData;
-use App\Data\Annotation\StaticEvent\ObjectFrameData;
 use App\Database\Criteria;
 use App\Http\Controllers\Controller;
 use App\Repositories\Corpus;
@@ -28,17 +28,18 @@ class StaticEventController extends Controller
     public function browse()
     {
         $search = session('searchStaticEvent') ?? SearchData::from();
-        return view("Annotation.StaticEvent.browse", [
-            'search' => $search
+
+        return view('Annotation.StaticEvent.browse', [
+            'search' => $search,
         ]);
     }
 
     #[Post(path: '/annotation/staticEvent/grid')]
     public function grid(SearchData $search)
     {
-        return view("Annotation.StaticEvent.grids", [
+        return view('Annotation.StaticEvent.grids', [
             'search' => $search,
-            'sentences' => []
+            'sentences' => [],
         ]);
     }
 
@@ -47,38 +48,40 @@ class StaticEventController extends Controller
     {
         $document = Document::byId($idDocument);
         $sentences = AnnotationStaticEventService::listSentences($idDocument);
-        return view("Annotation.StaticEvent.sentences", [
+
+        return view('Annotation.StaticEvent.sentences', [
             'document' => $document,
-            'sentences' => $sentences
+            'sentences' => $sentences,
         ]);
     }
 
     private function getData(int $idDocumentSentence): SentenceData
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $ds = Criteria::byFilter("view_document_sentence", ["idDocumentSentence", "=", $idDocumentSentence])->first();
-        $document = Criteria::byFilter("view_document", [
-            ["idDocument", "=", $ds->idDocument],
-            ["idLanguage","=", $idLanguage],
+        $ds = Criteria::byFilter('view_document_sentence', ['idDocumentSentence', '=', $idDocumentSentence])->first();
+        $document = Criteria::byFilter('view_document', [
+            ['idDocument', '=', $ds->idDocument],
+            ['idLanguage', '=', $idLanguage],
         ])->first();
         $corpus = Corpus::byId($document->idCorpus);
-        $sentence = Criteria::byFilter("view_sentence", ["idSentence", "=", $ds->idSentence])->first();
-        $is = Criteria::byFilter("view_image_sentence", [
-            ["idSentence", "=", $sentence->idSentence]
+        $sentence = Criteria::byFilter('view_sentence', ['idSentence', '=', $ds->idSentence])->first();
+        $is = Criteria::byFilter('view_image_sentence', [
+            ['idSentence', '=', $sentence->idSentence],
         ])->first();
-        $image = Criteria::byFilter("image", ["idImage", "=", $is->idImage])->first();
+        $image = Criteria::byFilter('image', ['idImage', '=', $is->idImage])->first();
         $annotation = AnnotationStaticEventService::getObjectsForAnnotationImage($document->idDocument, $sentence->idSentence);
+
         return SentenceData::from([
             'idDocumentSentence' => $idDocumentSentence,
-            'idPrevious' => AnnotationStaticEventService::getPrevious($document->idDocument,$idDocumentSentence),
-            'idNext' => AnnotationStaticEventService::getNext($document->idDocument,$idDocumentSentence),
+            'idPrevious' => AnnotationStaticEventService::getPrevious($document->idDocument, $idDocumentSentence),
+            'idNext' => AnnotationStaticEventService::getNext($document->idDocument, $idDocumentSentence),
             'document' => $document,
             'sentence' => $sentence,
             'corpus' => $corpus,
             'image' => $image,
             'objects' => $annotation['objects'],
             'frames' => $annotation['frames'],
-            'type' => $annotation['type']
+            'type' => $annotation['type'],
         ]);
     }
 
@@ -87,7 +90,8 @@ class StaticEventController extends Controller
     {
         $data = $this->getData($idDocumentSentence);
         debug($data);
-        return view("Annotation.StaticEvent.annotationSentence", $data->toArray());
+
+        return view('Annotation.StaticEvent.annotationSentence', $data->toArray());
     }
 
     #[Post(path: '/annotation/staticEvent/addFrame')]
@@ -97,22 +101,23 @@ class StaticEventController extends Controller
         if (is_numeric($input->idLU)) {
             $lu = LU::byId($input->idLU);
             $idFrame = $lu->idFrame;
-        } else if (is_numeric($input->idFrame)) {
+        } elseif (is_numeric($input->idFrame)) {
             $idFrame = $input->idFrame;
         }
         if ($idFrame != '') {
             $data = $this->getData($input->idDocumentSentence);
-            if (!isset($data->frames[$idFrame])) {
+            if (! isset($data->frames[$idFrame])) {
                 $frame = Frame::byId($idFrame);
                 $data->frames[$idFrame] = [
                     'name' => $frame->name,
                     'idFrame' => $idFrame,
-                    'objects' => []
+                    'objects' => [],
                 ];
             }
-            return view("Annotation.StaticEvent.fes", $data);
+
+            return view('Annotation.StaticEvent.fes', $data);
         } else {
-            return $this->renderNotify("error", "Frame not found!");
+            return $this->renderNotify('error', 'Frame not found!');
         }
     }
 
@@ -124,14 +129,15 @@ class StaticEventController extends Controller
             foreach ($data->objects as $objects) {
                 foreach ($objects as $idFrameElement) {
                     if ($idFrameElement == '') {
-                        throw new \Exception("FrameElement must be informed.");
+                        throw new \Exception('FrameElement must be informed.');
                     }
                 }
             }
             AnnotationStaticEventService::updateAnnotation($idDocumentSentence, $idFrame, $data->objects);
-            return $this->renderNotify("success", "Annotations updated.");
+
+            return $this->renderNotify('success', 'Annotations updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -140,9 +146,10 @@ class StaticEventController extends Controller
     {
         try {
             AnnotationStaticEventService::deleteAnnotationByFrame($idDocumentSentence, $idFrame);
+
             return $this->clientRedirect("/annotation/staticEvent/sentence/{$idDocumentSentence}");
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -151,27 +158,27 @@ class StaticEventController extends Controller
     {
         debug($data);
         try {
-            $comment = Criteria::byFilter("annotationcomment", ["id1", "=", $data->idDocumentSentence])->first();
+            $comment = Criteria::byFilter('annotationcomment', ['id1', '=', $data->idDocumentSentence])->first();
             if ($comment->idAnnotationComment) {
-                Criteria::table("annotationcomment")
-                    ->where("idAnnotationComment", "=", $comment->idAnnotationComment)
+                Criteria::table('annotationcomment')
+                    ->where('idAnnotationComment', '=', $comment->idAnnotationComment)
                     ->update([
-                        "type" => "StaticEvent",
-                        "id1" => $data->idDocumentSentence,
-                        "comment" => $data->comment
+                        'type' => 'StaticEvent',
+                        'id1' => $data->idDocumentSentence,
+                        'comment' => $data->comment,
                     ]);
             } else {
-                Criteria::table("annotationcomment")
+                Criteria::table('annotationcomment')
                     ->insert([
-                        "type" => "StaticEvent",
-                        "id1" => $data->idDocumentSentence,
-                        "comment" => $data->comment
+                        'type' => 'StaticEvent',
+                        'id1' => $data->idDocumentSentence,
+                        'comment' => $data->comment,
                     ]);
             }
-            return $this->renderNotify("success", "Comment added.");
+
+            return $this->renderNotify('success', 'Comment added.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 }

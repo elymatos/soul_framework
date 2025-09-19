@@ -31,9 +31,10 @@ class AppController extends Controller
     #[Get(path: '/changeLanguage/{language}')]
     public function changeLanguage(Request $request, string $language)
     {
-        $currentURL = $request->header("Hx-Current-Url");
-        $data = Criteria::byFilter("language", ['language', '=', $language])->first();
+        $currentURL = $request->header('Hx-Current-Url');
+        $data = Criteria::byFilter('language', ['language', '=', $language])->first();
         AppService::setCurrentLanguage($data->idLanguage);
+
         return $this->redirect($currentURL);
     }
 
@@ -48,15 +49,16 @@ class AppController extends Controller
     {
         $lus = [];
         $frames = [];
-        $searchString = '%' . $search->frame;
+        $searchString = '%'.$search->frame;
         if ($searchString != '') {
             $lus = self::listLUSearch($searchString);
             $frames = self::listFrame($searchString);
         }
-        return view("App.search", [
+
+        return view('App.search', [
             'search' => $search,
             'frames' => $frames,
-            'currentFrame' => $search->frame . '*',
+            'currentFrame' => $search->frame.'*',
             'fes' => [],
             'lus' => $lus,
         ]);
@@ -65,33 +67,34 @@ class AppController extends Controller
     public static function listFrame(string $name)
     {
         $result = [];
-        $frames = Criteria::byFilterLanguage("view_frame", [
-            ["name", "startswith", $name]
+        $frames = Criteria::byFilterLanguage('view_frame', [
+            ['name', 'startswith', $name],
         ])
-            ->orderBy("name")
+            ->orderBy('name')
             ->all();
         foreach ($frames as $row) {
             $result[$row->idFrame] = [
-                'id' => 'f' . $row->idFrame,
+                'id' => 'f'.$row->idFrame,
                 'idFrame' => $row->idFrame,
                 'type' => 'frame',
                 'name' => [$row->name, $row->description],
             ];
         }
+
         return $result;
     }
 
     public static function listLUSearch(string $name)
     {
         $result = [];
-        $lus = Criteria::byFilterLanguage("view_lu", [
-            ["name", "startswith", $name]
+        $lus = Criteria::byFilterLanguage('view_lu', [
+            ['name', 'startswith', $name],
         ])
-            ->orderBy("name")
+            ->orderBy('name')
             ->all();
         foreach ($lus as $lu) {
             $result[$lu->idLU] = [
-                'id' => 'l' . $lu->idLU,
+                'id' => 'l'.$lu->idLU,
                 'idLU' => $lu->idLU,
                 'idFrame' => $lu->idFrame,
                 'type' => 'lu',
@@ -99,6 +102,7 @@ class AppController extends Controller
                 'frameName' => $lu->frameName,
             ];
         }
+
         return $result;
     }
 
@@ -111,9 +115,10 @@ class AppController extends Controller
     #[Get(path: '/error')]
     public function error()
     {
-        debug(session("errors")->all());
-        $msg = session("errors")->all()[0];
-        return $this->renderNotify("error", $msg);
+        debug(session('errors')->all());
+        $msg = session('errors')->all()[0];
+
+        return $this->renderNotify('error', $msg);
     }
 
     #[Get(path: '/report')]
@@ -151,5 +156,4 @@ class AppController extends Controller
     {
         return view('App.utils');
     }
-
 }

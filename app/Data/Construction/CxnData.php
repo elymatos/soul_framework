@@ -7,13 +7,11 @@ use Spatie\LaravelData\Data;
 class CxnData extends Data
 {
     public function __construct(
-        public int    $idConstruction,
+        public int $idConstruction,
         public string $entry,
         public string $name,
         public string $description,
-        public int    $idEntity
-    )
-    {
-    }
+        public int $idEntity
+    ) {}
 
 }

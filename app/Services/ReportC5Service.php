@@ -4,17 +4,14 @@ namespace App\Services;
 
 use App\Database\Criteria;
 use App\Repositories\Concept;
-use App\Repositories\Frame;
-use App\Repositories\SemanticType;
 
 class ReportC5Service
 {
-
     public static function report(int|string $idConcept, string $lang = ''): array
     {
         $report = [];
         if ($lang != '') {
-            $language = Criteria::byId("language", "language", $lang);
+            $language = Criteria::byId('language', 'language', $lang);
             $idLanguage = $language->idLanguage;
             AppService::setCurrentLanguage($idLanguage);
         } else {
@@ -23,17 +20,18 @@ class ReportC5Service
         if (is_numeric($idConcept)) {
             $concept = Concept::byId($idConcept);
         } else {
-            $concept = Criteria::table("view_concept")
-                ->where("name", $idConcept)
-                ->where("idLanguage", $idLanguage)
+            $concept = Criteria::table('view_concept')
+                ->where('name', $idConcept)
+                ->where('idLanguage', $idLanguage)
                 ->first();
         }
         $report['concept'] = $concept;
         $report['constituents'] = self::getConstituents($concept);
         $relations = self::getRelations($concept);
-        $report['relations'] = $relations["relations"];
-        debug($relations["types"]);
-        $report['relationTypes'] = $relations["types"];
+        $report['relations'] = $relations['relations'];
+        debug($relations['types']);
+        $report['relationTypes'] = $relations['types'];
+
         return $report;
     }
 
@@ -43,16 +41,17 @@ class ReportC5Service
         $result = RelationService::listRelationsConcept($concept->idConcept);
         foreach ($result as $row) {
             $relations['types'][$row->relationType] = $row->relationType;
-            $relationName = $row->relationType . '|' . $row->name . '|' . $row->color;
+            $relationName = $row->relationType.'|'.$row->name.'|'.$row->color;
             $relations['relations'][$relationName][$row->idConceptRelated] = [
                 'idEntityRelation' => $row->idEntityRelation,
                 'idConcept' => $row->idConceptRelated,
                 'name' => $row->related,
                 'color' => $row->color,
-                'type' => $row->type
+                'type' => $row->type,
             ];
         }
         ksort($relations['relations']);
+
         return $relations;
     }
 
@@ -62,18 +61,18 @@ class ReportC5Service
         $result = RelationService::listRelationsConcept($concept->idConcept);
         foreach ($result as $row) {
             if ($row->relationType == 'rel_constituentof') {
-                $relationName = $row->relationType . '|' . $row->name . '|' . $row->color;
+                $relationName = $row->relationType.'|'.$row->name.'|'.$row->color;
                 $relations[$relationName][$row->idConceptRelated] = [
                     'idEntityRelation' => $row->idEntityRelation,
                     'idConcept' => $row->idConceptRelated,
                     'name' => $row->related,
                     'color' => $row->color,
-                    'type' => $row->type
+                    'type' => $row->type,
                 ];
             }
         }
         ksort($relations);
+
         return $relations;
     }
-
 }

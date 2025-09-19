@@ -98,6 +98,7 @@ XML;
         foreach ($variables as $key => $value) {
             $template = str_replace("{{{$key}}}", XmlUtils::xmlEscape($value), $template);
         }
+
         return $template;
     }
 }

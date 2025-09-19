@@ -11,7 +11,5 @@ class UpdateData extends Data
         public ?string $senseDescription,
         public ?int $incorporatedFE,
         public ?int $idFrame,
-    )
-    {
-    }
+    ) {}
 }

@@ -5,7 +5,6 @@ namespace App\View\_Components\Combobox;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Corpus as CorpusRepository;
 
 class Document extends Component
 {
@@ -19,9 +18,8 @@ class Document extends Component
         public string $placeholder = '',
         public ?string $onChange = '',
         public ?string $onSelect = '',
-    )
-    {
-        $this->placeholder = "Search Document";
+    ) {
+        $this->placeholder = 'Search Document';
     }
 
     /**

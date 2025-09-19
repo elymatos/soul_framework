@@ -15,8 +15,7 @@ class Panel extends Component
         public string $id,
         public string $label,
         public string $width
-    )
-    {
+    ) {
         //
     }
 

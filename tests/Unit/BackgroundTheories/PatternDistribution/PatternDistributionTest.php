@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\pattern_distribution;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\pattern_distribution\pattern_distributionService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for pattern_distribution background theory

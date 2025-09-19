@@ -16,10 +16,9 @@ class Ce extends Component
     public function __construct(
         public string $name = '',
         public string $idColor = '',
-    )
-    {
-        //$this->icon = config("webtool.fe.icon.grid")[$this->type];
-        $this->icon = "black circle";
+    ) {
+        // $this->icon = config("webtool.fe.icon.grid")[$this->type];
+        $this->icon = 'black circle';
     }
 
     /**

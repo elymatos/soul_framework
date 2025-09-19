@@ -11,11 +11,9 @@ use App\Data\Annotation\Video\ObjectFrameData;
 use App\Data\Annotation\Video\ObjectSearchData;
 use App\Data\Annotation\Video\UpdateBBoxData;
 use App\Database\Criteria;
-use App\Enum\AnnotationType;
 use App\Http\Controllers\Controller;
 use App\Services\Annotation\VideoService;
 use App\Services\CommentService;
-use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
@@ -59,10 +57,11 @@ class VideoController extends Controller
     public function objectSearch(ObjectSearchData $data)
     {
         $searchResults = VideoService::objectSearch($data);
+
         return view('Annotation.Video.Panes.search', [
             'searchResults' => $searchResults,
             'idDocument' => $data->idDocument,
-            'annotationType' => $data->annotationType
+            'annotationType' => $data->annotationType,
         ])->fragment('search');
     }
 
@@ -73,8 +72,9 @@ class VideoController extends Controller
         try {
             $object = VideoService::createNewObjectAtLayer($data);
             if ($data->annotationType == 'dynamicAnnotation') {
-                $this->trigger("goto-bbox");
+                $this->trigger('goto-bbox');
             }
+
             return $this->redirect("/annotation/{$data->annotationType}/{$object->idDocument}/{$object->idDynamicObject}");
         } catch (\Exception $e) {
             return $this->renderNotify('error', $e->getMessage());
@@ -100,11 +100,13 @@ class VideoController extends Controller
         try {
             $idDynamicObject = VideoService::updateObjectAnnotation($data);
             $this->trigger('updateObjectAnnotationEvent');
-            //return Criteria::byId("dynamicobject", "idDynamicObject", $idDynamicObject);
-            return $this->renderNotify("success", "Object updated.");
+
+            // return Criteria::byId("dynamicobject", "idDynamicObject", $idDynamicObject);
+            return $this->renderNotify('success', 'Object updated.');
         } catch (\Exception $e) {
             debug($e->getMessage());
-            return $this->renderNotify("error", $e->getMessage());
+
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -154,12 +156,10 @@ class VideoController extends Controller
             if (! $boundingBox) {
                 return $this->renderNotify('error', 'Updated bounding box not found.');
             }
+
             return $boundingBox;
         } catch (\Exception $e) {
             return $this->renderNotify('error', $e->getMessage());
         }
     }
-
-
-
 }

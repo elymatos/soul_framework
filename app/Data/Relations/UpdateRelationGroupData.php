@@ -9,7 +9,5 @@ class UpdateRelationGroupData extends Data
     public function __construct(
         public int $idRelationGroup,
         public string $nameEn,
-    )
-    {
-    }
+    ) {}
 }

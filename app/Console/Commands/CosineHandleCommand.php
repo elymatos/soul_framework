@@ -28,11 +28,11 @@ class CosineHandleCommand extends Command
      */
     public function handle()
     {
-        ini_set("memory_limit", "10240M");
+        ini_set('memory_limit', '10240M');
         AppService::setCurrentLanguage(1);
 
         /* Construções Natália - 04/07/2025 */
-        //CosineService::createMoccaNetwork();
+        // CosineService::createMoccaNetwork();
         /*
         idConstruction,cxIdLanguage,idEntity,name
         372,1,1561790,Futuro_do_Indicativo
@@ -87,66 +87,65 @@ class CosineHandleCommand extends Command
 
         $array1 = [372, 390, 371, 376, 408, 377, 418, 373];
         $array2 = [401, 381, 380, 384, 396, 382, 397];
-        $handle = fopen(__DIR__ . "/natalia_cxn_cosine.csv", "w");
+        $handle = fopen(__DIR__.'/natalia_cxn_cosine.csv', 'w');
         foreach ($array1 as $idConstruction1) {
             foreach ($array2 as $idConstruction2) {
                 $result = CosineService::compareConstructions($idConstruction1, $idConstruction2);
-                fputcsv($handle, [$constructions[$idConstruction1], $constructions[$idConstruction2], $result->cosine]);;
+                fputcsv($handle, [$constructions[$idConstruction1], $constructions[$idConstruction2], $result->cosine]);
             }
         }
         fclose($handle);
 
         /* Audion - PPM - 23/06/2025 */
-        //CosineService::createFrameNetwork();
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(614);
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(638);
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(617);
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(619);
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(631);
-//        CosineService::createLinkSentenceAnnotationTimeToFrame(626);
-//
-//        $array = [614,638,617,619,631,626,502,507,508,509,510,511,512,513,515,516];
-        //$array = [619,631,626,502,507,508,509,510,511,512,513,515,516];
-        //$array = [502,507,508,509,510,511,512,513,515,516];
-        //$array = [614];
-//        foreach($array as $idDocument){
-//            CosineService::createLinkSentenceAnnotationTimeToFrame($idDocument);
-//            CosineService::createLinkObjectAnnotationTimeToFrame($idDocument);
-//            $document = Criteria::byId("document","idDocument",$idDocument);
-//            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_full_2.csv", CosineService::compareTimespan($idDocument, 4, ''));
-//            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_lu_2.csv", CosineService::compareTimespan($idDocument, 4, 'lu'));
-//            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_fe_2.csv", CosineService::compareTimespan($idDocument, 4, 'fe'));
-//            if ($idDocument > 520) {
-//                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_full_2.csv", CosineService::compareTimespan($idDocument, 7, ''));
-//                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_lu_2.csv", CosineService::compareTimespan($idDocument, 7, 'lu'));
-//                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_fe_2.csv", CosineService::compareTimespan($idDocument, 7, 'fe'));
-//            }
-//        }
+        // CosineService::createFrameNetwork();
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(614);
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(638);
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(617);
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(619);
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(631);
+        //        CosineService::createLinkSentenceAnnotationTimeToFrame(626);
+        //
+        //        $array = [614,638,617,619,631,626,502,507,508,509,510,511,512,513,515,516];
+        // $array = [619,631,626,502,507,508,509,510,511,512,513,515,516];
+        // $array = [502,507,508,509,510,511,512,513,515,516];
+        // $array = [614];
+        //        foreach($array as $idDocument){
+        //            CosineService::createLinkSentenceAnnotationTimeToFrame($idDocument);
+        //            CosineService::createLinkObjectAnnotationTimeToFrame($idDocument);
+        //            $document = Criteria::byId("document","idDocument",$idDocument);
+        //            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_full_2.csv", CosineService::compareTimespan($idDocument, 4, ''));
+        //            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_lu_2.csv", CosineService::compareTimespan($idDocument, 4, 'lu'));
+        //            CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_original_fe_2.csv", CosineService::compareTimespan($idDocument, 4, 'fe'));
+        //            if ($idDocument > 520) {
+        //                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_full_2.csv", CosineService::compareTimespan($idDocument, 7, ''));
+        //                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_lu_2.csv", CosineService::compareTimespan($idDocument, 7, 'lu'));
+        //                CosineService::writeToCSV(__DIR__ . "/{$document->entry}_audio_description_fe_2.csv", CosineService::compareTimespan($idDocument, 7, 'fe'));
+        //            }
+        //        }
 
-//        CosineService::createLinkObjectAnnotationTimeToFrame(614);
-//        CosineService::createLinkObjectAnnotationTimeToFrame(638);
-//        CosineService::createLinkObjectAnnotationTimeToFrame(617);
-//        CosineService::createLinkObjectAnnotationTimeToFrame(619);
-//        CosineService::createLinkObjectAnnotationTimeToFrame(631);
-//        CosineService::createLinkObjectAnnotationTimeToFrame(626);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(614);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(638);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(617);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(619);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(631);
+        //        CosineService::createLinkObjectAnnotationTimeToFrame(626);
 
-//        CosineService::createLinkSentenceAnnotationToFrame(1478);
-//        CosineService::createLinkSentenceAnnotationToFrame(1479);
-//        $pairs = [
-//            [602476, 602485],
-//            [602477, 602486],
-//            [602478, 602487],
-//            [602479, 602488],
-//            [602480, 602489],
-//            [602481, 602490],
-//            [602482, 602491],
-//            [602483, 602492],
-//            [602484, 602493]
-//        ];
-//        foreach($pairs as $pair) {
-//            CosineService::compareSentences($pair[0], $pair[1]);
-//        }
-
+        //        CosineService::createLinkSentenceAnnotationToFrame(1478);
+        //        CosineService::createLinkSentenceAnnotationToFrame(1479);
+        //        $pairs = [
+        //            [602476, 602485],
+        //            [602477, 602486],
+        //            [602478, 602487],
+        //            [602479, 602488],
+        //            [602480, 602489],
+        //            [602481, 602490],
+        //            [602482, 602491],
+        //            [602483, 602492],
+        //            [602484, 602493]
+        //        ];
+        //        foreach($pairs as $pair) {
+        //            CosineService::compareSentences($pair[0], $pair[1]);
+        //        }
 
     }
 }

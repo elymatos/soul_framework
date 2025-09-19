@@ -9,15 +9,17 @@ class SemanticType
 {
     public static function byId(int $id): object
     {
-        return Criteria::byFilterLanguage("view_semantictype", ['idSemanticType', '=', $id])->first();
+        return Criteria::byFilterLanguage('view_semantictype', ['idSemanticType', '=', $id])->first();
     }
+
     public static function byIdEntity(int $idEntity): object
     {
-        return Criteria::byFilterLanguage("view_semantictype", ['idEntity', '=', $idEntity])->first();
+        return Criteria::byFilterLanguage('view_semantictype', ['idEntity', '=', $idEntity])->first();
     }
+
     public static function listFrameDomain(): array
     {
-        return Criteria::byFilterLanguage("view_semantictype", ['entry', 'startswith', 'sty\_fd'])
+        return Criteria::byFilterLanguage('view_semantictype', ['entry', 'startswith', 'sty\_fd'])
             ->select('idSemanticType', 'name')
             ->orderBy('name')
             ->all();
@@ -25,7 +27,7 @@ class SemanticType
 
     public static function listFrameType()
     {
-        return Criteria::byFilterLanguage("view_semantictype", ['entry', 'startswith', 'sty\_ft'])
+        return Criteria::byFilterLanguage('view_semantictype', ['entry', 'startswith', 'sty\_ft'])
             ->select('idSemanticType', 'name')
             ->orderBy('name')
             ->all();
@@ -33,351 +35,355 @@ class SemanticType
 
     public static function listRelations(int $idEntity)
     {
-        return Criteria::table("view_relation")
-            ->join("view_semantictype", "view_relation.idEntity2", "=", "view_semantictype.idEntity")
+        return Criteria::table('view_relation')
+            ->join('view_semantictype', 'view_relation.idEntity2', '=', 'view_semantictype.idEntity')
             ->filter([
-                ["view_relation.idEntity1", "=", $idEntity],
-                ["view_relation.relationType", "=", "rel_hassemtype"],
-                ["view_semantictype.idLanguage", "=", AppService::getCurrentIdLanguage()]
-            ])->orderBy("view_semantictype.name")->all();
+                ['view_relation.idEntity1', '=', $idEntity],
+                ['view_relation.relationType', '=', 'rel_hassemtype'],
+                ['view_semantictype.idLanguage', '=', AppService::getCurrentIdLanguage()],
+            ])->orderBy('view_semantictype.name')->all();
     }
 
     public static function listChildren(int $idEntity)
     {
-        $rows = Criteria::table("view_relation")
-            ->join("view_semantictype", "view_relation.idEntity1", "=", "view_semantictype.idEntity")
+        $rows = Criteria::table('view_relation')
+            ->join('view_semantictype', 'view_relation.idEntity1', '=', 'view_semantictype.idEntity')
             ->filter([
-                ["view_relation.idEntity2", "=", $idEntity],
-                ["view_relation.relationType", "=", "rel_subtypeof"],
-                ["view_semantictype.idLanguage", "=", AppService::getCurrentIdLanguage()]
-            ])->select("view_semantictype.idSemanticType", "view_semantictype.idEntity", "view_semantictype.name","view_relation.idEntityRelation")
-            ->orderBy("view_semantictype.name")->all();
-        foreach($rows as $row) {
-            $row->n = Criteria::table("view_relation")
-                ->where("view_relation.idEntity2", "=", $row->idEntity)
-                ->where("view_relation.relationType", "=", "rel_subtypeof")
+                ['view_relation.idEntity2', '=', $idEntity],
+                ['view_relation.relationType', '=', 'rel_subtypeof'],
+                ['view_semantictype.idLanguage', '=', AppService::getCurrentIdLanguage()],
+            ])->select('view_semantictype.idSemanticType', 'view_semantictype.idEntity', 'view_semantictype.name', 'view_relation.idEntityRelation')
+            ->orderBy('view_semantictype.name')->all();
+        foreach ($rows as $row) {
+            $row->n = Criteria::table('view_relation')
+                ->where('view_relation.idEntity2', '=', $row->idEntity)
+                ->where('view_relation.relationType', '=', 'rel_subtypeof')
                 ->count();
         }
+
         return $rows;
     }
 
     public static function listTree(string $semanticType)
     {
-        $rows = Criteria::table("view_semantictype")
+        $rows = Criteria::table('view_semantictype')
             ->filter([
-                ["view_semantictype.name", "startswith", $semanticType],
-                ["view_semantictype.idLanguage", "=", AppService::getCurrentIdLanguage()]
-            ])->select("view_semantictype.idSemanticType", "view_semantictype.idEntity", "view_semantictype.name")
-            ->orderBy("view_semantictype.name")->all();
-        foreach($rows as $row) {
-            $row->n = Criteria::table("view_relation")
-                ->where("view_relation.idEntity2", "=", $row->idEntity)
-                ->where("view_relation.relationType", "=", "rel_subtypeof")
+                ['view_semantictype.name', 'startswith', $semanticType],
+                ['view_semantictype.idLanguage', '=', AppService::getCurrentIdLanguage()],
+            ])->select('view_semantictype.idSemanticType', 'view_semantictype.idEntity', 'view_semantictype.name')
+            ->orderBy('view_semantictype.name')->all();
+        foreach ($rows as $row) {
+            $row->n = Criteria::table('view_relation')
+                ->where('view_relation.idEntity2', '=', $row->idEntity)
+                ->where('view_relation.relationType', '=', 'rel_subtypeof')
                 ->count();
         }
+
         return $rows;
     }
 
     public static function listDomains(): array
     {
-        return Criteria::table("view_domain")
-            ->select("idDomain","name")
-            ->where("idLanguage", "=", AppService::getCurrentIdLanguage())
-            ->orderBy("name")->get()->keyBy("idDomain")->all();
+        return Criteria::table('view_domain')
+            ->select('idDomain', 'name')
+            ->where('idLanguage', '=', AppService::getCurrentIdLanguage())
+            ->orderBy('name')->get()->keyBy('idDomain')->all();
     }
 
-    public static function listRootByDomain(int $idDomain) : array
+    public static function listRootByDomain(int $idDomain): array
     {
-        $criteriaER = Criteria::table("view_relation")
+        $criteriaER = Criteria::table('view_relation')
             ->select('idEntity1')
-            ->where("relationType", "=", 'rel_subtypeof');
-        $rows = Criteria::table("view_semantictype")
-            ->where("view_semantictype.idEntity", "NOT IN", $criteriaER)
+            ->where('relationType', '=', 'rel_subtypeof');
+        $rows = Criteria::table('view_semantictype')
+            ->where('view_semantictype.idEntity', 'NOT IN', $criteriaER)
             ->filter([
                 ['idDomain', '=', $idDomain],
                 ['view_semantictype.idLanguage', '=', AppService::getCurrentIdLanguage()],
-            ])->select("view_semantictype.idSemanticType", "view_semantictype.idEntity", "view_semantictype.name")
-            ->orderBy("view_semantictype.name")->all();
-        foreach($rows as $row) {
-            $row->n = Criteria::table("view_relation")
-                ->where("view_relation.idEntity2", "=", $row->idEntity)
-                ->where("view_relation.relationType", "=", "rel_subtypeof")
+            ])->select('view_semantictype.idSemanticType', 'view_semantictype.idEntity', 'view_semantictype.name')
+            ->orderBy('view_semantictype.name')->all();
+        foreach ($rows as $row) {
+            $row->n = Criteria::table('view_relation')
+                ->where('view_relation.idEntity2', '=', $row->idEntity)
+                ->where('view_relation.relationType', '=', 'rel_subtypeof')
                 ->count();
         }
+
         return $rows;
     }
 
-    public static function listRoots() : array
+    public static function listRoots(): array
     {
-        $criteriaER = Criteria::table("view_relation")
+        $criteriaER = Criteria::table('view_relation')
             ->select('idEntity1')
-            ->where("relationType", "=", 'rel_subtypeof');
-        $rows = Criteria::table("view_semantictype")
-            ->where("view_semantictype.idEntity", "NOT IN", $criteriaER)
+            ->where('relationType', '=', 'rel_subtypeof');
+        $rows = Criteria::table('view_semantictype')
+            ->where('view_semantictype.idEntity', 'NOT IN', $criteriaER)
             ->filter([
                 ['view_semantictype.idLanguage', '=', AppService::getCurrentIdLanguage()],
-            ])->select("view_semantictype.idSemanticType", "view_semantictype.idEntity", "view_semantictype.name")
-            ->orderBy("view_semantictype.name")->all();
-        foreach($rows as $row) {
-            $row->n = Criteria::table("view_relation")
-                ->where("view_relation.idEntity2", "=", $row->idEntity)
-                ->where("view_relation.relationType", "=", "rel_subtypeof")
+            ])->select('view_semantictype.idSemanticType', 'view_semantictype.idEntity', 'view_semantictype.name')
+            ->orderBy('view_semantictype.name')->all();
+        foreach ($rows as $row) {
+            $row->n = Criteria::table('view_relation')
+                ->where('view_relation.idEntity2', '=', $row->idEntity)
+                ->where('view_relation.relationType', '=', 'rel_subtypeof')
                 ->count();
         }
+
         return $rows;
     }
 
-//    public static function getById(int $id): object
-//    {
-//        return (object)self::first([
-//            ['idSemanticType', '=', $id],
-//            ['idLanguage', '=', AppService::getCurrentIdLanguage()]
-//        ]);
-//    }
-//    public static function listRelations(int $idEntity) {
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name','inverseRelations.idEntityRelation'])
-//            ->where("inverseRelations.idEntity1","=",$idEntity)
-//            ->where('idLanguage', '=', AppService::getCurrentIdLanguage())
-//            ->orderBy('name');
-//        return $criteria;
-//    }
-//
-//    public static function getByName(string $name):object
-//    {
-//        $st = (object)self::first([
-//            ['name', '=', $name],
-//        ]);
-//        return $st;
-//    }
-//
-//    public static function listForComboGrid(string $root = '')
-//    {
-//        $st = self::getByName($root);
-//        return self::listChildren($st->idSemanticType, (object)[])->all();
-////        $result = [];
-////        foreach ($list as $row) {
-////            $node = (array)$row;
-//////            $node['state'] = 'open';
-//////            $node['iconCls'] = 'material-icons-outlined wt-tree-icon wt-icon-semantictype';
-////            $children = self::listForComboGrid($row->name);
-////            $node['children'] = !empty($children) ? $children : null;
-////            $result[] = $node;
-////        }
-////        return $result;
-//    }
-//
-//    public static function listForTree(SearchData $search)
-//    {
-//        if ($search->idSemanticType != 0) {
-//            $list = self::listChildren($search->idSemanticType, (object)[])->all();
-//        } else {
-//            $list = self::listRoot((object)['name' => $search->semanticType, 'idDomain' => $search->idDomain])->all();
-//        }
-//        return $list;
-//    }
-//
-//    public static function listRoot(object $filter)
-//    {
-//        $criteriaER = Relation::getCriteria()
-//            ->select('idEntity1')
-//            ->where("relationType.entry","=",'rel_subtypeof');
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
-//            ->where("idEntity","NOT IN", $criteriaER)
-//            ->orderBy('name');
-//        debug($filter);
-//        return self::filter([
-//            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
-//            ['idDomain', '=', $filter->idDomain],
-//            ["upper(entries.name)", "startswith", strtoupper($filter->name ?? '')]
-//        ], $criteria);
-//    }
-//    public static function listChildren(int $idSuperType, object $filter)
-//    {
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
-//            ->orderBy('name');
-//        $superType = SemanticType::getById($idSuperType);
-//        $criteriaER = Relation::getCriteria()
-//            ->select('idEntity1')
-//            ->where("relationType.entry","=",'rel_subtypeof')
-//            ->where("idEntity2","=",$superType->idEntity);
-//        return self::filter([
-//            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
-//            ["idSemanticType", "=", $filter->idSemanticType ?? null],
-//            ["idDomain", "=", $filter->idDomain ?? null],
-//            ["upper(entries.name)", "startswith", strtoupper($filter->type ?? null)],
-//            ["idEntity", "IN", $criteriaER]
-//        ], $criteria);
-//    }
-//
-//    public static function add(CreateData $data): void
-//    {
-//        self::beginTransaction();
-//        try {
-//            $st = self::getById($data->idSemanticType);
-//            $idEntityRelation = RelationService::create('rel_hasType', $data->idEntity, $st->idEntity);
-//            Timeline::addTimeline("entityrelation", $idEntityRelation, "S");
-//            self::commit();
-//        } catch (\Exception $e) {
-//            self::rollback();
-//            throw new \Exception($e->getMessage());
-//        }
-//    }
-//
-//    /*
-//    public function getById(int $id): void
-//    {
-//        $criteria = $this->getCriteria()
-//            ->where('idSemanticType', '=', $id)
-//            ->where('idLanguage', '=', AppService::getCurrentIdLanguage());
-//        $this->retrieveFromCriteria($criteria);
-//    }
-//    public function getDescription()
-//    {
-//        return $this->getEntry();
-//    }
-//
-//    public function getByIdEntity($idEntity)
-//    {
-//        $criteria = $this->getCriteria()->select('idSemanticType, entry, idEntity, idDomain, entries.name, entries.description, entries.nick');
-//        $criteria->where("idEntity = {$idEntity}");
-//        Base::entryLanguage($criteria);
-//        return $criteria->asQuery()->asObjectArray()[0];
-//    }
-//
-//    public function retrieveFromName(string $name)
-//    {
-//        $criteria = $this->getCriteria()
-//            ->select('*')
-//            ->where("name","=",$name);
-//        Base::entryLanguage($criteria);
-//        $this->retrieveFromCriteria($criteria);
-//    }
-//    public function getEntryObject()
-//    {
-//        $criteria = $this->getCriteria()->select('entries.name, entries.description, entries.nick');
-//        $criteria->where("idSemanticType = {$this->getId()}");
-//        Base::entryLanguage($criteria);
-//        return $criteria->asQuery()->asObjectArray()[0];
-//    }
-//
-//    public function getName()
-//    {
-//        $criteria = $this->getCriteria()->select('entries.name as name');
-//        $criteria->where("idSemanticType = {$this->getId()}");
-//        Base::entryLanguage($criteria);
-//        return $criteria->asQuery()->fields('name');
-//    }
-//
-//    public function listByFilter(object $filter)
-//    {
-//        $criteria = $this->getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
-//            ->orderBy('entries.name');
-//        Base::entryLanguage($criteria);
-//        if ($filter->idSemanticType) {
-//            $criteria->where("idSemanticType = {$filter->idSemanticType}");
-//        }
-//        if ($filter->idDomain) {
-//            $criteria->where("idDomain = {$filter->idDomain}");
-//        }
-//        if ($filter->type) {
-//            $criteria->where("upper(entries.name) LIKE upper('{$filter->type}%')");
-//        }
-//        return $criteria;
-//    }
-//
-//    public function listRelations(int $idEntity) {
-//        $criteria = $this->getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name','inverseRelations.idEntityRelation'])
-//            ->where("inverseRelations.idEntity1","=",$idEntity)
-//            ->orderBy('name');
-//        Base::entryLanguage($criteria);
-//        return $criteria;
-//    }
-//
-//    public function listRoot(object $filter)
-//    {
-//        $criteria = $this->getCriteria()
-//            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
-//            ->orderBy('name');
-//        Base::entryLanguage($criteria);
-//        if ($filter->idSemanticType ?? false) {
-//            $criteria->where("idSemanticType = {$filter->idSemanticType}");
-//        }
-//        if ($filter->idDomain ?? false) {
-//            $criteria->where("idDomain = {$filter->idDomain}");
-//        }
-//        if ($filter->type ?? false) {
-//            $criteria->where("upper(entries.name) LIKE upper('{$filter->type}%')");
-//        }
-//        $entityRelation = new EntityRelation();
-//        $criteriaER = $entityRelation->getCriteria()
-//            ->select('idEntity1')
-//            ->where("relationtype.entry","=",'rel_subtypeof');
-//        $criteria->where("idEntity", "NOT IN", $criteriaER);
-//        return $criteria;
-//    }
-//
-//
-//
-////    public function listAll($idLanguage)
-////    {
-////        $criteria = $this->getCriteria()->select('*, entries.name as name')->orderBy('entries.name');
-////        Base::entryLanguage($criteria);
-////        return $criteria;
-////    }
-//
-//
-//    public function listForLookup($filter)
-//    {
-//        $criteria = $this->getCriteria()->select("idSemanticType,concat(entries.name, '.',  dEntries.name) as name")->orderBy('concat(entries.name, dEntries.name)');
-//        if ($filter->idDomain) {
-//            $criteria->where("idDomain = {$filter->idDomain}");
-//        }
-//        if ($filter->name) {
-//            $criteria->where("entries.name LIKE '@{$filter->name}%'");
-//        }
-//        $criteria->associationAlias("domain.entries", "dEntries");
-//        Base::entryLanguage($criteria, "dEntries.");
-//        Base::entryLanguage($criteria);
-//        return $criteria;
-//    }
-//*/
-//    public static function listFrameDomain()
-//    {
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','name'])
-//            ->orderBy('name');
-//        return self::filter([
-//            ['idLanguage','=',AppService::getCurrentIdLanguage()],
-//            ['entries.entry','startswith','sty\_fd%'],
-//        ], $criteria);
-//    }
-//
-//    public static function listFrameType()
-//    {
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','name'])
-//            ->orderBy('name');
-//        return self::filter([
-//            ['idLanguage','=',AppService::getCurrentIdLanguage()],
-//            ['entries.entry','startswith','sty\_ft%'],
-//        ], $criteria);
-//    }
-//
-//    public static function listFrameCluster()
-//    {
-//        $criteria = self::getCriteria()
-//            ->select(['idSemanticType','name'])
-//            ->orderBy('name');
-//        return self::filter([
-//            ['idLanguage','=',AppService::getCurrentIdLanguage()],
-//            ['entries.entry','startswith','sty\_fc%'],
-//        ], $criteria);
-//    }
+    //    public static function getById(int $id): object
+    //    {
+    //        return (object)self::first([
+    //            ['idSemanticType', '=', $id],
+    //            ['idLanguage', '=', AppService::getCurrentIdLanguage()]
+    //        ]);
+    //    }
+    //    public static function listRelations(int $idEntity) {
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name','inverseRelations.idEntityRelation'])
+    //            ->where("inverseRelations.idEntity1","=",$idEntity)
+    //            ->where('idLanguage', '=', AppService::getCurrentIdLanguage())
+    //            ->orderBy('name');
+    //        return $criteria;
+    //    }
+    //
+    //    public static function getByName(string $name):object
+    //    {
+    //        $st = (object)self::first([
+    //            ['name', '=', $name],
+    //        ]);
+    //        return $st;
+    //    }
+    //
+    //    public static function listForComboGrid(string $root = '')
+    //    {
+    //        $st = self::getByName($root);
+    //        return self::listChildren($st->idSemanticType, (object)[])->all();
+    // //        $result = [];
+    // //        foreach ($list as $row) {
+    // //            $node = (array)$row;
+    // ////            $node['state'] = 'open';
+    // ////            $node['iconCls'] = 'material-icons-outlined wt-tree-icon wt-icon-semantictype';
+    // //            $children = self::listForComboGrid($row->name);
+    // //            $node['children'] = !empty($children) ? $children : null;
+    // //            $result[] = $node;
+    // //        }
+    // //        return $result;
+    //    }
+    //
+    //    public static function listForTree(SearchData $search)
+    //    {
+    //        if ($search->idSemanticType != 0) {
+    //            $list = self::listChildren($search->idSemanticType, (object)[])->all();
+    //        } else {
+    //            $list = self::listRoot((object)['name' => $search->semanticType, 'idDomain' => $search->idDomain])->all();
+    //        }
+    //        return $list;
+    //    }
+    //
+    //    public static function listRoot(object $filter)
+    //    {
+    //        $criteriaER = Relation::getCriteria()
+    //            ->select('idEntity1')
+    //            ->where("relationType.entry","=",'rel_subtypeof');
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
+    //            ->where("idEntity","NOT IN", $criteriaER)
+    //            ->orderBy('name');
+    //        debug($filter);
+    //        return self::filter([
+    //            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
+    //            ['idDomain', '=', $filter->idDomain],
+    //            ["upper(entries.name)", "startswith", strtoupper($filter->name ?? '')]
+    //        ], $criteria);
+    //    }
+    //    public static function listChildren(int $idSuperType, object $filter)
+    //    {
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
+    //            ->orderBy('name');
+    //        $superType = SemanticType::getById($idSuperType);
+    //        $criteriaER = Relation::getCriteria()
+    //            ->select('idEntity1')
+    //            ->where("relationType.entry","=",'rel_subtypeof')
+    //            ->where("idEntity2","=",$superType->idEntity);
+    //        return self::filter([
+    //            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
+    //            ["idSemanticType", "=", $filter->idSemanticType ?? null],
+    //            ["idDomain", "=", $filter->idDomain ?? null],
+    //            ["upper(entries.name)", "startswith", strtoupper($filter->type ?? null)],
+    //            ["idEntity", "IN", $criteriaER]
+    //        ], $criteria);
+    //    }
+    //
+    //    public static function add(CreateData $data): void
+    //    {
+    //        self::beginTransaction();
+    //        try {
+    //            $st = self::getById($data->idSemanticType);
+    //            $idEntityRelation = RelationService::create('rel_hasType', $data->idEntity, $st->idEntity);
+    //            Timeline::addTimeline("entityrelation", $idEntityRelation, "S");
+    //            self::commit();
+    //        } catch (\Exception $e) {
+    //            self::rollback();
+    //            throw new \Exception($e->getMessage());
+    //        }
+    //    }
+    //
+    //    /*
+    //    public function getById(int $id): void
+    //    {
+    //        $criteria = $this->getCriteria()
+    //            ->where('idSemanticType', '=', $id)
+    //            ->where('idLanguage', '=', AppService::getCurrentIdLanguage());
+    //        $this->retrieveFromCriteria($criteria);
+    //    }
+    //    public function getDescription()
+    //    {
+    //        return $this->getEntry();
+    //    }
+    //
+    //    public function getByIdEntity($idEntity)
+    //    {
+    //        $criteria = $this->getCriteria()->select('idSemanticType, entry, idEntity, idDomain, entries.name, entries.description, entries.nick');
+    //        $criteria->where("idEntity = {$idEntity}");
+    //        Base::entryLanguage($criteria);
+    //        return $criteria->asQuery()->asObjectArray()[0];
+    //    }
+    //
+    //    public function retrieveFromName(string $name)
+    //    {
+    //        $criteria = $this->getCriteria()
+    //            ->select('*')
+    //            ->where("name","=",$name);
+    //        Base::entryLanguage($criteria);
+    //        $this->retrieveFromCriteria($criteria);
+    //    }
+    //    public function getEntryObject()
+    //    {
+    //        $criteria = $this->getCriteria()->select('entries.name, entries.description, entries.nick');
+    //        $criteria->where("idSemanticType = {$this->getId()}");
+    //        Base::entryLanguage($criteria);
+    //        return $criteria->asQuery()->asObjectArray()[0];
+    //    }
+    //
+    //    public function getName()
+    //    {
+    //        $criteria = $this->getCriteria()->select('entries.name as name');
+    //        $criteria->where("idSemanticType = {$this->getId()}");
+    //        Base::entryLanguage($criteria);
+    //        return $criteria->asQuery()->fields('name');
+    //    }
+    //
+    //    public function listByFilter(object $filter)
+    //    {
+    //        $criteria = $this->getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
+    //            ->orderBy('entries.name');
+    //        Base::entryLanguage($criteria);
+    //        if ($filter->idSemanticType) {
+    //            $criteria->where("idSemanticType = {$filter->idSemanticType}");
+    //        }
+    //        if ($filter->idDomain) {
+    //            $criteria->where("idDomain = {$filter->idDomain}");
+    //        }
+    //        if ($filter->type) {
+    //            $criteria->where("upper(entries.name) LIKE upper('{$filter->type}%')");
+    //        }
+    //        return $criteria;
+    //    }
+    //
+    //    public function listRelations(int $idEntity) {
+    //        $criteria = $this->getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name','inverseRelations.idEntityRelation'])
+    //            ->where("inverseRelations.idEntity1","=",$idEntity)
+    //            ->orderBy('name');
+    //        Base::entryLanguage($criteria);
+    //        return $criteria;
+    //    }
+    //
+    //    public function listRoot(object $filter)
+    //    {
+    //        $criteria = $this->getCriteria()
+    //            ->select(['idSemanticType','entry','idEntity','idDomain','name'])
+    //            ->orderBy('name');
+    //        Base::entryLanguage($criteria);
+    //        if ($filter->idSemanticType ?? false) {
+    //            $criteria->where("idSemanticType = {$filter->idSemanticType}");
+    //        }
+    //        if ($filter->idDomain ?? false) {
+    //            $criteria->where("idDomain = {$filter->idDomain}");
+    //        }
+    //        if ($filter->type ?? false) {
+    //            $criteria->where("upper(entries.name) LIKE upper('{$filter->type}%')");
+    //        }
+    //        $entityRelation = new EntityRelation();
+    //        $criteriaER = $entityRelation->getCriteria()
+    //            ->select('idEntity1')
+    //            ->where("relationtype.entry","=",'rel_subtypeof');
+    //        $criteria->where("idEntity", "NOT IN", $criteriaER);
+    //        return $criteria;
+    //    }
+    //
+    //
+    //
+    // //    public function listAll($idLanguage)
+    // //    {
+    // //        $criteria = $this->getCriteria()->select('*, entries.name as name')->orderBy('entries.name');
+    // //        Base::entryLanguage($criteria);
+    // //        return $criteria;
+    // //    }
+    //
+    //
+    //    public function listForLookup($filter)
+    //    {
+    //        $criteria = $this->getCriteria()->select("idSemanticType,concat(entries.name, '.',  dEntries.name) as name")->orderBy('concat(entries.name, dEntries.name)');
+    //        if ($filter->idDomain) {
+    //            $criteria->where("idDomain = {$filter->idDomain}");
+    //        }
+    //        if ($filter->name) {
+    //            $criteria->where("entries.name LIKE '@{$filter->name}%'");
+    //        }
+    //        $criteria->associationAlias("domain.entries", "dEntries");
+    //        Base::entryLanguage($criteria, "dEntries.");
+    //        Base::entryLanguage($criteria);
+    //        return $criteria;
+    //    }
+    // */
+    //    public static function listFrameDomain()
+    //    {
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','name'])
+    //            ->orderBy('name');
+    //        return self::filter([
+    //            ['idLanguage','=',AppService::getCurrentIdLanguage()],
+    //            ['entries.entry','startswith','sty\_fd%'],
+    //        ], $criteria);
+    //    }
+    //
+    //    public static function listFrameType()
+    //    {
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','name'])
+    //            ->orderBy('name');
+    //        return self::filter([
+    //            ['idLanguage','=',AppService::getCurrentIdLanguage()],
+    //            ['entries.entry','startswith','sty\_ft%'],
+    //        ], $criteria);
+    //    }
+    //
+    //    public static function listFrameCluster()
+    //    {
+    //        $criteria = self::getCriteria()
+    //            ->select(['idSemanticType','name'])
+    //            ->orderBy('name');
+    //        return self::filter([
+    //            ['idLanguage','=',AppService::getCurrentIdLanguage()],
+    //            ['entries.entry','startswith','sty\_fc%'],
+    //        ], $criteria);
+    //    }
     /*
         public function listSTLUforConstraint()
         {
@@ -540,4 +546,3 @@ class SemanticType
         }
     */
 }
-

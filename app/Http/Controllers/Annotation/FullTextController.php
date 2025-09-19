@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Annotation;
 
-
 use App\Data\Annotation\Browse\SearchData;
 use App\Http\Controllers\Controller;
 use App\Services\Annotation\BrowseService;
@@ -10,29 +9,28 @@ use App\Services\Annotation\CorpusService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 
-#[Middleware("auth")]
+#[Middleware('auth')]
 class FullTextController extends Controller
 {
     #[Get(path: '/annotation/fullText')]
     public function browse(SearchData $search)
     {
-        $data = BrowseService::browseCorpusBySearch($search, [], "CorpusAnnotation");
+        $data = BrowseService::browseCorpusBySearch($search, [], 'CorpusAnnotation');
 
         return view('Annotation.browseSentences', [
-            'page' => "FullText Annotation",
-            'url' => "/annotation/fullText/sentence",
+            'page' => 'FullText Annotation',
+            'url' => '/annotation/fullText/sentence',
             'data' => $data,
         ]);
     }
 
     #[Get(path: '/annotation/fullText/sentence/{idDocumentSentence}/{idAnnotationSet?}')]
-    public function annotation(int $idDocumentSentence,int $idAnnotationSet = null)
+    public function annotation(int $idDocumentSentence, ?int $idAnnotationSet = null)
     {
-        $data = CorpusService::getResourceData($idDocumentSentence, $idAnnotationSet, "fullText");
-        $page = "FullText Annotation";
-        $url = "/annotation/fullText/sentence";
-        return view("Annotation.Corpus.annotation", array_merge($data,compact("page", "url")));
+        $data = CorpusService::getResourceData($idDocumentSentence, $idAnnotationSet, 'fullText');
+        $page = 'FullText Annotation';
+        $url = '/annotation/fullText/sentence';
+
+        return view('Annotation.Corpus.annotation', array_merge($data, compact('page', 'url')));
     }
-
 }
-

@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Domain\BackgroundTheories;
 
-use Tests\TestCase;
 use App\Domain\BackgroundTheories\BackgroundReasoningContext;
 use App\Domain\BackgroundTheories\BackgroundRepository;
 use App\Domain\BackgroundTheories\Entities\EventualityEntity;
 use App\Domain\BackgroundTheories\Entities\SetEntity;
-use App\Domain\BackgroundTheories\Predicates\RexistPredicate;
 use App\Domain\BackgroundTheories\Predicates\MemberPredicate;
+use App\Domain\BackgroundTheories\Predicates\RexistPredicate;
+use Tests\TestCase;
 
 /**
  * Test suite for Background Theory predicates
@@ -20,7 +20,7 @@ class PredicateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $repository = new BackgroundRepository();
+        $repository = new BackgroundRepository;
         $this->context = new BackgroundReasoningContext($repository);
     }
 
@@ -29,7 +29,7 @@ class PredicateTest extends TestCase
     {
         $eventuality = new EventualityEntity([
             'predicate_name' => 'test',
-            'arguments' => ['arg1']
+            'arguments' => ['arg1'],
         ]);
 
         $rexistPredicate = new RexistPredicate($eventuality);
@@ -51,7 +51,7 @@ class PredicateTest extends TestCase
 
         // Make eventuality really exist
         $eventuality->realize();
-        
+
         // Now should evaluate to true
         $this->assertTrue($rexistPredicate->evaluate($this->context));
     }
@@ -87,10 +87,10 @@ class PredicateTest extends TestCase
     public function member_predicate_evaluates_correctly(): void
     {
         $set = new SetEntity(['elements' => ['x', 'y', 'z']]);
-        
+
         $memberPredicate = new MemberPredicate('x', $set);
         $this->assertTrue($memberPredicate->evaluate($this->context));
-        
+
         $nonMemberPredicate = new MemberPredicate('w', $set);
         $this->assertFalse($nonMemberPredicate->evaluate($this->context));
     }
@@ -120,7 +120,7 @@ class PredicateTest extends TestCase
     {
         $eventuality = new EventualityEntity(['predicate_name' => 'fol_test']);
         $set = new SetEntity(['elements' => ['item1']]);
-        
+
         $rexistPredicate = new RexistPredicate($eventuality);
         $memberPredicate = new MemberPredicate('item1', $set);
 
@@ -129,7 +129,7 @@ class PredicateTest extends TestCase
 
         $this->assertStringContains('Rexist', $rexistFOL);
         $this->assertStringContains($eventuality->getId(), $rexistFOL);
-        
+
         $this->assertStringContains('member', $memberFOL);
         $this->assertStringContains('item1', $memberFOL);
         $this->assertStringContains($set->getId(), $memberFOL);
@@ -157,7 +157,7 @@ class PredicateTest extends TestCase
         $rexistPredicate->realize();
 
         $json = $rexistPredicate->jsonSerialize();
-        
+
         $this->assertIsArray($json);
         $this->assertEquals('Rexist', $json['name']);
         $this->assertEquals(1, $json['arity']);
@@ -172,7 +172,7 @@ class PredicateTest extends TestCase
         $rexistPredicate->setMetadata('test_key', 'test_value');
 
         $dbArray = $rexistPredicate->toDatabaseArray();
-        
+
         $this->assertIsArray($dbArray);
         $this->assertEquals('Rexist', $dbArray['name']);
         $this->assertEquals(1, $dbArray['arity']);
@@ -185,7 +185,7 @@ class PredicateTest extends TestCase
     {
         $eventuality1 = new EventualityEntity(['predicate_name' => 'equal1']);
         $eventuality2 = new EventualityEntity(['predicate_name' => 'equal2']);
-        
+
         $predicate1a = new RexistPredicate($eventuality1);
         $predicate1b = new RexistPredicate($eventuality1);
         $predicate2 = new RexistPredicate($eventuality2);
@@ -200,11 +200,11 @@ class PredicateTest extends TestCase
     {
         $eventuality = new EventualityEntity([
             'predicate_name' => 'walk',
-            'arguments' => ['john', 'park']
+            'arguments' => ['john', 'park'],
         ]);
-        
+
         $set = new SetEntity(['elements' => ['apple', 'banana']]);
-        
+
         $rexistPredicate = new RexistPredicate($eventuality);
         $memberPredicate = new MemberPredicate('apple', $set);
 
@@ -213,7 +213,7 @@ class PredicateTest extends TestCase
 
         $this->assertStringContains('Rexist', $rexistDesc);
         $this->assertStringContains('eventuality', $rexistDesc);
-        
+
         $this->assertStringContains('member', $memberDesc);
         $this->assertStringContains('apple', $memberDesc);
     }
@@ -228,7 +228,7 @@ class PredicateTest extends TestCase
         $predicate->setMetadata('confidence', 0.95);
 
         $metadata = $predicate->getMetadata();
-        
+
         $this->assertEquals('axiom_5_1', $metadata['source']);
         $this->assertEquals(0.95, $metadata['confidence']);
     }

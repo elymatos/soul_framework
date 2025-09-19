@@ -36,36 +36,37 @@ class Resource3Controller extends Controller
     #[Post(path: '/lexicon3/search')]
     public function search(SearchData $search)
     {
-        $title = "";
+        $title = '';
         if ($search->idLemma != 0) {
             $data = BrowseService::browseFormByLemmaSearch($search);
-        } else if ($search->form != '') {
+        } elseif ($search->form != '') {
             $data = BrowseService::browseFormBySearch($search);
             $title = 'Forms';
         } else {
             $data = BrowseService::browseLemmaBySearch($search);
             $title = 'Lemmas';
         }
+
         return view('Lexicon3.tree', [
             'data' => $data,
             'title' => $title,
         ]);
     }
 
-//    #[Post(path: '/lexicon3/tree')]
-//    public function tree(TreeData $search)
-//    {
-//        $data = [];
-//        if ($search->idLemma != 0) {
-//            $data = BrowseService::browseFormByLemmaSearch($search);
-//        }
-//
-//        return view('Lexicon3.browse', [
-//            'idNode' => $search->idLemma,
-//            'data' => $data,
-//        ])->fragment('tree');
-//
-//    }
+    //    #[Post(path: '/lexicon3/tree')]
+    //    public function tree(TreeData $search)
+    //    {
+    //        $data = [];
+    //        if ($search->idLemma != 0) {
+    //            $data = BrowseService::browseFormByLemmaSearch($search);
+    //        }
+    //
+    //        return view('Lexicon3.browse', [
+    //            'idNode' => $search->idLemma,
+    //            'data' => $data,
+    //        ])->fragment('tree');
+    //
+    //    }
 
     /*------
       Lemma
@@ -97,7 +98,7 @@ class Resource3Controller extends Controller
                 ->where('idUDPOS', $data->idUDPOS)
                 ->where('idLanguage', $data->idLanguage)
                 ->first();
-            if (!is_null($exists)) {
+            if (! is_null($exists)) {
                 throw new \Exception('Lemma already exists.');
             }
             $newLemma = json_encode([
@@ -114,7 +115,7 @@ class Resource3Controller extends Controller
                 'expressions' => [],
             ]);
 
-            return $view;//->fragment('content');
+            return $view; // ->fragment('content');
         } catch (\Exception $e) {
             return $this->renderNotify('error', $e->getMessage());
         }
@@ -269,7 +270,7 @@ class Resource3Controller extends Controller
                 ->where('idLexiconGroup', $data->idLexiconGroup)
                 ->where('idLanguage', $data->idLanguage)
                 ->first();
-            if (!is_null($exists)) {
+            if (! is_null($exists)) {
                 throw new \Exception('Form already exists.');
             }
             $newForm = json_encode([

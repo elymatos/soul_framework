@@ -8,8 +8,6 @@ class SearchData extends Data
 {
     public function __construct(
         public ?string $domain = '',
-    )
-    {
-    }
+    ) {}
 
 }

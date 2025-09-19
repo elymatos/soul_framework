@@ -69,14 +69,14 @@ class SessionUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials): ?Authenticatable
     {
-        if (empty($credentials) || (!isset($credentials['login']) && !isset($credentials['email']))) {
+        if (empty($credentials) || (! isset($credentials['login']) && ! isset($credentials['email']))) {
             return null;
         }
 
         // Use existing repository logic to find user
         try {
             $query = [];
-            
+
             if (isset($credentials['login'])) {
                 $query = ['login', '=', $credentials['login']];
             } elseif (isset($credentials['email'])) {
@@ -86,6 +86,7 @@ class SessionUserProvider implements UserProvider
             $repositoryUser = \App\Database\Criteria::one('user', $query);
             if ($repositoryUser) {
                 $fullUser = UserRepository::byId($repositoryUser->idUser);
+
                 return UserModel::fromRepositoryUser($fullUser);
             }
         } catch (\Exception $e) {
@@ -100,18 +101,18 @@ class SessionUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
-        if (!isset($credentials['password'])) {
+        if (! isset($credentials['password'])) {
             return false;
         }
 
         $password = $credentials['password'];
-        
+
         // Check if password is already MD5 hashed (for internal auth)
         if (strlen($password) === 32 && ctype_xdigit($password)) {
             // Password is already MD5 hashed
             return $user->getAuthPassword() === $password;
         }
-        
+
         // Hash the password and compare
         return $user->getAuthPassword() === md5($password);
     }
@@ -134,7 +135,7 @@ class SessionUserProvider implements UserProvider
         if ($sessionUser && isset($sessionUser->idUser)) {
             return UserModel::fromRepositoryUser($sessionUser);
         }
-        
+
         return null;
     }
 
@@ -145,10 +146,10 @@ class SessionUserProvider implements UserProvider
     {
         // Update session (maintain existing behavior)
         session(['user' => $repositoryUser]);
-        
+
         // Convert to Eloquent model for Laravel Auth
         $userModel = UserModel::fromRepositoryUser($repositoryUser);
-        
+
         // Manually set in Laravel Auth
         auth()->setUser($userModel);
     }

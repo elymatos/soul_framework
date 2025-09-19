@@ -14,17 +14,17 @@ class RelationGroup extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public ?int $value = null
-    )
-    {
-        $list = Criteria::table("view_relationgroup")
-            ->where("idLanguage",AppService::getCurrentIdLanguage())
-            ->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('view_relationgroup')
+            ->where('idLanguage', AppService::getCurrentIdLanguage())
+            ->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $item) {
+        foreach ($list as $item) {
             $this->options[$item->idRelationGroup] = [
                 'id' => $item->idRelationGroup,
                 'text' => $item->name,

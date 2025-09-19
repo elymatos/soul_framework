@@ -18,9 +18,7 @@ class User extends Component
         public string $placeholder = '',
         public ?string $onChange = '',
         public ?string $onSelect = '',
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

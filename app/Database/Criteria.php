@@ -24,14 +24,16 @@ class Criteria extends Builder
 
     public static function table(string $tableName): static
     {
-        $self = new self();
+        $self = new self;
         $self->from($tableName);
+
         return $self;
     }
 
     public static function byFilter(string $tableName, array $filter): static
     {
-        $self = new self();
+        $self = new self;
+
         return $self->from($tableName)
             ->filter($filter);
     }
@@ -40,15 +42,17 @@ class Criteria extends Builder
     {
         $languageColumn ??= 'idLanguage';
         $idLanguage ??= AppService::getCurrentIdLanguage();
-        $self = new self();
+        $self = new self;
+
         return $self->from($tableName)
             ->filter($filter)
             ->where($languageColumn, '=', $idLanguage);
     }
 
-    public static function byId(string $tableName, string $key, mixed $value): null|object
+    public static function byId(string $tableName, string $key, mixed $value): ?object
     {
-        $self = new self();
+        $self = new self;
+
         return $self->from($tableName)
             ->where($key, $value)
             ->first();
@@ -56,15 +60,16 @@ class Criteria extends Builder
 
     public static function deleteById(string $tableName, string $key, mixed $value): void
     {
-        $self = new self();
+        $self = new self;
         $self->from($tableName)
             ->where($key, $value)
             ->delete();
     }
 
-    public static function one(string $tableName, array $filter): null|object
+    public static function one(string $tableName, array $filter): ?object
     {
-        $self = new self();
+        $self = new self;
+
         return $self->from($tableName)
             ->filter($filter)
             ->first();
@@ -72,9 +77,10 @@ class Criteria extends Builder
 
     public static function create(string $tableName, array $values): ?int
     {
-        $self = new self();
+        $self = new self;
         $self->from($tableName)
             ->insert($values);
+
         return $self->getConnection()->getPdo()->lastInsertId();
     }
 
@@ -83,33 +89,36 @@ class Criteria extends Builder
         return DB::select("call {$routine}", $params);
     }
 
-    public static function function (string $routine, array $params): mixed
+    public static function function(string $routine, array $params): mixed
     {
         $result = DB::select("select {$routine} as result", $params);
+
         return $result[0]->result;
     }
 
     public static function var(string $var): mixed
     {
         $result = DB::select("select {$var}");
+
         return $result[0]->{$var};
     }
 
     public function filter(array $filter): Criteria
     {
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             $filter = is_string($filter[0]) ? [$filter] : $filter;
             foreach ($filter as [$field, $op, $value]) {
-                if (!is_null($value)) {
+                if (! is_null($value)) {
                     $this->where($field, $op, $value);
                 }
             }
         }
+
         return $this;
     }
 
     /**
-     * @param string|null $className
+     * @param  string|null  $className
      * @return array array<$className>
      */
     public function all(): array
@@ -137,24 +146,24 @@ class Criteria extends Builder
     public function where($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         if (func_num_args() > 2) {
-            $uOp = strtoupper($operator ?? "");
+            $uOp = strtoupper($operator ?? '');
             if ($uOp == 'STARTSWITH') {
                 $operator = 'LIKE';
-                $value = $value . '%';
+                $value = $value.'%';
             } elseif ($uOp == 'CONTAINS') {
                 $operator = 'LIKE';
-                $value = '%' . $value . '%';
+                $value = '%'.$value.'%';
             }
             $uValue = is_string($value) ? strtoupper($value) : $value;
             if (($uValue === 'NULL') || is_null($value)) {
                 $this->whereNull($column);
-            } else if ($uValue === 'NOT NULL') {
+            } elseif ($uValue === 'NOT NULL') {
                 $this->whereNotNull($column);
-            } else if ($uOp === 'IN') {
+            } elseif ($uOp === 'IN') {
                 $this->whereIn($column, $value);
-            } else if ($uOp === 'NOT IN') {
+            } elseif ($uOp === 'NOT IN') {
                 $this->whereNotIn($column, $value);
-            } else if ($uOp === 'LEFT') {
+            } elseif ($uOp === 'LEFT') {
                 $this->whereRaw("(({$column} = {$value}) or ({$column} IS NULL))");
             } else {
                 parent::where($column, $operator, $value, $boolean);

@@ -15,10 +15,9 @@ class CreateData extends Data
         public ?int $idUser,
         public ?string $entry,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
-        $this->entry = strtolower('fe_' . $this->nameEn);
+        $this->entry = strtolower('fe_'.$this->nameEn);
         $this->_token = csrf_token();
     }
 }

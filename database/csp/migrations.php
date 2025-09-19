@@ -1,13 +1,13 @@
 <?php
 
-
 // database/migrations/2024_01_01_000001_create_background_entities_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * All Background Theory entities in one table
      * No artificial chapter boundaries
@@ -32,7 +32,8 @@ return new class extends Migration {
 
 // database/migrations/2024_01_01_000002_create_background_predicates_table.php
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * All Background Theory predicates in one table
      * Handles both simple and reified predicates
@@ -60,7 +61,8 @@ return new class extends Migration {
 
 // database/migrations/2024_01_01_000003_create_axiom_executions_table.php
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Track axiom executions across all background theories
      */

@@ -13,6 +13,7 @@ class UdFeature extends Component
      * Create a new component instance.
      */
     public ?string $description = '';
+
     public function __construct(
         public string $id,
         public string $label,
@@ -23,9 +24,7 @@ class UdFeature extends Component
         public ?string $onChange = '',
         public ?string $onSelect = '',
         public ?bool $hasDescription = true,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -33,14 +32,15 @@ class UdFeature extends Component
     public function render(): View|Closure|string
     {
         if (($this->value != '') && ($this->value != 0)) {
-            $udFeature = Criteria::byId("udfeature", "idUdFeature",$this->value);
+            $udFeature = Criteria::byId('udfeature', 'idUdFeature', $this->value);
             $this->placeholder = $udFeature->name;
         } else {
-            $this->placeholder = "Search Feature";
+            $this->placeholder = 'Search Feature';
         }
         if ($this->idName == '') {
             $this->idName = $this->id;
         }
+
         return view('components.combobox.ud-feature');
     }
 }

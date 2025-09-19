@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AppService
 {
-    static public function languagesDescription()
+    public static function languagesDescription()
     {
         return Criteria::table('language')
             ->treeResult('idLanguage');
@@ -19,6 +19,7 @@ class AppService
     {
         return session('currentLanguage')->language;
     }
+
     public static function getCurrentLanguage()
     {
         return session('currentLanguage');
@@ -42,11 +43,12 @@ class AppService
         $data = [];
         $languages = config('webtool.user')[3]['language'][3];
         foreach ($languages as $l => $language) {
-            $data[] = (object)[
+            $data[] = (object) [
                 'idLanguage' => $l,
-                'description' => $language[0]
+                'description' => $language[0],
             ];
         }
+
         return $data;
     }
 
@@ -55,9 +57,9 @@ class AppService
         App::setLocale(AppService::getCurrentLanguage()->language);
     }
 
-    static public function userLevel(): array
+    public static function userLevel(): array
     {
-        return Criteria::table("group")->chunkResult('idGroup', 'name');
+        return Criteria::table('group')->chunkResult('idGroup', 'name');
     }
 
     public static function getCurrentUser(): ?object
@@ -92,5 +94,4 @@ class AppService
 
         return User::isMemberOf($userWithGroups, $group) || User::isManager($userWithGroups);
     }
-
 }

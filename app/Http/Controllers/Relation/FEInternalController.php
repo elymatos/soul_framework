@@ -18,11 +18,12 @@ class FEInternalController extends Controller
     public function deleteFERelation(int $idEntityRelation)
     {
         try {
-            Criteria::deleteById("entityrelation", "idEntityRelation", $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idEntityRelation', $idEntityRelation);
             $this->trigger('reload-gridFEInternalRelation');
-            return $this->renderNotify("success", "Relation deleted.");
+
+            return $this->renderNotify('success', 'Relation deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -31,7 +32,7 @@ class FEInternalController extends Controller
     {
         debug($data);
         try {
-            $idFrameElementRelated = (array)$data->idFrameElementRelated;
+            $idFrameElementRelated = (array) $data->idFrameElementRelated;
             if (count($idFrameElementRelated)) {
                 $idFirst = array_shift($idFrameElementRelated);
                 $first = FrameElement::byId($idFirst);
@@ -40,18 +41,20 @@ class FEInternalController extends Controller
                     RelationService::create($data->relationTypeEntry, $first->idEntity, $next->idEntity);
                 }
             }
-            $this->notify("success", "Relation created.");
+            $this->notify('success', 'Relation created.');
             $this->trigger('reload-gridFEInternalRelation');
+
             return $this->render(
-                "Relation.feInternalFormNew", [
-                'idFrame' => $data->idFrame,
-                'idFrameElementRelated' => $data->idFrameElementRelated,
-                'relationType' => $data->relationTypeFEInternal
-            ]);
+                'Relation.feInternalFormNew', [
+                    'idFrame' => $data->idFrame,
+                    'idFrameElementRelated' => $data->idFrameElementRelated,
+                    'relationType' => $data->relationTypeFEInternal,
+                ]);
 
         } catch (\Exception $e) {
             debug($e->getMessage());
-            return $this->renderNotify("error", $e->getMessage());
+
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

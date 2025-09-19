@@ -16,23 +16,24 @@ class RelationController extends Controller
     public function relations(string $idEntityRelation, string $idCxnBase)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $relation = Criteria::byId("view_relation","idEntityRelation", $idEntityRelation);
-        $cxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity1)
-            ->where("idLanguage", $idLanguage)
+        $relation = Criteria::byId('view_relation', 'idEntityRelation', $idEntityRelation);
+        $cxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity1)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        $relatedCxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity2)
-            ->where("idLanguage", $idLanguage)
+        $relatedCxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity2)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        return view("Relation.ceChild",[
+
+        return view('Relation.ceChild', [
             'idEntityRelation' => $idEntityRelation,
             'idCxnBase' => $idCxnBase,
             'cxn' => $cxn,
             'relatedCxn' => $relatedCxn,
-            'relation' => (object)[
+            'relation' => (object) [
                 'name' => $relation->nameDirect,
-                'relationType' => $relation->relationType
+                'relationType' => $relation->relationType,
             ],
         ]);
     }
@@ -41,23 +42,24 @@ class RelationController extends Controller
     public function relationsCEFormNew(int $idEntityRelation)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $relation = Criteria::byId("view_relation","idEntityRelation", $idEntityRelation);
-        $cxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity1)
-            ->where("idLanguage", $idLanguage)
+        $relation = Criteria::byId('view_relation', 'idEntityRelation', $idEntityRelation);
+        $cxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity1)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        $relatedCxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity2)
-            ->where("idLanguage", $idLanguage)
+        $relatedCxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity2)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        return view("Relation.ceFormNew",[
+
+        return view('Relation.ceFormNew', [
             'idEntityRelation' => $idEntityRelation,
             'cxn' => $cxn,
             'relatedCxn' => $relatedCxn,
-            'relation' => (object)[
+            'relation' => (object) [
                 'name' => $relation->nameDirect,
-                'entry' => $relation->relationType
-            ]
+                'entry' => $relation->relationType,
+            ],
         ]);
     }
 
@@ -65,24 +67,25 @@ class RelationController extends Controller
     public function gridRelationsCE(int $idEntityRelation)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $relation = Criteria::byId("view_relation","idEntityRelation", $idEntityRelation);
-        $cxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity1)
-            ->where("idLanguage", $idLanguage)
+        $relation = Criteria::byId('view_relation', 'idEntityRelation', $idEntityRelation);
+        $cxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity1)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        $relatedCxn = Criteria::table("view_construction")
-            ->where("idEntity", $relation->idEntity2)
-            ->where("idLanguage", $idLanguage)
+        $relatedCxn = Criteria::table('view_construction')
+            ->where('idEntity', $relation->idEntity2)
+            ->where('idLanguage', $idLanguage)
             ->first();
-        return view("Relation.ceGrid",[
+
+        return view('Relation.ceGrid', [
             'idEntityRelation' => $idEntityRelation,
             'cxn' => $cxn,
             'relatedCxn' => $relatedCxn,
-            'relation' => (object)[
+            'relation' => (object) [
                 'name' => $relation->nameDirect,
-                'relationType' => $relation->relationType
+                'relationType' => $relation->relationType,
             ],
-            'relations' => RelationService::listRelationsCE($idEntityRelation)
+            'relations' => RelationService::listRelationsCE($idEntityRelation),
         ]);
     }
 }

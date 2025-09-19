@@ -14,9 +14,8 @@ class TwoFactorData extends Data
         public string $field4,
         public string $field5,
         public ?string $token = ''
-    )
-    {
-        $this->token = $this->field0 . $this->field1 . $this->field2 . $this->field3 . $this->field4 . $this->field5;
+    ) {
+        $this->token = $this->field0.$this->field1.$this->field2.$this->field3.$this->field4.$this->field5;
     }
 
 }

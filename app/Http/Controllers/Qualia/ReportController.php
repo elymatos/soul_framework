@@ -13,13 +13,13 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 #[Middleware(name: 'web')]
 class ReportController extends Controller
 {
-
     #[Get(path: '/report/qualia')]
     public function main(int|string $idConcept = '', string $lang = '')
     {
         $search = session('searchQualia') ?? SearchData::from();
         $data = [];
-        return view("Qualia.Report.main", [
+
+        return view('Qualia.Report.main', [
             'search' => $search,
             'idQualia' => null,
             'data' => $data,
@@ -38,40 +38,42 @@ class ReportController extends Controller
             if ($search->id == '') {
                 $types = Qualia::listTypes();
                 foreach ($types as $row) {
-                    $count = Criteria::table("qualia")
-                        ->where("idTypeInstance", $row->idTypeInstance)
+                    $count = Criteria::table('qualia')
+                        ->where('idTypeInstance', $row->idTypeInstance)
                         ->count();
                     $n = [];
-                    $n['id'] = 't' . $row->idTypeInstance;
+                    $n['id'] = 't'.$row->idTypeInstance;
                     $n['idTypeInstance'] = $row->idTypeInstance;
                     $n['type'] = 'type';
-                    $n['text'] = $typeIcon . $row->name;
+                    $n['text'] = $typeIcon.$row->name;
                     $n['state'] = ($count > 0) ? 'closed' : 'open';
                     $n['children'] = [];
                     $tree[] = $n;
                 }
+
                 return $tree;
             }
             if ($search->idTypeInstance > 0) {
                 $qualias = Qualia::listByType($search->idTypeInstance);
-            } else if ($search->idQualia > 0) {
+            } elseif ($search->idQualia > 0) {
                 $qualias = Qualia::listChildren($search->idQualia);
             }
         }
         foreach ($qualias as $qualia) {
             $frameName = '';
             if ($qualia->frameName != '') {
-                $frameName = '<span class="color_frame"> ['. $qualia->frameName . '] </span>';
+                $frameName = '<span class="color_frame"> ['.$qualia->frameName.'] </span>';
             }
             $n = [];
-            $n['id'] = 't' . $qualia->idEntity;
+            $n['id'] = 't'.$qualia->idEntity;
             $n['idQualia'] = $qualia->idQualia;
             $n['type'] = 'qualia';
-            $n['text'] = $qualiaIcon . $qualia->info . $frameName;
+            $n['text'] = $qualiaIcon.$qualia->info.$frameName;
             $n['state'] = 'open';
             $n['children'] = [];
             $tree[] = $n;
         }
+
         return $tree;
     }
 
@@ -83,7 +85,7 @@ class ReportController extends Controller
         $data['search'] = $search;
         $data['idQualia'] = $idQualia;
         $data['data'] = $data;
-        return view("Qualia.Report.report", $data);
-    }
 
+        return view('Qualia.Report.report', $data);
+    }
 }

@@ -12,13 +12,13 @@ use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
     #[Get(path: '/cxn/new')]
     public function new()
     {
-        return view("Construction.new");
+        return view('Construction.new');
     }
 
     #[Post(path: '/cxn')]
@@ -26,9 +26,10 @@ class ResourceController extends Controller
     {
         try {
             $idcxn = Criteria::function('cxn_create(?)', [$data->toJson()]);
+
             return $this->clientRedirect("/cxn/{$idcxn}");
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -39,20 +40,20 @@ class ResourceController extends Controller
             debug($idcxn);
             Criteria::function('cxn_delete(?, ?)', [
                 $idcxn,
-                AppService::getCurrentIdUser()
+                AppService::getCurrentIdUser(),
             ]);
-            return $this->clientRedirect("/cxn");
+
+            return $this->clientRedirect('/cxn');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/cxn/{id}')]
     public function get(string $id)
     {
-        return view("Construction.edit",[
+        return view('Construction.edit', [
             'cxn' => Construction::byId($id),
         ]);
     }
-
 }

@@ -13,14 +13,13 @@ class FormInline extends Component
      */
     public function __construct(
         public string $id = '',
-//        public string $title,
-//        public bool $center,
+        //        public string $title,
+        //        public bool $center,
         public bool $border = false,
-//        public string $toolbar = '',
-//        public string $fields,
-//        public string $buttons,
-    )
-    {
+        //        public string $toolbar = '',
+        //        public string $fields,
+        //        public string $buttons,
+    ) {
         if ($this->id === '') {
             $this->id = uniqid();
         }

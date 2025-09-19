@@ -33,7 +33,7 @@ class GraphViewerController extends Controller
                         'name' => pathinfo($filename, PATHINFO_FILENAME),
                         'path' => Storage::url($file),
                         'size' => Storage::size($file),
-                        'modified' => Storage::lastModified($file)
+                        'modified' => Storage::lastModified($file),
                     ];
                 }
             }
@@ -47,14 +47,14 @@ class GraphViewerController extends Controller
     {
         // Sanitize filename
         $filename = basename($filename);
-        if (!str_ends_with($filename, '.json')) {
+        if (! str_ends_with($filename, '.json')) {
             $filename .= '.json';
         }
 
-        $filePath = self::GRAPH_STORAGE_PATH . '/' . $filename;
+        $filePath = self::GRAPH_STORAGE_PATH.'/'.$filename;
 
-        if (!Storage::exists($filePath)) {
-            return $this->renderNotify('error', 'Graph file not found: ' . $filename);
+        if (! Storage::exists($filePath)) {
+            return $this->renderNotify('error', 'Graph file not found: '.$filename);
         }
 
         try {
@@ -62,7 +62,7 @@ class GraphViewerController extends Controller
             $graphData = json_decode($jsonContent, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return $this->renderNotify('error', 'Invalid JSON in file: ' . $filename);
+                return $this->renderNotify('error', 'Invalid JSON in file: '.$filename);
             }
 
             // Transform and pass to view
@@ -71,11 +71,11 @@ class GraphViewerController extends Controller
             return view('GraphViewer.viewer', [
                 'filename' => $filename,
                 'graphData' => $visNetworkData,
-                'metadata' => $graphData['metadata'] ?? []
+                'metadata' => $graphData['metadata'] ?? [],
             ]);
 
         } catch (\Exception $e) {
-            return $this->renderNotify('error', 'Error viewing graph: ' . $e->getMessage());
+            return $this->renderNotify('error', 'Error viewing graph: '.$e->getMessage());
         }
     }
 
@@ -84,14 +84,14 @@ class GraphViewerController extends Controller
     {
         // Sanitize filename to prevent directory traversal
         $filename = basename($filename);
-        if (!str_ends_with($filename, '.json')) {
+        if (! str_ends_with($filename, '.json')) {
             $filename .= '.json';
         }
 
-        $filePath = self::GRAPH_STORAGE_PATH . '/' . $filename;
+        $filePath = self::GRAPH_STORAGE_PATH.'/'.$filename;
 
-        if (!Storage::exists($filePath)) {
-            return response()->json(['error' => 'Graph file not found: ' . $filename], 404);
+        if (! Storage::exists($filePath)) {
+            return response()->json(['error' => 'Graph file not found: '.$filename], 404);
         }
 
         try {
@@ -99,7 +99,7 @@ class GraphViewerController extends Controller
             $graphData = json_decode($jsonContent, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return response()->json(['error' => 'Invalid JSON in file: ' . $filename], 400);
+                return response()->json(['error' => 'Invalid JSON in file: '.$filename], 400);
             }
 
             // Transform the SOUL Framework graph format to vis-network format
@@ -108,7 +108,7 @@ class GraphViewerController extends Controller
             return response()->json($visNetworkData);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error loading graph: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error loading graph: '.$e->getMessage()], 500);
         }
     }
 
@@ -118,11 +118,11 @@ class GraphViewerController extends Controller
         $visEdges = [];
 
         // Check if we have the expected graph structure
-        if (!isset($soulGraphData['graph'])) {
+        if (! isset($soulGraphData['graph'])) {
             // If no graph key, assume this is already in vis-network format
             return [
                 'nodes' => $soulGraphData['nodes'] ?? [],
-                'edges' => $soulGraphData['edges'] ?? []
+                'edges' => $soulGraphData['edges'] ?? [],
             ];
         }
 
@@ -136,7 +136,7 @@ class GraphViewerController extends Controller
                 'id' => $node['id'],
                 'label' => $node['name'] ?? $node['id'],
                 'title' => $this->createNodeTooltip($node), // Tooltip for hover
-                'group' => $node['group'] ?? $node['type'] ?? 'default'
+                'group' => $node['group'] ?? $node['type'] ?? 'default',
             ];
 
             // Apply styling based on node type
@@ -148,13 +148,13 @@ class GraphViewerController extends Controller
         // Transform links to edges
         foreach ($links as $link) {
             $visEdge = [
-                'id' => ($link['source'] ?? '') . '_' . ($link['target'] ?? '') . '_' . ($link['type'] ?? ''),
+                'id' => ($link['source'] ?? '').'_'.($link['target'] ?? '').'_'.($link['type'] ?? ''),
                 'from' => $link['source'],
                 'to' => $link['target'],
                 'label' => $link['type'] ?? '',
                 'title' => $this->createEdgeTooltip($link),
                 'width' => $this->getEdgeWidth($link),
-                'dashes' => $this->shouldDashEdge($link)
+                'dashes' => $this->shouldDashEdge($link),
             ];
 
             $visEdges[] = $visEdge;
@@ -162,7 +162,7 @@ class GraphViewerController extends Controller
 
         return [
             'nodes' => $visNodes,
-            'edges' => $visEdges
+            'edges' => $visEdges,
         ];
     }
 
@@ -176,7 +176,7 @@ class GraphViewerController extends Controller
                 $visNode['color'] = [
                     'background' => '#E3F2FD',
                     'border' => '#1976D2',
-                    'highlight' => ['background' => '#BBDEFB', 'border' => '#0D47A1']
+                    'highlight' => ['background' => '#BBDEFB', 'border' => '#0D47A1'],
                 ];
                 $visNode['size'] = 25;
                 break;
@@ -188,7 +188,7 @@ class GraphViewerController extends Controller
                 $visNode['color'] = [
                     'background' => $importance === 'high' ? '#4CAF50' : ($importance === 'medium' ? '#FF9800' : '#FFC107'),
                     'border' => $importance === 'high' ? '#2E7D32' : ($importance === 'medium' ? '#F57C00' : '#FF8F00'),
-                    'highlight' => ['background' => '#81C784', 'border' => '#1B5E20']
+                    'highlight' => ['background' => '#81C784', 'border' => '#1B5E20'],
                 ];
                 break;
 
@@ -197,7 +197,7 @@ class GraphViewerController extends Controller
                 $visNode['color'] = [
                     'background' => '#9C27B0',
                     'border' => '#4A148C',
-                    'highlight' => ['background' => '#CE93D8', 'border' => '#4A148C']
+                    'highlight' => ['background' => '#CE93D8', 'border' => '#4A148C'],
                 ];
                 $visNode['size'] = 15;
                 break;
@@ -208,7 +208,7 @@ class GraphViewerController extends Controller
                 $visNode['color'] = [
                     'background' => '#90EE90',
                     'border' => '#32CD32',
-                    'highlight' => ['background' => '#98FB98', 'border' => '#228B22']
+                    'highlight' => ['background' => '#98FB98', 'border' => '#228B22'],
                 ];
                 break;
 
@@ -219,7 +219,7 @@ class GraphViewerController extends Controller
                 $visNode['color'] = [
                     'background' => '#97C2FC',
                     'border' => '#2B7CE9',
-                    'highlight' => ['background' => '#FFA500', 'border' => '#FF8C00']
+                    'highlight' => ['background' => '#FFA500', 'border' => '#FF8C00'],
                 ];
                 break;
         }
@@ -228,22 +228,22 @@ class GraphViewerController extends Controller
     private function createNodeTooltip(array $node): string
     {
         $tooltip = "<b>{$node['name']}</b><br>";
-        $tooltip .= "Type: " . ($node['type'] ?? 'unknown') . "<br>";
+        $tooltip .= 'Type: '.($node['type'] ?? 'unknown').'<br>';
 
         if (isset($node['english'])) {
-            $tooltip .= "Description: " . htmlspecialchars($node['english']) . "<br>";
+            $tooltip .= 'Description: '.htmlspecialchars($node['english']).'<br>';
         }
 
         if (isset($node['frequency'])) {
-            $tooltip .= "Frequency: " . $node['frequency'] . "<br>";
+            $tooltip .= 'Frequency: '.$node['frequency'].'<br>';
         }
 
         if (isset($node['complexity'])) {
-            $tooltip .= "Complexity: " . $node['complexity'] . "<br>";
+            $tooltip .= 'Complexity: '.$node['complexity'].'<br>';
         }
 
         if (isset($node['pattern'])) {
-            $tooltip .= "Pattern: " . $node['pattern'] . "<br>";
+            $tooltip .= 'Pattern: '.$node['pattern'].'<br>';
         }
 
         return $tooltip;
@@ -251,10 +251,10 @@ class GraphViewerController extends Controller
 
     private function createEdgeTooltip(array $link): string
     {
-        $tooltip = "Relation: " . ($link['type'] ?? 'unknown') . "<br>";
+        $tooltip = 'Relation: '.($link['type'] ?? 'unknown').'<br>';
 
         if (isset($link['weight'])) {
-            $tooltip .= "Weight: " . $link['weight'] . "<br>";
+            $tooltip .= 'Weight: '.$link['weight'].'<br>';
         }
 
         return $tooltip;
@@ -263,12 +263,14 @@ class GraphViewerController extends Controller
     private function getEdgeWidth(array $link): int
     {
         $weight = $link['weight'] ?? 1;
-        return max(1, min(5, (int)($weight * 3)));
+
+        return max(1, min(5, (int) ($weight * 3)));
     }
 
     private function shouldDashEdge(array $link): bool
     {
         $type = $link['type'] ?? '';
+
         return in_array($type, ['co_occurs', 'has_variable']);
     }
 }

@@ -13,8 +13,7 @@ class Icon extends Component
      */
     public function __construct(
         public string $icon
-    )
-    {
+    ) {
         //
     }
 

@@ -10,7 +10,5 @@ class UpdateClassificationData extends Data
         public int $idFrame,
         public ?array $framalDomain = [],
         public ?array $framalType = [],
-    )
-    {
-    }
+    ) {}
 }

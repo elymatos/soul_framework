@@ -1,17 +1,18 @@
 <?php
+
 return [
     'subcorpus' => 'Subcorpus',
     'totals' => 'Total',
     'annotatorProfile' => 'Annotator profile',
-    'textualAnnotation' => "Textual Annotation",
+    'textualAnnotation' => 'Textual Annotation',
     'videoAnnotation' => 'Video Annotation',
     'imageAnnotation' => 'Image Annotation',
     'origin' => 'Origin',
     'sentences' => 'Sentences',
     'averages' => 'Average',
-    'ptt' => "PTT: Portugues Translation",
-    'pto' => "PTO: Portuguese Original",
-    'eno' => "ENO: English Original",
+    'ptt' => 'PTT: Portugues Translation',
+    'pto' => 'PTO: Portuguese Original',
+    'eno' => 'ENO: English Original',
     'annotatedSentences' => 'Annotated Sentences',
     'annotatedImages' => 'Annotated Images',
     'annotatedObjects' => 'Annotated Objects',

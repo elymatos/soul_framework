@@ -14,7 +14,5 @@ class CreateRelationTypeData extends Data
         public ?string $prefix = '',
         public ?int $idRelationGroup = 0,
         public string $_token = '',
-    )
-    {
-    }
+    ) {}
 }

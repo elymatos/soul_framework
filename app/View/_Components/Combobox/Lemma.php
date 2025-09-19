@@ -2,10 +2,10 @@
 
 namespace App\View\_Components\Combobox;
 
+use App\Repositories\Lemma as LemmaRepository;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Lemma as LemmaRepository;
 
 class Lemma extends Component
 {
@@ -18,14 +18,13 @@ class Lemma extends Component
         public string $placeholder = '',
         public string $name = '',
         public ?int $value = 0,
-    )
-    {
-        debug('value',$this->value);
+    ) {
+        debug('value', $this->value);
         if (($this->value != '') && ($this->value != 0)) {
             $lemma = LemmaRepository::byId($this->value);
             $this->placeholder = $lemma->name;
         } else {
-            $this->placeholder = "Search Lemma";
+            $this->placeholder = 'Search Lemma';
         }
     }
 

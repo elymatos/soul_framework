@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class CardError extends Component
 {
     public string $title;
+
     /**
      * Create a new component instance.
      */
@@ -17,8 +18,7 @@ class CardError extends Component
         public string $message,
         public string $goto,
         public string $gotoLabel,
-    )
-    {
+    ) {
         //
     }
 
@@ -28,14 +28,15 @@ class CardError extends Component
     public function render(): View|Closure|string
     {
         if ($this->type == 'error') {
-            $this->title = "Error";
+            $this->title = 'Error';
         }
         if ($this->type == 'warning') {
-            $this->title = "Warning";
+            $this->title = 'Warning';
         }
         if ($this->type == 'info') {
-            $this->title = "Information";
+            $this->title = 'Information';
         }
+
         return view('components.card-error');
     }
 }

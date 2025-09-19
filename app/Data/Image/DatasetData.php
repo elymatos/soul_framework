@@ -11,10 +11,8 @@ class DatasetData extends Data
         public ?int $idImage = null,
         public ?int $idDataset = null,
         public ?int $idUser = null
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
     }
-
 
 }

@@ -11,8 +11,7 @@ class CreateData extends Data
         public string $nameEn,
         public ?int $idUser = 1,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
     }
 }

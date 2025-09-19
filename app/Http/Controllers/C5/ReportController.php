@@ -18,7 +18,7 @@ class ReportController extends Controller
     #[Post(path: '/report/c5/grid')]
     public function grid(SearchData $search)
     {
-        return view("C5.Report.grid", [
+        return view('C5.Report.grid', [
             'search' => $search,
         ]);
     }
@@ -44,14 +44,15 @@ class ReportController extends Controller
                     debug($type);
                     $icon = $icons[$type->type];
                     $n = [];
-                    $n['id'] = 't' . $type->idTypeInstance;
+                    $n['id'] = 't'.$type->idTypeInstance;
                     $n['idTypeInstance'] = $type->idTypeInstance;
                     $n['type'] = 'type';
-                    $n['text'] = $icon . $type->name;
+                    $n['text'] = $icon.$type->name;
                     $n['state'] = 'closed';
                     $n['children'] = [];
                     $tree[] = $n;
                 }
+
                 return $tree;
             }
         } else {
@@ -64,14 +65,15 @@ class ReportController extends Controller
         foreach ($concepts as $concept) {
             $icon = $icons[$concept->type];
             $n = [];
-            $n['id'] = 'c' . $concept->idEntity;
+            $n['id'] = 'c'.$concept->idEntity;
             $n['idConcept'] = $concept->idConcept;
             $n['type'] = 'concept';
-            $n['text'] = $icon . $concept->name;
+            $n['text'] = $icon.$concept->name;
             $n['state'] = ($concept->n > 0) ? 'closed' : 'open';
             $n['children'] = [];
             $tree[] = $n;
         }
+
         return $tree;
     }
 
@@ -82,7 +84,8 @@ class ReportController extends Controller
         $data = ReportC5Service::report($idConcept, $lang);
         $data['search'] = $search;
         $data['idConcept'] = $idConcept;
-        return view("C5.Report.report", $data);
+
+        return view('C5.Report.report', $data);
     }
 
     #[Get(path: '/report/c5/{idConcept?}/{lang?}')]
@@ -90,9 +93,9 @@ class ReportController extends Controller
     {
         $search = session('searchFrame') ?? SearchData::from();
         if ($idConcept == '') {
-            return view("C5.Report.main", [
+            return view('C5.Report.main', [
                 'search' => $search,
-                'idConcept' => null
+                'idConcept' => null,
             ]);
         } else {
             $concept = Concept::byId($idConcept);
@@ -100,7 +103,8 @@ class ReportController extends Controller
             $data = ReportC5Service::report($idConcept, $lang);
             $data['search'] = $search;
             $data['idConcept'] = $idConcept;
-            return view("C5.Report.main", $data);
+
+            return view('C5.Report.main', $data);
         }
     }
 
@@ -108,8 +112,7 @@ class ReportController extends Controller
     public function listForSelect(QData $data)
     {
         $name = (strlen($data->q) > 2) ? $data->q : 'none';
-        return ['results' => Criteria::byFilterLanguage("view_concept", ["name", "startswith", $name])->orderby("name")->all()];
+
+        return ['results' => Criteria::byFilterLanguage('view_concept', ['name', 'startswith', $name])->orderby('name')->all()];
     }
-
-
 }

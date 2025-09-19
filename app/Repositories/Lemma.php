@@ -6,40 +6,39 @@ use App\Database\Criteria;
 
 class Lemma
 {
-
     public static function byId(int $id): object
     {
-        return Criteria::byFilterLanguage("lemma", ['idLemma', '=', $id])->first();
+        return Criteria::byFilterLanguage('lemma', ['idLemma', '=', $id])->first();
     }
 
-//    public static function listForSelect(string $name = '')
-//    {
-//        $name = (strlen($name) > 2) ? $name : '-none';
-//        $criteria = self::getCriteria()
-//            ->select(['idLemma', "concat(name,'  [',language.language,']') as name"])
-//            ->orderBy('name');
-//        return self::filter([
-//            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
-//            ["upper(name)", "startswith", trim(strtoupper($name))]
-//        ], $criteria);
-//    }
-//
-//    public static function listByFilter($filter)
-//    {
-//        $idLanguage = AppService::getCurrentIdLanguage();
-//        $criteria = self::getCriteria()
-//            ->select(['idLemma','name'])
-//            ->distinct()
-//            ->orderBy('name');
-//        return self::filter([
-//            ['idLanguage','=',$idLanguage],
-//            ['name','startswith',$filter?->name ?? null],
-//            ['name','startswith',$filter?->lemma ?? null],
-//            ['lexemeEntries.lexeme.name','startswith',$filter?->lexeme ?? null],
-//            ['lexemeEntries.idLexeme','=',$filter?->idLexeme ?? null],
-//        ], $criteria);
-//    }
-//
+    //    public static function listForSelect(string $name = '')
+    //    {
+    //        $name = (strlen($name) > 2) ? $name : '-none';
+    //        $criteria = self::getCriteria()
+    //            ->select(['idLemma', "concat(name,'  [',language.language,']') as name"])
+    //            ->orderBy('name');
+    //        return self::filter([
+    //            ['idLanguage', '=', AppService::getCurrentIdLanguage()],
+    //            ["upper(name)", "startswith", trim(strtoupper($name))]
+    //        ], $criteria);
+    //    }
+    //
+    //    public static function listByFilter($filter)
+    //    {
+    //        $idLanguage = AppService::getCurrentIdLanguage();
+    //        $criteria = self::getCriteria()
+    //            ->select(['idLemma','name'])
+    //            ->distinct()
+    //            ->orderBy('name');
+    //        return self::filter([
+    //            ['idLanguage','=',$idLanguage],
+    //            ['name','startswith',$filter?->name ?? null],
+    //            ['name','startswith',$filter?->lemma ?? null],
+    //            ['lexemeEntries.lexeme.name','startswith',$filter?->lexeme ?? null],
+    //            ['lexemeEntries.idLexeme','=',$filter?->idLexeme ?? null],
+    //        ], $criteria);
+    //    }
+    //
 
     /*
     public function getIdEntity()
@@ -229,98 +228,98 @@ class Lemma
     }
     */
 
-//    public function save($data)
-//    {
-//        try {
-//            $transaction = $this->beginTransaction();
-//            $this->setData($data->lemma);
-//            parent::save();
-//            Timeline::addTimeline("lemma", $this->getId(), "S");
-//            $this->getIdEntity();
-//            $lexemeEntry = new LexemeEntry();
-//            $lexemeEntry->setIdLemma($this->getId());
-//            $order = 1;
-//            foreach ($data->lexeme as $lexeme => $array) {
-//                $lexemeEntry->setPersistent(false);
-//                $lexemeEntry->setIdLexeme($array['id']);
-//                $lexemeEntry->setBreakBefore($array['breakBefore'] ?: '0');
-//                $lexemeEntry->setHeadWord(($lexeme == $data->lemma->headWord) ? '1' : '0');
-//                $lexemeEntry->setLexemeOrder($order++);
-//                $lexemeEntry->save();
-//            }
-//            $transaction->commit();
-//        } catch (\Exception $e) {
-//            $transaction->rollback();
-//            throw new \Exception($e->getMessage());
-//        }
-//    }
-/*
-    public function create(CreateLemmaData $data)
-    {
-        $this->beginTransaction();
-        try {
-            $entity = new Entity();
-            $idEntity = $entity->create('LM', 'lemma_' . $data->name . '_' . $data->idLanguage);
-            $id = $this->saveData([
-                'name' => $data->name,
-                'idLanguage' => $data->idLanguage,
-                'idPOS' => $data->idPOS,
-                'idEntity' => $idEntity
-            ]);
-            Timeline::addTimeline("lemma", $id, "C");
-            $this->commit();
-        } catch (\Exception $e) {
-            $this->rollback();
-            throw new \Exception($e->getMessage());
+    //    public function save($data)
+    //    {
+    //        try {
+    //            $transaction = $this->beginTransaction();
+    //            $this->setData($data->lemma);
+    //            parent::save();
+    //            Timeline::addTimeline("lemma", $this->getId(), "S");
+    //            $this->getIdEntity();
+    //            $lexemeEntry = new LexemeEntry();
+    //            $lexemeEntry->setIdLemma($this->getId());
+    //            $order = 1;
+    //            foreach ($data->lexeme as $lexeme => $array) {
+    //                $lexemeEntry->setPersistent(false);
+    //                $lexemeEntry->setIdLexeme($array['id']);
+    //                $lexemeEntry->setBreakBefore($array['breakBefore'] ?: '0');
+    //                $lexemeEntry->setHeadWord(($lexeme == $data->lemma->headWord) ? '1' : '0');
+    //                $lexemeEntry->setLexemeOrder($order++);
+    //                $lexemeEntry->save();
+    //            }
+    //            $transaction->commit();
+    //        } catch (\Exception $e) {
+    //            $transaction->rollback();
+    //            throw new \Exception($e->getMessage());
+    //        }
+    //    }
+    /*
+        public function create(CreateLemmaData $data)
+        {
+            $this->beginTransaction();
+            try {
+                $entity = new Entity();
+                $idEntity = $entity->create('LM', 'lemma_' . $data->name . '_' . $data->idLanguage);
+                $id = $this->saveData([
+                    'name' => $data->name,
+                    'idLanguage' => $data->idLanguage,
+                    'idPOS' => $data->idPOS,
+                    'idEntity' => $idEntity
+                ]);
+                Timeline::addTimeline("lemma", $id, "C");
+                $this->commit();
+            } catch (\Exception $e) {
+                $this->rollback();
+                throw new \Exception($e->getMessage());
+            }
         }
-    }
 
-    public function delete()
-    {
-        $this->beginTransaction();;
-        try {
-            Timeline::addTimeline("lemma", $this->getId(), "D");
-            $le = new LexemeEntry();
-            $le->deleteByLemma($this->idLemma);
-            parent::delete();
-            $entity = new Entity($this->idEntity);
-            $entity->delete();
-            $this->commit();
-        } catch (\Exception $e) {
-            $this->rollback();
-            throw new \Exception($e->getMessage());
+        public function delete()
+        {
+            $this->beginTransaction();;
+            try {
+                Timeline::addTimeline("lemma", $this->getId(), "D");
+                $le = new LexemeEntry();
+                $le->deleteByLemma($this->idLemma);
+                parent::delete();
+                $entity = new Entity($this->idEntity);
+                $entity->delete();
+                $this->commit();
+            } catch (\Exception $e) {
+                $this->rollback();
+                throw new \Exception($e->getMessage());
+            }
         }
-    }
 
-    public function update(UpdateLemmaData $data)
-    {
-        $this->beginTransaction();
-        try {
-            $id = $this->saveData([
-                'name' => $data->name,
-                'idLanguage' => $data->idLanguage,
-                'idPOS' => $data->idPOS,
-            ]);
-            Timeline::addTimeline("lemma", $id, "U");
-            $this->commit();
-        } catch (\Exception $e) {
-            $this->rollback();
-            throw new \Exception($e->getMessage());
+        public function update(UpdateLemmaData $data)
+        {
+            $this->beginTransaction();
+            try {
+                $id = $this->saveData([
+                    'name' => $data->name,
+                    'idLanguage' => $data->idLanguage,
+                    'idPOS' => $data->idPOS,
+                ]);
+                Timeline::addTimeline("lemma", $id, "U");
+                $this->commit();
+            } catch (\Exception $e) {
+                $this->rollback();
+                throw new \Exception($e->getMessage());
+            }
         }
-    }
-    public function updateEntity()
-    {
-        try {
-            ddump('update entity');
-            $transaction = $this->beginTransaction();
-            $this->getIdEntity();
-            $transaction->commit();
-        } catch (\Exception $e) {
-            $transaction->rollback();
-            throw new \Exception($e->getMessage());
+        public function updateEntity()
+        {
+            try {
+                ddump('update entity');
+                $transaction = $this->beginTransaction();
+                $this->getIdEntity();
+                $transaction->commit();
+            } catch (\Exception $e) {
+                $transaction->rollback();
+                throw new \Exception($e->getMessage());
+            }
         }
-    }
-*/
+    */
     /**
      * Upload de MWE+POS em texto simples (MWE POS)
      *
@@ -331,8 +330,9 @@ class Lemma
      * breakBefore: 0 | 1
      *
      * Parâmetro data informa: idLanguage
-     * @param type $data
-     * @param type $file
+     *
+     * @param  type  $data
+     * @param  type  $file
      */
     /*
     public function uploadMWE($data, $file)
@@ -438,8 +438,9 @@ class Lemma
      * breakBefore: registrado como 0
      *
      * Parâmetro data informa: idLanguage
-     * @param object $data
-     * @param array $rows
+     *
+     * @param  object  $data
+     * @param  array  $rows
      */
     /*
     public function registerLemma($data, $rows)

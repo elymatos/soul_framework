@@ -15,9 +15,7 @@ class InlineButton extends Component
         public string $label = '',
         public string $href = '',
         public string $icon = ''
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

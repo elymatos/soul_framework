@@ -13,15 +13,15 @@ class LayerGroup extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public int $value
-    )
-    {
-        $list = Criteria::table("layergroup")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('layergroup')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $lg) {
+        foreach ($list as $lg) {
             $this->options[$lg->idLayerGroup] = [
                 'id' => $lg->idLayerGroup,
                 'text' => $lg->name,

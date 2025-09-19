@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\domain_distribution;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\domain_distribution\domain_distributionService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for domain_distribution background theory

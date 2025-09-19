@@ -10,10 +10,8 @@ class CreateData extends Data
     public function __construct(
         public ?string $name = '',
         public ?int $idUser = null
-    )
-    {
+    ) {
         $this->idUser = AppService::getCurrentIdUser();
     }
-
 
 }

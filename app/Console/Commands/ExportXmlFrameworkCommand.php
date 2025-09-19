@@ -4,17 +4,17 @@ namespace App\Console\Commands;
 
 use App\Database\Criteria;
 use App\Services\AppService;
-use App\Services\XmlExport\XmlExportConfig;
-use App\Services\XmlExport\XmlUtils;
-use App\Services\XmlExport\XmlTemplateManager;
-use App\Services\XmlExport\ExportProgressTracker;
 use App\Services\XmlExport\BatchExportManager;
+use App\Services\XmlExport\ExportProgressTracker;
 use App\Services\XmlExport\ExportQueryBuilder;
+use App\Services\XmlExport\XmlExportConfig;
+use App\Services\XmlExport\XmlTemplateManager;
+use App\Services\XmlExport\XmlUtils;
 use App\Services\XmlExport\XsdCompliantGenerators;
-use Illuminate\Console\Command;
-use SimpleXMLElement;
 use DOMDocument;
 use Exception;
+use Illuminate\Console\Command;
+use SimpleXMLElement;
 
 class ExportXmlFrameworkCommand extends Command
 {
@@ -35,11 +35,17 @@ class ExportXmlFrameworkCommand extends Command
     protected $description = 'Export FrameNet data to XML files with XSD validation support';
 
     private int $idLanguage;
+
     private string $outputDir;
+
     private bool $validateXsd;
+
     private array $config;
+
     private ExportProgressTracker $tracker;
+
     private BatchExportManager $batchManager;
+
     private XsdCompliantGenerators $generators;
 
     /**
@@ -50,19 +56,19 @@ class ExportXmlFrameworkCommand extends Command
         // Load configuration
         $this->config = config('export_config', []);
 
-        $this->idLanguage = (int)($this->option('language') ?? $this->config['default_language'] ?? 2);
-        //$this->outputDir = $this->option('output') ?? $this->config['output_directory'] ?? 'exports';
+        $this->idLanguage = (int) ($this->option('language') ?? $this->config['default_language'] ?? 2);
+        // $this->outputDir = $this->option('output') ?? $this->config['output_directory'] ?? 'exports';
         $this->validateXsd = $this->option('validate') ?? $this->config['validate_xsd'] ?? false;
 
         $this->outputDir = $this->config['output_directory'];
         if ($this->option('output') != '') {
-            $this->outputDir .= "/" . $this->option('output');
+            $this->outputDir .= '/'.$this->option('output');
         }
 
         AppService::setCurrentLanguage($this->idLanguage);
 
         // Initialize progress tracker and batch manager
-        $this->tracker = new ExportProgressTracker();
+        $this->tracker = new ExportProgressTracker;
         $this->batchManager = new BatchExportManager(
             $this->config['batch_size'] ?? 100,
             $this->outputDir
@@ -83,19 +89,20 @@ class ExportXmlFrameworkCommand extends Command
         $id = $this->option('id');
 
         // Validate export type
-        if (!in_array($type, XmlExportConfig::getExportTypes())) {
+        if (! in_array($type, XmlExportConfig::getExportTypes())) {
             $this->error("Invalid export type: {$type}");
-            $this->info("Available types: " . implode(', ', XmlExportConfig::getExportTypes()));
+            $this->info('Available types: '.implode(', ', XmlExportConfig::getExportTypes()));
+
             return 1;
         }
 
         $this->info("Starting XML export for type: {$type}");
         $this->info("Language ID: {$this->idLanguage}");
         $this->info("Output directory: {$this->outputDir}");
-        $this->info("XSD Validation: " . ($this->validateXsd ? 'enabled' : 'disabled'));
+        $this->info('XSD Validation: '.($this->validateXsd ? 'enabled' : 'disabled'));
 
         // Create output directory if it doesn't exist
-        if (!is_dir($this->outputDir)) {
+        if (! is_dir($this->outputDir)) {
             mkdir($this->outputDir, 0755, true);
         }
 
@@ -134,6 +141,7 @@ class ExportXmlFrameworkCommand extends Command
                     break;
                 default:
                     $this->error("Unknown export type: {$type}");
+
                     return 1;
             }
 
@@ -141,11 +149,12 @@ class ExportXmlFrameworkCommand extends Command
             $stats = $this->batchManager->getStatistics();
             $this->displayStatistics($stats);
 
-            $this->info("Export completed successfully!");
+            $this->info('Export completed successfully!');
+
             return 0;
 
         } catch (Exception $e) {
-            $this->error("Export failed: " . $e->getMessage());
+            $this->error('Export failed: '.$e->getMessage());
             $this->tracker->fail($e->getMessage());
 
             if ($this->config['logging']['enabled'] ?? true) {
@@ -163,7 +172,7 @@ class ExportXmlFrameworkCommand extends Command
     {
         $documents = $this->getDocuments($idDocument);
 
-        $this->info("Exporting " . count($documents) . " document(s) as full text annotations");
+        $this->info('Exporting '.count($documents).' document(s) as full text annotations');
 
         $progressBar = $this->output->createProgressBar(count($documents));
         $progressBar->start();
@@ -184,7 +193,7 @@ class ExportXmlFrameworkCommand extends Command
     {
         $frames = $this->getFrames($idFrame);
 
-        $this->info("Exporting " . count($frames) . " frame(s)");
+        $this->info('Exporting '.count($frames).' frame(s)');
 
         $progressBar = $this->output->createProgressBar(count($frames));
         $progressBar->start();
@@ -205,7 +214,7 @@ class ExportXmlFrameworkCommand extends Command
     {
         $lexicalUnits = $this->getLexicalUnits($idLU);
 
-        $this->info("Exporting " . count($lexicalUnits) . " lexical unit(s)");
+        $this->info('Exporting '.count($lexicalUnits).' lexical unit(s)');
 
         $progressBar = $this->output->createProgressBar(count($lexicalUnits));
         $progressBar->start();
@@ -226,7 +235,7 @@ class ExportXmlFrameworkCommand extends Command
     {
         $corpora = $this->getCorpora($idCorpus);
 
-        $this->info("Exporting " . count($corpora) . " corpus/corpora");
+        $this->info('Exporting '.count($corpora).' corpus/corpora');
 
         foreach ($corpora as $corpus) {
             $this->exportCorpusData($corpus);
@@ -238,7 +247,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportAll(): void
     {
-        $this->info("Exporting all data types...");
+        $this->info('Exporting all data types...');
 
         // Export indexes first
         $this->exportFrameIndex();
@@ -271,7 +280,7 @@ class ExportXmlFrameworkCommand extends Command
             $xsdFile = $this->config['xsd_schemas'][$schemaType] ?? null;
             if ($xsdFile && file_exists($xsdFile)) {
                 $errors = XmlUtils::validateXml($dom, $xsdFile);
-                if (!empty($errors)) {
+                if (! empty($errors)) {
                     $this->tracker->addWarning("XML validation failed for {$filename}", implode('; ', $errors));
                     if ($this->config['logging']['enabled'] ?? true) {
                         $this->logValidationErrors($filename, $errors);
@@ -296,29 +305,29 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function getDocuments(?string $idDocument = null): array
     {
-        $queryBuilder = new ExportQueryBuilder();
+        $queryBuilder = new ExportQueryBuilder;
 
         // Apply base filters from config
         $filters = $this->config['filters']['fulltext'] ?? [];
 
         $query = $queryBuilder
-            ->addFilter("idLanguage", "=", $this->idLanguage)
-            ->addOrderBy("idDocument")
+            ->addFilter('idLanguage', '=', $this->idLanguage)
+            ->addOrderBy('idDocument')
             ->buildQuery($this->config['database_views']['documents'] ?? 'view_document');
 
         // Apply active filter if configured
         if ($this->config['filters']['active_only'] ?? true) {
-            $query->where("active", 1);
+            $query->where('active', 1);
         }
 
         if ($idDocument) {
-            $query->where("idDocument", $idDocument);
+            $query->where('idDocument', $idDocument);
         }
 
         if ($corpusId = $this->option('corpus')) {
-            $query->where("idCorpus", $corpusId);
+            $query->where('idCorpus', $corpusId);
         } elseif (isset($this->config['filters']['default_corpus'])) {
-            $query->where("idCorpus", $this->config['filters']['default_corpus']);
+            $query->where('idCorpus', $this->config['filters']['default_corpus']);
         }
 
         return $query->all();
@@ -329,26 +338,26 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function getFrames(?string $idFrame = null): array
     {
-        $queryBuilder = new ExportQueryBuilder();
+        $queryBuilder = new ExportQueryBuilder;
         $frameFilters = $this->config['filters']['frames'] ?? [];
 
         $query = $queryBuilder
-            ->addFilter("idLanguage", "=", $this->idLanguage)
-            ->addOrderBy("entry")
+            ->addFilter('idLanguage', '=', $this->idLanguage)
+            ->addOrderBy('entry')
             ->buildQuery($this->config['database_views']['frames'] ?? 'view_frame');
 
         // Apply active filter if configured
         if ($this->config['filters']['active_only'] ?? true) {
-            $query->where("active", 1);
+            $query->where('active', 1);
         }
 
         // Apply frame-specific filters
-        if (!($frameFilters['include_deprecated'] ?? false)) {
-            $query->where("active", 1);
+        if (! ($frameFilters['include_deprecated'] ?? false)) {
+            $query->where('active', 1);
         }
 
         if ($idFrame) {
-            $query->where("idFrame", $idFrame);
+            $query->where('idFrame', $idFrame);
         }
 
         return $query->all();
@@ -360,33 +369,33 @@ class ExportXmlFrameworkCommand extends Command
     private function getLexicalUnits(?string $idLU = null): array
     {
         $query = Criteria::table($this->config['database_views']['lexical_units'] ?? 'view_lu')
-            ->join("view_frame as f","lu.idFrame","=","f.idFrame")
-            ->join("language as l","lu.idLanguage","=","l.idLanguage")
-            ->where("f.idLanguage", $this->idLanguage)
-            ->where("lu.active", 1)
-            ->select("lu.idLU","lu.name","f.name as frameName","lu.idFrame","l.language")
-            ->orderBy("lu.name");
+            ->join('view_frame as f', 'lu.idFrame', '=', 'f.idFrame')
+            ->join('language as l', 'lu.idLanguage', '=', 'l.idLanguage')
+            ->where('f.idLanguage', $this->idLanguage)
+            ->where('lu.active', 1)
+            ->select('lu.idLU', 'lu.name', 'f.name as frameName', 'lu.idFrame', 'l.language')
+            ->orderBy('lu.name');
 
-        //$queryBuilder = new ExportQueryBuilder();
+        // $queryBuilder = new ExportQueryBuilder();
         $luFilters = $this->config['filters']['lexical_units'] ?? [];
 
-//        $query = $queryBuilder
-//            ->addFilter("idLanguageFrame", "=", $this->idLanguage)
-//            ->addOrderBy("name")
-//            ->buildQuery($this->config['database_views']['lexical_units'] ?? 'view_lu');
+        //        $query = $queryBuilder
+        //            ->addFilter("idLanguageFrame", "=", $this->idLanguage)
+        //            ->addOrderBy("name")
+        //            ->buildQuery($this->config['database_views']['lexical_units'] ?? 'view_lu');
 
         // Apply active filter if configured
         if ($this->config['filters']['active_only'] ?? true) {
-            $query->where("lu.active", 1);
+            $query->where('lu.active', 1);
         }
 
         // Apply frequency filter if configured
         if (isset($luFilters['min_frequency']) && $luFilters['min_frequency'] > 0) {
-            $query->where("frequency", ">=", $luFilters['min_frequency']);
+            $query->where('frequency', '>=', $luFilters['min_frequency']);
         }
 
         if ($idLU) {
-            $query->where("idLU", $idLU);
+            $query->where('idLU', $idLU);
         }
 
         return $query->all();
@@ -397,20 +406,20 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function getCorpora(?string $idCorpus = null): array
     {
-        $queryBuilder = new ExportQueryBuilder();
+        $queryBuilder = new ExportQueryBuilder;
 
         $query = $queryBuilder
-            ->addFilter("idLanguage", "=", $this->idLanguage)
-            ->addOrderBy("name")
+            ->addFilter('idLanguage', '=', $this->idLanguage)
+            ->addOrderBy('name')
             ->buildQuery($this->config['database_views']['corpora'] ?? 'view_corpus');
 
         // Apply active filter if configured
         if ($this->config['filters']['active_only'] ?? true) {
-            $query->where("active", 1);
+            $query->where('active', 1);
         }
 
         if ($idCorpus) {
-            $query->where("idCorpus", $idCorpus);
+            $query->where('idCorpus', $idCorpus);
         }
 
         return $query->all();
@@ -460,7 +469,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportFrameIndex(): void
     {
-        $this->info("Exporting frame index");
+        $this->info('Exporting frame index');
 
         $dom = $this->generators->generateFrameIndex();
         $filename = $this->generateFilename('frameIndex', 0);
@@ -474,7 +483,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportFrameRelations(): void
     {
-        $this->info("Exporting frame relations");
+        $this->info('Exporting frame relations');
 
         $dom = $this->generators->generateFrameRelations();
         $filename = $this->generateFilename('frRelation', 0);
@@ -488,7 +497,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportFulltextIndex(): void
     {
-        $this->info("Exporting fulltext index");
+        $this->info('Exporting fulltext index');
 
         $dom = $this->generators->generateFulltextIndex();
         $filename = $this->generateFilename('fulltextIndex', 0);
@@ -502,7 +511,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportLuIndex(): void
     {
-        $this->info("Exporting lexical unit index");
+        $this->info('Exporting lexical unit index');
 
         $dom = $this->generators->generateLuIndex();
         $filename = $this->generateFilename('luIndex', 0);
@@ -516,7 +525,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function exportSemanticTypes(): void
     {
-        $this->info("Exporting semantic types");
+        $this->info('Exporting semantic types');
 
         $dom = $this->generators->generateSemanticTypes();
         $filename = $this->generateFilename('semTypes', 0);
@@ -528,52 +537,52 @@ class ExportXmlFrameworkCommand extends Command
     /**
      * Export single lexical unit
      */
-//    private function exportLexicalUnit(object $lu): void
-//    {
-//        $xmlStr = $this->createLexicalUnitXmlTemplate();
-//        $sxe = simplexml_load_string($xmlStr);
-//
-//        $luElement = $sxe->addChild('lexicalUnit');
-//        $luElement->addAttribute('ID', $lu->idLU);
-//        $luElement->addAttribute('name', $lu->name);
-//        $luElement->addAttribute('frameID', $lu->idFrame);
-//        $luElement->addAttribute('frameName', $lu->frameName);
-//
-//        if ($lu->senseDescription) {
-//            $luElement->addChild('senseDescription', htmlspecialchars($lu->senseDescription));
-//        }
-//
-//        // Get valence patterns
-//        $valencePatterns = Criteria::table("view_valencepattern")
-//            ->where("idLU", $lu->idLU)
-//            ->where("idLanguage", $this->idLanguage)
-//            ->all();
-//
-//        if (!empty($valencePatterns)) {
-//            $valencesElement = $luElement->addChild('valences');
-//
-//            $groupedPatterns = [];
-//            foreach ($valencePatterns as $pattern) {
-//                $groupedPatterns[$pattern->idValencePattern][] = $pattern;
-//            }
-//
-//            foreach ($groupedPatterns as $patternId => $patterns) {
-//                $patternElement = $valencesElement->addChild('pattern');
-//                $patternElement->addAttribute('ID', $patternId);
-//                $patternElement->addAttribute('count', $patterns[0]->countPattern);
-//
-//                foreach ($patterns as $valent) {
-//                    $valentElement = $patternElement->addChild('valent');
-//                    $valentElement->addAttribute('FE', $valent->feName);
-//                    $valentElement->addAttribute('GF', $valent->GF ?? '');
-//                    $valentElement->addAttribute('PT', $valent->PT ?? '');
-//                }
-//            }
-//        }
-//
-//        $filename = "{$this->outputDir}/lu_{$lu->idLU}.xml";
-//        $this->saveXmlFile($sxe, $filename, 'lexicalUnit.xsd');
-//    }
+    //    private function exportLexicalUnit(object $lu): void
+    //    {
+    //        $xmlStr = $this->createLexicalUnitXmlTemplate();
+    //        $sxe = simplexml_load_string($xmlStr);
+    //
+    //        $luElement = $sxe->addChild('lexicalUnit');
+    //        $luElement->addAttribute('ID', $lu->idLU);
+    //        $luElement->addAttribute('name', $lu->name);
+    //        $luElement->addAttribute('frameID', $lu->idFrame);
+    //        $luElement->addAttribute('frameName', $lu->frameName);
+    //
+    //        if ($lu->senseDescription) {
+    //            $luElement->addChild('senseDescription', htmlspecialchars($lu->senseDescription));
+    //        }
+    //
+    //        // Get valence patterns
+    //        $valencePatterns = Criteria::table("view_valencepattern")
+    //            ->where("idLU", $lu->idLU)
+    //            ->where("idLanguage", $this->idLanguage)
+    //            ->all();
+    //
+    //        if (!empty($valencePatterns)) {
+    //            $valencesElement = $luElement->addChild('valences');
+    //
+    //            $groupedPatterns = [];
+    //            foreach ($valencePatterns as $pattern) {
+    //                $groupedPatterns[$pattern->idValencePattern][] = $pattern;
+    //            }
+    //
+    //            foreach ($groupedPatterns as $patternId => $patterns) {
+    //                $patternElement = $valencesElement->addChild('pattern');
+    //                $patternElement->addAttribute('ID', $patternId);
+    //                $patternElement->addAttribute('count', $patterns[0]->countPattern);
+    //
+    //                foreach ($patterns as $valent) {
+    //                    $valentElement = $patternElement->addChild('valent');
+    //                    $valentElement->addAttribute('FE', $valent->feName);
+    //                    $valentElement->addAttribute('GF', $valent->GF ?? '');
+    //                    $valentElement->addAttribute('PT', $valent->PT ?? '');
+    //                }
+    //            }
+    //        }
+    //
+    //        $filename = "{$this->outputDir}/lu_{$lu->idLU}.xml";
+    //        $this->saveXmlFile($sxe, $filename, 'lexicalUnit.xsd');
+    //    }
 
     /**
      * Export corpus data
@@ -592,11 +601,11 @@ class ExportXmlFrameworkCommand extends Command
         }
 
         // Get documents in this corpus
-        $documents = Criteria::table("view_document")
-            ->where("idCorpus", $corpus->idCorpus)
-            ->where("idLanguage", $this->idLanguage)
-            ->where("active", 1)
-            ->orderBy("name")
+        $documents = Criteria::table('view_document')
+            ->where('idCorpus', $corpus->idCorpus)
+            ->where('idLanguage', $this->idLanguage)
+            ->where('active', 1)
+            ->orderBy('name')
             ->all();
 
         foreach ($documents as $document) {
@@ -627,9 +636,9 @@ class ExportXmlFrameworkCommand extends Command
         $s->addChild('text', htmlspecialchars($sentence->text));
 
         // Get annotation sets for this sentence
-        $annotationSets = Criteria::table("view_annotationset")
-            ->where("idSentence", $sentence->idSentence)
-            ->whereNotNull("idLU")
+        $annotationSets = Criteria::table('view_annotationset')
+            ->where('idSentence', $sentence->idSentence)
+            ->whereNotNull('idLU')
             ->all();
 
         foreach ($annotationSets as $annotationSet) {
@@ -643,19 +652,21 @@ class ExportXmlFrameworkCommand extends Command
     private function addAnnotationSetToXml(SimpleXMLElement $sentenceElement, object $annotationSet): void
     {
         // Get LU information
-        $lu = Criteria::table("lu")
-            ->join("view_frame as f", "lu.idFrame", "=", "f.idFrame")
-            ->where("idLU", $annotationSet->idLU)
-            ->where("f.idLanguage", $this->idLanguage)
-            ->select("lu.idLU", "lu.name", "lu.idFrame", "f.name as frameName")
+        $lu = Criteria::table('lu')
+            ->join('view_frame as f', 'lu.idFrame', '=', 'f.idFrame')
+            ->where('idLU', $annotationSet->idLU)
+            ->where('f.idLanguage', $this->idLanguage)
+            ->select('lu.idLU', 'lu.name', 'lu.idFrame', 'f.name as frameName')
             ->first();
 
-        if (!$lu) return;
+        if (! $lu) {
+            return;
+        }
 
         // Get target information
-        $target = Criteria::table("view_annotation_text_gl")
-            ->where("idAnnotationSet", $annotationSet->idAnnotationSet)
-            ->where("name", "Target")
+        $target = Criteria::table('view_annotation_text_gl')
+            ->where('idAnnotationSet', $annotationSet->idAnnotationSet)
+            ->where('name', 'Target')
             ->first();
 
         $aset = $sentenceElement->addChild('annotationSet');
@@ -682,17 +693,17 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function addFELayer(SimpleXMLElement $aset, int $idAnnotationSet): void
     {
-        $fes = Criteria::table("view_annotation_text_fe as fe")
-            ->join("view_instantiationtype as it", "it.idInstantiationType", "=", "fe.idInstantiationType")
-            ->where("idAnnotationSet", $idAnnotationSet)
-            ->where("it.idLanguage", $this->idLanguage)
-            ->where("fe.idLanguage", $this->idLanguage)
-            ->select("fe.idFrameElement", "fe.name", "fe.startChar", "fe.endChar", "it.name as itName")
+        $fes = Criteria::table('view_annotation_text_fe as fe')
+            ->join('view_instantiationtype as it', 'it.idInstantiationType', '=', 'fe.idInstantiationType')
+            ->where('idAnnotationSet', $idAnnotationSet)
+            ->where('it.idLanguage', $this->idLanguage)
+            ->where('fe.idLanguage', $this->idLanguage)
+            ->select('fe.idFrameElement', 'fe.name', 'fe.startChar', 'fe.endChar', 'it.name as itName')
             ->all();
 
-        if (!empty($fes)) {
+        if (! empty($fes)) {
             $ly = $aset->addChild('layer');
-            $ly->addAttribute('name', "FE");
+            $ly->addAttribute('name', 'FE');
 
             foreach ($fes as $fe) {
                 $lb = $ly->addChild('label');
@@ -713,18 +724,18 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function addGenericLayers(SimpleXMLElement $aset, int $idAnnotationSet): void
     {
-        $layerTypes = Criteria::table("view_layertype")
-            ->where("idLanguage", $this->idLanguage)
+        $layerTypes = Criteria::table('view_layertype')
+            ->where('idLanguage', $this->idLanguage)
             ->all();
 
         foreach ($layerTypes as $layerType) {
-            $gls = Criteria::table("view_annotation_text_gl")
-                ->where("idAnnotationSet", $idAnnotationSet)
-                ->where("name", "<>", "Target")
-                ->where("layerTypeEntry", "=", $layerType->entry)
+            $gls = Criteria::table('view_annotation_text_gl')
+                ->where('idAnnotationSet', $idAnnotationSet)
+                ->where('name', '<>', 'Target')
+                ->where('layerTypeEntry', '=', $layerType->entry)
                 ->all();
 
-            if (!empty($gls)) {
+            if (! empty($gls)) {
                 $ly = $aset->addChild('layer');
                 $ly->addAttribute('name', $layerType->name);
 
@@ -792,7 +803,7 @@ class ExportXmlFrameworkCommand extends Command
             $xsdPath = $this->config['xsd_schemas'][$xsdFile] ?? $xsdFile;
             if (file_exists($xsdPath)) {
                 $errors = XmlUtils::validateXml($dom, $xsdPath);
-                if (!empty($errors)) {
+                if (! empty($errors)) {
                     $this->tracker->addWarning("XML validation failed for {$filename}", implode('; ', $errors));
                     if ($this->config['logging']['enabled'] ?? true) {
                         $this->logValidationErrors($filename, $errors);
@@ -844,7 +855,7 @@ class ExportXmlFrameworkCommand extends Command
             '{document_id}',
             '{frame_id}',
             '{lu_id}',
-            '{corpus_id}'
+            '{corpus_id}',
         ], [
             $type,
             $id,
@@ -853,10 +864,10 @@ class ExportXmlFrameworkCommand extends Command
             $id, // fallback for document_id
             $id, // fallback for frame_id
             $id, // fallback for lu_id
-            $id  // fallback for corpus_id
+            $id,  // fallback for corpus_id
         ], $pattern);
 
-        return $this->outputDir . '/' . $filename;
+        return $this->outputDir.'/'.$filename;
     }
 
     /**
@@ -900,7 +911,7 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function displayStatistics(array $stats): void
     {
-        $this->info("Export Statistics:");
+        $this->info('Export Statistics:');
         $this->info("- Processed items: {$stats['processed']}");
         $this->info("- Files created: {$stats['files_created']}");
         $this->info("- Errors: {$stats['errors']}");
@@ -917,14 +928,14 @@ class ExportXmlFrameworkCommand extends Command
      */
     private function logError(Exception $e): void
     {
-        if (!($this->config['logging']['enabled'] ?? true)) {
+        if (! ($this->config['logging']['enabled'] ?? true)) {
             return;
         }
 
         $logFile = $this->config['logging']['log_file'] ?? storage_path('logs/xml_export.log');
         $logDir = dirname($logFile);
 
-        if (!is_dir($logDir)) {
+        if (! is_dir($logDir)) {
             mkdir($logDir, 0755, true);
         }
 

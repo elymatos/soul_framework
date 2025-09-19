@@ -21,16 +21,16 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
-
     #[Get(path: '/layers')]
     public function browse()
     {
         $search = session('searchLayers') ?? SearchData::from();
-        return view("Layers.resource", [
-            'search' => $search
+
+        return view('Layers.resource', [
+            'search' => $search,
         ]);
     }
 
@@ -38,10 +38,11 @@ class ResourceController extends Controller
     #[Post(path: '/layers/grid/{fragment?}')]
     public function grid(SearchData $search, ?string $fragment = null)
     {
-        $view = view("Layers.grid", [
+        $view = view('Layers.grid', [
             'search' => $search,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     /*------
@@ -51,14 +52,15 @@ class ResourceController extends Controller
     #[Get(path: '/layers/layergroup/new')]
     public function formNewLayerGroup()
     {
-        return view("Layers.formNewLayerGroup");
+        return view('Layers.formNewLayerGroup');
     }
 
     #[Get(path: '/layers/layergroup/{idLayerGroup}/edit')]
     public function layergroup(int $idLayerGroup)
     {
         $layerGroup = LayerGroup::byId($idLayerGroup);
-        return view("Layers.editLayerGroup", [
+
+        return view('Layers.editLayerGroup', [
             'layerGroup' => $layerGroup,
         ]);
     }
@@ -67,7 +69,8 @@ class ResourceController extends Controller
     public function formEditLayerGroup(int $idLayerGroup)
     {
         $layerGroup = LayerGroup::byId($idLayerGroup);
-        return view("Layers.formEditLayerGroup", [
+
+        return view('Layers.formEditLayerGroup', [
             'layerGroup' => $layerGroup,
         ]);
     }
@@ -76,24 +79,25 @@ class ResourceController extends Controller
     public function newLayerGroup(CreateLayerGroupData $data)
     {
         try {
-            $exists = Criteria::table("layergroup")
+            $exists = Criteria::table('layergroup')
                 ->whereRaw("name = '{$data->name}' collate 'utf8mb4_bin'")
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("LayerGroup already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('LayerGroup already exists.');
             }
             $newLayerGroup = [
                 'name' => $data->name,
                 'type' => $data->type,
             ];
-            $idLayerGroup = Criteria::create("layergroup", $newLayerGroup);
+            $idLayerGroup = Criteria::create('layergroup', $newLayerGroup);
             $layerGroup = LayerGroup::byId($idLayerGroup);
             $this->trigger('reload-gridLayers');
-            return $this->render("Layers.editLayerGroup", [
+
+            return $this->render('Layers.editLayerGroup', [
                 'layerGroup' => $layerGroup,
             ]);
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -101,14 +105,15 @@ class ResourceController extends Controller
     public function updateLayerGroup(UpdateLayerGroupData $data)
     {
         try {
-            Criteria::table("layergroup")
-                ->where("idLayerGroup", $data->idLayerGroup)
+            Criteria::table('layergroup')
+                ->where('idLayerGroup', $data->idLayerGroup)
                 ->update([
                     'name' => $data->name,
                 ]);
-            return $this->renderNotify("success", "LayerGroup updated.");
+
+            return $this->renderNotify('success', 'LayerGroup updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -116,15 +121,15 @@ class ResourceController extends Controller
     public function deleteLayerGroup(string $idLayerGroup)
     {
         try {
-            Criteria::deleteById("layergroup", "idLayerGroup", $idLayerGroup);
+            Criteria::deleteById('layergroup', 'idLayerGroup', $idLayerGroup);
             $this->trigger('clear-editarea', ['target' => '#editarea']);
-            $this->trigger("reload-gridLayers", ['target' => '#editarea']);
-            return $this->renderNotify("success", "LayerGroup removed.");
+            $this->trigger('reload-gridLayers', ['target' => '#editarea']);
+
+            return $this->renderNotify('success', 'LayerGroup removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 
     /*------
       LayerType
@@ -133,14 +138,15 @@ class ResourceController extends Controller
     #[Get(path: '/layers/layertype/new')]
     public function formNewLayerType()
     {
-        return view("Layers.formNewLayerType");
+        return view('Layers.formNewLayerType');
     }
 
     #[Get(path: '/layers/layertype/{idLayerType}/edit')]
     public function layertype(int $idLayerType)
     {
         $layerType = LayerType::byId($idLayerType);
-        return view("Layers.editLayerType", [
+
+        return view('Layers.editLayerType', [
             'layerType' => $layerType,
         ]);
     }
@@ -150,7 +156,8 @@ class ResourceController extends Controller
     {
         $layerType = LayerType::byId($idLayerType);
         debug($layerType);
-        return view("Layers.formEditLayerType", [
+
+        return view('Layers.formEditLayerType', [
             'layerType' => $layerType,
         ]);
     }
@@ -159,28 +166,29 @@ class ResourceController extends Controller
     public function newLayerType(CreateLayerTypeData $data)
     {
         try {
-            $exists = Criteria::table("view_layertype")
+            $exists = Criteria::table('view_layertype')
                 ->whereRaw("name = '{$data->nameEn}' collate 'utf8mb4_bin'")
-                ->where("idLanguage",2)
+                ->where('idLanguage', 2)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("LayerType already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('LayerType already exists.');
             }
-            $json = json_encode((object)[
+            $json = json_encode((object) [
                 'nameEn' => $data->nameEn,
                 'allowsApositional' => $data->allowsApositional,
                 'isAnnotation' => $data->isAnnotation,
                 'layerOrder' => $data->layerOrder,
-                'idLayerGroup' => $data->idLayerGroup
+                'idLayerGroup' => $data->idLayerGroup,
             ]);
-            $idLayerType = Criteria::function("layertype_create(?)", [$json]);
+            $idLayerType = Criteria::function('layertype_create(?)', [$json]);
             $layerType = LayerType::byId($idLayerType);
             $this->trigger('reload-gridLayers');
-            return $this->render("Layers.editLayerType", [
+
+            return $this->render('Layers.editLayerType', [
                 'layerType' => $layerType,
             ]);
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -188,12 +196,13 @@ class ResourceController extends Controller
     public function updateLayerType(UpdateLayerTypeData $data)
     {
         try {
-            Criteria::table("layertype")
-                ->where("idLayerType", $data->idLayerType)
+            Criteria::table('layertype')
+                ->where('idLayerType', $data->idLayerType)
                 ->update($data->toArray());
-            return $this->renderNotify("success", "LayerType updated.");
+
+            return $this->renderNotify('success', 'LayerType updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -201,12 +210,13 @@ class ResourceController extends Controller
     public function deleteLayerType(string $idLayerType)
     {
         try {
-            Criteria::function("layertype_delete(?,?)", [$idLayerType, AppService::getCurrentIdUser()]);
+            Criteria::function('layertype_delete(?,?)', [$idLayerType, AppService::getCurrentIdUser()]);
             $this->trigger('clear-editarea', ['target' => '#editArea']);
-            $this->trigger("reload-gridLayers", ['target' => '#editArea']);
-            return $this->renderNotify("success", "LayerType removed.");
+            $this->trigger('reload-gridLayers', ['target' => '#editArea']);
+
+            return $this->renderNotify('success', 'LayerType removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -217,14 +227,15 @@ class ResourceController extends Controller
     #[Get(path: '/layers/genericlabel/new')]
     public function formNewGenericLabel()
     {
-        return view("Layers.formNewGenericLabel");
+        return view('Layers.formNewGenericLabel');
     }
 
     #[Get(path: '/layers/genericlabel/{idGenericLabel}/edit')]
     public function genericlabel(int $idGenericLabel)
     {
         $genericLabel = GenericLabel::byId($idGenericLabel);
-        return view("Layers.editGenericLabel", [
+
+        return view('Layers.editGenericLabel', [
             'genericLabel' => $genericLabel,
         ]);
     }
@@ -233,7 +244,8 @@ class ResourceController extends Controller
     public function formEditGenericLabel(int $idGenericLabel)
     {
         $genericLabel = GenericLabel::byId($idGenericLabel);
-        return view("Layers.formEditGenericLabel", [
+
+        return view('Layers.formEditGenericLabel', [
             'genericLabel' => $genericLabel,
         ]);
     }
@@ -242,30 +254,31 @@ class ResourceController extends Controller
     public function newGenericLabel(CreateGenericLabelData $data)
     {
         try {
-            $exists = Criteria::table("genericlabel")
+            $exists = Criteria::table('genericlabel')
                 ->whereRaw("name = '{$data->name}' collate 'utf8mb4_bin'")
-                ->where("idLanguage", $data->idLanguage)
-                ->where("idLayerType", $data->idLayerType)
+                ->where('idLanguage', $data->idLanguage)
+                ->where('idLayerType', $data->idLayerType)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("GenericLabel already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('GenericLabel already exists.');
             }
-            $json = json_encode((object)[
+            $json = json_encode((object) [
                 'name' => $data->name,
                 'idColor' => $data->idColor,
                 'idLanguage' => $data->idLanguage,
                 'definition' => $data->definition,
                 'example' => '',
                 'idLayerType' => $data->idLayerType,
-                'idUser' => $data->idUser
+                'idUser' => $data->idUser,
             ]);
-            $idGenericLabel = Criteria::function("genericlabel_create(?)", [$json]);
+            $idGenericLabel = Criteria::function('genericlabel_create(?)', [$json]);
             $genericLabel = GenericLabel::byId($idGenericLabel);
-            return $this->render("Layers.editGenericLabel", [
+
+            return $this->render('Layers.editGenericLabel', [
                 'genericLabel' => $genericLabel,
             ]);
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -273,12 +286,13 @@ class ResourceController extends Controller
     public function updateGenericLabel(UpdateGenericLabelData $data)
     {
         try {
-            Criteria::table("genericlabel")
-                ->where("idGenericLabel", $data->idGenericLabel)
+            Criteria::table('genericlabel')
+                ->where('idGenericLabel', $data->idGenericLabel)
                 ->update($data->toArray());
-            return $this->renderNotify("success", "GenericLabel updated.");
+
+            return $this->renderNotify('success', 'GenericLabel updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -286,12 +300,13 @@ class ResourceController extends Controller
     public function deleteGenericLabel(string $idGenericLabel)
     {
         try {
-            Criteria::function("genericlabel_delete(?,?)", [$idGenericLabel, AppService::getCurrentIdUser()]);
+            Criteria::function('genericlabel_delete(?,?)', [$idGenericLabel, AppService::getCurrentIdUser()]);
             $this->trigger('clear-editarea', ['target' => '#editArea']);
-            $this->trigger("reload-gridLayers", ['target' => '#editArea']);
-            return $this->renderNotify("success", "GenericLabel removed.");
+            $this->trigger('reload-gridLayers', ['target' => '#editArea']);
+
+            return $this->renderNotify('success', 'GenericLabel removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

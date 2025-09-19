@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Migration for unified Background Theory predicates table
- * 
+ *
  * Stores all predicates from all Background Theory chapters in a single table
  * including Rexist, member, union, equal, and, not, imply, etc.
  */
@@ -25,12 +25,12 @@ return new class extends Migration
             $table->boolean('really_exists')->default(false);
             $table->json('metadata')->nullable();
             $table->timestamps();
-            
+
             // Composite indexes for performance
             $table->index(['name', 'really_exists']);
             $table->index(['name', 'arity']);
             $table->index(['really_exists', 'created_at']);
-            
+
             // Index for predicate lookup by name and arguments
             $table->index(['name', 'arity', 'really_exists'], 'idx_predicate_lookup');
         });

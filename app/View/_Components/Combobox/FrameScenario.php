@@ -3,7 +3,6 @@
 namespace App\View\_Components\Combobox;
 
 use App\Database\Criteria;
-use App\Repositories\SemanticType;
 use App\Services\AppService;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -21,19 +20,18 @@ class FrameScenario extends Component
         public string $value,
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
-        $scenarios = Criteria::table("view_relation as r")
-            ->join("view_frame as f","r.idEntity1","=","f.idEntity")
-            ->join("semantictype as st","r.idEntity2","=","st.idEntity")
-            ->where("f.idLanguage","=", AppService::getCurrentIdLanguage())
-            ->where("st.entry","=","sty_ft_scenario")
-            ->select("f.idFrame","f.idEntity","f.name")
-            ->orderby("f.name")
+    ) {
+        $scenarios = Criteria::table('view_relation as r')
+            ->join('view_frame as f', 'r.idEntity1', '=', 'f.idEntity')
+            ->join('semantictype as st', 'r.idEntity2', '=', 'st.idEntity')
+            ->where('f.idLanguage', '=', AppService::getCurrentIdLanguage())
+            ->where('st.entry', '=', 'sty_ft_scenario')
+            ->select('f.idFrame', 'f.idEntity', 'f.name')
+            ->orderby('f.name')
             ->all();
         $this->options = [];
         foreach ($scenarios as $scenario) {
-            $this->options[] = (object)[
+            $this->options[] = (object) [
                 'idFrame' => $scenario->idFrame,
                 'name' => $scenario->name,
             ];

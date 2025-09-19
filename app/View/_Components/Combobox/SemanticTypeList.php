@@ -6,13 +6,12 @@ use App\Database\Criteria;
 use App\Services\AppService;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
-use App\Repositories\SemanticType as SemanticTypeRepository;
 
 class SemanticTypeList extends Component
 {
     public $list;
+
     public array $options;
 
     /**
@@ -23,19 +22,18 @@ class SemanticTypeList extends Component
         public string $label,
         public string $placeholder = '',
         public string $value = ''
-    )
-    {
-        $list = Criteria::table("view_domain_semantictype as dst")
-            ->join("semantictype as st", "st.idEntity", "=", "dst.stIdEntity")
-            ->select("st.idSemanticType","dst.stName","dst.domainName")
-            ->where("dst.idLanguage", "=", AppService::getCurrentIdLanguage())
-            ->orderBy("dst.stName")
+    ) {
+        $list = Criteria::table('view_domain_semantictype as dst')
+            ->join('semantictype as st', 'st.idEntity', '=', 'dst.stIdEntity')
+            ->select('st.idSemanticType', 'dst.stName', 'dst.domainName')
+            ->where('dst.idLanguage', '=', AppService::getCurrentIdLanguage())
+            ->orderBy('dst.stName')
             ->all();
         $this->options = [];
         foreach ($list as $st) {
             $this->options[$st->idSemanticType] = [
                 'id' => $st->idSemanticType,
-                'text' => $st->stName . ' ['. $st->domainName . ']'
+                'text' => $st->stName.' ['.$st->domainName.']',
             ];
         }
     }

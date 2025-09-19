@@ -8,6 +8,6 @@ class Image
 {
     public static function byId(int $id): object
     {
-        return Criteria::byFilter("image", ["idImage","=", $id])->first();
+        return Criteria::byFilter('image', ['idImage', '=', $id])->first();
     }
 }

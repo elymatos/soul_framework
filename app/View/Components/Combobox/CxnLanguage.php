@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class CxnLanguage extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
@@ -18,14 +19,13 @@ class CxnLanguage extends Component
         public string $value,
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
-        $this->options = Criteria::table("construction")
-            ->join("language", "language.idLanguage", "=", "construction.idLanguage")
-            ->select("language.idLanguage", "language.description as language")
+    ) {
+        $this->options = Criteria::table('construction')
+            ->join('language', 'language.idLanguage', '=', 'construction.idLanguage')
+            ->select('language.idLanguage', 'language.description as language')
             ->distinct()
-            ->orderBy("language.description")
-            ->chunkResult("idLanguage","language");
+            ->orderBy('language.description')
+            ->chunkResult('idLanguage', 'language');
     }
 
     /**

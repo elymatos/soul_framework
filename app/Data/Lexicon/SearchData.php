@@ -13,9 +13,8 @@ class SearchData extends Data
         public ?string $type = '',
         public ?int $idLemma = 0,
         public ?int $idLexicon = 0,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         if ($type == 'lemma') {
             $this->idLemma = $id;
         } elseif ($type == 'form') {

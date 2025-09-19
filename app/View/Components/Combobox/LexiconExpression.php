@@ -18,14 +18,13 @@ class LexiconExpression extends Component
         public string $placeholder = '',
         public string $name = '',
         public ?int $value = 0,
-    )
-    {
-        debug('value',$this->value);
+    ) {
+        debug('value', $this->value);
         if (($this->value != '') && ($this->value != 0)) {
             $lexicon = Lexicon::byId($this->value);
             $this->placeholder = $lexicon->name;
         } else {
-            $this->placeholder = "Search Form";
+            $this->placeholder = 'Search Form';
         }
     }
 

@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Collective\Annotations\AnnotationsServiceProvider as ServiceProvider;
 
-class AnnotationsServiceProvider extends ServiceProvider {
-
+class AnnotationsServiceProvider extends ServiceProvider
+{
     /**
      * The classes to scan for event annotations.
      *
@@ -63,5 +63,4 @@ class AnnotationsServiceProvider extends ServiceProvider {
      * @var bool
      */
     protected $useAttribute = true;
-
 }

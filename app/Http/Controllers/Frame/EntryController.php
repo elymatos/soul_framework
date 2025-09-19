@@ -9,16 +9,17 @@ use App\Services\AppService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class EntryController extends Controller
 {
     #[Get(path: '/frame/{id}/entries')]
     public function entries(string $id)
     {
         $frame = Frame::byId($id);
-        return view("Entry.edit", [
+
+        return view('Entry.edit', [
             'entries' => Entry::listByIdEntity($frame->idEntity),
-            'languages' => AppService::availableLanguages()
+            'languages' => AppService::availableLanguages(),
         ]);
     }
 }

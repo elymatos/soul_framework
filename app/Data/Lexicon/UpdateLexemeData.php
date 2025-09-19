@@ -10,7 +10,5 @@ class UpdateLexemeData extends Data
         public string $idLexeme,
         public string $name,
         public int $idPOS,
-    )
-    {
-    }
+    ) {}
 }

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\predicate_frequency;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\predicate_frequency\predicate_frequencyService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for predicate_frequency background theory

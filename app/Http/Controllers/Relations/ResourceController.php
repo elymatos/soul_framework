@@ -18,16 +18,16 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
-
     #[Get(path: '/relations')]
     public function browse()
     {
         $search = session('searchRelations') ?? SearchData::from();
-        return view("Relations.resource", [
-            'search' => $search
+
+        return view('Relations.resource', [
+            'search' => $search,
         ]);
     }
 
@@ -35,10 +35,11 @@ class ResourceController extends Controller
     #[Post(path: '/relations/grid/{fragment?}')]
     public function grid(SearchData $search, ?string $fragment = null)
     {
-        $view = view("Relations.grid", [
+        $view = view('Relations.grid', [
             'search' => $search,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     /*------
@@ -48,14 +49,15 @@ class ResourceController extends Controller
     #[Get(path: '/relations/relationgroup/new')]
     public function formNewRelationGroup()
     {
-        return view("Relations.formNewRelationGroup");
+        return view('Relations.formNewRelationGroup');
     }
 
     #[Get(path: '/relations/relationgroup/{idRelationGroup}/edit')]
     public function relationgroup(int $idRelationGroup)
     {
         $relationGroup = RelationGroup::byId($idRelationGroup);
-        return view("Relations.editRelationGroup", [
+
+        return view('Relations.editRelationGroup', [
             'relationGroup' => $relationGroup,
         ]);
     }
@@ -64,7 +66,8 @@ class ResourceController extends Controller
     public function formEditRelationGroup(int $idRelationGroup)
     {
         $relationGroup = RelationGroup::byId($idRelationGroup);
-        return view("Relations.formEditRelationGroup", [
+
+        return view('Relations.formEditRelationGroup', [
             'relationGroup' => $relationGroup,
         ]);
     }
@@ -73,21 +76,22 @@ class ResourceController extends Controller
     public function newRelationGroup(CreateRelationGroupData $data)
     {
         try {
-            $entry = "rgp_" . strtolower($data->nameEn);
-            $exists = Criteria::table("relationgroup")
+            $entry = 'rgp_'.strtolower($data->nameEn);
+            $exists = Criteria::table('relationgroup')
                 ->whereRaw("entry = '{$entry}' collate 'utf8mb4_bin'")
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("RelationGroup already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('RelationGroup already exists.');
             }
             $idRelationGroup = Criteria::function('relationgroup_create(?)', [$data->toJson()]);
             $relationGroup = RelationGroup::byId($idRelationGroup);
             $this->trigger('reload-gridRelations');
-            return $this->render("Relations.editRelationGroup", [
+
+            return $this->render('Relations.editRelationGroup', [
                 'relationGroup' => $relationGroup,
             ]);
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -95,14 +99,15 @@ class ResourceController extends Controller
     public function updateRelationGroup(UpdateRelationGroupData $data)
     {
         try {
-            Criteria::table("relationgroup")
-                ->where("idRelationGroup", $data->idRelationGroup)
+            Criteria::table('relationgroup')
+                ->where('idRelationGroup', $data->idRelationGroup)
                 ->update([
                     'name' => $data->name,
                 ]);
-            return $this->renderNotify("success", "RelationGroup updated.");
+
+            return $this->renderNotify('success', 'RelationGroup updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -110,15 +115,15 @@ class ResourceController extends Controller
     public function deleteRelationGroup(string $idRelationGroup)
     {
         try {
-            Criteria::deleteById("relationgroup", "idRelationGroup", $idRelationGroup);
+            Criteria::deleteById('relationgroup', 'idRelationGroup', $idRelationGroup);
             $this->trigger('clear-editarea', ['target' => '#editarea']);
-            $this->trigger("reload-gridRelations", ['target' => '#editarea']);
-            return $this->renderNotify("success", "RelationGroup removed.");
+            $this->trigger('reload-gridRelations', ['target' => '#editarea']);
+
+            return $this->renderNotify('success', 'RelationGroup removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 
     /*------
       RelationType
@@ -127,14 +132,15 @@ class ResourceController extends Controller
     #[Get(path: '/relations/relationtype/new')]
     public function formNewRelationType()
     {
-        return view("Relations.formNewRelationType");
+        return view('Relations.formNewRelationType');
     }
 
     #[Get(path: '/relations/relationtype/{idRelationType}/edit')]
     public function relationtype(int $idRelationType)
     {
         $relationType = RelationType::byId($idRelationType);
-        return view("Relations.editRelationType", [
+
+        return view('Relations.editRelationType', [
             'relationType' => $relationType,
         ]);
     }
@@ -143,7 +149,8 @@ class ResourceController extends Controller
     public function formEditRelationType(int $idRelationType)
     {
         $relationType = RelationType::byId($idRelationType);
-        return view("Relations.formEditRelationType", [
+
+        return view('Relations.formEditRelationType', [
             'relationType' => $relationType,
         ]);
     }
@@ -152,21 +159,22 @@ class ResourceController extends Controller
     public function newRelationType(CreateRelationTypeData $data)
     {
         try {
-            $entry = "rel_" . strtolower($data->nameCanonical);
-            $exists = Criteria::table("relationtype")
+            $entry = 'rel_'.strtolower($data->nameCanonical);
+            $exists = Criteria::table('relationtype')
                 ->whereRaw("entry = '{$data->nameCanonical}' collate 'utf8mb4_bin'")
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("RelationType already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('RelationType already exists.');
             }
-            $idRelationType = Criteria::function("relationtype_create(?)", [$data->toJson()]);
+            $idRelationType = Criteria::function('relationtype_create(?)', [$data->toJson()]);
             $relationType = RelationType::byId($idRelationType);
             $this->trigger('reload-gridRelations');
-            return $this->render("Relations.editRelationType", [
+
+            return $this->render('Relations.editRelationType', [
                 'relationType' => $relationType,
             ]);
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -174,12 +182,13 @@ class ResourceController extends Controller
     public function updateRelationType(UpdateRelationTypeData $data)
     {
         try {
-            Criteria::table("relationtype")
-                ->where("idRelationType", $data->idRelationType)
+            Criteria::table('relationtype')
+                ->where('idRelationType', $data->idRelationType)
                 ->update($data->toArray());
-            return $this->renderNotify("success", "RelationType updated.");
+
+            return $this->renderNotify('success', 'RelationType updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -187,13 +196,13 @@ class ResourceController extends Controller
     public function deleteRelationType(string $idRelationType)
     {
         try {
-            Criteria::function("relationtype_delete(?,?)", [$idRelationType, AppService::getCurrentIdUser()]);
+            Criteria::function('relationtype_delete(?,?)', [$idRelationType, AppService::getCurrentIdUser()]);
             $this->trigger('clear-editarea', ['target' => '#editArea']);
-            $this->trigger("reload-gridRelations", ['target' => '#editArea']);
-            return $this->renderNotify("success", "RelationType removed.");
+            $this->trigger('reload-gridRelations', ['target' => '#editArea']);
+
+            return $this->renderNotify('success', 'RelationType removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 }

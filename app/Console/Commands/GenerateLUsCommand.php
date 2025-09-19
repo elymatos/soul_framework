@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Database\Criteria;
 use App\Repositories\Frame;
 use App\Services\AppService;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use OpenAI\Laravel\Facades\OpenAI;
-use App\Database\Criteria;
-use Exception;
-use Carbon\Carbon;
 
 class GenerateLUsCommand extends Command
 {
@@ -47,7 +47,7 @@ class GenerateLUsCommand extends Command
         $targetPos = $this->option('target-pos');
         $model = $this->option('model');
         $dryRun = $this->option('dry-run');
-        
+
         // Validate POS types
         $validPos = $this->validatePosTypes($targetPos);
 
@@ -57,7 +57,7 @@ class GenerateLUsCommand extends Command
         $this->info("🤖 Model: {$model}");
 
         if ($dryRun) {
-            $this->warn("🧪 DRY RUN MODE - No API calls will be made");
+            $this->warn('🧪 DRY RUN MODE - No API calls will be made');
         }
 
         $this->newLine();
@@ -77,12 +77,14 @@ class GenerateLUsCommand extends Command
 
             if ($dryRun) {
                 $this->displayDryRun($fullPrompt);
+
                 return 0;
             }
 
             // Check API key
             if (empty(config('openai.api_key'))) {
                 $this->error('❌ OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file.');
+
                 return 1;
             }
 
@@ -101,7 +103,8 @@ class GenerateLUsCommand extends Command
             return 0;
 
         } catch (Exception $e) {
-            $this->error("❌ Error: " . $e->getMessage());
+            $this->error('❌ Error: '.$e->getMessage());
+
             return 1;
         }
     }
@@ -110,17 +113,18 @@ class GenerateLUsCommand extends Command
     {
         $promptPath = 'prompts/lu_prompt.txt';
 
-        if (!Storage::disk('local')->exists($promptPath)) {
+        if (! Storage::disk('local')->exists($promptPath)) {
             throw new Exception("Prompt template not found at storage/app/{$promptPath}");
         }
 
         $template = Storage::disk('local')->get($promptPath);
 
         if (empty($template)) {
-            throw new Exception("Prompt template is empty");
+            throw new Exception('Prompt template is empty');
         }
 
-        $this->info("📄 Loaded prompt template from storage");
+        $this->info('📄 Loaded prompt template from storage');
+
         return $template;
     }
 
@@ -134,10 +138,11 @@ class GenerateLUsCommand extends Command
             }
 
             $this->info("🎯 Frame: {$frame->name}");
+
             return $frame;
 
         } catch (Exception $e) {
-            throw new Exception("Invalid frame ID {$frameId}: " . $e->getMessage());
+            throw new Exception("Invalid frame ID {$frameId}: ".$e->getMessage());
         }
     }
 
@@ -145,20 +150,20 @@ class GenerateLUsCommand extends Command
     {
         $validPosTypes = ['VERB', 'NOUN', 'ADJ'];
         $requestedPos = array_map('trim', explode(',', strtoupper($targetPos)));
-        
+
         foreach ($requestedPos as $pos) {
-            if (!in_array($pos, $validPosTypes)) {
+            if (! in_array($pos, $validPosTypes)) {
                 throw new Exception("Invalid POS type '{$pos}'. Valid types are: VERB, NOUN, ADJ");
             }
         }
-        
+
         return $requestedPos;
     }
 
     private function getCurrentLUs(int $frameId, array $validPos): array
     {
-        $lus = Criteria::table("view_lu as lu")
-            ->join("udpos", "lu.idUDPOS", "=", "udpos.idUDPOS")
+        $lus = Criteria::table('view_lu as lu')
+            ->join('udpos', 'lu.idUDPOS', '=', 'udpos.idUDPOS')
             ->select(['lu.name as lemma', 'udpos.POS', 'lu.senseDescription'])
             ->where('lu.idFrame', $frameId)
             ->where('lu.idLanguage', 1) // Portuguese
@@ -167,7 +172,7 @@ class GenerateLUsCommand extends Command
             ->get()
             ->all();
 
-        $this->info("📋 Found " . count($lus) . " existing LUs for this frame");
+        $this->info('📋 Found '.count($lus).' existing LUs for this frame');
 
         return $lus;
     }
@@ -178,19 +183,19 @@ class GenerateLUsCommand extends Command
         $lusText = '';
         foreach ($currentLUs as $lu) {
             $lusText .= "- {$lu->lemma}.{$lu->POS}";
-            if (!empty($lu->senseDescription)) {
+            if (! empty($lu->senseDescription)) {
                 $lusText .= " - {$lu->senseDescription}";
             }
             $lusText .= "\n";
         }
 
         if (empty($lusText)) {
-            $lusText = "[No existing LUs for this frame]";
+            $lusText = '[No existing LUs for this frame]';
         }
 
         // Replace template variables
         $prompt = str_replace('<TARGET_FRAME>', $frame->name, $template);
-        $prompt = str_replace('<TARGET_N>', (string)$targetN, $prompt);
+        $prompt = str_replace('<TARGET_N>', (string) $targetN, $prompt);
         $prompt = str_replace('<TARGET_POS>', $targetPos, $prompt);
         $prompt = str_replace('<CURRENT_LUS>', trim($lusText), $prompt);
 
@@ -227,7 +232,7 @@ class GenerateLUsCommand extends Command
 
         // Save raw response for debugging if requested
         if ($this->option('debug')) {
-            $debugFile = 'debug/openai-response-' . Carbon::now()->format('Y-m-d_H-i-s') . '.txt';
+            $debugFile = 'debug/openai-response-'.Carbon::now()->format('Y-m-d_H-i-s').'.txt';
             Storage::disk('local')->put($debugFile, $content);
             $this->warn("🐛 Raw response saved to: storage/app/{$debugFile}");
         }
@@ -242,28 +247,28 @@ class GenerateLUsCommand extends Command
         $jsonEnd = strrpos($response, '}');
 
         if ($jsonStart === false || $jsonEnd === false) {
-            $this->error("Raw OpenAI response:");
+            $this->error('Raw OpenAI response:');
             $this->line($response);
-            throw new Exception("No JSON found in OpenAI response");
+            throw new Exception('No JSON found in OpenAI response');
         }
 
         $jsonString = substr($response, $jsonStart, $jsonEnd - $jsonStart + 1);
         $results = json_decode($jsonString, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->error("JSON parsing failed. Raw JSON extracted:");
+            $this->error('JSON parsing failed. Raw JSON extracted:');
             $this->line($jsonString);
             $this->newLine();
-            $this->error("Full OpenAI response:");
+            $this->error('Full OpenAI response:');
             $this->line($response);
-            throw new Exception("Invalid JSON in OpenAI response: " . json_last_error_msg());
+            throw new Exception('Invalid JSON in OpenAI response: '.json_last_error_msg());
         }
 
-        if (!isset($results['items']) || !is_array($results['items'])) {
+        if (! isset($results['items']) || ! is_array($results['items'])) {
             throw new Exception("Invalid response format: 'items' array not found");
         }
 
-        $this->info("✅ Generated " . count($results['items']) . " LU suggestions");
+        $this->info('✅ Generated '.count($results['items']).' LU suggestions');
 
         // Display results table
         $this->displayResults($results);
@@ -274,7 +279,7 @@ class GenerateLUsCommand extends Command
     private function displayResults(array $results): void
     {
         $this->newLine();
-        $this->info("📋 Generated LU Suggestions:");
+        $this->info('📋 Generated LU Suggestions:');
 
         $tableData = [];
         foreach ($results['items'] as $item) {
@@ -284,9 +289,9 @@ class GenerateLUsCommand extends Command
             $tableData[] = [
                 $item['lemma'] ?? '',
                 $item['pos'] ?? '',
-                substr($item['gloss_pt'] ?? '', 0, 50) . (strlen($item['gloss_pt'] ?? '') > 50 ? '...' : ''),
+                substr($item['gloss_pt'] ?? '', 0, 50).(strlen($item['gloss_pt'] ?? '') > 50 ? '...' : ''),
                 number_format($confidence, 2),
-                substr($item['rationale_short'] ?? '', 0, 60) . (strlen($item['rationale_short'] ?? '') > 60 ? '...' : ''),
+                substr($item['rationale_short'] ?? '', 0, 60).(strlen($item['rationale_short'] ?? '') > 60 ? '...' : ''),
             ];
         }
 
@@ -295,9 +300,9 @@ class GenerateLUsCommand extends Command
             $tableData
         );
 
-        if (!empty($results['excluded_notes'])) {
+        if (! empty($results['excluded_notes'])) {
             $this->newLine();
-            $this->warn("ℹ️  Notes: " . $results['excluded_notes']);
+            $this->warn('ℹ️  Notes: '.$results['excluded_notes']);
         }
     }
 
@@ -319,7 +324,7 @@ class GenerateLUsCommand extends Command
                 'model' => $this->option('model'),
                 'target_n' => $this->option('target-n'),
             ],
-            'results' => $results
+            'results' => $results,
         ];
 
         Storage::disk('local')->put($filename, json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));

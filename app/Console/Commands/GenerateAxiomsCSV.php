@@ -34,27 +34,29 @@ class GenerateAxiomsCSV extends Command
         $outputFile = base_path($this->option('output'));
 
         // Check if source directory exists
-        if (!File::exists($jsonDirectory)) {
+        if (! File::exists($jsonDirectory)) {
             $this->error("Source directory does not exist: {$jsonDirectory}");
+
             return 1;
         }
 
         // Ensure output directory exists
         $outputDir = dirname($outputFile);
-        if (!File::exists($outputDir)) {
+        if (! File::exists($outputDir)) {
             File::makeDirectory($outputDir, 0755, true);
             $this->info("Created output directory: {$outputDir}");
         }
 
         // Get all JSON files
-        $jsonFiles = File::glob($jsonDirectory . '/*.json');
+        $jsonFiles = File::glob($jsonDirectory.'/*.json');
 
         if (empty($jsonFiles)) {
             $this->error("No JSON files found in: {$jsonDirectory}");
+
             return 1;
         }
 
-        $this->info("Found " . count($jsonFiles) . " JSON files to process");
+        $this->info('Found '.count($jsonFiles).' JSON files to process');
 
         // Prepare CSV data
         $csvData = [];
@@ -73,6 +75,7 @@ class GenerateAxiomsCSV extends Command
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     $this->error("Invalid JSON in file: {$filename}");
+
                     continue;
                 }
 
@@ -84,7 +87,7 @@ class GenerateAxiomsCSV extends Command
                             $axiom['section'] ?? '',
                             $axiom['axiom_number'] ?? '',
                             $axiom['fol'] ?? '',
-                            $axiom['english'] ?? ''
+                            $axiom['english'] ?? '',
                         ];
                         $totalAxioms++;
                     }
@@ -96,7 +99,8 @@ class GenerateAxiomsCSV extends Command
                 }
 
             } catch (\Exception $e) {
-                $this->error("Error processing {$filename}: " . $e->getMessage());
+                $this->error("Error processing {$filename}: ".$e->getMessage());
+
                 continue;
             }
         }
@@ -108,14 +112,15 @@ class GenerateAxiomsCSV extends Command
             $csvContent = $this->arrayToCsv($csvData);
             File::put($outputFile, $csvContent);
 
-            $this->info("✅ CSV file generated successfully!");
+            $this->info('✅ CSV file generated successfully!');
             $this->info("📊 Total axioms extracted: {$totalAxioms}");
             $this->info("📁 Output file: {$outputFile}");
 
             return 0;
 
         } catch (\Exception $e) {
-            $this->error("Error writing CSV file: " . $e->getMessage());
+            $this->error('Error writing CSV file: '.$e->getMessage());
+
             return 1;
         }
     }

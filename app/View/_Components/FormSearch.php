@@ -13,8 +13,7 @@ class FormSearch extends Component
      */
     public function __construct(
         public string $id = 'formSearch'
-    )
-    {
+    ) {
         //
     }
 

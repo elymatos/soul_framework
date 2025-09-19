@@ -3,11 +3,11 @@
 namespace App\View\_Components\Combobox;
 
 use App\Database\Criteria;
+use App\Repositories\LU;
 use App\Services\AppService;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\LU;
 
 class LuFrame extends Component
 {
@@ -17,19 +17,18 @@ class LuFrame extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public int     $idFrame,
-        public string  $id = '',
-        public string  $label = '',
+        public int $idFrame,
+        public string $id = '',
+        public string $label = '',
         public ?string $value = null
-    )
-    {
-        //$lus = LU::listForSelectByFrame($this->idFrame)->getResult();
+    ) {
+        // $lus = LU::listForSelectByFrame($this->idFrame)->getResult();
         $idLanguage = AppService::getCurrentIdLanguage();
-        $lus = Criteria::byFilter("view_lu", [
-            ["idFrame", "=", $idFrame],
-            ["idLanguage", "=", $idLanguage],
-            ["idLanguageFrame", "=", $idLanguage]
-        ])->orderBy("name")->all();
+        $lus = Criteria::byFilter('view_lu', [
+            ['idFrame', '=', $idFrame],
+            ['idLanguage', '=', $idLanguage],
+            ['idLanguageFrame', '=', $idLanguage],
+        ])->orderBy('name')->all();
         $this->options = [];
         foreach ($lus as $lu) {
             $this->options[] = [

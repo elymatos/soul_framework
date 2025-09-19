@@ -2,7 +2,6 @@
 
 namespace App\Data\Task;
 
-use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 
 class UserTaskDocumentData extends Data
@@ -11,8 +10,6 @@ class UserTaskDocumentData extends Data
         public ?int $idUserTask = null,
         public ?int $idDocument = null,
         public ?int $idCorpus = null,
-    )
-    {
-    }
+    ) {}
 
 }

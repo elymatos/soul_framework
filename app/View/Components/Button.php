@@ -16,9 +16,8 @@ class Button extends Component
         public string $color = 'primary',
         public string $href = '',
         public string $icon = ''
-    )
-    {
-        $this->color = $color;//ucfirst($color);
+    ) {
+        $this->color = $color; // ucfirst($color);
         if ($this->color === 'danger') {
             $this->color = 'negative';
         }

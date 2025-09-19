@@ -4,13 +4,12 @@ namespace App\Console\Commands;
 
 use App\Database\Criteria;
 use App\Services\AppService;
+use App\Services\XmlExport\ExportProgressTracker;
 use App\Services\XmlExport\XmlExportConfig;
 use App\Services\XmlExport\XmlUtils;
-use App\Services\XmlExport\XmlTemplateManager;
-use App\Services\XmlExport\ExportProgressTracker;
-use Illuminate\Console\Command;
 use DOMDocument;
 use Exception;
+use Illuminate\Console\Command;
 
 class ExportFrameRelationsCommand extends Command
 {
@@ -32,11 +31,17 @@ class ExportFrameRelationsCommand extends Command
     protected $description = 'Export frame relations to XML files';
 
     private int $idLanguage;
+
     private string $outputDir;
+
     private string $format;
+
     private bool $validateXsd;
+
     private bool $includeHierarchy;
+
     private array $config;
+
     private ExportProgressTracker $tracker;
 
     /**
@@ -54,7 +59,7 @@ class ExportFrameRelationsCommand extends Command
         $this->includeHierarchy = $this->option('include-hierarchy') ?? ($this->config['filters']['relations']['include_hierarchy'] ?? false);
 
         AppService::setCurrentLanguage($this->idLanguage);
-        $this->tracker = new ExportProgressTracker();
+        $this->tracker = new ExportProgressTracker;
 
         // Set performance settings from config
         if (isset($this->config['performance']['memory_limit'])) {
@@ -65,14 +70,14 @@ class ExportFrameRelationsCommand extends Command
         }
 
         // Create output directory
-        if (!is_dir($this->outputDir)) {
+        if (! is_dir($this->outputDir)) {
             mkdir($this->outputDir, 0755, true);
         }
 
-        $this->info("Starting frame relations export");
+        $this->info('Starting frame relations export');
         $this->info("Language ID: {$this->idLanguage}");
         $this->info("Output format: {$this->format}");
-        $this->info("XSD Validation: " . ($this->validateXsd ? 'enabled' : 'disabled'));
+        $this->info('XSD Validation: '.($this->validateXsd ? 'enabled' : 'disabled'));
 
         try {
             switch ($this->format) {
@@ -84,10 +89,11 @@ class ExportFrameRelationsCommand extends Command
                     return $this->exportSingleFile();
                 default:
                     $this->error("Unknown format: {$this->format}");
+
                     return 1;
             }
         } catch (Exception $e) {
-            $this->error("Export failed: " . $e->getMessage());
+            $this->error('Export failed: '.$e->getMessage());
             $this->tracker->fail($e->getMessage());
 
             if ($this->config['logging']['enabled'] ?? true) {
@@ -106,7 +112,8 @@ class ExportFrameRelationsCommand extends Command
         $frames = $this->getFramesWithRelations();
 
         if (empty($frames)) {
-            $this->warn("No frames with relations found");
+            $this->warn('No frames with relations found');
+
             return 0;
         }
 
@@ -120,7 +127,7 @@ class ExportFrameRelationsCommand extends Command
                 $this->tracker->updateProgress("Frame {$frame->idFrame}");
                 $progressBar->advance();
             } catch (Exception $e) {
-                $this->tracker->addError("Failed to export frame {$frame->idFrame}: " . $e->getMessage());
+                $this->tracker->addError("Failed to export frame {$frame->idFrame}: ".$e->getMessage());
                 $progressBar->advance();
             }
         }
@@ -132,8 +139,8 @@ class ExportFrameRelationsCommand extends Command
         $progress = $this->tracker->getProgress();
         $this->info("Exported {$progress['processed_items']} frame relation files");
 
-        if (!empty($progress['errors'])) {
-            $this->warn("Encountered " . count($progress['errors']) . " errors");
+        if (! empty($progress['errors'])) {
+            $this->warn('Encountered '.count($progress['errors']).' errors');
         }
 
         return 0;
@@ -156,7 +163,7 @@ class ExportFrameRelationsCommand extends Command
                 $this->tracker->updateProgress("Relation type {$relationType->relationType}");
                 $progressBar->advance();
             } catch (Exception $e) {
-                $this->tracker->addError("Failed to export relation type {$relationType->relationType}: " . $e->getMessage());
+                $this->tracker->addError("Failed to export relation type {$relationType->relationType}: ".$e->getMessage());
                 $progressBar->advance();
             }
         }
@@ -201,7 +208,7 @@ class ExportFrameRelationsCommand extends Command
             $filename = "{$this->outputDir}/frame_relations_all.xml";
             $this->saveXmlDocument($dom, $filename);
 
-            $this->tracker->updateProgress("All relations", 1);
+            $this->tracker->updateProgress('All relations', 1);
             $this->tracker->complete();
 
             $this->info("Exported all frame relations to: {$filename}");
@@ -223,26 +230,26 @@ class ExportFrameRelationsCommand extends Command
         $frameView = $this->config['database_views']['frames'] ?? 'view_frame';
 
         $query = Criteria::table("{$relationView} as fr")
-            ->join("{$frameView} as f1", "fr.f1IdFrame", "=", "f1.idFrame")
-            ->where("fr.idLanguage", $this->idLanguage)
-            ->select("f1.*")
+            ->join("{$frameView} as f1", 'fr.f1IdFrame', '=', 'f1.idFrame')
+            ->where('fr.idLanguage', $this->idLanguage)
+            ->select('f1.*')
             ->distinct();
 
         if ($frameId = $this->option('frame')) {
-            $query->where("f1.idFrame", $frameId);
+            $query->where('f1.idFrame', $frameId);
         }
 
         if ($relationType = $this->option('relation-type')) {
-            $query->where("fr.relationType", $relationType);
+            $query->where('fr.relationType', $relationType);
         } else {
             // Use configured relation types
             $allowedRelations = $this->config['filters']['relations']['relation_types'] ?? [];
-            if (!empty($allowedRelations)) {
-                $query->whereIn("fr.relationType", $allowedRelations);
+            if (! empty($allowedRelations)) {
+                $query->whereIn('fr.relationType', $allowedRelations);
             }
         }
 
-        return $query->orderBy("f1.entry")->all();
+        return $query->orderBy('f1.entry')->all();
     }
 
     /**
@@ -254,13 +261,13 @@ class ExportFrameRelationsCommand extends Command
         $relationView = $this->config['database_views']['relations'] ?? 'view_relation';
 
         $query = Criteria::table("{$relationTypeView} as rt")
-            ->join("{$relationView} as r", "rt.idRelationType", "=", "r.idRelationType")
-            ->where("rt.idLanguage", $this->idLanguage)
-            ->select("rt.*")
+            ->join("{$relationView} as r", 'rt.idRelationType', '=', 'r.idRelationType')
+            ->where('rt.idLanguage', $this->idLanguage)
+            ->select('rt.*')
             ->distinct();
 
         if ($relationType = $this->option('relation-type')) {
-            $query->where("rt.entry", $relationType);
+            $query->where('rt.entry', $relationType);
         } else {
             // Use configured relation types
             $allowedRelations = $this->config['filters']['relations']['relation_types'] ?? [
@@ -273,12 +280,12 @@ class ExportFrameRelationsCommand extends Command
                 'rel_subframe',
                 'rel_structure',
                 'rel_using',
-                'rel_metaphorical_projection'
+                'rel_metaphorical_projection',
             ];
-            $query->whereIn("rt.entry", $allowedRelations);
+            $query->whereIn('rt.entry', $allowedRelations);
         }
 
-        return $query->orderBy("rt.entry")->all();
+        return $query->orderBy('rt.entry')->all();
     }
 
     /**
@@ -297,7 +304,7 @@ class ExportFrameRelationsCommand extends Command
 
         // Get outgoing relations
         $outgoingRelations = $this->getFrameRelations($frame->idFrame, 'outgoing');
-        if (!empty($outgoingRelations)) {
+        if (! empty($outgoingRelations)) {
             $outgoingElement = $dom->createElement('outgoingRelations');
             $frameElement->appendChild($outgoingElement);
 
@@ -308,7 +315,7 @@ class ExportFrameRelationsCommand extends Command
 
         // Get incoming relations
         $incomingRelations = $this->getFrameRelations($frame->idFrame, 'incoming');
-        if (!empty($incomingRelations)) {
+        if (! empty($incomingRelations)) {
             $incomingElement = $dom->createElement('incomingRelations');
             $frameElement->appendChild($incomingElement);
 
@@ -345,10 +352,10 @@ class ExportFrameRelationsCommand extends Command
         $root->appendChild($typeElement);
 
         // Get all relations of this type
-        $relations = Criteria::table("view_frame_relation")
-            ->where("idLanguage", $this->idLanguage)
-            ->where("relationType", $relationType->entry)
-            ->orderBy("f1Name", "f2Name")
+        $relations = Criteria::table('view_frame_relation')
+            ->where('idLanguage', $this->idLanguage)
+            ->where('relationType', $relationType->entry)
+            ->orderBy('f1Name', 'f2Name')
             ->all();
 
         $relationsElement = $dom->createElement('relations');
@@ -382,20 +389,20 @@ class ExportFrameRelationsCommand extends Command
      */
     private function getFrameRelations(int $frameId, string $direction = 'outgoing'): array
     {
-        $query = Criteria::table("view_frame_relation")
-            ->where("idLanguage", $this->idLanguage);
+        $query = Criteria::table('view_frame_relation')
+            ->where('idLanguage', $this->idLanguage);
 
         if ($direction === 'outgoing') {
-            $query->where("f1IdFrame", $frameId);
+            $query->where('f1IdFrame', $frameId);
         } else {
-            $query->where("f2IdFrame", $frameId);
+            $query->where('f2IdFrame', $frameId);
         }
 
         if ($relationType = $this->option('relation-type')) {
-            $query->where("relationType", $relationType);
+            $query->where('relationType', $relationType);
         }
 
-        return $query->orderBy("relationType")->all();
+        return $query->orderBy('relationType')->all();
     }
 
     /**
@@ -446,9 +453,9 @@ class ExportFrameRelationsCommand extends Command
         $typeElement->setAttribute('name', $relationType->entry);
 
         // Get relations of this type
-        $relations = Criteria::table("view_frame_relation")
-            ->where("idLanguage", $this->idLanguage)
-            ->where("relationType", $relationType->entry)
+        $relations = Criteria::table('view_frame_relation')
+            ->where('idLanguage', $this->idLanguage)
+            ->where('relationType', $relationType->entry)
             ->all();
 
         foreach ($relations as $relation) {
@@ -474,24 +481,24 @@ class ExportFrameRelationsCommand extends Command
         $hierarchyElement = $dom->createElement('frameHierarchy');
 
         // Get inheritance relations to build hierarchy
-        $inheritanceRelations = Criteria::table("view_frame_relation")
-            ->where("idLanguage", $this->idLanguage)
-            ->where("relationType", "rel_inheritance")
-            ->orderBy("f1Name")
+        $inheritanceRelations = Criteria::table('view_frame_relation')
+            ->where('idLanguage', $this->idLanguage)
+            ->where('relationType', 'rel_inheritance')
+            ->orderBy('f1Name')
             ->all();
 
         // Build hierarchy tree (simplified version)
         $hierarchy = [];
         foreach ($inheritanceRelations as $relation) {
-            if (!isset($hierarchy[$relation->f2IdFrame])) {
+            if (! isset($hierarchy[$relation->f2IdFrame])) {
                 $hierarchy[$relation->f2IdFrame] = [
                     'name' => $relation->f2Name,
-                    'children' => []
+                    'children' => [],
                 ];
             }
             $hierarchy[$relation->f2IdFrame]['children'][] = [
                 'id' => $relation->f1IdFrame,
-                'name' => $relation->f1Name
+                'name' => $relation->f1Name,
             ];
         }
 
@@ -533,7 +540,7 @@ class ExportFrameRelationsCommand extends Command
                 $xsdPath = $this->config['xsd_schemas']['relations'] ?? $xsdFile;
                 if (file_exists($xsdPath)) {
                     $errors = XmlUtils::validateXml($dom, $xsdPath);
-                    if (!empty($errors)) {
+                    if (! empty($errors)) {
                         $this->tracker->addWarning("Validation errors for {$filename}", implode('; ', $errors));
                         if ($this->config['logging']['enabled'] ?? true) {
                             $this->logValidationErrors($filename, $errors);
@@ -558,14 +565,14 @@ class ExportFrameRelationsCommand extends Command
      */
     private function logError(Exception $e): void
     {
-        if (!($this->config['logging']['enabled'] ?? true)) {
+        if (! ($this->config['logging']['enabled'] ?? true)) {
             return;
         }
 
         $logFile = $this->config['logging']['log_file'] ?? storage_path('logs/xml_export.log');
         $logDir = dirname($logFile);
 
-        if (!is_dir($logDir)) {
+        if (! is_dir($logDir)) {
             mkdir($logDir, 0755, true);
         }
 

@@ -16,7 +16,7 @@ class BrowseService
             ->where('ds.idDocument', $idDocument)
             ->first();
 
-        return !is_null($timespan);
+        return ! is_null($timespan);
     }
 
     public static function getRowNumber(int $idDocument, int $idDocumentSentence): int
@@ -31,10 +31,10 @@ class BrowseService
 
         return $sentences[$idDocumentSentence]->rowNumber;
     }
+
     /**
      * Versão 4.2
      */
-
     public static function browseCorpusDocumentBySearch(object $search, array $projects = [], string $taskGroup = '')
     {
         $corpusIcon = view('components.icon.corpus')->render();
@@ -45,42 +45,43 @@ class BrowseService
         $allowedCorpus = collect($allowed)->pluck('idCorpus')->all();
         $allowedDocuments = collect($allowed)->pluck('idDocument')->all();
         if ($search->document == '') {
-            $corpus = Criteria::byFilterLanguage("view_corpus", ["name", "startswith", $search->corpus])
-                ->whereIn("idCorpus", $allowedCorpus)
-                ->orderBy("name")->get()->keyBy("idCorpus")->all();
+            $corpus = Criteria::byFilterLanguage('view_corpus', ['name', 'startswith', $search->corpus])
+                ->whereIn('idCorpus', $allowedCorpus)
+                ->orderBy('name')->get()->keyBy('idCorpus')->all();
             $ids = array_keys($corpus);
-            $documents = Criteria::byFilterLanguage("view_document", ["idCorpus", "IN", $ids])
-                ->whereIn("idDocument", $allowedDocuments)
-                ->orderBy("name")
-                ->get()->groupBy("idCorpus")
+            $documents = Criteria::byFilterLanguage('view_document', ['idCorpus', 'IN', $ids])
+                ->whereIn('idDocument', $allowedDocuments)
+                ->orderBy('name')
+                ->get()->groupBy('idCorpus')
                 ->toArray();
             foreach ($corpus as $c) {
-                $children = array_map(fn($item) => [
+                $children = array_map(fn ($item) => [
                     'id' => $item->idDocument,
-                    'text' => $documentIcon . $item->name,
+                    'text' => $documentIcon.$item->name,
                     'state' => 'closed',
-                    'type' => 'document'
+                    'type' => 'document',
                 ], $documents[$c->idCorpus] ?? []);
                 $data[] = [
                     'id' => $c->idCorpus,
-                    'text' => $corpusIcon . $c->name,
+                    'text' => $corpusIcon.$c->name,
                     'state' => 'closed',
                     'type' => 'corpus',
-                    'children' => $children
+                    'children' => $children,
                 ];
             }
         } else {
-            $documents = Criteria::byFilterLanguage("view_document", ["name", "startswith", $search->document])
+            $documents = Criteria::byFilterLanguage('view_document', ['name', 'startswith', $search->document])
                 ->select('idDocument', 'name', 'corpusName')
-                ->whereIn("idDocuments", $allowedDocuments)
-                ->orderBy("corpusName")->orderBy("name")->all();
-            $data = array_map(fn($item) => [
+                ->whereIn('idDocuments', $allowedDocuments)
+                ->orderBy('corpusName')->orderBy('name')->all();
+            $data = array_map(fn ($item) => [
                 'id' => $item->idDocument,
-                'text' => $documentIcon . $item->corpusName . ' / ' . $item->name,
+                'text' => $documentIcon.$item->corpusName.' / '.$item->name,
                 'state' => 'closed',
-                'type' => 'document'
+                'type' => 'document',
             ], $documents);
         }
+
         return $data;
     }
 
@@ -103,14 +104,15 @@ class BrowseService
             // $style = 'background-color:#' . $label['rgbBg'] . ';color:#' . $label['rgbFg'] . ';';
             if ($span->startChar >= 0) {
                 $decorated .= mb_substr($text, $i, $span->startChar - $i);
-                $decorated .= "<span class='color_target'>" . mb_substr($text, $span->startChar, $span->endChar - $span->startChar + 1) . '</span>';
+                $decorated .= "<span class='color_target'>".mb_substr($text, $span->startChar, $span->endChar - $span->startChar + 1).'</span>';
                 $i = $span->endChar + 1;
             }
         }
-        $decorated = $decorated . mb_substr($text, $i);
+        $decorated = $decorated.mb_substr($text, $i);
 
         return $decorated;
     }
+
     public static function getPrevious(int $idDocumentSentence): ?int
     {
         $idDocument = self::getIdDocument($idDocumentSentence);
@@ -187,7 +189,7 @@ class BrowseService
                 ->min('idDocumentSentence') ?? null;
         }
 
-        return (object)[
+        return (object) [
             'previous' => $previous,
             'next' => $next,
         ];
@@ -197,7 +199,7 @@ class BrowseService
     {
         $corpusIcon = view('components.icon.corpus')->render();
         $data = [];
-        debug("browseCorpusBySearch", $taskGroupName);
+        debug('browseCorpusBySearch', $taskGroupName);
         $allowed = Project::getAllowedDocsForUser($projects, $taskGroupName);
         $allowedCorpus = array_keys(collect($allowed)->groupBy('idCorpus')->toArray());
         $corpus = Criteria::byFilterLanguage('view_corpus', ['name', 'startswith', $search->corpus])
@@ -206,7 +208,7 @@ class BrowseService
         foreach ($corpus as $c) {
             $data[] = [
                 'id' => $c->idCorpus,
-                'text' => $corpusIcon . $c->name,
+                'text' => $corpusIcon.$c->name,
                 'type' => 'corpus',
                 'leaf' => $leaf,
             ];
@@ -224,12 +226,13 @@ class BrowseService
             ->where('idLanguage', AppService::getCurrentIdLanguage())
             ->whereIn('idDocument', $allowedDocuments)
             ->orderBy('corpusName')->orderBy('name')->all();
-        $data = array_map(fn($item) => [
+        $data = array_map(fn ($item) => [
             'id' => $item->idDocument,
-            'text' => view('Annotation.partials.document', (array)$item)->render(),
+            'text' => view('Annotation.partials.document', (array) $item)->render(),
             'type' => 'document',
             'leaf' => $leaf,
         ], $documents);
+
         return $data;
     }
 
@@ -253,7 +256,7 @@ class BrowseService
                     if ((isset($allowedDocuments[$document->idDocument]))) {
                         $data[] = [
                             'id' => $document->idDocument,
-                            'text' => $documentIcon . $document->corpusName . ' / ' . $document->name,
+                            'text' => $documentIcon.$document->corpusName.' / '.$document->name,
                             'type' => 'document',
                             'leaf' => $leaf,
                         ];
@@ -267,9 +270,9 @@ class BrowseService
                 ->select('idDocument', 'name', 'corpusName')
                 ->whereIn('idDocument', $allowedDocuments)
                 ->orderBy('corpusName')->orderBy('name')->all();
-            $data = array_map(fn($item) => [
+            $data = array_map(fn ($item) => [
                 'id' => $item->idDocument,
-                'text' => $documentIcon . $item->name,
+                'text' => $documentIcon.$item->name,
                 'type' => 'document',
                 'leaf' => $leaf,
             ], $documents);
@@ -284,8 +287,8 @@ class BrowseService
         foreach ($sentences as $sentence) {
             $data[] = [
                 'id' => $sentence->idDocumentSentence,
-                'formatedId' => '[#' . $sentence->idDocumentSentence . ']',
-                'extra' => (isset($sentence->startTime) ? '<span class="text-time"><i class="material icon">schedule</i>' . $sentence->startTime . '</span>' : ''),
+                'formatedId' => '[#'.$sentence->idDocumentSentence.']',
+                'extra' => (isset($sentence->startTime) ? '<span class="text-time"><i class="material icon">schedule</i>'.$sentence->startTime.'</span>' : ''),
                 'text' => $sentence->text,
                 'type' => 'sentence',
                 'leaf' => true,
@@ -335,7 +338,7 @@ class BrowseService
                 ->limit(1000)
                 ->get()->keyBy('idDocumentSentence')->all();
         }
-        if (!empty($sentences)) {
+        if (! empty($sentences)) {
             $targets = collect(AnnotationSet::listTargetsForDocumentSentence(array_keys($sentences)))->groupBy('idDocumentSentence')->toArray();
             foreach ($targets as $idDocumentSentence => $spans) {
                 $sentences[$idDocumentSentence]->text = self::decorateSentenceTarget($sentences[$idDocumentSentence]->text, $spans);
@@ -369,7 +372,7 @@ class BrowseService
                 ->limit(1000)
                 ->get()->keyBy('idDocumentSentence')->all();
         }
-        if (!empty($sentences)) {
+        if (! empty($sentences)) {
             $targets = collect(AnnotationSet::listTargetsForDocumentSentence(array_keys($sentences)))->groupBy('idDocumentSentence')->toArray();
             debug($targets);
             foreach ($targets as $idDocumentSentence => $spans) {

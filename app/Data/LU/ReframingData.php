@@ -13,7 +13,5 @@ class ReframingData extends Data
         public ?int $idNewFrame,
         public ?array $idEntityFE,
         public ?array $changeToFE,
-    )
-    {
-    }
+    ) {}
 }

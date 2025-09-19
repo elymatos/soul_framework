@@ -2,8 +2,6 @@
 
 namespace App\Data\Layers;
 
-use App\Database\Criteria;
-use App\Services\AppService;
 use Spatie\LaravelData\Data;
 
 class CreateLayerTypeData extends Data
@@ -15,7 +13,5 @@ class CreateLayerTypeData extends Data
         public ?int $layerOrder = 1,
         public ?int $idLayerGroup = 0,
         public string $_token = '',
-    )
-    {
-    }
+    ) {}
 }

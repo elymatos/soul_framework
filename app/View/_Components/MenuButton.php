@@ -17,8 +17,7 @@ class MenuButton extends Component
         public string $icon,
         public string $menu,
         public string $plain = 'true'
-    )
-    {
+    ) {
         //
     }
 

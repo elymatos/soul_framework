@@ -15,7 +15,7 @@ class ConstraintController extends Controller
     #[Get(path: '/ce/{id}/constraints')]
     public function constraints(string $id)
     {
-        return view("Constraint.ceChild", [
+        return view('Constraint.ceChild', [
             'idConstructionElement' => $id,
         ]);
     }
@@ -25,11 +25,12 @@ class ConstraintController extends Controller
     {
         $ce = ConstructionElement::byId($id);
         $evokedFrame = Construction::getEvokedFrame($ce->idConstruction);
-        $view = view("Constraint.ceFormNew", [
+        $view = view('Constraint.ceFormNew', [
             'idConstructionElement' => $id,
             'constructionElement' => ConstructionElement::byId($id),
-            'idEvokedFrame' => $evokedFrame?->idFrame ?? 0
+            'idEvokedFrame' => $evokedFrame?->idFrame ?? 0,
         ]);
+
         return $view;
     }
 
@@ -37,10 +38,10 @@ class ConstraintController extends Controller
     public function constraintsGrid(int $id)
     {
         $ce = ConstructionElement::byId($id);
-        return view("Constraint.ceGrid", [
+
+        return view('Constraint.ceGrid', [
             'idConstructionElement' => $id,
-            'constraints' => Constraint::listByIdConstrained($ce->idEntity)
+            'constraints' => Constraint::listByIdConstrained($ce->idEntity),
         ]);
     }
-
 }

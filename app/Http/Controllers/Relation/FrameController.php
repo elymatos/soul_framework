@@ -18,12 +18,13 @@ class FrameController extends Controller
     public function deleteFrameRelation(string $idEntityRelation)
     {
         try {
-            Criteria::deleteById("entityrelation","idRelation", $idEntityRelation);
-            Criteria::deleteById("entityrelation","idEntityRelation", $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idRelation', $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idEntityRelation', $idEntityRelation);
             $this->trigger('reload-gridFrameRelation');
-            return $this->renderNotify("success", "Relation deleted.");
+
+            return $this->renderNotify('success', 'Relation deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", "Deletion denied. Check for associated relations.");
+            return $this->renderNotify('error', 'Deletion denied. Check for associated relations.');
         }
     }
 
@@ -39,10 +40,10 @@ class FrameController extends Controller
                 RelationService::create($data->relationTypeEntry, $frameRelated->idEntity, $frame->idEntity);
             }
             $this->trigger('reload-gridFrameRelation');
-            return $this->renderNotify("success", "Relation created.");
+
+            return $this->renderNotify('success', 'Relation created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 }

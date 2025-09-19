@@ -18,13 +18,12 @@ class LexiconLemma extends Component
         public string $placeholder = '',
         public string $name = '',
         public ?int $value = 0,
-    )
-    {
+    ) {
         if (($this->value != '') && ($this->value != 0)) {
             $lemma = Lexicon::lemmabyId($this->value);
             $this->placeholder = $lemma->shortName;
         } else {
-            $this->placeholder = "Search Lemma";
+            $this->placeholder = 'Search Lemma';
         }
     }
 

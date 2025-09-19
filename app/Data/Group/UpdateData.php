@@ -10,8 +10,6 @@ class UpdateData extends Data
         public int $idGroup,
         public ?string $name = '',
         public ?string $description = '',
-    )
-    {
-    }
+    ) {}
 
 }

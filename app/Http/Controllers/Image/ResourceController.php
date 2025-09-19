@@ -14,79 +14,81 @@ use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
     #[Get(path: '/image')]
     public function resource()
     {
-        return view("Image.resource");
+        return view('Image.resource');
     }
 
     #[Get(path: '/image/grid/{fragment?}')]
     #[Post(path: '/image/grid/{fragment?}')]
     public function grid(SearchData $search, ?string $fragment = null)
     {
-        $view = view("Image.grid", [
-            'search' => $search
+        $view = view('Image.grid', [
+            'search' => $search,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     #[Get(path: '/image/data')]
     public function data(SearchData $search)
     {
         if ($search->id != 0) {
-            $data = Criteria::table("image")
-                ->join("dataset_image as di", "image.idImage", "=", "di.idImage")
-                ->join("dataset", "di.idDataset", "=", "dataset.idDataset")
-                ->where("dataset.idDataset", $search->id)
+            $data = Criteria::table('image')
+                ->join('dataset_image as di', 'image.idImage', '=', 'di.idImage')
+                ->join('dataset', 'di.idDataset', '=', 'dataset.idDataset')
+                ->where('dataset.idDataset', $search->id)
                 ->select('image.idImage', 'image.name')
                 ->selectRaw("concat('i',image.idImage) as id")
                 ->selectRaw("'' as dataset")
                 ->selectRaw("'open' as state")
                 ->selectRaw("'image' as type")
                 ->limit(1000)
-                ->orderBy("image.name")->all();
+                ->orderBy('image.name')->all();
         } else {
             if ($search->image == '') {
-                $data = Criteria::table("dataset")
-                    ->select("idDataset as id", "idDataset", "name")
+                $data = Criteria::table('dataset')
+                    ->select('idDataset as id', 'idDataset', 'name')
                     ->selectRaw("'closed' as state")
                     ->selectRaw("'dataset' as type")
-                    ->where("name", "startswith", $search->dataset)
-                    ->orderBy("name")
+                    ->where('name', 'startswith', $search->dataset)
+                    ->orderBy('name')
                     ->all();
             } else {
-                $data = Criteria::table("image")
-                    ->leftJoin("dataset_image as di", "image.idImage", "=", "di.idImage")
-                    ->leftJoin("dataset", "di.idDataset", "=", "dataset.idDataset")
+                $data = Criteria::table('image')
+                    ->leftJoin('dataset_image as di', 'image.idImage', '=', 'di.idImage')
+                    ->leftJoin('dataset', 'di.idDataset', '=', 'dataset.idDataset')
                     ->select('image.idImage', 'image.name')
                     ->selectRaw("concat('i',image.idImage) as id")
                     ->selectRaw("IFNULL(concat(' [',dataset.name,']'),' []') as dataset")
                     ->selectRaw("'open' as state")
                     ->selectRaw("'image' as type")
-                    ->where("image.name", "startswith", $search->image)
+                    ->where('image.name', 'startswith', $search->image)
                     ->limit(1000)
-                    ->orderBy("image.name")->all();
+                    ->orderBy('image.name')->all();
             }
         }
+
         return $data;
     }
 
     #[Get(path: '/image/{id}/edit')]
     public function edit(string $id)
     {
-        return view("Image.edit",[
-            'image' => Image::byId($id)
+        return view('Image.edit', [
+            'image' => Image::byId($id),
         ]);
     }
 
     #[Get(path: '/image/{id}/editForm')]
     public function editForm(string $id)
     {
-        return view("Image.editForm",[
-            'image' => Image::byId($id)
+        return view('Image.editForm', [
+            'image' => Image::byId($id),
         ]);
     }
 
@@ -94,23 +96,24 @@ class ResourceController extends Controller
     public function update(UpdateData $data)
     {
         try {
-            Criteria::table("image")
-                ->where("idImage",$data->idImage)
+            Criteria::table('image')
+                ->where('idImage', $data->idImage)
                 ->update([
-                    "name" => $data->name,
-                    "currentURL" => $data->currentURL,
+                    'name' => $data->name,
+                    'currentURL' => $data->currentURL,
                 ]);
-            $this->trigger("reload-gridImage");
-            return $this->renderNotify("success", "Image updated.");
+            $this->trigger('reload-gridImage');
+
+            return $this->renderNotify('success', 'Image updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/image/new')]
     public function new()
     {
-        return view("Image.formNew");
+        return view('Image.formNew');
     }
 
     #[Post(path: '/image/new')]
@@ -118,10 +121,11 @@ class ResourceController extends Controller
     {
         try {
             Criteria::function('image_create(?)', [$data->toJson()]);
-            $this->trigger("reload-gridImage");
-            return $this->renderNotify("success", "Image created.");
+            $this->trigger('reload-gridImage');
+
+            return $this->renderNotify('success', 'Image created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -129,10 +133,11 @@ class ResourceController extends Controller
     public function delete(string $id)
     {
         try {
-            Criteria::deleteById("image","idImage",$id);
-            return $this->clientRedirect("/image");
+            Criteria::deleteById('image', 'idImage', $id);
+
+            return $this->clientRedirect('/image');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -140,8 +145,7 @@ class ResourceController extends Controller
     public function listForSelect(QData $data)
     {
         $name = (strlen($data->q) > 2) ? $data->q : 'none';
-        return ['results' => Criteria::byFilter("image",["name","startswith",$name])->orderby("name")->all()];
+
+        return ['results' => Criteria::byFilter('image', ['name', 'startswith', $name])->orderby('name')->all()];
     }
-
-
 }

@@ -2,11 +2,11 @@
 
 namespace App\View\_Components\Combobox;
 
+use App\Repositories\Construction as ConstructionRepository;
+use App\Repositories\Language;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Construction as ConstructionRepository;
-use App\Repositories\Language;
 
 class Construction extends Component
 {
@@ -14,6 +14,7 @@ class Construction extends Component
      * Create a new component instance.
      */
     public ?string $description = '';
+
     public function __construct(
         public string $id,
         public string $label,
@@ -24,9 +25,7 @@ class Construction extends Component
         public ?string $onChange = '',
         public ?string $onSelect = '',
         public ?bool $hasDescription = true,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -38,12 +37,13 @@ class Construction extends Component
             $cxn->language = Language::byId($cxn->cxIdLanguage);
             $this->placeholder = $cxn->name;
         } else {
-            $this->placeholder = "Search Construction";
+            $this->placeholder = 'Search Construction';
         }
         if ($this->idName == '') {
             $this->idName = $this->id;
         }
         $this->description = $this->hasDescription ? 'description' : '';
+
         return view('components.combobox.construction');
     }
 }

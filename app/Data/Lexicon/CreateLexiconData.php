@@ -5,23 +5,22 @@ namespace App\Data\Lexicon;
 use App\Database\Criteria;
 use App\Services\AppService;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 use Spatie\LaravelData\Data;
-use \Illuminate\Validation\Validator;
 
 class CreateLexiconData extends Data
 {
     public function __construct(
-        public ?string $form = '',
-        public ?int    $idPOS,
-        public ?int    $idUDPOS,
-        public ?int    $idLanguage,
-        public ?int    $idLexiconGroup,
-        public string  $_token = '',
-    )
-    {
+        public ?string $form,
+        public ?int $idPOS,
+        public ?int $idUDPOS,
+        public ?int $idLanguage,
+        public ?int $idLexiconGroup,
+        public string $_token = '',
+    ) {
         if ($this->idLexiconGroup == 2) {
             if (is_null($this->idPOS)) {
-                $pos = Criteria::byId("pos_udpos", "idUDPOS", $this->idUDPOS);
+                $pos = Criteria::byId('pos_udpos', 'idUDPOS', $this->idUDPOS);
                 $this->idPOS = $pos->idPOS;
             }
         }
@@ -55,8 +54,8 @@ class CreateLexiconData extends Data
     {
         $validator->after(function ($validator) {
             $data = $validator->getData();
-            if (Str::contains($data['form'], [',',';',':','(',')'])) {
-                $msg = ($data['idLexiconGroup'] == 2) ? "Invalid characters in lemma." : "Invalid characters in form.";
+            if (Str::contains($data['form'], [',', ';', ':', '(', ')'])) {
+                $msg = ($data['idLexiconGroup'] == 2) ? 'Invalid characters in lemma.' : 'Invalid characters in form.';
                 $validator->errors()->add('form', $msg);
             }
         });
@@ -64,6 +63,6 @@ class CreateLexiconData extends Data
 
     public static function redirect(): string
     {
-        return "error";
+        return 'error';
     }
 }

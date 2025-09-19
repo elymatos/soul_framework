@@ -11,12 +11,12 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-    //web: __DIR__.'/../routes/web.php',
-        commands: __DIR__ . '/../routes/console.php',
+        // web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-//        $middleware->append(Data::class);
+        //        $middleware->append(Data::class);
         $middleware->group('web', [
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -45,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             Session::class,
-            AuthenticateMaster::class
+            AuthenticateMaster::class,
         ]);
         $middleware->appendToGroup('admin', [
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
@@ -60,16 +60,16 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-//        $exceptions->renderable(function (\Illuminate\Validation\ValidationException $e) {
-//
-//            debug($e->getMessage());
-//            $request = request();
-//            if ($request->header('HX-Request')) {
-//                debug('is htmx', $e->redirectTo);
-//                return response('')
-//                    ->withHeaders([
-//                        'HX-Redirect' => $e->redirectTo
-//                    ]);
-//            }
-//        });
+        //        $exceptions->renderable(function (\Illuminate\Validation\ValidationException $e) {
+        //
+        //            debug($e->getMessage());
+        //            $request = request();
+        //            if ($request->header('HX-Request')) {
+        //                debug('is htmx', $e->redirectTo);
+        //                return response('')
+        //                    ->withHeaders([
+        //                        'HX-Redirect' => $e->redirectTo
+        //                    ]);
+        //            }
+        //        });
     })->create();

@@ -10,9 +10,8 @@ class CreateData extends Data
         public ?int $idDocumentSentence = null,
         public ?int $idFrame = null,
         public ?int $idLU = null,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         $this->_token = csrf_token();
     }
 

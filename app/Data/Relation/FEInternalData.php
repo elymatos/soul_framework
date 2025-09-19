@@ -15,10 +15,9 @@ class FEInternalData extends Data
         public ?string $relationTypeFEInternal = '',
         public ?int $idRelationType = null,
         public ?string $relationTypeEntry = ''
-    )
-    {
-        $this->idRelationType = (int)substr($this->relationTypeFEInternal, 1);
-        $relationType = Criteria::byId("relationtype","idRelationType", $this->idRelationType);
+    ) {
+        $this->idRelationType = (int) substr($this->relationTypeFEInternal, 1);
+        $relationType = Criteria::byId('relationtype', 'idRelationType', $this->idRelationType);
         $this->relationTypeEntry = $relationType->entry;
     }
 }

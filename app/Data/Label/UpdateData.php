@@ -14,7 +14,5 @@ class UpdateData extends Data
         public ?int $idLabelType = null,
         public ?int $idLayer = null,
         public ?int $idInstantiationType = null,
-    )
-    {
-    }
+    ) {}
 }

@@ -26,7 +26,9 @@ class ExtractEntityHierarchyCommand extends Command
     protected $description = 'Extract Entity frame and its complete recursive hierarchy from database';
 
     private int $languageId;
+
     private array $processedFrames = [];
+
     private int $totalFramesProcessed = 0;
 
     /**
@@ -48,8 +50,9 @@ class ExtractEntityHierarchyCommand extends Command
                 ->where('name', 'Entity')
                 ->first();
 
-            if (!$entityFrame) {
+            if (! $entityFrame) {
                 $this->error("Entity frame not found for language ID {$this->languageId}");
+
                 return 1;
             }
 
@@ -66,7 +69,7 @@ class ExtractEntityHierarchyCommand extends Command
                     'name' => $entityFrame->name,
                     'idEntity' => $entityFrame->idEntity,
                     'entry' => $entityFrame->entry ?? null,
-                    'description' => $entityFrame->description ?? null
+                    'description' => $entityFrame->description ?? null,
                 ],
                 'hierarchy' => $this->buildFrameHierarchy($entityFrame->idFrame, 0, $maxDepth),
                 'metadata' => [
@@ -74,14 +77,14 @@ class ExtractEntityHierarchyCommand extends Command
                     'extraction_date' => date('Y-m-d H:i:s'),
                     'max_depth' => $maxDepth,
                     'total_frames_processed' => 0,
-                    'relation_types' => ['rel_inheritance', 'rel_perspective_on', 'rel_subframe']
-                ]
+                    'relation_types' => ['rel_inheritance', 'rel_perspective_on', 'rel_subframe'],
+                ],
             ];
 
             $hierarchy['metadata']['total_frames_processed'] = $this->totalFramesProcessed;
 
             // Create output directory if it doesn't exist
-            if (!Storage::exists($outputFolder)) {
+            if (! Storage::exists($outputFolder)) {
                 Storage::makeDirectory($outputFolder);
             }
 
@@ -95,7 +98,8 @@ class ExtractEntityHierarchyCommand extends Command
             return 0;
 
         } catch (\Exception $e) {
-            $this->error("Export failed: " . $e->getMessage());
+            $this->error('Export failed: '.$e->getMessage());
+
             return 1;
         }
     }
@@ -140,13 +144,13 @@ class ExtractEntityHierarchyCommand extends Command
                     'relationType' => $child->relationType,
                     'nameCanonical' => $child->nameCanonical ?? null,
                     'nameDirect' => $child->nameDirect ?? null,
-                    'nameInverse' => $child->nameInverse ?? null
+                    'nameInverse' => $child->nameInverse ?? null,
                 ],
-                'children' => $this->buildFrameHierarchy($child->f2IdFrame, $currentDepth + 1, $maxDepth)
+                'children' => $this->buildFrameHierarchy($child->f2IdFrame, $currentDepth + 1, $maxDepth),
             ];
 
             $relationType = $child->relationType;
-            if (!isset($hierarchy[$relationType])) {
+            if (! isset($hierarchy[$relationType])) {
                 $hierarchy[$relationType] = [];
             }
 

@@ -11,7 +11,5 @@ class UpdateSingleData extends Data
         public string $name,
         public string $description,
         public int $idLanguage
-    )
-    {
-    }
+    ) {}
 }

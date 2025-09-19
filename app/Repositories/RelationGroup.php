@@ -8,6 +8,6 @@ class RelationGroup
 {
     public static function byId(int $id): object
     {
-        return Criteria::byFilterLanguage("view_relationgroup", ["idRelationGroup","=", $id])->first();
+        return Criteria::byFilterLanguage('view_relationgroup', ['idRelationGroup', '=', $id])->first();
     }
 }

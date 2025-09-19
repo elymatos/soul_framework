@@ -3,12 +3,11 @@
 namespace App\View\_Components\Combobox;
 
 use App\Database\Criteria;
+use App\Repositories\SemanticType as SemanticTypeRepository;
 use App\Services\AppService;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
-use App\Repositories\SemanticType as SemanticTypeRepository;
 
 class SemanticType extends Component
 {
@@ -22,15 +21,14 @@ class SemanticType extends Component
         public string $label,
         public string $placeholder = '',
         public string $root = ''
-    )
-    {
+    ) {
         $result = [];
         if ($root == '') {
-            $list = Criteria::table("view_domain_semantictype as dst")
-                ->join("semantictype as st", "st.idEntity", "=", "dst.stIdEntity")
+            $list = Criteria::table('view_domain_semantictype as dst')
+                ->join('semantictype as st', 'st.idEntity', '=', 'dst.stIdEntity')
                 ->selectRaw("st.idSemanticType, concat(dst.stName,':',dst.domainName) as name")
-                ->where("dst.idLanguage", "=", AppService::getCurrentIdLanguage())
-                ->orderBy("dst.stName")
+                ->where('dst.idLanguage', '=', AppService::getCurrentIdLanguage())
+                ->orderBy('dst.stName')
                 ->all();
             foreach ($list as $row) {
                 $result[] = [
@@ -38,15 +36,15 @@ class SemanticType extends Component
                     'name' => $row->name,
                     'html' => view('components.element.semantictype', ['name' => $row->name])->render(),
                     'state' => 'open',
-                    'iconCls' => ''
+                    'iconCls' => '',
                 ];
             }
         } else {
             $list = $this->buildTree($root);
             foreach ($list as $i => $row) {
-                $node = (array)$row;
+                $node = (array) $row;
                 $children = $this->buildTree($row['name']);
-                $node['children'] = !empty($children) ? $children : null;
+                $node['children'] = ! empty($children) ? $children : null;
                 $result[] = $node;
             }
         }
@@ -55,7 +53,7 @@ class SemanticType extends Component
 
     public function buildTree(string $root): array
     {
-        $st = Criteria::byFilterLanguage("view_semantictype", ["name", "=", $root])->first();
+        $st = Criteria::byFilterLanguage('view_semantictype', ['name', '=', $root])->first();
         $list = SemanticTypeRepository::listChildren($st->idEntity);
         $result = [];
         foreach ($list as $row) {
@@ -64,9 +62,10 @@ class SemanticType extends Component
                 'name' => $row->name,
                 'html' => view('components.element.semantictype', ['name' => $row->name])->render(),
                 'state' => 'open',
-                'iconCls' => ''
+                'iconCls' => '',
             ];
         }
+
         return $result;
     }
 

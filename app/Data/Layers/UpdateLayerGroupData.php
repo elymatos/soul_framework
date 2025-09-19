@@ -11,7 +11,5 @@ class UpdateLayerGroupData extends Data
         public string $name,
         public string $type,
         public string $_token = '',
-    )
-    {
-    }
+    ) {}
 }

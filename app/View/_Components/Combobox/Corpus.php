@@ -2,10 +2,10 @@
 
 namespace App\View\_Components\Combobox;
 
+use App\Repositories\Corpus as CorpusRepository;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Corpus as CorpusRepository;
 
 class Corpus extends Component
 {
@@ -19,13 +19,12 @@ class Corpus extends Component
         public string $placeholder = '',
         public ?string $onChange = '',
         public ?string $onSelect = '',
-    )
-    {
-        if($this->value != '') {
+    ) {
+        if ($this->value != '') {
             $corpus = CorpusRepository::byId($this->value);
             $this->placeholder = $corpus->name;
         } else {
-            $this->placeholder = "Search Corpus";
+            $this->placeholder = 'Search Corpus';
         }
     }
 

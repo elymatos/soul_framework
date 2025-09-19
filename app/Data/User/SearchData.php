@@ -9,8 +9,6 @@ class SearchData extends Data
     public function __construct(
         public ?string $group = '',
         public ?string $user = '',
-    )
-    {
-    }
+    ) {}
 
 }

@@ -11,8 +11,7 @@ class QualiaData extends Data
         public ?string $idQualiaRelation,
         public ?string $idLURelated,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->_token = csrf_token();
     }
 }

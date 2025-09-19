@@ -9,7 +9,6 @@ use App\Repositories\WordForm;
 
 class LexiconService
 {
-
     public static function listWordForm(SearchData $data): array
     {
         return Wordform::listByFilter($data)->get()->keyBy('idWordform')->toArray();
@@ -24,5 +23,4 @@ class LexiconService
     {
         return Lemma::listByFilter($data)->get()->keyBy('idLemma')->all();
     }
-
 }

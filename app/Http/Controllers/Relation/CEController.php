@@ -18,11 +18,12 @@ class CEController extends Controller
     public function deleteFERelation(string $idEntityRelation)
     {
         try {
-            Criteria::deleteById("entityrelation","idEntityRelation", $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idEntityRelation', $idEntityRelation);
             $this->trigger('reload-gridCERelation');
-            return $this->renderNotify("success", "Relation deleted.");
+
+            return $this->renderNotify('success', 'Relation deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -30,14 +31,15 @@ class CEController extends Controller
     public function newCERelation(CEData $data)
     {
         try {
-            $relation = Criteria::byId("view_relation","idEntityRelation", $data->idEntityRelation);
+            $relation = Criteria::byId('view_relation', 'idEntityRelation', $data->idEntityRelation);
             $ce = ConstructionElement::byId($data->idConstructionElement);
             $ceRelated = ConstructionElement::byId($data->idConstructionElementRelated);
             RelationService::create($relation->relationType, $ce->idEntity, $ceRelated->idEntity, null, $data->idEntityRelation);
             $this->trigger('reload-gridCERelation');
-            return $this->renderNotify("success", "Relation created.");
+
+            return $this->renderNotify('success', 'Relation created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Services\XmlExport;
 
-
 /**
  * Export filter and query builder
  */
 class ExportQueryBuilder
 {
     private array $filters = [];
+
     private array $joins = [];
+
     private array $orderBy = [];
+
     private ?int $limit = null;
+
     private int $offset = 0;
 
     /**
@@ -20,6 +23,7 @@ class ExportQueryBuilder
     public function addFilter(string $field, string $operator, $value): self
     {
         $this->filters[] = [$field, $operator, $value];
+
         return $this;
     }
 
@@ -29,6 +33,7 @@ class ExportQueryBuilder
     public function addJoin(string $table, string $condition, string $type = 'inner'): self
     {
         $this->joins[] = [$table, $condition, $type];
+
         return $this;
     }
 
@@ -38,6 +43,7 @@ class ExportQueryBuilder
     public function addOrderBy(string $field, string $direction = 'ASC'): self
     {
         $this->orderBy[] = [$field, $direction];
+
         return $this;
     }
 
@@ -48,6 +54,7 @@ class ExportQueryBuilder
     {
         $this->limit = $limit;
         $this->offset = $offset;
+
         return $this;
     }
 
@@ -61,11 +68,11 @@ class ExportQueryBuilder
         // Apply joins
         foreach ($this->joins as [$table, $condition, $type]) {
             if ($type === 'left') {
-                $query->leftJoin($table, function($join) use ($condition) {
+                $query->leftJoin($table, function ($join) use ($condition) {
                     $join->on($condition);
                 });
             } else {
-                $query->join($table, function($join) use ($condition) {
+                $query->join($table, function ($join) use ($condition) {
                     $join->on($condition);
                 });
             }
@@ -102,6 +109,7 @@ class ExportQueryBuilder
         $this->orderBy = [];
         $this->limit = null;
         $this->offset = 0;
+
         return $this;
     }
 }

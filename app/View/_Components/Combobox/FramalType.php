@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class FramalType extends Component
 {
     public $options;
+
     /**
      * Create a new component instance.
      */
@@ -18,12 +19,11 @@ class FramalType extends Component
         public string $value = '',
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
+    ) {
         $types = SemanticType::listFrameType()->all();
         $this->options = [[
             'idSemanticType' => null,
-            'name' => '-- all --'
+            'name' => '-- all --',
         ]];
         foreach ($types as $type) {
             $this->options[] = $type;

@@ -18,8 +18,7 @@ class FrameClassification extends Component
         public string $value,
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
+    ) {
         $this->options = [
             ['text' => 'plain list', 'value' => ''],
             ['text' => 'by Cluster', 'value' => 'cluster'],

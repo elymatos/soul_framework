@@ -12,16 +12,16 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
-
     #[Get(path: '/sentence')]
     public function browse()
     {
         $search = session('searchLexicon') ?? SearchData::from();
-        return view("Sentence.resource", [
-            'search' => $search
+
+        return view('Sentence.resource', [
+            'search' => $search,
         ]);
     }
 
@@ -29,24 +29,26 @@ class ResourceController extends Controller
     #[Post(path: '/sentence/grid/{fragment?}')]
     public function grid(SearchData $search, ?string $fragment = null)
     {
-        $view = view("Sentence.grid", [
+        $view = view('Sentence.grid', [
             'search' => $search,
             'sentences' => [],
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     #[Get(path: '/sentence/new')]
     public function formSentenceNew()
     {
-        return view("Sentence.formNew");
+        return view('Sentence.formNew');
     }
 
     #[Get(path: '/sentence/{idSentence}')]
     public function sentence(int $idSentence)
     {
-        $sentence = Criteria::byId("view_sentence","idSentence",$idSentence);
-        return view("Sentence.edit", [
+        $sentence = Criteria::byId('view_sentence', 'idSentence', $idSentence);
+
+        return view('Sentence.edit', [
             'sentence' => $sentence,
         ]);
     }
@@ -54,13 +56,14 @@ class ResourceController extends Controller
     #[Get(path: '/sentence/{id}/editForm')]
     public function editForm(string $id)
     {
-        $sentence = Criteria::byId("view_sentence","idSentence",$id);
-        $as = Criteria::table("annotationset")
-            ->where("idSentence", $id)
+        $sentence = Criteria::byId('view_sentence', 'idSentence', $id);
+        $as = Criteria::table('annotationset')
+            ->where('idSentence', $id)
             ->all();
-        return view("Sentence.editForm",[
+
+        return view('Sentence.editForm', [
             'sentence' => $sentence,
-            'hasAS' => !empty($as)
+            'hasAS' => ! empty($as),
         ]);
     }
 
@@ -68,34 +71,35 @@ class ResourceController extends Controller
     public function newSentence(CreateLemmaData $data)
     {
         try {
-            $exists = Criteria::table("lemma")
-                ->where("name", $data->name)
-                ->where("idPOS", $data->idPOS)
-                ->where("idLanguage", $data->idLanguage)
+            $exists = Criteria::table('lemma')
+                ->where('name', $data->name)
+                ->where('idPOS', $data->idPOS)
+                ->where('idLanguage', $data->idLanguage)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("Lemma already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('Lemma already exists.');
             }
             $newLemma = json_encode([
                 'name' => $data->name,
                 'idPOS' => $data->idPOS,
                 'idLanguage' => $data->idLanguage,
             ]);
-            $idLemma = Criteria::function("lemma_create(?)", [$newLemma]);
+            $idLemma = Criteria::function('lemma_create(?)', [$newLemma]);
             $lemma = Lemma::byId($idLemma);
-            $lexemeentries = Criteria::table("lexemeentry as le")
-                ->join("lexeme", "le.idLexeme", "=", "lexeme.idLexeme")
-                ->where("le.idLemma", $idLemma)
-                ->select("le.*", "lexeme.name as lexeme")
-                ->orderBy("le.lexemeorder")
+            $lexemeentries = Criteria::table('lexemeentry as le')
+                ->join('lexeme', 'le.idLexeme', '=', 'lexeme.idLexeme')
+                ->where('le.idLemma', $idLemma)
+                ->select('le.*', 'lexeme.name as lexeme')
+                ->orderBy('le.lexemeorder')
                 ->all();
             $view = view('Sentence.lemma', [
                 'lemma' => $lemma,
-                'lexemeentries' => $lexemeentries
+                'lexemeentries' => $lexemeentries,
             ]);
-            return $view->fragment("content");
+
+            return $view->fragment('content');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -103,14 +107,15 @@ class ResourceController extends Controller
     public function updateSentence(UpdateData $data)
     {
         try {
-            Criteria::table("sentence")
-                ->where("idSentence", $data->idSentence)
+            Criteria::table('sentence')
+                ->where('idSentence', $data->idSentence)
                 ->update([
-                    'text' => $data->text
+                    'text' => $data->text,
                 ]);
-            return $this->renderNotify("success", "Sentence updated.");
+
+            return $this->renderNotify('success', 'Sentence updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -118,13 +123,12 @@ class ResourceController extends Controller
     public function deleteSentence(string $idSentence)
     {
         try {
-            Criteria::function("sentence_delete(?,?)", [$idSentence, AppService::getCurrentIdUser()]);
+            Criteria::function('sentence_delete(?,?)', [$idSentence, AppService::getCurrentIdUser()]);
             $this->trigger('reload-gridSentence');
-            return $this->renderNotify("success", "Sentence removed.");
+
+            return $this->renderNotify('success', 'Sentence removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
-
 }

@@ -13,15 +13,15 @@ class TaskGroup extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public int $value
-    )
-    {
-        $list = Criteria::table("taskgroup")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('taskgroup')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $tg) {
+        foreach ($list as $tg) {
             $this->options[$tg->idTaskGroup] = [
                 'id' => $tg->idTaskGroup,
                 'text' => $tg->name,

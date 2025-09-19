@@ -12,8 +12,5 @@ class MenuData extends Data
         public string $href,
         public string $group,
         public array $items
-    )
-    {
-
-    }
+    ) {}
 }

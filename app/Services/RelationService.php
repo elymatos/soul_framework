@@ -12,17 +12,17 @@ use App\Repositories\SemanticType;
 
 class RelationService extends Controller
 {
-//    public static function delete(int $id)
-//    {
-//        Relation::delete($id);
-//    }
-//
-//    public static function newRelation(CreateData $data): ?int
-//    {
-//        return Relation::save($data);
-//    }
+    //    public static function delete(int $id)
+    //    {
+    //        Relation::delete($id);
+    //    }
+    //
+    //    public static function newRelation(CreateData $data): ?int
+    //    {
+    //        return Relation::save($data);
+    //    }
 
-    static public function create(string $relationTypeEntry, int $idEntity1, int $idEntity2, ?int $idEntity3 = null, ?int $idRelation = null): ?int
+    public static function create(string $relationTypeEntry, int $idEntity1, int $idEntity2, ?int $idEntity3 = null, ?int $idRelation = null): ?int
     {
         $user = AppService::getCurrentUser();
         $data = json_encode([
@@ -31,62 +31,64 @@ class RelationService extends Controller
             'idEntity2' => $idEntity2,
             'idEntity3' => $idEntity3 ?? null,
             'idRelation' => $idRelation ?? null,
-            'idUser' => $user ? $user->idUser : 0
+            'idUser' => $user ? $user->idUser : 0,
         ]);
+
         return Criteria::function('relation_create(?)', [$data]);
     }
 
     public static function listRelationsFrame(int $idFrame)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        //$config = config('webtool.relations');
+        // $config = config('webtool.relations');
         $result = [];
-        $relations = Criteria::table("view_frame_relation")
-            ->where("f1IdFrame", $idFrame)
-            ->where("idLanguage", $idLanguage)
-            ->orderBy("relationType")
-            ->orderBy("f2Name")
+        $relations = Criteria::table('view_frame_relation')
+            ->where('f1IdFrame', $idFrame)
+            ->where('idLanguage', $idLanguage)
+            ->orderBy('relationType')
+            ->orderBy('f2Name')
             ->all();
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameDirect,
                 'color' => $relation->color,
                 'idFrameRelated' => $relation->f2IdFrame,
                 'related' => $relation->f2Name,
-                'direction' => 'direct'
+                'direction' => 'direct',
             ];
         }
-        $inverse = Criteria::table("view_frame_relation")
-            ->where("f2IdFrame", $idFrame)
-            ->where("idLanguage", $idLanguage)
+        $inverse = Criteria::table('view_frame_relation')
+            ->where('f2IdFrame', $idFrame)
+            ->where('idLanguage', $idLanguage)
             ->all();
         foreach ($inverse as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameInverse,
                 'color' => $relation->color,
                 'idFrameRelated' => $relation->f1IdFrame,
                 'related' => $relation->f1Name,
-                'direction' => 'inverse'
+                'direction' => 'inverse',
             ];
         }
+
         return $result;
     }
 
     public static function listRelationsFEInternal(int $idFrame)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        //$config = config('webtool.relations');
-        $relations = Criteria::table("view_fe_internal_relation")
-            ->where("fe1IdFrame", $idFrame)
-            ->where("idLanguage", $idLanguage)
+        // $config = config('webtool.relations');
+        $relations = Criteria::table('view_fe_internal_relation')
+            ->where('fe1IdFrame', $idFrame)
+            ->where('idLanguage', $idLanguage)
             ->all();
         $result = [];
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'feIdFrameElement' => $relation->fe1IdFrameElement,
@@ -101,20 +103,21 @@ class RelationService extends Controller
                 'color' => $relation->color,
             ];
         }
+
         return $result;
     }
 
     public static function listRelationsFE(int $idEntityRelationBase)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        //$config = config('webtool.relations');
-        $relations = Criteria::table("view_fe_relation")
-            ->where("idRelation", $idEntityRelationBase)
-            ->where("idLanguage", $idLanguage)
+        // $config = config('webtool.relations');
+        $relations = Criteria::table('view_fe_relation')
+            ->where('idRelation', $idEntityRelationBase)
+            ->where('idLanguage', $idLanguage)
             ->all();
         $result = [];
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'entry' => $relation->relationType,
                 'relationName' => $relation->nameDirect,
@@ -129,6 +132,7 @@ class RelationService extends Controller
                 'relatedFEIdEntity' => $relation->fe2IdEntity,
             ];
         }
+
         return $result;
     }
 
@@ -136,16 +140,16 @@ class RelationService extends Controller
     {
         $idLanguage = AppService::getCurrentIdLanguage();
         $result = [];
-        $relations = Criteria::table("view_frame_relation as fr")
-            ->join("view_frame as f", "fr.f2IdFrame", "=", "f.idFrame")
-            ->select("fr.idEntityRelation", "fr.relationType", "f.idFrame", "f.name", "f.description")
-            ->where("fr.f1IdFrame", $idFrame)
-            ->where("fr.idLanguage", $idLanguage)
-            ->where("f.idLanguage", $idLanguage)
-            ->orderBy("f.name")
+        $relations = Criteria::table('view_frame_relation as fr')
+            ->join('view_frame as f', 'fr.f2IdFrame', '=', 'f.idFrame')
+            ->select('fr.idEntityRelation', 'fr.relationType', 'f.idFrame', 'f.name', 'f.description')
+            ->where('fr.f1IdFrame', $idFrame)
+            ->where('fr.idLanguage', $idLanguage)
+            ->where('f.idLanguage', $idLanguage)
+            ->orderBy('f.name')
             ->all();
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'idFrame' => $relation->idFrame,
@@ -153,59 +157,60 @@ class RelationService extends Controller
                 'description' => $relation->description,
             ];
         }
+
         return $result;
     }
 
     public static function listFEST(int $idFrame)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $relations = Criteria::table("view_relation as r")
-            ->join("view_frameelement as fe", "r.idEntity1", "=", "fe.idEntity")
-            ->join("view_semantictype as st", "r.idEntity2", "=", "st.idEntity")
-            ->select("fe.idFrameElement", "fe.name", "st.name")
-            ->where("fe.idFrame", $idFrame)
-            ->where("fe.idLanguage", $idLanguage)
-            ->where("st.idLanguage", $idLanguage)
-            ->orderBy("fe.idFrameElement")
-            ->keyBy("idFrameElement")
+        $relations = Criteria::table('view_relation as r')
+            ->join('view_frameelement as fe', 'r.idEntity1', '=', 'fe.idEntity')
+            ->join('view_semantictype as st', 'r.idEntity2', '=', 'st.idEntity')
+            ->select('fe.idFrameElement', 'fe.name', 'st.name')
+            ->where('fe.idFrame', $idFrame)
+            ->where('fe.idLanguage', $idLanguage)
+            ->where('st.idLanguage', $idLanguage)
+            ->orderBy('fe.idFrameElement')
+            ->keyBy('idFrameElement')
             ->all();
+
         return $relations;
     }
-
 
     public static function updateFramalDomain(UpdateClassificationData $data)
     {
         $frame = Frame::byId($data->idFrame);
-        $relationType = Criteria::byId("relationtype", "entry", "rel_framal_domain");
+        $relationType = Criteria::byId('relationtype', 'entry', 'rel_framal_domain');
         try {
-            Criteria::table("entityrelation")
-                ->where("idEntity1", $frame->idEntity)
-                ->where("idRelationType", $relationType->idRelationType)
+            Criteria::table('entityrelation')
+                ->where('idEntity1', $frame->idEntity)
+                ->where('idRelationType', $relationType->idRelationType)
                 ->delete();
             foreach ($data->framalDomain as $idSemanticType) {
                 $st = SemanticType::byId($idSemanticType);
-                self::create("rel_framal_domain", $frame->idEntity, $st->idEntity);
+                self::create('rel_framal_domain', $frame->idEntity, $st->idEntity);
             }
         } catch (\Exception $e) {
-            throw new \Exception("Error updating relations. " . $e);
+            throw new \Exception('Error updating relations. '.$e);
         }
     }
 
     public static function updateFramalType(UpdateClassificationData $data)
     {
         $frame = Frame::byId($data->idFrame);
-        $relationType = Criteria::byId("relationtype", "entry", "rel_framal_type");
+        $relationType = Criteria::byId('relationtype', 'entry', 'rel_framal_type');
         try {
-            Criteria::table("entityrelation")
-                ->where("idEntity1", $frame->idEntity)
-                ->where("idRelationType", $relationType->idRelationType)
+            Criteria::table('entityrelation')
+                ->where('idEntity1', $frame->idEntity)
+                ->where('idRelationType', $relationType->idRelationType)
                 ->delete();
             foreach ($data->framalType as $idSemanticType) {
                 $st = SemanticType::byId($idSemanticType);
-                self::create("rel_framal_type", $frame->idEntity, $st->idEntity);
+                self::create('rel_framal_type', $frame->idEntity, $st->idEntity);
             }
         } catch (\Exception $e) {
-            throw new \Exception("Error updating relations. " . $e);
+            throw new \Exception('Error updating relations. '.$e);
         }
     }
 
@@ -216,51 +221,52 @@ class RelationService extends Controller
     {
         $idLanguage = AppService::getCurrentIdLanguage();
         $result = [];
-        $relations = Criteria::table("view_construction_relation")
-            ->where("c1IdConstruction", $idConstruction)
-            ->where("idLanguage", $idLanguage)
-            ->orderBy("relationType")
-            ->orderBy("c2Name")
+        $relations = Criteria::table('view_construction_relation')
+            ->where('c1IdConstruction', $idConstruction)
+            ->where('idLanguage', $idLanguage)
+            ->orderBy('relationType')
+            ->orderBy('c2Name')
             ->all();
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameDirect,
                 'color' => $relation->color,
                 'idCxnRelated' => $relation->c2IdConstruction,
                 'related' => $relation->c2Name,
-                'direction' => 'direct'
+                'direction' => 'direct',
             ];
         }
-        $inverse = Criteria::table("view_construction_relation")
-            ->where("c2IdConstruction", $idConstruction)
-            ->where("idLanguage", $idLanguage)
+        $inverse = Criteria::table('view_construction_relation')
+            ->where('c2IdConstruction', $idConstruction)
+            ->where('idLanguage', $idLanguage)
             ->all();
         foreach ($inverse as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameInverse,
                 'color' => $relation->color,
                 'idCxnRelated' => $relation->c1IdConstruction,
                 'related' => $relation->c1Name,
-                'direction' => 'inverse'
+                'direction' => 'inverse',
             ];
         }
+
         return $result;
     }
 
     public static function listRelationsCE(int $idEntityRelationBase)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        $relations = Criteria::table("view_constructionelement_relation")
-            ->where("idRelation", $idEntityRelationBase)
-            ->where("idLanguage", $idLanguage)
+        $relations = Criteria::table('view_constructionelement_relation')
+            ->where('idRelation', $idEntityRelationBase)
+            ->where('idLanguage', $idLanguage)
             ->all();
         $result = [];
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'entry' => $relation->relationType,
                 'relationName' => $relation->nameDirect,
@@ -273,6 +279,7 @@ class RelationService extends Controller
                 'relatedCEIdEntity' => $relation->ce2IdEntity,
             ];
         }
+
         return $result;
     }
 
@@ -287,9 +294,9 @@ class RelationService extends Controller
         debug($idRelationType);
         $idLanguage = AppService::getCurrentIdLanguage();
         foreach ($idArray as $idEntity) {
-            $partial = Criteria::table("view_relation as r")
-                ->join("view_frame as f1", "r.idEntity1", "=", "f1.idEntity")
-                ->join("view_frame as f2", "r.idEntity2", "=", "f2.idEntity")
+            $partial = Criteria::table('view_relation as r')
+                ->join('view_frame as f1', 'r.idEntity1', '=', 'f1.idEntity')
+                ->join('view_frame as f2', 'r.idEntity2', '=', 'f2.idEntity')
                 ->select('r.idEntityRelation', 'r.idRelationType', 'r.relationType', 'r.entity1Type', 'r.entity2Type', 'r.idEntity1', 'r.idEntity2',
                     'f1.name as frame1Name',
                     'f2.name as frame2Name',
@@ -301,11 +308,11 @@ class RelationService extends Controller
                 if (in_array($r->idRelationType, $idRelationType)) {
                     $nodes[$r->idEntity1] = [
                         'type' => 'frame',
-                        'name' => $r->frame1Name
+                        'name' => $r->frame1Name,
                     ];
                     $nodes[$r->idEntity2] = [
                         'type' => 'frame',
-                        'name' => $r->frame2Name
+                        'name' => $r->frame2Name,
                     ];
                     $links[$r->idEntity1][$r->idEntity2] = [
                         'type' => 'ff',
@@ -315,9 +322,10 @@ class RelationService extends Controller
                 }
             }
         }
+
         return [
             'nodes' => $nodes,
-            'links' => $links
+            'links' => $links,
         ];
     }
 
@@ -333,13 +341,13 @@ class RelationService extends Controller
                 'type' => 'fe',
                 'name' => $relation->feName,
                 'icon' => $icon[$relation->feCoreType],
-                'idColor' => $relation->feIdColor
+                'idColor' => $relation->feIdColor,
             ];
             $nodes[$relation->relatedFEIdEntity] = [
                 'type' => 'fe',
                 'name' => $relation->relatedFEName,
                 'icon' => $icon[$relation->relatedFECoreType],
-                'idColor' => $relation->relatedFEIdColor
+                'idColor' => $relation->relatedFEIdColor,
             ];
             $links[$baseRelation->idEntity1][$relation->feIdEntity] = [
                 'type' => 'ffe',
@@ -357,9 +365,10 @@ class RelationService extends Controller
                 'relationEntry' => $relation->entry,
             ];
         }
+
         return [
             'nodes' => $nodes,
-            'links' => $links
+            'links' => $links,
         ];
     }
 
@@ -370,12 +379,12 @@ class RelationService extends Controller
         $idLanguage = AppService::getCurrentIdLanguage();
         if ($idSemanticType > 0) {
             $semanticType = SemanticType::byId($idSemanticType);
-            $frames = Criteria::table("view_relation as r")
-                ->join("view_frame as f", "r.idEntity1", "=", "f.idEntity")
-                ->select("r.idEntity1 as idEntity", "f.name")
-                ->where("r.relationType", "=", "rel_framal_domain")
-                ->where("r.idEntity2", "=", $semanticType->idEntity)
-                ->where("f.idLanguage", "=", $idLanguage)
+            $frames = Criteria::table('view_relation as r')
+                ->join('view_frame as f', 'r.idEntity1', '=', 'f.idEntity')
+                ->select('r.idEntity1 as idEntity', 'f.name')
+                ->where('r.relationType', '=', 'rel_framal_domain')
+                ->where('r.idEntity2', '=', $semanticType->idEntity)
+                ->where('f.idLanguage', '=', $idLanguage)
                 ->orderBy('f.name')
                 ->all();
             $list = [];
@@ -384,9 +393,9 @@ class RelationService extends Controller
             }
             foreach ($frames as $frame) {
                 $idEntity = $frame->idEntity;
-                $partial = Criteria::table("view_relation as r")
-                    ->join("view_frame as f1", "r.idEntity1", "=", "f1.idEntity")
-                    ->join("view_frame as f2", "r.idEntity2", "=", "f2.idEntity")
+                $partial = Criteria::table('view_relation as r')
+                    ->join('view_frame as f1', 'r.idEntity1', '=', 'f1.idEntity')
+                    ->join('view_frame as f2', 'r.idEntity2', '=', 'f2.idEntity')
                     ->select('r.idEntityRelation', 'r.idRelationType', 'r.relationType', 'r.entity1Type', 'r.entity2Type', 'r.idEntity1', 'r.idEntity2',
                         'f1.name as frame1Name',
                         'f2.name as frame2Name',
@@ -400,11 +409,11 @@ class RelationService extends Controller
                         if (in_array($r->idRelationType, $frameRelation)) {
                             $nodes[$r->idEntity1] = [
                                 'type' => 'frame',
-                                'name' => $r->frame1Name
+                                'name' => $r->frame1Name,
                             ];
                             $nodes[$r->idEntity2] = [
                                 'type' => 'frame',
-                                'name' => $r->frame2Name
+                                'name' => $r->frame2Name,
                             ];
                             $links[$r->idEntity1][$r->idEntity2] = [
                                 'type' => 'ff',
@@ -416,9 +425,10 @@ class RelationService extends Controller
                 }
             }
         }
+
         return [
             'nodes' => $nodes,
-            'links' => $links
+            'links' => $links,
         ];
     }
 
@@ -426,18 +436,18 @@ class RelationService extends Controller
     {
         $idLanguage = AppService::getCurrentIdLanguage();
         if ($level > 3) {
-            $frameRelation = [1,2,12];
+            $frameRelation = [1, 2, 12];
         }
-        $r = Criteria::table("view_frame_relation")
-            ->where("f1IdFrame", $idFrame)
-            ->where("idLanguage", $idLanguage)
-            ->whereIn("idRelationType", $frameRelation)
-            ->orderBy("relationType")
-            ->orderBy("f2Name")
+        $r = Criteria::table('view_frame_relation')
+            ->where('f1IdFrame', $idFrame)
+            ->where('idLanguage', $idLanguage)
+            ->whereIn('idRelationType', $frameRelation)
+            ->orderBy('relationType')
+            ->orderBy('f2Name')
             ->all();
         foreach ($r as $relation) {
             $relations[] = $relation;
-            if (!isset($handled[$relation->f2IdFrame])) {
+            if (! isset($handled[$relation->f2IdFrame])) {
                 $handled[$relation->f2IdFrame] = true;
                 self::listRecursiveDirectFrameRelations($relation->f2IdFrame, $frameRelation, $relations, $handled, $level + 1);
             }
@@ -454,11 +464,11 @@ class RelationService extends Controller
             if (in_array($relation->idRelationType, $frameRelation)) {
                 $nodes[$relation->f1IdEntity] = [
                     'type' => 'frame',
-                    'name' => $relation->f1Name
+                    'name' => $relation->f1Name,
                 ];
                 $nodes[$relation->f2IdEntity] = [
                     'type' => 'frame',
-                    'name' => $relation->f2Name
+                    'name' => $relation->f2Name,
                 ];
                 $links[$relation->f1IdEntity][$relation->f2IdEntity] = [
                     'type' => 'ff',
@@ -467,25 +477,26 @@ class RelationService extends Controller
                 ];
             }
         }
+
         return [
             'nodes' => $nodes,
-            'links' => $links
+            'links' => $links,
         ];
     }
 
     public static function listRelationsConcept(int $idConcept)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        //$config = config('webtool.relations');
+        // $config = config('webtool.relations');
         $result = [];
-        $relations = Criteria::table("view_concept_relation")
-            ->where("c1IdConcept", $idConcept)
-            ->where("idLanguage", $idLanguage)
-            ->orderBy("relationType")
-            ->orderBy("c2Name")
+        $relations = Criteria::table('view_concept_relation')
+            ->where('c1IdConcept', $idConcept)
+            ->where('idLanguage', $idLanguage)
+            ->orderBy('relationType')
+            ->orderBy('c2Name')
             ->all();
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameDirect,
@@ -493,15 +504,15 @@ class RelationService extends Controller
                 'idConceptRelated' => $relation->c2IdConcept,
                 'related' => $relation->c2Name,
                 'type' => $relation->c2Type,
-                'direction' => 'direct'
+                'direction' => 'direct',
             ];
         }
-        $inverse = Criteria::table("view_concept_relation")
-            ->where("c2IdConcept", $idConcept)
-            ->where("idLanguage", $idLanguage)
+        $inverse = Criteria::table('view_concept_relation')
+            ->where('c2IdConcept', $idConcept)
+            ->where('idLanguage', $idLanguage)
             ->all();
         foreach ($inverse as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameInverse,
@@ -509,51 +520,51 @@ class RelationService extends Controller
                 'idConceptRelated' => $relation->c1IdConcept,
                 'related' => $relation->c1Name,
                 'type' => $relation->c1Type,
-                'direction' => 'inverse'
+                'direction' => 'inverse',
             ];
         }
+
         return $result;
     }
 
     public static function listRelationsSemanticType(int $idSemanticType)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        //$config = config('webtool.relations');
+        // $config = config('webtool.relations');
         $result = [];
-        $relations = Criteria::table("view_semantictype_relation")
-            ->where("st1IdSemanticType", $idSemanticType)
-            ->where("idLanguage", $idLanguage)
-            ->orderBy("relationType")
-            ->orderBy("st2Name")
+        $relations = Criteria::table('view_semantictype_relation')
+            ->where('st1IdSemanticType', $idSemanticType)
+            ->where('idLanguage', $idLanguage)
+            ->orderBy('relationType')
+            ->orderBy('st2Name')
             ->all();
         foreach ($relations as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameDirect,
                 'color' => $relation->color,
                 'idSTRelated' => $relation->st2IdSemanticType,
                 'related' => $relation->st2Name,
-                'direction' => 'direct'
+                'direction' => 'direct',
             ];
         }
-        $inverse = Criteria::table("view_semantictype_relation")
-            ->where("st2IdSemanticType", $idSemanticType)
-            ->where("idLanguage", $idLanguage)
+        $inverse = Criteria::table('view_semantictype_relation')
+            ->where('st2IdSemanticType', $idSemanticType)
+            ->where('idLanguage', $idLanguage)
             ->all();
         foreach ($inverse as $relation) {
-            $result[] = (object)[
+            $result[] = (object) [
                 'idEntityRelation' => $relation->idEntityRelation,
                 'relationType' => $relation->relationType,
                 'name' => $relation->nameInverse,
                 'color' => $relation->color,
                 'idSTRelated' => $relation->st1IdSemanticType,
                 'related' => $relation->st1Name,
-                'direction' => 'inverse'
+                'direction' => 'inverse',
             ];
         }
+
         return $result;
     }
-
-
 }

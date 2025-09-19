@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Migration for axiom execution audit trail table
- * 
+ *
  * Tracks all axiom executions for debugging, monitoring, and analysis
  * of the FOL-to-imperative conversion system.
  */
@@ -29,13 +29,13 @@ return new class extends Migration
             $table->boolean('success')->default(true);
             $table->text('error_message')->nullable();
             $table->timestamps();
-            
+
             // Indexes for analysis and monitoring
             $table->index(['axiom_id', 'created_at']);
             $table->index(['success', 'created_at']);
             $table->index(['execution_time_ms']);
             $table->index(['predicates_created', 'entities_created'], 'idx_output_counts');
-            
+
             // Index for recent executions
             $table->index(['created_at'], 'idx_recent_executions');
         });

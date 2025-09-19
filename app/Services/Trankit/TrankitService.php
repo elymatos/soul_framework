@@ -26,7 +26,7 @@ class TrankitService
         foreach ($tokens as $token) {
             $output_array = [];
             if (preg_match('/\d(\d*[,|\.]\d+)+\d/', $token, $output_array)) {
-                $processed[] = str_replace($output_array[0], ' ' . $output_array[0] . ' ', $token);
+                $processed[] = str_replace($output_array[0], ' '.$output_array[0].' ', $token);
             } else {
                 $processed[] = str_replace(['.', ',', '-', ':', ';', '?', '!'], [' . ', ' , ', ' - ', ' : ', ' ; ', ' ? ', ' ! '], $token);
             }
@@ -35,23 +35,25 @@ class TrankitService
         while (str_contains($sentence, '  ')) {
             $sentence = str_replace('  ', ' ', $sentence);
         }
+
         return trim($sentence);
     }
 
     public function handleContractions(string $sentence): string
     {
-        $fileName = __DIR__ . "/files/contractions.php";
-        //$fileName = "../../Offline/ud/contractions.php";
+        $fileName = __DIR__.'/files/contractions.php';
+        // $fileName = "../../Offline/ud/contractions.php";
         $contractions = include $fileName;
         $tokens = explode(' ', $sentence);
         $words = [];
         foreach ($tokens as $token) {
             if (isset($contractions[$token])) {
-                $words[] = $contractions[$token][0] . ' ' . $contractions[$token][1];
+                $words[] = $contractions[$token][0].' '.$contractions[$token][1];
             } else {
                 $words[] = $token;
             }
         }
+
         return implode(' ', $words);
     }
 
@@ -59,33 +61,37 @@ class TrankitService
     {
         $sentence = $this->handlePunct($sentence);
         $sentence = $this->handleContractions($sentence);
+
         return $sentence;
     }
 
     public function parseSentenceRaw(string $sentence, int $idLanguage = 1)
     {
-        $grapher = (object)[
+        $grapher = (object) [
             'nodes' => [],
-            'links' => []
+            'links' => [],
         ];
         $result = $this->getUDTrankit($sentence, $idLanguage);
+
         return $result->udpipe;
     }
 
     public function parseSentenceFilled(string $sentence, int $idLanguage = 1)
     {
-//        mdump(':: parseSentenceFilled');
+        //        mdump(':: parseSentenceFilled');
         $sentence = $this->fillSentence($sentence);
         $result = $this->getUDTrankit($sentence, $idLanguage);
-//        mdump($result);
+
+        //        mdump($result);
         return $result->udpipe;
     }
 
     public function parseSentenceRCN(string $sentence, int $idLanguage = 1)
     {
         $sentence = $this->fillSentence($sentence);
-        print_r($sentence . "\n");
+        print_r($sentence."\n");
         $result = $this->getUDTrankit($sentence, $idLanguage);
+
         return $result->udpipe;
     }
 
@@ -100,28 +106,28 @@ class TrankitService
             'PRON' => 1,
             'CCONJ' => 1,
             'SCONJ' => 1,
-            'PUNCT' => 1
+            'PUNCT' => 1,
         ];
-        $fwords = include_once realpath(dirname(__DIR__, 2) . "/Offline/ud/function_words.php");
-        $grapher = (object)[
+        $fwords = include_once realpath(dirname(__DIR__, 2).'/Offline/ud/function_words.php');
+        $grapher = (object) [
             'nodes' => [],
-            'links' => []
+            'links' => [],
         ];
-//        $initialResult = $this->getUDTrankit($sentence, $idLanguage);
-//        $nodes = $initialResult->udpipe;
-//        $filtered = [];
-//        foreach($nodes as $node) {
-//            $word = $node['word'];
-//            if (isset($fwords[strtolower($word)])) {
-//                if (isset($pos[$node['pos']])) {
-//                    $filtered[] = $word;
-//                }
-//            } else {
-//                $filtered[] = $word;
-//            }
-//
-//        }
-//        $sentence = implode(' ', $filtered);
+        //        $initialResult = $this->getUDTrankit($sentence, $idLanguage);
+        //        $nodes = $initialResult->udpipe;
+        //        $filtered = [];
+        //        foreach($nodes as $node) {
+        //            $word = $node['word'];
+        //            if (isset($fwords[strtolower($word)])) {
+        //                if (isset($pos[$node['pos']])) {
+        //                    $filtered[] = $word;
+        //                }
+        //            } else {
+        //                $filtered[] = $word;
+        //            }
+        //
+        //        }
+        //        $sentence = implode(' ', $filtered);
         $tokens = explode(' ', $sentence);
         $result = $this->getUDTrankitTokens($tokens, $idLanguage);
         $nodes = $result->udpipe;
@@ -137,19 +143,19 @@ class TrankitService
                         $isset = false;
                         $nodeParentParent = $nodes[$nodeParent['parent']] ?? null;
                         if ($nodeParentParent) {
-//                            mdump($id . ' - ' . $nodeParent['id'] . ' - ' . $nodeParentParent['id'] . ' - ' . $nodeParentParent['pos']);
+                            //                            mdump($id . ' - ' . $nodeParent['id'] . ' - ' . $nodeParentParent['id'] . ' - ' . $nodeParentParent['pos']);
                             if ($nodeParentParent['pos'] == 'SET') {
                                 $nodes[$id]['parent'] = $nodeParentParent['id'];
                                 $isset = true;
                             }
                         }
-                        if (!$isset) {
+                        if (! $isset) {
                             $nodeSet = [
                                 'id' => $count,
                                 'word' => 'SET',
                                 'pos' => 'SET',
                                 'parent' => $nodeParent['parent'],
-                                'rel' => $nodeParent['rel']
+                                'rel' => $nodeParent['rel'],
                             ];
                             $nodes[$id]['parent'] = $count;
                             $nodes[$parent]['parent'] = $count;
@@ -161,17 +167,17 @@ class TrankitService
                     }
                 }
             }
-//            if ($changed) {
-//                mdump('changed');
-//                $nodes = $new;
-//            }
-//            break;
+            //            if ($changed) {
+            //                mdump('changed');
+            //                $nodes = $new;
+            //            }
+            //            break;
         }
-//        mdump($nodes);
+        //        mdump($nodes);
         foreach ($nodes as $node) {
             $grapher->nodes[] = [
                 'id' => $node['id'],
-                'name' => $node['word'] . "  [{$node['pos']}]" . "  [{$node['rel']}]"
+                'name' => $node['word']."  [{$node['pos']}]"."  [{$node['rel']}]",
             ];
         }
         foreach ($nodes as $link) {
@@ -180,16 +186,18 @@ class TrankitService
                     'id' => ($link['id'] * 1000) + $link['parent'],
                     'source' => $link['id'],
                     'target' => $link['parent'],
-                    'relation' => 'rel_dependency'
+                    'relation' => 'rel_dependency',
                 ];
             }
         }
+
         return $grapher;
     }
 
     public function parseSentenceRawTokens(string $sentence, int $idLanguage = 1)
     {
-        $result = $this->getUDTrankit($sentence, $idLanguage,true);
+        $result = $this->getUDTrankit($sentence, $idLanguage, true);
+
         return $result->udpipe;
     }
 
@@ -198,76 +206,79 @@ class TrankitService
         debug($sentence);
         $client = $this->getClient();
         try {
-//            mdump('calling trankit ' . time());
+            //            mdump('calling trankit ' . time());
             $model = [
-                1 => "portuguese",
-                2 => "english"
+                1 => 'portuguese',
+                2 => 'english',
             ];
 
             $response = $client->request('post', 'tkparser', [
                 'headers' => [
-                    //'Accept' => 'application/hal+json',
+                    // 'Accept' => 'application/hal+json',
                     'Accept' => 'application/text',
                 ],
                 'body' => json_encode([
                     'articles' => [
-                        ['text' => $sentence]
+                        ['text' => $sentence],
                     ],
                     'tokens' => [],
-                    "model" => $model[$idLanguage]
-                ])
+                    'model' => $model[$idLanguage],
+                ]),
             ]);
-//            mdump('called trankit ' . time());
+            //            mdump('called trankit ' . time());
 
             $body = json_decode($response->getBody());
-            //debug($body);
+
+            // debug($body);
             return $body->result->sentences[0];
         } catch (\Exception $e) {
             debug($e->getMessage());
+
             return '';
         }
     }
 
     public function processTrankitTokens($tokens, $idLanguage = 1)
     {
-        //debug($sentence);
+        // debug($sentence);
         $client = $this->getClient();
         try {
-//            mdump('calling trankit ' . time());
+            //            mdump('calling trankit ' . time());
             $model = [
-                1 => "portuguese",
-                2 => "english"
+                1 => 'portuguese',
+                2 => 'english',
             ];
 
             debug(json_encode([
                 'articles' => [
-                    ['text' => '']
+                    ['text' => ''],
                 ],
                 'tokens' => $tokens,
-                "model" => $model[$idLanguage]
+                'model' => $model[$idLanguage],
             ]));
 
             $response = $client->request('post', 'tkbytoken', [
                 'headers' => [
-                    //'Accept' => 'application/hal+json',
+                    // 'Accept' => 'application/hal+json',
                     'Accept' => 'application/text',
                 ],
                 'body' => json_encode([
                     'articles' => [
-                        ['text' => '']
+                        ['text' => ''],
                     ],
                     'tokens' => $tokens,
-                    "model" => $model[$idLanguage]
-                ])
+                    'model' => $model[$idLanguage],
+                ]),
             ]);
 
-//            mdump('called trankit ' . time());
+            //            mdump('called trankit ' . time());
 
             $body = json_decode($response->getBody());
-//            debug($body);
+
+            //            debug($body);
             return $body->result;
         } catch (\Exception $e) {
-//            mdump($e->getMessage());
+            //            mdump($e->getMessage());
             return '';
         }
     }
@@ -278,18 +289,18 @@ class TrankitService
             $ud = [];
             if ($tokens) {
                 $tokens = explode(' ', $this->handlePunct($sentence));
-                foreach($tokens as $i => $token) {
+                foreach ($tokens as $i => $token) {
                     $tokens[$i] = str_replace('_', ' ', $token);
                 }
                 $result = $this->processTrankitTokens($tokens, $idLanguage);
             } else {
                 $result = $this->processTrankit($sentence, $idLanguage);
             }
-//            debug($result);
-            //debug($result);
-            //mdump($result->result->sentences[0]->tokens);
+            //            debug($result);
+            // debug($result);
+            // mdump($result->result->sentences[0]->tokens);
             $array = [];
-            //$dict = $result->result->sentences[0]->tokens;
+            // $dict = $result->result->sentences[0]->tokens;
             $dict = $result->tokens;
             foreach ($dict as $node) {
                 if (isset($node->expanded)) {
@@ -329,13 +340,15 @@ class TrankitService
                     'lemma' => $node->lemma ?? '',
                     'rel' => $node->deprel,
                     'parent' => $parent[$node->id] ?? 0,
-                    'children' => $children[$node->id] ?? []
+                    'children' => $children[$node->id] ?? [],
                 ];
             }
-            return (object)['udpipe' => $ud];
+
+            return (object) ['udpipe' => $ud];
         } catch (\Exception $e) {
             debug($e->getMessage());
-            return (object)['udpipe' => []];
+
+            return (object) ['udpipe' => []];
         }
     }
 
@@ -344,7 +357,7 @@ class TrankitService
         try {
             $ud = [];
             $result = $this->processTrankitTokens($tokens, $idLanguage);
-            //mdump($result->result->sentences[0]->tokens);
+            // mdump($result->result->sentences[0]->tokens);
             $array = [];
             $dict = $result->result->tokens;
             foreach ($dict as $node) {
@@ -376,13 +389,13 @@ class TrankitService
                     'morph' => $node->feats ?? '',
                     'rel' => $node->deprel,
                     'parent' => $parent[$node->id] ?? 0,
-                    'children' => $children[$node->id] ?? []
+                    'children' => $children[$node->id] ?? [],
                 ];
             }
-            return (object)['udpipe' => $ud];
+
+            return (object) ['udpipe' => $ud];
         } catch (\Exception $e) {
-            return (object)['udpipe' => []];
+            return (object) ['udpipe' => []];
         }
     }
-
 }

@@ -36,27 +36,27 @@ class SessionGuard extends BaseSessionGuard
         }
 
         // If we've already resolved the user for the current request, return it
-        if (!is_null($this->user)) {
+        if (! is_null($this->user)) {
             return $this->user;
         }
 
         // Check for user in session using our custom session key
         $sessionUser = $this->session->get('user');
-        
+
         if ($sessionUser && isset($sessionUser->idUser)) {
             // Convert repository user to UserModel and set as authenticated
             $this->user = UserModel::fromRepositoryUser($sessionUser);
-            
+
             // Mark as authenticated in parent class
             $this->setUser($this->user);
-            
+
             return $this->user;
         }
 
         // Fallback to default Laravel session authentication
         $id = $this->session->get($this->getName());
 
-        if (!is_null($id) && $this->user = $this->provider->retrieveById($id)) {
+        if (! is_null($id) && $this->user = $this->provider->retrieveById($id)) {
             $this->fireAuthenticatedEvent($this->user);
         }
 
@@ -70,7 +70,7 @@ class SessionGuard extends BaseSessionGuard
     {
         // Store in both Laravel session and our custom session
         parent::login($user, $remember);
-        
+
         // Also update our custom session format for backward compatibility
         if ($user instanceof UserModel) {
             $repositoryUser = $user->toRepositoryUser();
@@ -89,23 +89,23 @@ class SessionGuard extends BaseSessionGuard
         } catch (\Exception $e) {
             // Fallback: Manual cleanup if cookie operations fail
             // This can happen in CLI context or when cookies aren't properly initialized
-            
+
             // Clear the current user
             $this->user = null;
             $this->loggedOut = true;
-            
+
             // Clear Laravel auth session data
             $this->session->remove($this->getName());
-            
+
             // Regenerate session for security
             $this->session->regenerate(true);
-            
+
             // Fire logout event manually since parent::logout() failed
             if (isset($this->events)) {
                 $this->events->dispatch(new \Illuminate\Auth\Events\Logout($this->name, $this->user));
             }
         }
-        
+
         // Always clear our custom session data
         $this->session->forget([
             'user',
@@ -114,7 +114,7 @@ class SessionGuard extends BaseSessionGuard
             'isAdmin',
             'isMaster',
             'isManager',
-            'isAnno'
+            'isAnno',
         ]);
     }
 
@@ -128,7 +128,7 @@ class SessionGuard extends BaseSessionGuard
         if ($sessionUser && isset($sessionUser->idUser)) {
             return false; // Session-based, not remember token
         }
-        
+
         return parent::viaRemember();
     }
 }

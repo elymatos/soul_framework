@@ -9,25 +9,26 @@ use App\Exceptions\LoginException;
 use App\Mail\WebToolMail;
 use App\Models\User as UserModel;
 use App\Repositories\User;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthUserService
 {
     public function auth0Login($userInfo)
     {
-        $userData = (object)[
+        $userData = (object) [
             'auth0IdUser' => $userInfo['user_id'],
             'login' => $userInfo['email'],
             'email' => $userInfo['email'],
             'auth0CreatedAt' => $userInfo['created_at'],
             'name' => $userInfo['name'],
-            'nick' => $userInfo['nickname']
+            'nick' => $userInfo['nickname'],
         ];
         debug($userData);
-        $user = Criteria::one("user", ['email', '=', $userData->email]);
+        $user = Criteria::one('user', ['email', '=', $userData->email]);
         if (is_null($user)) {
             User::create($userData);
+
             return 'new';
         } else {
             $user = User::byId($user->idUser);
@@ -51,6 +52,7 @@ class AuthUserService
                 Auth::login($userModel);
 
                 debug("[LOGIN] Authenticated {$user->login}");
+
                 return 'logged';
             }
         }
@@ -58,12 +60,13 @@ class AuthUserService
 
     public function md5Check(LoginData $userInfo)
     {
-        $user = Criteria::one("user", ['login', '=', $userInfo->login]);
+        $user = Criteria::one('user', ['login', '=', $userInfo->login]);
         if (is_null($user)) {
-            User::create((object)[
+            User::create((object) [
                 'login' => $userInfo->login,
                 'passMD5' => $userInfo->password,
             ]);
+
             return 'new';
         } else {
             if ($user->status == '0') {
@@ -79,6 +82,7 @@ class AuthUserService
                     session(['mail_token' => $token]);
                     session(['twofactor_iduser' => $user->idUser]);
                     Mail::to($user->email)->send(new WebToolMail($token));
+
                     return 'checked';
                 } else {
                     return 'failed';
@@ -116,12 +120,13 @@ class AuthUserService
 
     public function md5Login(LoginData $userInfo)
     {
-        $user = Criteria::one("user", ['login', '=', $userInfo->login]);
+        $user = Criteria::one('user', ['login', '=', $userInfo->login]);
         if (is_null($user)) {
-            User::create((object)[
+            User::create((object) [
                 'login' => $userInfo->login,
                 'passMD5' => $userInfo->password,
             ]);
+
             return 'new';
         } else {
             if ($user->status == '0') {
@@ -146,6 +151,7 @@ class AuthUserService
                     Auth::login($userModel);
 
                     debug("[LOGIN] Authenticated {$user->login}");
+
                     return 'logged';
                 } else {
                     return 'failed';
@@ -156,7 +162,7 @@ class AuthUserService
 
     public static function offlineLogin(LoginData $userInfo)
     {
-        $user = Criteria::one("user", ['login', '=', $userInfo->login]);
+        $user = Criteria::one('user', ['login', '=', $userInfo->login]);
         if ($user->status == '2') {
             $user = User::byId($user->idUser);
             if ($user->passMD5 == $userInfo->password) {
@@ -205,5 +211,4 @@ class AuthUserService
 
         debug("[LOGIN] Authenticated {$user->login}");
     }
-
 }

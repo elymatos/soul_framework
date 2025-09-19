@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Relation;
 
 use App\Data\Relation\CxnData;
-use App\Data\Relation\FrameData;
 use App\Database\Criteria;
 use App\Http\Controllers\Controller;
 use App\Repositories\Construction;
-use App\Repositories\Frame;
 use App\Services\RelationService;
 use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
@@ -20,12 +18,13 @@ class CxnController extends Controller
     public function deleteFrameRelation(string $idEntityRelation)
     {
         try {
-            Criteria::deleteById("entityrelation","idRelation", $idEntityRelation);
-            Criteria::deleteById("entityrelation","idEntityRelation", $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idRelation', $idEntityRelation);
+            Criteria::deleteById('entityrelation', 'idEntityRelation', $idEntityRelation);
             $this->trigger('reload-gridCxnRelation');
-            return $this->renderNotify("success", "Relation deleted.");
+
+            return $this->renderNotify('success', 'Relation deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", "Deletion denied. Check for associated relations.");
+            return $this->renderNotify('error', 'Deletion denied. Check for associated relations.');
         }
     }
 
@@ -41,10 +40,10 @@ class CxnController extends Controller
                 RelationService::create($data->relationTypeEntry, $cxnRelated->idEntity, $cxn->idEntity);
             }
             $this->trigger('reload-gridCxnRelation');
-            return $this->renderNotify("success", "Relation created.");
+
+            return $this->renderNotify('success', 'Relation created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 }

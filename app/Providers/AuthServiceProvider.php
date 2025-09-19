@@ -39,9 +39,9 @@ class AuthServiceProvider extends ServiceProvider
                 null, // timebox
                 true  // rehashOnLogin
             );
-            
+
             $app->refresh('request', $guard, 'setRequest');
-            
+
             return $guard;
         });
     }

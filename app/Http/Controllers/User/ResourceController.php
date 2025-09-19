@@ -16,19 +16,19 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
     #[Get(path: '/user')]
     public function resource()
     {
-        return view("User.resource");
+        return view('User.resource');
     }
 
     #[Get(path: '/user/new')]
     public function new()
     {
-        return view("User.formNew");
+        return view('User.formNew');
     }
 
     #[Get(path: '/user/grid/{fragment?}')]
@@ -37,33 +37,35 @@ class ResourceController extends Controller
     {
         debug($search);
         $users = User::listToGrid($search);
-        //debug($users);
+        // debug($users);
         $groups = array_filter(
             User::listGroupForGrid($search?->group ?? ''),
-            fn($key) => isset($users[$key]),
+            fn ($key) => isset($users[$key]),
             ARRAY_FILTER_USE_KEY
         );
-        $view = view("User.grid",[
+        $view = view('User.grid', [
             'groups' => $groups,
-            'users' => $users
+            'users' => $users,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     #[Get(path: '/user/{id}/edit')]
     public function edit(string $id)
     {
         debug($id);
-        return view("User.edit",[
-            'user' => User::byId($id)
+
+        return view('User.edit', [
+            'user' => User::byId($id),
         ]);
     }
 
     #[Get(path: '/user/{id}/formEdit')]
     public function formEdit(string $id)
     {
-        return view("User.formEdit",[
-            'user' => User::byId($id)
+        return view('User.formEdit', [
+            'user' => User::byId($id),
         ]);
     }
 
@@ -72,10 +74,11 @@ class ResourceController extends Controller
     {
         try {
             User::authorize($id);
-            $this->trigger("reload-gridUser");
-            return $this->renderNotify("success", "User authorized.");
+            $this->trigger('reload-gridUser');
+
+            return $this->renderNotify('success', 'User authorized.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -84,10 +87,11 @@ class ResourceController extends Controller
     {
         try {
             User::deauthorize($id);
-//            $this->trigger("reload-gridUser");
-            return $this->renderNotify("success", "User deauthorized.");
+
+            //            $this->trigger("reload-gridUser");
+            return $this->renderNotify('success', 'User deauthorized.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -95,12 +99,13 @@ class ResourceController extends Controller
     public function update(UpdateData $data)
     {
         try {
-            //User::update($data);
+            // User::update($data);
             Criteria::function('user_update(?)', [$data->toJson()]);
-            $this->trigger("reload-gridUser");
-            return $this->renderNotify("success", "User updated.");
+            $this->trigger('reload-gridUser');
+
+            return $this->renderNotify('success', 'User updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -111,10 +116,11 @@ class ResourceController extends Controller
             $user->groups = [Group::byId($user->idGroup)];
             $user->passMD5 = md5(config('webtool.defaultPassword'));
             User::create($user);
-            $this->trigger("reload-gridUser");
-            return $this->renderNotify("success", "User created.");
+            $this->trigger('reload-gridUser');
+
+            return $this->renderNotify('success', 'User created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -122,11 +128,12 @@ class ResourceController extends Controller
     public function delete(string $id)
     {
         try {
-            //User::delete($id);
+            // User::delete($id);
             Criteria::function('user_delete(?)', [$id]);
-            return $this->clientRedirect("/user");
+
+            return $this->clientRedirect('/user');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -134,10 +141,11 @@ class ResourceController extends Controller
     public function listForSelect(QData $data)
     {
         $name = (strlen($data->q) > 1) ? $data->q : 'none';
-        return ['results' => Criteria::byFilter("user",
-            [["name","startswith",$name],["status","=",1]])
+
+        return ['results' => Criteria::byFilter('user',
+            [['name', 'startswith', $name], ['status', '=', 1]])
             ->selectRaw("idUser,concat('#',idUser, ' ', name,' [',email,']') as name")
-            ->orderby("name")
+            ->orderby('name')
             ->all()];
     }
 }

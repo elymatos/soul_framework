@@ -81,17 +81,17 @@ return [
                 'rel_subframe',
                 'rel_using',
                 'rel_metaphorical_projection',
-//                'rel_coreset',
-//                'rel_excludes',
-//                'rel_requires',
+                //                'rel_coreset',
+                //                'rel_excludes',
+                //                'rel_requires',
             ],
         ],
 
         'idCorpus' => [
-            1
-//            65,82,97,61,56,48,182,
-//            92,99,136,154,162
-        ]
+            1,
+            //            65,82,97,61,56,48,182,
+            //            92,99,136,154,162
+        ],
     ],
 
     'relation_types' => [

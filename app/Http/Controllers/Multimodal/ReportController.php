@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Multimodal;
 
-use App\Data\ComboBox\QData;
 use App\Data\Multimodal\SearchData;
-use App\Database\Criteria;
 use App\Http\Controllers\Controller;
 use App\Services\ReportMultimodalService;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
@@ -17,7 +15,7 @@ class ReportController extends Controller
     #[Post(path: '/report/multimodal/grid')]
     public function grid(SearchData $search)
     {
-        return view("Multimodal.Report.grid", [
+        return view('Multimodal.Report.grid', [
             'search' => $search,
         ]);
     }
@@ -33,22 +31,20 @@ class ReportController extends Controller
     {
         $search = session('searchMM') ?? SearchData::from();
         if ($idDocument == '') {
-            return view("Multimodal.Report.main", [
+            return view('Multimodal.Report.main', [
                 'search' => $search,
-                'idDocument' => null
+                'idDocument' => null,
             ]);
         } else {
             $data = ReportMultimodalService::report($idDocument);
             $data['search'] = $search;
             $data['idDocument'] = $idDocument;
             if ($view != '') {
-                return view("Multimodal.Report.report", $data);
+                return view('Multimodal.Report.report', $data);
             } else {
-                return view("Multimodal.Report.main", $data);
+                return view('Multimodal.Report.main', $data);
             }
 
         }
     }
-
-
 }

@@ -11,9 +11,8 @@ class SearchData extends Data
         public ?string $dataset = '',
         public ?int $idImage = null,
         public ?int $id = 0,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         $this->_token = csrf_token();
     }
 

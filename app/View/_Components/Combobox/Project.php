@@ -13,15 +13,15 @@ class Project extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public ?int $value = null
-    )
-    {
-        $list = Criteria::table("project")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('project')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $p) {
+        foreach ($list as $p) {
             $this->options[$p->idProject] = [
                 'id' => $p->idProject,
                 'text' => $p->name,

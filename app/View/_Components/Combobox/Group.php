@@ -13,15 +13,15 @@ class Group extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public ?int $value = null,
-    )
-    {
-        $list = Criteria::table("group")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('group')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $g) {
+        foreach ($list as $g) {
             $this->options[$g->idGroup] = [
                 'id' => $g->idGroup,
                 'text' => $g->name,

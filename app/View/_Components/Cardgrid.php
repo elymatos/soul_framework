@@ -14,14 +14,13 @@ class Cardgrid extends Component
     public function __construct(
         public string $id,
         public string $title,
-        public string $type  = 'child',
+        public string $type = 'child',
         public string $height = '100%',
         public string $header = '',
         public string $extraTitle = '',
         public string $thead = '',
         public bool $center = false,
-    )
-    {
+    ) {
         //
     }
 
@@ -30,9 +29,9 @@ class Cardgrid extends Component
      */
     public function render(): View|Closure|string
     {
-//        if ($this->type == 'child') {
-//            $this->height = "32rem";
-//        }
+        //        if ($this->type == 'child') {
+        //            $this->height = "32rem";
+        //        }
         return view('components.cardgrid');
     }
 }

@@ -7,7 +7,7 @@ use Spatie\LaravelData\Data;
 class ConstraintData extends Data
 {
     public function __construct(
-        public int     $idConstructionElement,
+        public int $idConstructionElement,
         public ?string $idConstructionConstraint,
         public ?string $idFrameConstraint,
         public ?string $idFrameFamilyConstraint,
@@ -26,9 +26,8 @@ class ConstraintData extends Data
         public ?string $idIndexGenderCEConstraint,
         public ?string $idIndexPersonCEConstraint,
         public ?string $idIndexNumberCEConstraint,
-        public string  $_token = '',
-    )
-    {
+        public string $_token = '',
+    ) {
         $this->_token = csrf_token();
     }
 }

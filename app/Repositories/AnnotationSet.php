@@ -6,7 +6,7 @@ use App\Database\Criteria;
 use App\Enum\AnnotationSetStatus;
 use App\Enum\Status;
 use App\Services\AppService;
-use \Illuminate\Support\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class AnnotationSet
@@ -14,33 +14,34 @@ class AnnotationSet
     public static function listTargetsForDocumentSentence(array $idDocumentSentences): Collection
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        debug("docsen",$idDocumentSentences);
-        return Criteria::table("view_annotationset as a")
-            ->join("view_annotation_text_target as gl", "a.idAnnotationSet", "=", "gl.idAnnotationSet")
-            ->join("lu","a.idLU","=", "lu.idLU")
-            ->join("view_frame as f","lu.idFrame","=","f.idFrame")
-            ->select('a.idDocumentSentence', 'gl.startChar', 'gl.endChar', 'a.idAnnotationSet','f.name as frameName')
-            ->whereIn("a.idDocumentSentence", $idDocumentSentences)
-            ->where("f.idLanguage", $idLanguage)
-            ->orderby("gl.startChar")
+        debug('docsen', $idDocumentSentences);
+
+        return Criteria::table('view_annotationset as a')
+            ->join('view_annotation_text_target as gl', 'a.idAnnotationSet', '=', 'gl.idAnnotationSet')
+            ->join('lu', 'a.idLU', '=', 'lu.idLU')
+            ->join('view_frame as f', 'lu.idFrame', '=', 'f.idFrame')
+            ->select('a.idDocumentSentence', 'gl.startChar', 'gl.endChar', 'a.idAnnotationSet', 'f.name as frameName')
+            ->whereIn('a.idDocumentSentence', $idDocumentSentences)
+            ->where('f.idLanguage', $idLanguage)
+            ->orderby('gl.startChar')
             ->get();
     }
 
     public static function getTargets(int $idDocumentSentence): array
     {
-        return Criteria::table("view_annotationset as a")
-            ->join("view_annotation_text_target as gl", "a.idAnnotationSet", "=", "gl.idAnnotationSet")
+        return Criteria::table('view_annotationset as a')
+            ->join('view_annotation_text_target as gl', 'a.idAnnotationSet', '=', 'gl.idAnnotationSet')
             ->select('a.idDocumentSentence', 'gl.startChar', 'gl.endChar', 'a.idAnnotationSet')
-            ->where("a.idDocumentSentence", $idDocumentSentence)
-            ->orderby("gl.startChar")
+            ->where('a.idDocumentSentence', $idDocumentSentence)
+            ->orderby('gl.startChar')
             ->all();
     }
 
     public static function getWordsChars(string $text): object
     {
-        $array = array();
+        $array = [];
         $punctuation = " .,;:?/'][\{\}\"!@#$%&*\(\)-_+=“”";
-        mb_internal_encoding("UTF-8"); // this IS A MUST!! PHP has trouble with multibyte when no internal encoding is set!
+        mb_internal_encoding('UTF-8'); // this IS A MUST!! PHP has trouble with multibyte when no internal encoding is set!
         $last = mb_substr($text, -1);
         if (mb_strpos($punctuation, $last) === false) {
             $text .= '.';
@@ -61,29 +62,30 @@ class AnnotationSet
         $order = 1;
         foreach ($array as $startChar => $wordForm) {
             $endChar = $startChar + mb_strlen($wordForm) - 1;
-            $lWordForm = $wordForm;//str_replace("'", "\\'", $wordForm);
-            $words[(string)$order] = [
+            $lWordForm = $wordForm; // str_replace("'", "\\'", $wordForm);
+            $words[(string) $order] = [
                 'order' => $order,
                 'word' => $lWordForm,
                 'startChar' => $startChar,
                 'endChar' => $endChar,
-                'isPunct' => (mb_strpos($punctuation, $lWordForm) !== false)
+                'isPunct' => (mb_strpos($punctuation, $lWordForm) !== false),
             ];
-            for ($pos = (int)$startChar; $pos <= $endChar; $pos++) {
+            for ($pos = (int) $startChar; $pos <= $endChar; $pos++) {
                 $o = $pos - $startChar;
                 $char = mb_substr($wordForm, $o, 1);
                 $chars[$pos] = [
-                    'offset' => (string)$o,
+                    'offset' => (string) $o,
                     'char' => $char, // tf8_encode($wordForm{$o}), //str_replace("'", "\\'", $wordForm{$o}),
                     'order' => $order,
-                    'isPunct' => (mb_strpos($punctuation, $char) !== false)
+                    'isPunct' => (mb_strpos($punctuation, $char) !== false),
                 ];
             }
-            ++$order;
+            $order++;
         }
-        $wordsChars = new \StdClass();
+        $wordsChars = new \StdClass;
         $wordsChars->words = $words;
         $wordsChars->chars = $chars;
+
         return $wordsChars;
     }
 
@@ -126,7 +128,7 @@ HERE;
     public static function listFECEByAS(array|int $idAnnotationSet)
     {
         $idLanguage = AppService::getCurrentIdLanguage();
-        if (!is_array($idAnnotationSet)) {
+        if (! is_array($idAnnotationSet)) {
             $idAnnotationSet = [$idAnnotationSet];
         }
         $set = implode(',', $idAnnotationSet);
@@ -153,14 +155,15 @@ left join view_instantiationtype it on (fece.idInstantiationType = it.idInstanti
         ORDER BY ds.idSentence,fece.startChar
 
 HERE;
+
         return collect(DB::select($cmd))->groupBy('idSentence')->all();
     }
 
     public static function listSentencesByAS(int|array $idAnnotationSet)
     {
-        $criteria = Criteria::table("view_annotationset as a")
-            ->join("view_document_sentence as ds", "a.idDocumentSentence", "=", "ds.idDocumentSentence")
-            ->join("view_sentence as s", "ds.idSentence", "=", "s.idSentence")
+        $criteria = Criteria::table('view_annotationset as a')
+            ->join('view_document_sentence as ds', 'a.idDocumentSentence', '=', 'ds.idDocumentSentence')
+            ->join('view_sentence as s', 'ds.idSentence', '=', 's.idSentence')
             ->select('a.idAnnotationSet', 'ds.idDocumentSentence', 's.idSentence', 's.text');
         if (is_array($idAnnotationSet)) {
             $criteria->where('idAnnotationSet', 'IN', $idAnnotationSet);
@@ -168,7 +171,8 @@ HERE;
             $criteria->where('idAnnotationSet', '=', $idAnnotationSet);
         }
         $criteria->orderBy('idAnnotationSet');
-//        $criteria->where('entries.idLanguage','=', AppService::getCurrentIdLanguage());
+
+        //        $criteria->where('entries.idLanguage','=', AppService::getCurrentIdLanguage());
         return $criteria->all();
     }
 
@@ -177,28 +181,28 @@ HERE;
         DB::beginTransaction();
         try {
             $idUser = AppService::getCurrentIdUser();
-            $documentSentence = Criteria::byId("view_document_sentence","idDocumentSentence",$idDocumentSentence);
-            $lu = Criteria::byFilter("view_lu_full", ['idLU', '=', $idLU])->first();
+            $documentSentence = Criteria::byId('view_document_sentence', 'idDocumentSentence', $idDocumentSentence);
+            $lu = Criteria::byFilter('view_lu_full', ['idLU', '=', $idLU])->first();
             $lu->frame = Frame::byId($lu->idFrame);
-            $ti = Criteria::byId("typeinstance", "entry", AnnotationSetStatus::UNANNOTATED->value);
+            $ti = Criteria::byId('typeinstance', 'entry', AnnotationSetStatus::UNANNOTATED->value);
             $annotationSet = [
-                //'idAnnotationObjectRelation' => $idDocumentSentence,
+                // 'idAnnotationObjectRelation' => $idDocumentSentence,
                 'idDocumentSentence' => $idDocumentSentence,
                 'idEntityRelated' => $lu->idEntity,
                 'idLU' => $lu->idLU,
                 'idAnnotationStatus' => $ti->idTypeInstance,
                 'idUser' => $idUser,
-                'status' => Status::CREATED->value
+                'status' => Status::CREATED->value,
             ];
-            $idAnnotationSet = Criteria::create("annotationset", $annotationSet);
-            Timeline::addTimeline('annotationset',$idAnnotationSet,'C');
+            $idAnnotationSet = Criteria::create('annotationset', $annotationSet);
+            Timeline::addTimeline('annotationset', $idAnnotationSet, 'C');
 
             // versão 4.2: bypassing layer - using layerType
-            $ti = Criteria::byId("typeinstance", "entry", 'int_normal');
-            $idLayerType = Criteria::byId("layertype","entry", 'lty_target')->idLayerType;
-            $target = Criteria::table("genericlabel")
-                ->where("name", "Target")
-                ->where("idLanguage", AppService::getCurrentIdLanguage())
+            $ti = Criteria::byId('typeinstance', 'entry', 'int_normal');
+            $idLayerType = Criteria::byId('layertype', 'entry', 'lty_target')->idLayerType;
+            $target = Criteria::table('genericlabel')
+                ->where('name', 'Target')
+                ->where('idLanguage', AppService::getCurrentIdLanguage())
                 ->first();
             $textspan = json_encode([
                 'startChar' => $startChar,
@@ -209,14 +213,15 @@ HERE;
                 'idAnnotationSet' => $idAnnotationSet,
                 'idSentence' => $documentSentence->idSentence,
             ]);
-            $idTextSpan = Criteria::function("textspan_char_create(?)", [$textspan]);
+            $idTextSpan = Criteria::function('textspan_char_create(?)', [$textspan]);
             $data = json_encode([
                 'idTextSpan' => $idTextSpan,
                 'idEntity' => $target->idEntity,
-                'idUser' => $idUser
+                'idUser' => $idUser,
             ]);
-            Criteria::function("annotation_create(?)", [$data]);
+            Criteria::function('annotation_create(?)', [$data]);
             DB::commit();
+
             return $idAnnotationSet;
         } catch (\Exception $e) {
             DB::rollback();
@@ -229,60 +234,65 @@ HERE;
     {
         DB::beginTransaction();
         try {
-            $idAnnotationSet = Criteria::function("annotationset_delete(?,?)",[$idAnnotationSet, AppService::getCurrentIdUser()]);
+            $idAnnotationSet = Criteria::function('annotationset_delete(?,?)', [$idAnnotationSet, AppService::getCurrentIdUser()]);
             DB::commit();
+
             return $idAnnotationSet;
         } catch (\Exception $e) {
             DB::rollback();
             debug($e->getMessage());
-            throw new \Exception("Operation denied. Check if AS has spans or comments.");
+            throw new \Exception('Operation denied. Check if AS has spans or comments.');
         }
     }
 
-    public static function updateStatusField(int $idAnnotationSet, string $status): void {
-        Criteria::table("annotationset")
+    public static function updateStatusField(int $idAnnotationSet, string $status): void
+    {
+        Criteria::table('annotationset')
             ->where('idAnnotationSet', $idAnnotationSet)
             ->update(['status' => $status]);
     }
 
-    public static function updateAST(int $idAnnotationSet, string $astEntry): object {
-        $ast = Criteria::table("view_annotationset_status")
+    public static function updateAST(int $idAnnotationSet, string $astEntry): object
+    {
+        $ast = Criteria::table('view_annotationset_status')
             ->where('entry', $astEntry)
             ->where('idLanguage', AppService::getCurrentIdLanguage())
             ->first();
-        Criteria::table("annotationset")
+        Criteria::table('annotationset')
             ->where('idAnnotationSet', $idAnnotationSet)
             ->update(['idAnnotationStatus' => $ast->idTypeInstance]);
+
         return $ast;
     }
-    public static function updateStatus(object $annotationSet, array $annotations, array $feCore): object {
+
+    public static function updateStatus(object $annotationSet, array $annotations, array $feCore): object
+    {
 
         $feAnnotated = [];
-        foreach($annotations['nis'] ?? [] as $niFEs) {
-            foreach($niFEs as $niFE) {
+        foreach ($annotations['nis'] ?? [] as $niFEs) {
+            foreach ($niFEs as $niFE) {
                 $feAnnotated[$niFE->idEntity] = $niFE;
             }
         }
-        foreach($annotations['lty_fe'] ?? [] as $fes) {
-            foreach($fes as $fe) {
+        foreach ($annotations['lty_fe'] ?? [] as $fes) {
+            foreach ($fes as $fe) {
                 $feAnnotated[$fe->idEntity] = $fe;
             }
         }
         $match = 0;
-        foreach($feCore as $idEntityFE) {
-            if(isset($feAnnotated[$idEntityFE])) {
-                ++$match;
+        foreach ($feCore as $idEntityFE) {
+            if (isset($feAnnotated[$idEntityFE])) {
+                $match++;
             }
         }
         $result = AnnotationSetStatus::UNANNOTATED;
         if ($match >= count($feCore)) {
             $result = AnnotationSetStatus::COMPLETE;
-        } else if ($match > 0) {
+        } elseif ($match > 0) {
             $result = AnnotationSetStatus::PARTIAL;
         }
         $ast = self::updateAST($annotationSet->idAnnotationSet, $result->value);
-        return $ast ?? (object)[];
+
+        return $ast ?? (object) [];
     }
-
-
 }

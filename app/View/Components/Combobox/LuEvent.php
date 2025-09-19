@@ -16,9 +16,7 @@ class LuEvent extends Component
         public string $label,
         public string $placeholder = '',
         public string $width = '',
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

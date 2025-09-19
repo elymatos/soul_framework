@@ -2,13 +2,13 @@
 
 namespace App\Services\XmlExport;
 
-
 /**
  * Export progress tracker
  */
 class ExportProgressTracker
 {
     private array $progress = [];
+
     private string $sessionId;
 
     public function __construct(?string $sessionId = null)
@@ -23,7 +23,7 @@ class ExportProgressTracker
             'current_item' => '',
             'status' => 'initialized',
             'errors' => [],
-            'warnings' => []
+            'warnings' => [],
         ];
     }
 
@@ -55,7 +55,7 @@ class ExportProgressTracker
         $this->progress['errors'][] = [
             'message' => $error,
             'context' => $context,
-            'timestamp' => microtime(true)
+            'timestamp' => microtime(true),
         ];
     }
 
@@ -67,7 +67,7 @@ class ExportProgressTracker
         $this->progress['warnings'][] = [
             'message' => $warning,
             'context' => $context,
-            'timestamp' => microtime(true)
+            'timestamp' => microtime(true),
         ];
     }
 
@@ -125,4 +125,3 @@ class ExportProgressTracker
         return $this->sessionId;
     }
 }
-

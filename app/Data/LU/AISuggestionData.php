@@ -10,8 +10,6 @@ class AISuggestionData extends Data
         public ?int $idFrame = null,
         public ?string $model = 'llama',
         public ?array $pos = ['NOUN'],
-    )
-    {
-    }
+    ) {}
 
 }

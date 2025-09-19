@@ -19,11 +19,10 @@ class CreateData extends Data
         public ?int $active = 1,
         public ?int $idUser = 1,
         public ?int $idEntity = null
-    )
-    {
-        //$lemma = Lemma::byId($this->idLemma);
+    ) {
+        // $lemma = Lemma::byId($this->idLemma);
         $lemma = Lexicon::lemmaById($this->idLexicon);
-        $this->name = strtolower($lemma->name . '.' . $lemma->udPOS);
+        $this->name = strtolower($lemma->name.'.'.$lemma->udPOS);
         $this->incorporatedFE = ($this->incorporatedFE < 0) ? null : $this->incorporatedFE;
         $this->idUser = AppService::getCurrentIdUser();
         $this->senseDescription = $this->senseDescription ?? '';

@@ -16,8 +16,7 @@ class BrowseTree extends Component
         public string $url = '',
         public string $emptyMsg = '',
         public array $data = []
-    )
-    {
+    ) {
         //
     }
 

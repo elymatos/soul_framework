@@ -8,6 +8,6 @@ class GenericLabel
 {
     public static function byId(int $id): object
     {
-        return Criteria::byFilter("genericlabel", ["idGenericLabel","=", $id])->first();
+        return Criteria::byFilter('genericlabel', ['idGenericLabel', '=', $id])->first();
     }
 }

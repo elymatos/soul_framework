@@ -12,7 +12,7 @@ class XmlUtils
      */
     public static function xmlEscape(string $text): string
     {
-        //return htmlspecialchars($text, ENT_XML1 | ENT_COMPAT, 'UTF-8');
+        // return htmlspecialchars($text, ENT_XML1 | ENT_COMPAT, 'UTF-8');
         return str_replace(['&', '<', '>', '"', "'"], ['&amp;', '&lt;', '&gt;', '&quot;', '&apos;'], $text);
     }
 
@@ -48,7 +48,7 @@ class XmlUtils
     {
         $errors = [];
 
-        if (!file_exists($xsdPath)) {
+        if (! file_exists($xsdPath)) {
             return ["XSD schema file not found: {$xsdPath}"];
         }
 
@@ -58,7 +58,7 @@ class XmlUtils
 
         $isValid = $dom->schemaValidate($xsdPath);
 
-        if (!$isValid) {
+        if (! $isValid) {
             $xmlErrors = libxml_get_errors();
             foreach ($xmlErrors as $error) {
                 $errors[] = "Line {$error->line}: {$error->message}";

@@ -5,7 +5,6 @@ namespace App\View\_Components\Combobox;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Repositories\Frame as FrameRepository;
 
 class Concept extends Component
 {
@@ -13,6 +12,7 @@ class Concept extends Component
      * Create a new component instance.
      */
     public ?string $description = '';
+
     public function __construct(
         public string $id,
         public string $label,
@@ -23,9 +23,7 @@ class Concept extends Component
         public ?string $onChange = '',
         public ?string $onSelect = '',
         public ?bool $hasDescription = true,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -36,11 +34,12 @@ class Concept extends Component
             $concept = \App\Repositories\Concept::byId($this->value);
             $this->placeholder = $concept->name;
         } else {
-            $this->placeholder = "Search Concept";
+            $this->placeholder = 'Search Concept';
         }
         if ($this->idName == '') {
             $this->idName = $this->id;
         }
+
         return view('components.combobox.concept');
     }
 }

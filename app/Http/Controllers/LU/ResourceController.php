@@ -17,42 +17,42 @@ use Collective\Annotations\Routing\Attributes\Attributes\Put;
 #[Middleware(name: 'auth')]
 class ResourceController extends Controller
 {
-
     #[Post(path: '/lu')]
     public function newLU(CreateData $data)
     {
         try {
-            $exists = Criteria::table("lu")
+            $exists = Criteria::table('lu')
 //                ->where("idLemma",$data->idLemma)
-                ->where("idLexicon",$data->idLexicon)
-                ->where("idFrame",$data->idFrame)
+                ->where('idLexicon', $data->idLexicon)
+                ->where('idFrame', $data->idFrame)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("LU already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('LU already exists.');
             }
             Criteria::function('lu_create(?)', [$data->toJson()]);
             $this->trigger('reload-gridLU');
-            return $this->renderNotify("success", "LU created.");
+
+            return $this->renderNotify('success', 'LU created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/lu/{id}/edit')]
     public function edit(string $id)
     {
-        return view("LU.edit", [
+        return view('LU.edit', [
             'lu' => LU::byId($id),
-            'mode' => 'edit'
+            'mode' => 'edit',
         ]);
     }
 
     #[Get(path: '/lu/{id}/object')]
     public function object(string $id)
     {
-        return view("LU.object", [
+        return view('LU.object', [
             'lu' => LU::byId($id),
-            'mode' => 'object'
+            'mode' => 'object',
         ]);
     }
 
@@ -61,28 +61,29 @@ class ResourceController extends Controller
     {
         try {
             $lu = LU::byId($id);
-            $a = Criteria::table("annotation")
-                ->where("idEntity", $lu->idEntity)
+            $a = Criteria::table('annotation')
+                ->where('idEntity', $lu->idEntity)
                 ->all();
             if (count($a) > 0) {
-                throw new \Exception("LU has annotations.");
+                throw new \Exception('LU has annotations.');
             }
             Criteria::function('lu_delete(?, ?)', [
                 $id,
-                AppService::getCurrentIdUser()
+                AppService::getCurrentIdUser(),
             ]);
             $this->trigger('reload-gridLU');
-            return $this->renderNotify("success", "LU deleted.");
+
+            return $this->renderNotify('success', 'LU deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/lu/{id}/formEdit')]
     public function formEdit(string $id)
     {
-        return view("LU.formEdit", [
-            'lu' => LU::byId($id)
+        return view('LU.formEdit', [
+            'lu' => LU::byId($id),
         ]);
     }
 
@@ -95,7 +96,7 @@ class ResourceController extends Controller
         }
         LU::update($data);
         $this->trigger('reload-gridLU');
-        return $this->renderNotify("success", "LU updated.");
-    }
 
+        return $this->renderNotify('success', 'LU updated.');
+    }
 }

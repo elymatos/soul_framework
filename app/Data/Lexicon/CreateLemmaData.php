@@ -15,8 +15,7 @@ class CreateLemmaData extends Data
         public ?int $idLanguage = null,
         public ?string $addName = '',
         public string $_token = '',
-    )
-    {
+    ) {
         if ($this->name == '') {
             $this->name = $this->addName;
         } else {
@@ -26,26 +25,26 @@ class CreateLemmaData extends Data
             $this->idLanguage = AppService::getCurrentIdLanguage();
         }
         if (is_null($this->idPOS)) {
-            if (str_contains($this->addName,'.')) {
-                $parts = explode('.',$this->addName);
-                $pos = Criteria::table("pos")
-                    ->whereRaw("upper(pos) = '" . strtoupper($parts[1]) . "'")
+            if (str_contains($this->addName, '.')) {
+                $parts = explode('.', $this->addName);
+                $pos = Criteria::table('pos')
+                    ->whereRaw("upper(pos) = '".strtoupper($parts[1])."'")
                     ->first();
                 $this->idPOS = $pos->idPOS;
             } else {
-                $pos = Criteria::byId("pos","POS","N");
+                $pos = Criteria::byId('pos', 'POS', 'N');
                 $this->idPOS = $pos->idPOS;
             }
         }
         if (is_null($this->idUDPOS)) {
-            if (str_contains($this->addName,'.')) {
-                $parts = explode('.',$this->addName);
-                $pos = Criteria::table("udpos")
-                    ->whereRaw("upper(pos) = '" . strtoupper($parts[1]) . "'")
+            if (str_contains($this->addName, '.')) {
+                $parts = explode('.', $this->addName);
+                $pos = Criteria::table('udpos')
+                    ->whereRaw("upper(pos) = '".strtoupper($parts[1])."'")
                     ->first();
                 $this->idUDPOS = $pos->idUDPOS;
             } else {
-                $pos = Criteria::byId("udpos","POS","NOUN");
+                $pos = Criteria::byId('udpos', 'POS', 'NOUN');
                 $this->idUDPOS = $pos->idUDPOS;
             }
         }

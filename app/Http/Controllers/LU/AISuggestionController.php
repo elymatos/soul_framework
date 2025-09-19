@@ -13,12 +13,11 @@ use Collective\Annotations\Routing\Attributes\Attributes\Post;
 #[Middleware(name: 'auth')]
 class AISuggestionController extends Controller
 {
-
     #[Get(path: '/lu/aiSuggestion')]
     public function aiSuggestion()
     {
-        return view("LU.AISuggestion.main",[
-            'data' => []
+        return view('LU.AISuggestion.main', [
+            'data' => [],
         ]);
     }
 
@@ -33,13 +32,13 @@ class AISuggestionController extends Controller
                 $results = AISuggestionService::handle($data);
 
             }
-            return view("LU.AISuggestion.main", [
+
+            return view('LU.AISuggestion.main', [
                 'frame' => $frame,
-                'data' => $results
-            ])->fragment("search");
+                'data' => $results,
+            ])->fragment('search');
         } catch (\Exception $e) {
-            $this->renderNotify("error","Error accessing API.");
+            $this->renderNotify('error', 'Error accessing API.');
         }
     }
-
 }

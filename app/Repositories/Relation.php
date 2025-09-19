@@ -9,7 +9,7 @@ class Relation
 {
     public static function byId(int $id): object
     {
-        return Criteria::byFilter("view_relation", ['idEntityRelation', '=', $id])->first();
+        return Criteria::byFilter('view_relation', ['idEntityRelation', '=', $id])->first();
     }
 
     /*

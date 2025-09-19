@@ -1681,7 +1681,7 @@ $router->post('network/listForTree', [
 ]);
 
 $router->get('graph-editor', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@main',
+	'uses' => 'App\Http\Controllers\GraphEditorController@index',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
@@ -1689,7 +1689,7 @@ $router->get('graph-editor', [
 ]);
 
 $router->get('graph-editor/data', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@data',
+	'uses' => 'App\Http\Controllers\GraphEditorController@getData',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
@@ -1697,7 +1697,7 @@ $router->get('graph-editor/data', [
 ]);
 
 $router->post('graph-editor/node', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@createNode',
+	'uses' => 'App\Http\Controllers\GraphEditorController@saveNode',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
@@ -1705,7 +1705,7 @@ $router->post('graph-editor/node', [
 ]);
 
 $router->post('graph-editor/relation', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@createRelation',
+	'uses' => 'App\Http\Controllers\GraphEditorController@saveRelation',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
@@ -1714,6 +1714,14 @@ $router->post('graph-editor/relation', [
 
 $router->post('graph-editor/delete-node', [
 	'uses' => 'App\Http\Controllers\GraphEditorController@deleteNode',
+	'as' => NULL,
+	'middleware' => ['web'],
+	'where' => [],
+	'domain' => NULL,
+]);
+
+$router->post('graph-editor/delete-edge', [
+	'uses' => 'App\Http\Controllers\GraphEditorController@deleteEdge',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],
@@ -1738,30 +1746,6 @@ $router->post('graph-editor/import', [
 
 $router->get('graph-editor/reset', [
 	'uses' => 'App\Http\Controllers\GraphEditorController@resetGraph',
-	'as' => NULL,
-	'middleware' => ['web'],
-	'where' => [],
-	'domain' => NULL,
-]);
-
-$router->get('graph-editor/list', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@listGraphs',
-	'as' => NULL,
-	'middleware' => ['web'],
-	'where' => [],
-	'domain' => NULL,
-]);
-
-$router->get('graph-editor/load/{filename}', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@loadGraph',
-	'as' => NULL,
-	'middleware' => ['web'],
-	'where' => [],
-	'domain' => NULL,
-]);
-
-$router->get('graph-editor/migrate-graphs', [
-	'uses' => 'App\Http\Controllers\GraphEditorController@migrateGraphs',
 	'as' => NULL,
 	'middleware' => ['web'],
 	'where' => [],

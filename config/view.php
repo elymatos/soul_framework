@@ -19,7 +19,7 @@ return [
         app_path('UI/layouts'),
         app_path('UI/components'),
         app_path('UI/forms'),
-//        resource_path('views'),
+        //        resource_path('views'),
     ],
 
     /*

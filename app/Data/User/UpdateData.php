@@ -11,8 +11,6 @@ class UpdateData extends Data
         public ?string $email = '',
         public ?string $name = '',
         public ?int $idGroup = 7 // READER
-    )
-    {
-    }
+    ) {}
 
 }

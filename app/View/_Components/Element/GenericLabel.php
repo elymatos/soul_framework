@@ -14,9 +14,7 @@ class GenericLabel extends Component
     public function __construct(
         public string $name = '',
         public string $idColor = '',
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

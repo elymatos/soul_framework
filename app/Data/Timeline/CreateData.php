@@ -15,8 +15,7 @@ class CreateData extends Data
         public ?string $author = '',
         public ?string $tableName = '',
         public ?int $id = 0
-    )
-    {
+    ) {
         $this->tlDateTime = Carbon::now();
         $user = AppService::getCurrentUser();
         $this->idUser = $user ? $user->idUser : 0;

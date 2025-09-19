@@ -10,7 +10,5 @@ class CEData extends Data
         public int $idEntityRelation,
         public int $idConstructionElement,
         public int $idConstructionElementRelated,
-    )
-    {
-    }
+    ) {}
 }

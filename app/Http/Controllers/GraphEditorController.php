@@ -59,7 +59,7 @@ class GraphEditorController extends Controller
     {
         $request->validate([
             'label' => 'required|string|max:255',
-            'type' => 'required|in:frame,slot',
+            'type' => 'required|in:frame,slot,lu',
         ]);
 
         try {

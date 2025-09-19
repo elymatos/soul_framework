@@ -22,35 +22,36 @@ class ResourceController extends Controller
     {
         debug($data);
         try {
-//            par_idConstruction INT,
-//	par_name VARCHAR(255),
-//    par_idColor INT,
-//    par_optional INT,
-//    par_head INT,
-//    par_multiple INT,
-//    par_idUser INT
+            //            par_idConstruction INT,
+            //	par_name VARCHAR(255),
+            //    par_idColor INT,
+            //    par_optional INT,
+            //    par_head INT,
+            //    par_multiple INT,
+            //    par_idUser INT
             $idcxn = Criteria::function('ce_create(?)', [$data->toJson()]);
-//            Criteria::function('ce_create(?, ?, ?, ?, ?, ?, ?)', [
-//                $data->idConstruction,
-//                $data->name,
-//                $data->idColor,
-//                $data->optional,
-//                $data->head,
-//                $data->multiple,
-//                $data->idUser
-//            ]);
+            //            Criteria::function('ce_create(?, ?, ?, ?, ?, ?, ?)', [
+            //                $data->idConstruction,
+            //                $data->name,
+            //                $data->idColor,
+            //                $data->optional,
+            //                $data->head,
+            //                $data->multiple,
+            //                $data->idUser
+            //            ]);
             $this->trigger('reload-gridCE');
-            return $this->renderNotify("success", "ConstructionElement created.");
+
+            return $this->renderNotify('success', 'ConstructionElement created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/ce/{id}/edit')]
     public function edit(string $id)
     {
-        return view("CE.edit", [
-            'constructionElement' => ConstructionElement::byId($id)
+        return view('CE.edit', [
+            'constructionElement' => ConstructionElement::byId($id),
         ]);
     }
 
@@ -58,9 +59,9 @@ class ResourceController extends Controller
     public function main(string $id)
     {
         $this->data->_layout = 'main';
+
         return $this->edit($id);
     }
-
 
     #[Delete(path: '/ce/{id}')]
     public function delete(string $id)
@@ -68,20 +69,21 @@ class ResourceController extends Controller
         try {
             Criteria::function('ce_delete(?, ?)', [
                 $id,
-                AppService::getCurrentUser()->idUser
+                AppService::getCurrentUser()->idUser,
             ]);
             $this->trigger('reload-gridCE');
-            return $this->renderNotify("success", "ConstructionElement deleted.");
+
+            return $this->renderNotify('success', 'ConstructionElement deleted.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
     #[Get(path: '/ce/{id}/formEdit')]
     public function formEdit(string $id)
     {
-        return view("CE.formEdit", [
-            'constructionElement' => ConstructionElement::byId($id)
+        return view('CE.formEdit', [
+            'constructionElement' => ConstructionElement::byId($id),
         ]);
     }
 
@@ -90,7 +92,7 @@ class ResourceController extends Controller
     {
         ConstructionElement::update($data);
         $this->trigger('reload-objectCE');
-        return $this->renderNotify("success", "ConstructionElement updated.");
-    }
 
+        return $this->renderNotify('success', 'ConstructionElement updated.');
+    }
 }

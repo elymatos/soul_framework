@@ -17,11 +17,10 @@ class SearchField extends Component
         public ?string $value = '',
         public string $placeholder = '',
         public string $width = '250px'
-    )
-    {
-//        if (is_null($this->value)) {
-//            $this->value = '';
-//        }
+    ) {
+        //        if (is_null($this->value)) {
+        //            $this->value = '';
+        //        }
     }
 
     /**

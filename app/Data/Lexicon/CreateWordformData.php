@@ -10,7 +10,5 @@ class CreateWordformData extends Data
         public string $idLexemeWordform,
         public string $form,
         public string $_token = '',
-    )
-    {
-    }
+    ) {}
 }

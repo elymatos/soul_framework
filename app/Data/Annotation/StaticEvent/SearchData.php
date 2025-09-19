@@ -12,11 +12,10 @@ class SearchData extends Data
         public ?string $idSentence = null,
         public ?string $sentence = '',
         public ?string $id = '',
-        public ?int    $idCorpus = null,
-        public ?int    $idDocument = null,
-        public string  $_token = '',
-    )
-    {
+        public ?int $idCorpus = null,
+        public ?int $idDocument = null,
+        public string $_token = '',
+    ) {
         $this->_token = csrf_token();
     }
 

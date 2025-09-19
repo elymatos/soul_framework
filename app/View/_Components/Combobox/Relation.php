@@ -3,7 +3,6 @@
 namespace App\View\_Components\Combobox;
 
 use App\Database\Criteria;
-use App\Repositories\RelationType;
 use App\Services\AppService;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -12,6 +11,7 @@ use Illuminate\View\Component;
 class Relation extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
@@ -19,22 +19,21 @@ class Relation extends Component
         public string $id,
         public string $group,
         public ?string $value = ''
-    )
-    {
+    ) {
         $idLanguage = AppService::getCurrentIdLanguage();
         $groupEntries = [
             'frame' => 'rgp_frame_relations',
             'fe' => 'rgp_fe_relations',
             'cxn' => 'rgp_cxn_relations',
             'constraints' => 'rgp_constraints',
-            'qualia' => 'rgp_qualia'
+            'qualia' => 'rgp_qualia',
         ];
-        $relations = Criteria::table("view_relationtype")
+        $relations = Criteria::table('view_relationtype')
             ->where('rgEntry', $groupEntries[$this->group])
             ->where('idLanguage', $idLanguage)
             ->all();
         $this->options = [];
-        //$config = config('webtool.relations');
+        // $config = config('webtool.relations');
         if ($group == 'frame') {
             $this->options[] = [
                 'value' => 'header',
@@ -43,9 +42,9 @@ class Relation extends Component
                 'color' => '#000',
             ];
         }
-        foreach($relations as $relation) {
+        foreach ($relations as $relation) {
             $this->options[] = [
-                'value' => 'd' . $relation->idRelationType,
+                'value' => 'd'.$relation->idRelationType,
                 'entry' => $relation->entry,
                 'name' => $relation->nameDirect,
                 'color' => $relation->color,
@@ -60,7 +59,7 @@ class Relation extends Component
             ];
             foreach ($relations as $relation) {
                 $this->options[] = [
-                    'value' => 'i' . $relation->idRelationType,
+                    'value' => 'i'.$relation->idRelationType,
                     'entry' => $relation->entry,
                     'name' => $relation->nameInverse,
                     'color' => $relation->color,

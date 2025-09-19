@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 
-if (!function_exists('ddump')) {
+if (! function_exists('ddump')) {
     function ddump(mixed ...$var)
     {
         foreach ($var ?? [] as $m) {
@@ -11,19 +11,19 @@ if (!function_exists('ddump')) {
         }
     }
 }
-if (!function_exists('debug')) {
+if (! function_exists('debug')) {
     function debug(...$vars): void
     {
         $backtrace = debug_backtrace(2, 2);
         $source = last(explode('\\', $backtrace[1]['class'] ?? $backtrace[1]['function'] ?? 'UNKNOWN'));
         $line = $backtrace[0]['line'] ?? '';
         foreach ($vars as $var) {
-            Log::debug("", ['dump' => print_r($var, true), 'source' => "$source:$line"]);
+            Log::debug('', ['dump' => print_r($var, true), 'source' => "$source:$line"]);
         }
     }
 }
 
-if (!function_exists('debugQuery')) {
+if (! function_exists('debugQuery')) {
     function debugQuery($message, $bindings): void
     {
         $backtrace = debug_backtrace(2);
@@ -33,7 +33,7 @@ if (!function_exists('debugQuery')) {
     }
 }
 
-if (!function_exists('data')) {
+if (! function_exists('data')) {
     function data($name = null, $value = null, $default = null)
     {
         // Use Laravel session for data storage
@@ -44,6 +44,7 @@ if (!function_exists('data')) {
             return session($name, $default);
         }
         session([$name => $value]);
+
         return $value;
     }
 }

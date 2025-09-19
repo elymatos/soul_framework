@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (config("webtool.logSQL") == 'debug') {
+        if (config('webtool.logSQL') == 'debug') {
             DB::enableQueryLog();
             DB::listen(function ($query) {
                 debugQuery($query->sql, $query->bindings);
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::addExtension('js','php');
+        View::addExtension('js', 'php');
         Blade::anonymousComponentPath(app_path('UI/components/layout'), 'layout');
         Blade::anonymousComponentPath(app_path('UI/components'), 'ui');
         Blade::anonymousComponentPath(app_path('UI/components/icon'), 'icon');

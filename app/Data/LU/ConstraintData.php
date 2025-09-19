@@ -12,8 +12,7 @@ class ConstraintData extends Data
         public ?string $idLUMetonymConstraint,
         public ?string $idLUEquivalenceConstraint,
         public string $_token = '',
-    )
-    {
+    ) {
         $this->_token = csrf_token();
     }
 }

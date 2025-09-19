@@ -14,18 +14,19 @@ class ConstraintController extends Controller
     #[Get(path: '/cxn/{id}/constraints')]
     public function constraints(string $id)
     {
-        return view("Constraint.cxnChild", [
-            'idConstruction' => $id
+        return view('Constraint.cxnChild', [
+            'idConstruction' => $id,
         ]);
     }
 
     #[Get(path: '/cxn/{id}/constraints/formNew')]
     public function constraintsFormNew(int $id)
     {
-        $view = view("Constraint.cxnFormNew", [
+        $view = view('Constraint.cxnFormNew', [
             'idConstruction' => $id,
-            'construction' => Construction::byId($id)
+            'construction' => Construction::byId($id),
         ]);
+
         return $view;
     }
 
@@ -33,10 +34,10 @@ class ConstraintController extends Controller
     public function constraintsGrid(int $id)
     {
         $cxn = Construction::byId($id);
-        return view("Constraint.cxnGrid", [
+
+        return view('Constraint.cxnGrid', [
             'idConstruction' => $id,
-            'constraints' => Constraint::listByIdConstrained($cxn->idEntity)
+            'constraints' => Constraint::listByIdConstrained($cxn->idEntity),
         ]);
     }
-
 }

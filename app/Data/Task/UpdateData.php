@@ -17,10 +17,8 @@ class UpdateData extends Data
         public ?int $idTaskGroup = null,
         public ?string $type = '',
         public ?string $createdAt = null
-    )
-    {
+    ) {
         $this->createdAt = Carbon::now();
     }
-
 
 }

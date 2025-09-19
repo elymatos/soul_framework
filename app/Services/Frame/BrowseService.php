@@ -39,7 +39,7 @@ class BrowseService
     {
         $result = [];
         $op = $contains ? 'contains' : 'startswith';
-        debug("op",$op);
+        debug('op', $op);
         $lus = Criteria::byFilterLanguage('view_lu', ['name', $op, $search->lu], 'idLanguage')
             ->limit(300)
             ->orderBy('name')

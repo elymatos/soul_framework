@@ -30,8 +30,8 @@ use App\Repositories\Document;
 use App\Repositories\Video;
 use App\Services\AppService;
 use getID3;
-use thiagoalessio\TesseractOCR\TesseractOCR;
 use GuzzleHttp\Client;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 require_once 'GoogleSpeechToText.php';
 require_once 'GoogleStorage.php';
@@ -39,33 +39,44 @@ require_once 'GoogleStorage.php';
 class videoPreprocess_The_crush
 {
     public $videoFile;
+
     public $audioFile;
+
     public $dataPath;
+
     public $videoSize;
+
     public $videoPath;
+
     public $videoFileOriginal;
+
     public $sha1Name;
+
     public $video;
+
     public $ffmpegConfig;
+
     private $ffmpeg;
+
     private $idDocument;
+
     private $idVideo;
+
     private $idLanguage;
 
     public function __construct(int $idDocument)
     {
         Criteria::$database = 'webtool';
         $this->idDocument = $idDocument;
-        $this->dataPath = "/home/ematos/devel/fnbr/webtool4/storage/app/videos";
+        $this->dataPath = '/home/ematos/devel/fnbr/webtool4/storage/app/videos';
         AppService::setCurrentLanguage(1);
     }
 
-
     public function process()
     {
-        debug("Document " . $this->idDocument);
-        $dv = Criteria::table("view_document_video")
-            ->where("idDocument", $this->idDocument)
+        debug('Document '.$this->idDocument);
+        $dv = Criteria::table('view_document_video')
+            ->where('idDocument', $this->idDocument)
             ->first();
         $document = Document::byId($dv->idDocument);
         $video = Video::byId($dv->idVideo);
@@ -82,7 +93,7 @@ class videoPreprocess_The_crush
         $this->ffmpegConfig = $config = [
             'dataPath' => $this->dataPath,
             'ffmpeg.binaries' => '/usr/bin/ffmpeg', // '/var/www/html/core/support/charon/bin/ffmpeg',
-            'ffprobe.binaries' => '/usr/bin/ffprobe',//'/var/www/html/core/support/charon/bin/ffprobe',
+            'ffprobe.binaries' => '/usr/bin/ffprobe', // '/var/www/html/core/support/charon/bin/ffprobe',
         ];
         debug('=1');
         $logger = null;
@@ -94,11 +105,11 @@ class videoPreprocess_The_crush
             'timeout' => 3600, // The timeout for the underlying process
             'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
         ], @$logger);
-        //$this->videoFile = str_replace("_original", "", $this->videoFileOriginal);
+        // $this->videoFile = str_replace("_original", "", $this->videoFileOriginal);
         $this->videoFile = "{$this->dataPath}/{$this->sha1Name}.mp4";
         debug('=2');
         // preprocess the video
-        debug('probing ' . $this->videoFileOriginal);
+        debug('probing '.$this->videoFileOriginal);
         $ffprobe = \FFMpeg\FFProbe::create([
             'ffmpeg.binaries' => '/usr/bin/ffmpeg',
             'ffprobe.binaries' => '/usr/bin/ffprobe',
@@ -110,36 +121,36 @@ class videoPreprocess_The_crush
             ->streams($this->videoFileOriginal)
             ->videos()
             ->first();
-        $duration = (int)$first->get('duration');
+        $duration = (int) $first->get('duration');
 
-        debug('duration 1 :' . $duration);
+        debug('duration 1 :'.$duration);
 
-        $frameRate = (int)$first->get('r_frame_rate');
-        debug('framerate 1 :' . $frameRate);
+        $frameRate = (int) $first->get('r_frame_rate');
+        debug('framerate 1 :'.$frameRate);
 
         $duration = floor($duration) * 60;
-        debug('duration 2 :' . $duration);
+        debug('duration 2 :'.$duration);
         $frameRate = round($frameRate) / 1000;
-        debug('framerate 2 :' . $frameRate);
+        debug('framerate 2 :'.$frameRate);
         $n = round($duration / $frameRate);
-        debug('n :' . $n);
+        debug('n :'.$n);
         $frameRate = round($duration / $n);
-        debug('framerate 3 :' . $frameRate);
-        $frameRate = '1/' . $frameRate;
-        debug('framerate 4 :' . $frameRate);
+        debug('framerate 3 :'.$frameRate);
+        $frameRate = '1/'.$frameRate;
+        debug('framerate 4 :'.$frameRate);
 
-        //debug($first->getDimensions());
+        // debug($first->getDimensions());
         // using getID3
-        $getID3 = new getID3();
+        $getID3 = new getID3;
         $file = $getID3->analyze($this->videoFileOriginal);
         $width = $file['video']['resolution_x'];
         $height = $file['video']['resolution_y'];
         $this->videoSize = 'small';
         if ($width > 240 and $height > 180) {
-            $this->videoSize = "large";
+            $this->videoSize = 'large';
         }
-        debug('width = ' . $width);
-        debug('height = ' . $height);
+        debug('width = '.$width);
+        debug('height = '.$height);
 
         $newWidth = floor(((480 / $height) * $width) / 2) * 2;
         $originalVideo = $this->ffmpeg->open($this->videoFileOriginal);
@@ -154,8 +165,8 @@ class videoPreprocess_The_crush
         debug('compressed video file saved');
         $this->videoHeight = 480;
         $this->videoWidth = $newWidth;
-        Criteria::table("video")
-            ->where("idVideo", $this->idVideo)
+        Criteria::table('video')
+            ->where('idVideo', $this->idVideo)
             ->update([
                 'width' => $this->videoWidth,
                 'height' => $this->videoHeight,
@@ -524,5 +535,3 @@ class videoPreprocess_The_crush
     }
     */
 }
-
-

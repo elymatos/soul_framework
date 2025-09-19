@@ -14,8 +14,7 @@ class CreateData extends Data
         public ?int $active = 1,
         public ?int $idUser = 1,
         public string $_token = '',
-    )
-    {
+    ) {
         if (is_null($this->idLanguage)) {
             $this->idLanguage = AppService::getCurrentIdLanguage();
         }

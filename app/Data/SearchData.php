@@ -10,8 +10,6 @@ class SearchData extends Data
         public ?string $fullSearch = '',
         public ?string $fullSearchPage = '',
         public ?string $byGroup = '',
-    )
-    {
-    }
+    ) {}
 
 }

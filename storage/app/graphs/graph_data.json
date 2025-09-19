@@ -1,0 +1,38 @@
+{
+    "nodes": [
+        {
+            "id": "01e4bcca-823c-4701-9a07-1f013594a1c3",
+            "label": "f_1",
+            "type": "frame"
+        },
+        {
+            "id": "e2025ac1-54ed-420a-af71-042376142c4e",
+            "label": "s1",
+            "type": "slot"
+        },
+        {
+            "id": "68802230-9b6b-4975-8dd3-70b3f703c198",
+            "label": "s2",
+            "type": "slot"
+        }
+    ],
+    "edges": [
+        {
+            "id": "f64b32b0-b470-4503-a5be-ca3ab6c246f2",
+            "from": "e2025ac1-54ed-420a-af71-042376142c4e",
+            "to": "01e4bcca-823c-4701-9a07-1f013594a1c3",
+            "label": "f-slot"
+        },
+        {
+            "id": "064eb8b7-05e7-4974-8d41-75aa072a6855",
+            "from": "68802230-9b6b-4975-8dd3-70b3f703c198",
+            "to": "01e4bcca-823c-4701-9a07-1f013594a1c3",
+            "label": "f-slot"
+        }
+    ],
+    "metadata": {
+        "created": "2025-09-18T12:00:00Z",
+        "modified": "2025-09-19T00:01:39.378770Z",
+        "version": "1.0"
+    }
+}

@@ -17,10 +17,9 @@ class Form extends Component
         public bool $border = true,
         public string $title = '',
         public string $toolbar = '',
-//        public string $fields,
-//        public string $buttons,
-    )
-    {
+        //        public string $fields,
+        //        public string $buttons,
+    ) {
         if ($this->id === '') {
             $this->id = uniqid();
         }

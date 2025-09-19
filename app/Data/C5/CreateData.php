@@ -13,8 +13,7 @@ class CreateData extends Data
         public ?int $idUser = null,
         public ?int $idDomain = null,
         public ?string $semanticTypeName = ''
-    )
-    {
+    ) {
         $user = AppService::getCurrentUser();
         $this->idUser = $user ? $user->idUser : 0;
     }

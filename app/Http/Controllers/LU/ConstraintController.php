@@ -14,31 +14,31 @@ class ConstraintController extends Controller
     #[Get(path: '/lu/{id}/constraints')]
     public function constraints(string $id)
     {
-        return view("Constraint.luChild",[
-            'idLU' => $id
+        return view('Constraint.luChild', [
+            'idLU' => $id,
         ]);
     }
 
     #[Get(path: '/lu/{id}/constraints/formNew/{fragment?}')]
     public function constraintsFormNew(int $id, ?string $fragment = null)
     {
-        $view = view("Constraint.luFormNew", [
+        $view = view('Constraint.luFormNew', [
             'idLU' => $id,
             'lu' => LU::byId($id),
-            'fragment' => $fragment ?? ''
+            'fragment' => $fragment ?? '',
         ]);
-        return (is_null($fragment) ? $view : $view->fragment($fragment));
+
+        return is_null($fragment) ? $view : $view->fragment($fragment);
     }
 
     #[Get(path: '/lu/{id}/constraints/grid')]
     public function constraintsGrid(int $id)
     {
         $lu = LU::byId($id);
-        return view("Constraint.luGrid", [
+
+        return view('Constraint.luGrid', [
             'idLU' => $id,
-            'constraints' => Constraint::listByIdConstrained($lu->idEntity)
+            'constraints' => Constraint::listByIdConstrained($lu->idEntity),
         ]);
     }
-
-
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Lexicon;
 
 use App\Data\ComboBox\QData;
-use App\Data\Lexicon\CreateLayerGroupData;
 use App\Data\Lexicon\CreateLemmaData;
 use App\Data\Lexicon\CreateLexemeData;
 use App\Data\Lexicon\CreateLexemeEntryData;
@@ -22,16 +21,16 @@ use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
-
     #[Get(path: '/lexicon')]
     public function browse()
     {
         $search = session('searchLexicon') ?? SearchData::from();
-        return view("Lexicon.resource", [
-            'search' => $search
+
+        return view('Lexicon.resource', [
+            'search' => $search,
         ]);
     }
 
@@ -39,11 +38,12 @@ class ResourceController extends Controller
     #[Post(path: '/lexicon/grid/{fragment?}')]
     public function grid(SearchData $search, ?string $fragment = null)
     {
-        $view = view("Lexicon.grid", [
+        $view = view('Lexicon.grid', [
             'search' => $search,
             'sentences' => [],
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     /*------
@@ -54,84 +54,88 @@ class ResourceController extends Controller
     public function listForSelect(QData $data)
     {
         $name = (strlen($data->q) > 2) ? $data->q : 'none';
-        return ['results' => Criteria::byFilterLanguage("view_lemma",["name","startswith", trim($name)])
-            ->select('idLemma','fullName as name')
-            ->orderby("name")->all()];
+
+        return ['results' => Criteria::byFilterLanguage('view_lemma', ['name', 'startswith', trim($name)])
+            ->select('idLemma', 'fullName as name')
+            ->orderby('name')->all()];
     }
 
     #[Get(path: '/lexicon/lemma/new')]
     public function formNewLemma()
     {
-        return view("Lexicon.formNewLemma");
+        return view('Lexicon.formNewLemma');
     }
 
     #[Get(path: '/lexicon/lemma/{idLemma}/lexemeentries')]
     public function lexemeentries(int $idLemma)
     {
         $lemma = Lemma::byId($idLemma);
-        $lexemeentries = Criteria::table("lexemeentry as le")
-            ->join("lexeme", "le.idLexeme", "=", "lexeme.idLexeme")
-            ->join("pos", "lexeme.idPOS", "=", "pos.idPOS")
-            ->where("le.idLemma", $idLemma)
-            ->select("le.*", "lexeme.name as lexeme", "pos.pos")
-            ->orderBy("le.lexemeorder")
+        $lexemeentries = Criteria::table('lexemeentry as le')
+            ->join('lexeme', 'le.idLexeme', '=', 'lexeme.idLexeme')
+            ->join('pos', 'lexeme.idPOS', '=', 'pos.idPOS')
+            ->where('le.idLemma', $idLemma)
+            ->select('le.*', 'lexeme.name as lexeme', 'pos.pos')
+            ->orderBy('le.lexemeorder')
             ->all();
-        return view("Lexicon.lexemeentries", [
+
+        return view('Lexicon.lexemeentries', [
             'lemma' => $lemma,
-            'lexemeentries' => $lexemeentries
+            'lexemeentries' => $lexemeentries,
         ]);
     }
 
     #[Get(path: '/lexicon/lemma/{idLemma}/{fragment?}')]
-    public function lemma(int $idLemma, string $fragment = null)
+    public function lemma(int $idLemma, ?string $fragment = null)
     {
         $lemma = Lemma::byId($idLemma);
-        $lexemeentries = Criteria::table("lexemeentry as le")
-            ->join("lexeme", "le.idLexeme", "=", "lexeme.idLexeme")
-            ->join("pos", "lexeme.idPOS", "=", "pos.idPOS")
-            ->where("le.idLemma", $idLemma)
-            ->select("le.*", "lexeme.name as lexeme", "pos.pos")
-            ->orderBy("le.lexemeorder")
+        $lexemeentries = Criteria::table('lexemeentry as le')
+            ->join('lexeme', 'le.idLexeme', '=', 'lexeme.idLexeme')
+            ->join('pos', 'lexeme.idPOS', '=', 'pos.idPOS')
+            ->where('le.idLemma', $idLemma)
+            ->select('le.*', 'lexeme.name as lexeme', 'pos.pos')
+            ->orderBy('le.lexemeorder')
             ->all();
-        $view = view("Lexicon.lemma", [
+        $view = view('Lexicon.lemma', [
             'lemma' => $lemma,
-            'lexemeentries' => $lexemeentries
+            'lexemeentries' => $lexemeentries,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment($fragment));
+
+        return is_null($fragment) ? $view : $view->fragment($fragment);
     }
 
     #[Post(path: '/lexicon/lemma/new')]
     public function newLemma(CreateLemmaData $data)
     {
         try {
-            $exists = Criteria::table("lemma")
+            $exists = Criteria::table('lemma')
                 ->whereRaw("name = '{$data->name}' collate 'utf8mb4_bin'")
-                ->where("idPOS", $data->idPOS)
-                ->where("idLanguage", $data->idLanguage)
+                ->where('idPOS', $data->idPOS)
+                ->where('idLanguage', $data->idLanguage)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("Lemma already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('Lemma already exists.');
             }
             $newLemma = json_encode([
                 'name' => $data->name,
                 'idPOS' => $data->idPOS,
                 'idLanguage' => $data->idLanguage,
             ]);
-            $idLemma = Criteria::function("lemma_create(?)", [$newLemma]);
+            $idLemma = Criteria::function('lemma_create(?)', [$newLemma]);
             $lemma = Lemma::byId($idLemma);
-            $lexemeentries = Criteria::table("lexemeentry as le")
-                ->join("lexeme", "le.idLexeme", "=", "lexeme.idLexeme")
-                ->where("le.idLemma", $idLemma)
-                ->select("le.*", "lexeme.name as lexeme")
-                ->orderBy("le.lexemeorder")
+            $lexemeentries = Criteria::table('lexemeentry as le')
+                ->join('lexeme', 'le.idLexeme', '=', 'lexeme.idLexeme')
+                ->where('le.idLemma', $idLemma)
+                ->select('le.*', 'lexeme.name as lexeme')
+                ->orderBy('le.lexemeorder')
                 ->all();
             $view = view('Lexicon.lemma', [
                 'lemma' => $lemma,
-                'lexemeentries' => $lexemeentries
+                'lexemeentries' => $lexemeentries,
             ]);
-            return $view->fragment("content");
+
+            return $view->fragment('content');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -139,15 +143,16 @@ class ResourceController extends Controller
     public function updateLemma(UpdateLayerGroupData $data)
     {
         try {
-            Criteria::table("lemma")
-                ->where("idLemma", $data->idLemma)
+            Criteria::table('lemma')
+                ->where('idLemma', $data->idLemma)
                 ->update([
                     'name' => $data->name,
                     'idPOS' => $data->idPOS,
                 ]);
-            return $this->renderNotify("success", "Lemma updated.");
+
+            return $this->renderNotify('success', 'Lemma updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -155,14 +160,14 @@ class ResourceController extends Controller
     public function deleteLemma(string $idLemma)
     {
         try {
-            Criteria::function("lemma_delete(?,?)", [$idLemma, AppService::getCurrentIdUser()]);
+            Criteria::function('lemma_delete(?,?)', [$idLemma, AppService::getCurrentIdUser()]);
             $this->trigger('reload-gridLexicon');
-            return $this->renderNotify("success", "Lemma removed.");
+
+            return $this->renderNotify('success', 'Lemma removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
-
 
     /*------
       Lexeme
@@ -171,69 +176,71 @@ class ResourceController extends Controller
     #[Get(path: '/lexicon/lexeme/new')]
     public function formNewLexeme()
     {
-        return view("Lexicon.formNewLexeme");
+        return view('Lexicon.formNewLexeme');
     }
 
     #[Get(path: '/lexicon/lexeme/{idLexeme}/wordforms')]
     public function wordforms(int $idLexeme)
     {
         $lexeme = Lexeme::byId($idLexeme);
-        $wordforms = Criteria::table("wordform")
-            ->where("idLexeme", $idLexeme)
-            ->orderBy("form")
+        $wordforms = Criteria::table('wordform')
+            ->where('idLexeme', $idLexeme)
+            ->orderBy('form')
             ->all();
-        return view("Lexicon.wordforms", [
+
+        return view('Lexicon.wordforms', [
             'lexeme' => $lexeme,
-            'wordforms' => $wordforms
+            'wordforms' => $wordforms,
         ]);
     }
 
     #[Get(path: '/lexicon/lexeme/{idLexeme}/{fragment?}')]
-    public function lexeme(int $idLexeme, string $fragment = null)
+    public function lexeme(int $idLexeme, ?string $fragment = null)
     {
         $lexeme = Lexeme::byId($idLexeme);
-        $wordforms = Criteria::table("wordform")
-            ->where("idLexeme", $idLexeme)
-            ->orderBy("form")
+        $wordforms = Criteria::table('wordform')
+            ->where('idLexeme', $idLexeme)
+            ->orderBy('form')
             ->all();
-        $view = view("Lexicon.lexeme", [
+        $view = view('Lexicon.lexeme', [
             'lexeme' => $lexeme,
-            'wordforms' => $wordforms
+            'wordforms' => $wordforms,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('content'));
-    }
 
+        return is_null($fragment) ? $view : $view->fragment('content');
+    }
 
     #[Post(path: '/lexicon/lexeme/new')]
     public function newLexeme(CreateLexemeData $data)
     {
         try {
-            $exists = Criteria::table("lexeme")
+            $exists = Criteria::table('lexeme')
                 ->whereRaw("name = '{$data->name}' collate 'utf8mb4_bin'")
-                ->where("idPOS", $data->idPOS)
-                ->where("idLanguage", $data->idLanguage)
+                ->where('idPOS', $data->idPOS)
+                ->where('idLanguage', $data->idLanguage)
                 ->first();
-            if (!is_null($exists)) {
-                throw new \Exception("Lexeme already exists.");
+            if (! is_null($exists)) {
+                throw new \Exception('Lexeme already exists.');
             }
             $newLexeme = json_encode([
                 'name' => $data->name,
                 'idPOS' => $data->idPOS,
                 'idLanguage' => $data->idLanguage,
             ]);
-            $idLexeme = Criteria::function("lexeme_create(?)", [$newLexeme]);
+            $idLexeme = Criteria::function('lexeme_create(?)', [$newLexeme]);
             $lexeme = Lexeme::byId($idLexeme);
-            $wordforms = Criteria::table("wordform")
-                ->where("idLexeme", $idLexeme)
-                ->orderBy("form")
+            $wordforms = Criteria::table('wordform')
+                ->where('idLexeme', $idLexeme)
+                ->orderBy('form')
                 ->all();
             $view = view('Lexicon.lexeme', [
-                    'lexeme' => $lexeme,
-                    'wordforms' => $wordforms
-                ]);
-            return $view->fragment("content");
+                'lexeme' => $lexeme,
+                'wordforms' => $wordforms,
+            ]);
+
+            return $view->fragment('content');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -241,15 +248,16 @@ class ResourceController extends Controller
     public function updateLexeme(UpdateLexemeData $data)
     {
         try {
-            Criteria::table("lexeme")
-                ->where("idLexeme", $data->idLexeme)
+            Criteria::table('lexeme')
+                ->where('idLexeme', $data->idLexeme)
                 ->update([
                     'name' => $data->name,
                     'idPOS' => $data->idPOS,
                 ]);
-            return $this->renderNotify("success", "Lexeme updated.");
+
+            return $this->renderNotify('success', 'Lexeme updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -257,11 +265,12 @@ class ResourceController extends Controller
     public function deleteLexeme(string $idLexeme)
     {
         try {
-            Criteria::function("lexeme_delete(?,?)", [$idLexeme, AppService::getCurrentIdUser()]);
+            Criteria::function('lexeme_delete(?,?)', [$idLexeme, AppService::getCurrentIdUser()]);
             $this->trigger('reload-gridLexicon');
-            return $this->renderNotify("success", "Lexeme removed.");
+
+            return $this->renderNotify('success', 'Lexeme removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -274,20 +283,21 @@ class ResourceController extends Controller
     {
         try {
             if ($data->idLexeme) {
-                Criteria::table("lexemeentry")->insert([
+                Criteria::table('lexemeentry')->insert([
                     'idLemma' => $data->idLemma,
                     'idLexeme' => $data->idLexeme,
                     'lexemeOrder' => $data->lexemeOrder,
                     'headWord' => $data->headWord,
-                    'breakBefore' => $data->breakBefore
+                    'breakBefore' => $data->breakBefore,
                 ]);
                 $this->trigger('reload-gridLexemeEntry');
-                return $this->renderNotify("success", "Lexeme added.");
+
+                return $this->renderNotify('success', 'Lexeme added.');
             } else {
-                throw new \Exception("Lexeme not found.");
+                throw new \Exception('Lexeme not found.');
             }
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -295,11 +305,12 @@ class ResourceController extends Controller
     public function deleteLexemeEntry(string $idLexemeEntry)
     {
         try {
-            Criteria::deleteById("lexemeentry", "idLexemeEntry", $idLexemeEntry);
+            Criteria::deleteById('lexemeentry', 'idLexemeEntry', $idLexemeEntry);
             $this->trigger('reload-gridLexemeEntry');
-            return $this->renderNotify("success", "Lexeme removed.");
+
+            return $this->renderNotify('success', 'Lexeme removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -310,15 +321,16 @@ class ResourceController extends Controller
     public function newWordform(CreateWordformData $data)
     {
         try {
-            Criteria::table("wordform")->insert([
+            Criteria::table('wordform')->insert([
                 'idLexeme' => $data->idLexemeWordform,
                 'form' => $data->form,
                 'md5' => md5($data->form),
             ]);
             $this->trigger('reload-gridWordforms');
-            return $this->renderNotify("success", "Wordform created.");
+
+            return $this->renderNotify('success', 'Wordform created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -326,11 +338,12 @@ class ResourceController extends Controller
     public function deleteWordform(string $idWordForm)
     {
         try {
-            Criteria::deleteById("wordform", "idWordForm", $idWordForm);
+            Criteria::deleteById('wordform', 'idWordForm', $idWordForm);
             $this->trigger('reload-gridWordforms');
-            return $this->renderNotify("success", "Wordform removed.");
+
+            return $this->renderNotify('success', 'Wordform removed.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

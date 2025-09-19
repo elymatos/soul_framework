@@ -3,32 +3,31 @@
 namespace App\Http\Controllers\Annotation;
 
 use App\Data\Annotation\Browse\SearchData;
-use App\Data\Annotation\Browse\TreeData;
 use App\Http\Controllers\Controller;
 use App\Services\Annotation\BrowseService;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
 
-#[Middleware("auth")]
+#[Middleware('auth')]
 class BrowseController extends Controller
 {
     #[Post(path: '/annotation/browse/searchSentence')]
     public function search(SearchData $search)
     {
         debug($search);
-        if (!is_null($search->idCorpus)) {
-            $data = BrowseService::browseDocumentsByCorpus($search->idCorpus, [], "CorpusAnnotation");
-        } else if (!is_null($search->idDocument)) {
+        if (! is_null($search->idCorpus)) {
+            $data = BrowseService::browseDocumentsByCorpus($search->idCorpus, [], 'CorpusAnnotation');
+        } elseif (! is_null($search->idDocument)) {
             $data = BrowseService::browseSentencesByDocument($search->idDocument);
-        } else if ($search->idDocumentSentence != '') {
+        } elseif ($search->idDocumentSentence != '') {
             $data = BrowseService::browseSentence($search->idDocumentSentence);
-//            $title = "Sentence";
+            //            $title = "Sentence";
         } elseif ($search->document != '') {
-            $data = BrowseService::browseDocumentBySearch($search, [], "CorpusAnnotation");
-//            $title = "Documents";
+            $data = BrowseService::browseDocumentBySearch($search, [], 'CorpusAnnotation');
+            //            $title = "Documents";
         } else {
-            $data = BrowseService::browseCorpusBySearch($search, [], "CorpusAnnotation");
-//            $title = "Corpora";
+            $data = BrowseService::browseCorpusBySearch($search, [], 'CorpusAnnotation');
+            //            $title = "Corpora";
         }
 
         return view('Annotation.treeSentences', [
@@ -37,18 +36,18 @@ class BrowseController extends Controller
     }
 
     #[Post(path: '/annotation/browse/searchDocument/{taskGroupName}')]
-    public function searchDocument(SearchData $search, string $taskGroupName = null)
+    public function searchDocument(SearchData $search, ?string $taskGroupName = null)
     {
         $search->taskGroupName ??= $taskGroupName;
         debug($search);
-        if (!is_null($search->idCorpus)) {
+        if (! is_null($search->idCorpus)) {
             $data = BrowseService::browseDocumentsByCorpus($search->idCorpus, [], $search->taskGroupName, leaf: true);
-        } else if ($search->document != '') {
+        } elseif ($search->document != '') {
             $data = BrowseService::browseDocumentBySearch($search, [], $search->taskGroupName, leaf: true);
-            $title = "Documents";
+            $title = 'Documents';
         } else {
             $data = BrowseService::browseCorpusBySearch($search, [], $search->taskGroupName);
-            $title = "Corpora";
+            $title = 'Corpora';
         }
 
         return view('Annotation.treeDocuments', [
@@ -56,6 +55,4 @@ class BrowseController extends Controller
             'taskGroupName' => $search->taskGroupName,
         ]);
     }
-
 }
-

@@ -49,7 +49,7 @@ class AISuggestionService extends AppService
             if ($model == 'gpt-4o') {
                 $promptTemplate = self::loadPromptTemplate();
                 // Build complete prompt
-                $pos = implode(",", $targetPos);
+                $pos = implode(',', $targetPos);
                 $fullPrompt = self::buildPrompt($promptTemplate, $frame, $currentLUs, $targetN, $pos);
                 if ($dryRun) {
                     //                $this->displayDryRun($fullPrompt);
@@ -60,15 +60,15 @@ class AISuggestionService extends AppService
                     throw new \Exception('❌ OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file.');
                 }
                 // Call OpenAI API
-//                $response = self::callOpenAI($fullPrompt, $model);
-//                // Process and display results
-//                $results = self::processResponse($response, $frame);
+                //                $response = self::callOpenAI($fullPrompt, $model);
+                //                // Process and display results
+                //                $results = self::processResponse($response, $frame);
             } else {
                 $response = self::callLLama($frame, $currentLUs, $targetN, $targetPos);
             }
             $results = self::processResponse($response, $frame);
 
-//            $results = [];
+            //            $results = [];
 
             // Check for existing LUs
             $results = self::checkExistingLU($results, $frameId);
@@ -138,7 +138,7 @@ class AISuggestionService extends AppService
     {
         $lus = Criteria::table('view_lu as lu')
             ->join('udpos', 'lu.idUDPOS', '=', 'udpos.idUDPOS')
-            ->select(['lu.name as lemma', 'udpos.POS', 'lu.senseDescription','lu.lemmaName'])
+            ->select(['lu.name as lemma', 'udpos.POS', 'lu.senseDescription', 'lu.lemmaName'])
             ->where('lu.idFrame', $frameId)
             ->where('lu.idLanguage', 1) // Portuguese
             ->whereIn('udpos.POS', $validPos) // Filter by valid POS types
@@ -158,11 +158,11 @@ class AISuggestionService extends AppService
         $lusText = '';
         foreach ($currentLUs as $lu) {
             $lusText .= "{$lu->lemmaName},";
-//            $lusText .= "- {$lu->lemma}.{$lu->POS}";
-//            if (! empty($lu->senseDescription)) {
-//                $lusText .= " - {$lu->senseDescription}";
-//            }
-//            $lusText .= "\n";
+            //            $lusText .= "- {$lu->lemma}.{$lu->POS}";
+            //            if (! empty($lu->senseDescription)) {
+            //                $lusText .= " - {$lu->senseDescription}";
+            //            }
+            //            $lusText .= "\n";
         }
 
         if (empty($lusText)) {
@@ -242,7 +242,7 @@ class AISuggestionService extends AppService
             'exclusion_list' => $exclusion_list,
             'acceptable_pos' => $targetPos,
             'temperature' => 0.1,
-            'max_tokens'=> 2048
+            'max_tokens' => 2048,
         ];
         debug($parameters);
         $client = new Client([
@@ -254,13 +254,14 @@ class AISuggestionService extends AppService
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
-                'json' => $parameters
+                'json' => $parameters,
             ]);
             $content = $response->getBody();
             debug(json_decode($content));
         } catch (\Exception $e) {
-            echo $e->getMessage() . "\n";
+            echo $e->getMessage()."\n";
         }
+
         return $content;
     }
 

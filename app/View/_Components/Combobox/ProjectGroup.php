@@ -13,15 +13,15 @@ class ProjectGroup extends Component
      * Create a new component instance.
      */
     public array $options;
+
     public function __construct(
         public string $id,
         public string $label,
         public int $value
-    )
-    {
-        $list = Criteria::table("projectgroup")->orderBy("name")->all();
+    ) {
+        $list = Criteria::table('projectgroup')->orderBy('name')->all();
         $this->options = [];
-        foreach($list as $pg) {
+        foreach ($list as $pg) {
             $this->options[$pg->idProjectGroup] = [
                 'id' => $pg->idProjectGroup,
                 'text' => $pg->name,

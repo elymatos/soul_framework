@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class UdRelation extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
@@ -18,11 +19,10 @@ class UdRelation extends Component
         public string $value,
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
-        //$pos = new \App\Repositories\POS();
-        $this->options = Criteria::table("udrelation")
-            ->orderBy("info")
+    ) {
+        // $pos = new \App\Repositories\POS();
+        $this->options = Criteria::table('udrelation')
+            ->orderBy('info')
             ->all();
     }
 

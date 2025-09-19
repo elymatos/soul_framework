@@ -20,8 +20,7 @@ class LexiconMorpheme extends Component
         public string $name = '',
         public ?int $value = 0,
         public ?int $idLanguage = 0,
-    )
-    {
+    ) {
         if ($this->idLanguage == 0) {
             $this->idLanguage = AppService::getCurrentIdLanguage();
         }
@@ -29,7 +28,7 @@ class LexiconMorpheme extends Component
             $lexicon = Lexicon::byId($this->value);
             $this->placeholder = $lexicon->name;
         } else {
-            $this->placeholder = "Search Morpheme";
+            $this->placeholder = 'Search Morpheme';
         }
     }
 

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\BackgroundTheories\complexity_distribution;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\BackgroundTheories\complexity_distribution\complexity_distributionService;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for complexity_distribution background theory

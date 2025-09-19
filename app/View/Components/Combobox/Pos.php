@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class Pos extends Component
 {
     public array $options;
+
     /**
      * Create a new component instance.
      */
@@ -18,11 +19,10 @@ class Pos extends Component
         public string $value,
         public string $label = '',
         public string $placeholder = ''
-    )
-    {
-        //$pos = new \App\Repositories\POS();
-        $this->options = Criteria::table("pos")
-            ->orderBy("POS")
+    ) {
+        // $pos = new \App\Repositories\POS();
+        $this->options = Criteria::table('pos')
+            ->orderBy('POS')
             ->all();
     }
 

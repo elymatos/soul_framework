@@ -15,8 +15,7 @@ class ObjectMenu extends Component
         public string $id,
         public array $items = [],
         public string $path = '',
-    )
-    {
+    ) {
         //
     }
 

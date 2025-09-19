@@ -14,8 +14,7 @@ class Submit extends Component
     public function __construct(
         public string $label,
         public string $color = 'primary',
-    )
-    {
+    ) {
         $this->color = $color;
     }
 

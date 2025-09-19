@@ -17,9 +17,7 @@ class Options extends Component
         public array $options,
         public string $label = '',
         public string $placeholder = '',
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -13,21 +13,20 @@ use Collective\Annotations\Routing\Attributes\Attributes\Delete;
 use Collective\Annotations\Routing\Attributes\Attributes\Get;
 use Collective\Annotations\Routing\Attributes\Attributes\Middleware;
 use Collective\Annotations\Routing\Attributes\Attributes\Post;
-use Collective\Annotations\Routing\Attributes\Attributes\Put;
 
-#[Middleware("master")]
+#[Middleware('master')]
 class ResourceController extends Controller
 {
     #[Get(path: '/dataset')]
     public function resource()
     {
-        return view("Dataset.resource");
+        return view('Dataset.resource');
     }
 
     #[Get(path: '/dataset/new')]
     public function new()
     {
-        return view("Dataset.formNew");
+        return view('Dataset.formNew');
     }
 
     #[Get(path: '/dataset/grid/{fragment?}')]
@@ -35,20 +34,21 @@ class ResourceController extends Controller
     public function grid(SearchData $search, ?string $fragment = null)
     {
         $datasets = Dataset::listToGrid($search);
-        //debug($users);
+        // debug($users);
         $projects = Dataset::listProjectForGrid($search?->project ?? '');
-        $view = view("Dataset.grid",[
+        $view = view('Dataset.grid', [
             'projects' => $projects,
-            'datasets' => $datasets
+            'datasets' => $datasets,
         ]);
-        return (is_null($fragment) ? $view : $view->fragment('search'));
+
+        return is_null($fragment) ? $view : $view->fragment('search');
     }
 
     #[Get(path: '/dataset/{id}/edit')]
     public function edit(string $id)
     {
-        return view("Dataset.edit",[
-            'dataset' => Dataset::byId($id)
+        return view('Dataset.edit', [
+            'dataset' => Dataset::byId($id),
         ]);
     }
 
@@ -56,8 +56,9 @@ class ResourceController extends Controller
     public function formEdit(string $id)
     {
         debug(Dataset::byId($id));
-        return view("Dataset.formEdit",[
-            'dataset' => Dataset::byId($id)
+
+        return view('Dataset.formEdit', [
+            'dataset' => Dataset::byId($id),
         ]);
     }
 
@@ -66,10 +67,11 @@ class ResourceController extends Controller
     {
         try {
             Criteria::function('dataset_update(?)', [$data->toJson()]);
-            $this->trigger("reload-gridProject");
-            return $this->renderNotify("success", "Dataset updated.");
+            $this->trigger('reload-gridProject');
+
+            return $this->renderNotify('success', 'Dataset updated.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -78,10 +80,11 @@ class ResourceController extends Controller
     {
         try {
             Criteria::function('dataset_create(?)', [$data->toJson()]);
-            $this->trigger("reload-gridDatasets");
-            return $this->renderNotify("success", "Dataset created.");
+            $this->trigger('reload-gridDatasets');
+
+            return $this->renderNotify('success', 'Dataset created.');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 
@@ -91,11 +94,12 @@ class ResourceController extends Controller
         try {
             Criteria::function('dataset_delete(?, ?)', [
                 $id,
-                AppService::getCurrentIdUser()
+                AppService::getCurrentIdUser(),
             ]);
-            return $this->clientRedirect("/project");
+
+            return $this->clientRedirect('/project');
         } catch (\Exception $e) {
-            return $this->renderNotify("error", $e->getMessage());
+            return $this->renderNotify('error', $e->getMessage());
         }
     }
 }

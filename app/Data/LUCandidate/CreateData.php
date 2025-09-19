@@ -2,7 +2,6 @@
 
 namespace App\Data\LUCandidate;
 
-use App\Repositories\Lemma;
 use App\Services\AppService;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
@@ -20,13 +19,12 @@ class CreateData extends Data
         public ?int $idDynamicObject = null,
         public ?int $idStaticObject = null,
         public ?int $incorporatedFE = null,
-//        public ?string $frameCandidate = '',
+        //        public ?string $frameCandidate = '',
         public ?int $idUser = null,
         public ?string $createdAt = '',
         public ?string $status = '',
         public ?string $origin = ''
-    )
-    {
+    ) {
         if (is_null($this->senseDescription)) {
             $this->senseDescription = '';
         }
@@ -41,6 +39,5 @@ class CreateData extends Data
         $this->status = 'PENDING';
         $this->origin = 'USER';
     }
-
 
 }

@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
-
     public static function frame2(): array
     {
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_frame2")
-            ->orderBy("idDashboardFrame2", "desc")
+        $fields = Criteria::table('dashboard_frame2')
+            ->orderBy('idDashboardFrame2', 'desc')
             ->first();
+
         return [
             'sentences' => $fields->text_sentence,
             'framesText' => $fields->text_frame,
@@ -31,13 +31,13 @@ class DashboardService
 
     }
 
-
     public static function frame2PPM(): array
     {
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_frame2ppm")
-            ->orderBy("idDashboardFrame2PPM", "desc")
+        $fields = Criteria::table('dashboard_frame2ppm')
+            ->orderBy('idDashboardFrame2PPM', 'desc')
             ->first();
+
         return [
             'sentences' => $fields->text_sentence,
             'framesText' => $fields->text_frame,
@@ -57,9 +57,10 @@ class DashboardService
     public static function frame2NLG(): array
     {
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_frame2nlg")
-            ->orderBy("idDashboardFrame2NLG", "desc")
+        $fields = Criteria::table('dashboard_frame2nlg')
+            ->orderBy('idDashboardFrame2NLG', 'desc')
             ->first();
+
         return [
             'sentences' => $fields->text_sentence,
             'framesText' => $fields->text_frame,
@@ -78,9 +79,10 @@ class DashboardService
     public static function frame2Gesture(): array
     {
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_frame2gesture")
-            ->orderBy("idDashboardFrame2Gesture", "desc")
+        $fields = Criteria::table('dashboard_frame2gesture')
+            ->orderBy('idDashboardFrame2Gesture', 'desc')
             ->first();
+
         return [
             'sentences' => $fields->text_sentence,
             'framesText' => $fields->text_frame,
@@ -95,15 +97,15 @@ class DashboardService
             'avgAS' => number_format($fields->avg_obj, 3, $decimal, ''),
         ];
 
-
     }
 
     public static function audition(): array
     {
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_audition")
-            ->orderBy("idDashboardAudition", "desc")
+        $fields = Criteria::table('dashboard_audition')
+            ->orderBy('idDashboardAudition', 'desc')
             ->first();
+
         return [
             'sentences' => $fields->text_sentence,
             'framesText' => $fields->text_frame,
@@ -124,9 +126,10 @@ class DashboardService
     {
         Criteria::$database = 'webtool';
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_multi30k")
-            ->orderBy("idDashboardMulti30k", "desc")
+        $fields = Criteria::table('dashboard_multi30k')
+            ->orderBy('idDashboardMulti30k', 'desc')
             ->first();
+
         return [
             'images' => $fields->multi30k_image_image,
             'bbox' => $fields->multi30k_image_bbox,
@@ -145,9 +148,10 @@ class DashboardService
     {
         Criteria::$database = 'webtool';
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_multi30k")
-            ->orderBy("idDashboardMulti30k", "desc")
+        $fields = Criteria::table('dashboard_multi30k')
+            ->orderBy('idDashboardMulti30k', 'desc')
             ->first();
+
         return [
             'images' => $fields->multi30kentity_image_image,
             'bbox' => $fields->multi30kentity_image_bbox,
@@ -160,9 +164,10 @@ class DashboardService
     {
         Criteria::$database = 'webtool';
         $decimal = (App::currentLocale() == 'pt') ? ',' : '.';
-        $fields = Criteria::table("dashboard_multi30k")
-            ->orderBy("idDashboardMulti30k", "desc")
+        $fields = Criteria::table('dashboard_multi30k')
+            ->orderBy('idDashboardMulti30k', 'desc')
             ->first();
+
         return [
             'images' => $fields->multi30kevent_image_image,
             'bbox' => $fields->multi30kevent_image_bbox,
@@ -187,36 +192,37 @@ order by 1,2;";
             $m = is_object($row) ? $row->m : $row['m'];
             $y = is_object($row) ? $row->y : $row['y'];
             $chart[] = [
-                'm' => $m . '/' . $y,
-                'value' => $sum
+                'm' => $m.'/'.$y,
+                'value' => $sum,
             ];
         }
+
         return $chart;
     }
 
     public static function mustCalculate(): bool
     {
         $now = date('Y-m-d H:i:s');
-        $lastAnnotation = Criteria::table("timeline")
-            ->orderByDesc("idTimeLine")
+        $lastAnnotation = Criteria::table('timeline')
+            ->orderByDesc('idTimeLine')
             ->first();
         $lastAnnotationTime = is_null($lastAnnotation) ? $now : $lastAnnotation->tlDateTime;
-        $dashboard = Criteria::table("dashboard")
+        $dashboard = Criteria::table('dashboard')
             ->first();
         if (is_null($dashboard)) {
             $lastUpdateTime = $now;
-            $idDashboard = Criteria::create("dashboard", ["timeLastUpdate" => $now]);
+            $idDashboard = Criteria::create('dashboard', ['timeLastUpdate' => $now]);
         } else {
             $lastUpdateTime = $dashboard->timeLastUpdate;
             $idDashboard = $dashboard->idDashboard;
         }
         $mustCalculate = $lastAnnotationTime >= $lastUpdateTime;
         if ($mustCalculate) {
-            Criteria::table("dashboard")
-                ->where("idDashBoard", $idDashboard)
-                ->update(["timeLastUpdate" => $now]);
+            Criteria::table('dashboard')
+                ->where('idDashBoard', $idDashboard)
+                ->update(['timeLastUpdate' => $now]);
         }
+
         return $mustCalculate;
     }
-
 }
