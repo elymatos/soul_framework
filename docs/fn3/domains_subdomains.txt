@@ -1,0 +1,127 @@
+# Domains and subdomains
+
+# [[Physical_domain]]
+The material world and its fundamental properties, including objects, matter, forces, energy, spatial configurations, and physical phenomena. Frames in this domain model physical entities, processes like motion or transformation, and physical states.
+## 1. [[Matter and Substances]]
+This subdomain encompasses human conceptualization of the material composition of reality, including the fundamental building blocks of the physical world and their perceived properties. It captures how humans categorize and understand different types of matter based on observable characteristics, composition, and behavioral properties.
+## 2. [[Motion and Location]]
+This subdomain captures human understanding of movement, positioning, and spatial relationships in the physical world. It encompasses both the static concept of where things are located and the dynamic concept of how things move through space, as perceived and conceptualized by human cognition.
+## 3. [[Physical Transformation]]
+This subdomain encompasses processes of physical change that alter the form, state, or properties of matter without necessarily changing its fundamental identity. It captures how humans understand and categorize the various ways physical entities can be modified, combined, or altered through natural or intentional processes.
+## 4. [[Natural Phenomena]]
+This subdomain encompasses large-scale physical events and processes that occur in the natural environment, typically beyond direct human control. It captures how humans perceive, categorize, and understand weather patterns, geological events, astronomical phenomena, and other manifestations of natural forces.
+## 5. [[Manipulation and Interaction with Objects]]
+This subdomain captures the various ways humans physically engage with, modify, and control objects in their environment. It encompasses both the actions humans perform on objects and the cognitive understanding of how objects can be manipulated, used as tools, or arranged to achieve specific goals.
+
+# [[Biological_domain]]
+The domain of living organisms and biological systems, including anatomy, physiology, reproduction, growth, ecosystems, and evolutionary processes. Frames capture both micro-level (cells, organs) and macro-level (species, habitats) biological phenomena.
+## 1. [[Biological Entities and Life Processes]]
+This subdomain encompasses human conceptualization of living beings and the fundamental processes that characterize life. It captures how humans categorize and understand organisms, their life cycles, and the essential activities that distinguish living from non-living entities, based on observable behaviors and intuitive biological knowledge.
+## 2. [[Health and Illness]]
+This subdomain captures human understanding of the spectrum from wellness to disease, including the recognition, categorization, and management of health states. It encompasses both physical and mental health conditions as they are experienced, perceived, and culturally understood by humans, rather than purely medical definitions.
+## 3. [[Body and Anatomy]]
+This subdomain encompasses human conceptualization of bodily structure, including the recognition, naming, and understanding of body parts, their spatial relationships, and their functional organization. It captures both external anatomy visible to everyday observation and internal structures understood through embodied experience.
+## 4. [[Physiological Functions]]
+This subdomain captures human understanding of the ongoing biological processes that maintain life and enable bodily functions. It encompasses the recognition and conceptualization of automatic and voluntary bodily processes, from basic vital functions to complex coordinated activities.
+## 5. [[Ecological Systems]]
+This subdomain encompasses human understanding of the interconnected relationships between living organisms and their environments, including concepts of habitats, ecosystems, and environmental interdependence. It captures how humans perceive and categorize the complex web of relationships that sustain life on multiple scales.
+
+# [[Social_domain]]
+The realm of interpersonal relationships, institutions, social roles, norms, governance, economics, legal systems, and societal structures. This domain reflects how humans organize collective life and interactions.
+## 1. [[Social Roles and Identities]]
+This subdomain encompasses human understanding of the various positions, functions, and identities that individuals occupy within social structures. It captures how humans conceptualize social personas, status positions, and the behavioral expectations associated with different social categories and relationships.
+## 2. [[Institutions and Organizations]]
+This subdomain captures human understanding of formal and informal social structures that organize collective activities, establish rules, and coordinate group behavior. It encompasses how humans conceptualize, participate in, and navigate various organizational forms that structure social life.
+## 3. [[Economic and Commercial Practices]]
+This subdomain encompasses human understanding of exchange, trade, and economic relationships that involve the production, distribution, and consumption of goods and services. It captures how humans conceptualize value, transaction, and the various forms of economic interaction in their social environment.
+## 4. [[Governance and Law]]
+This subdomain captures human understanding of systems of authority, rule-making, and social control that regulate collective behavior. It encompasses how humans conceptualize legitimate authority, legal obligations, and the various mechanisms societies use to establish and enforce social order.
+## 5. [[Social Interaction and Relationships]]
+This subdomain encompasses the dynamic processes through which humans connect, communicate, and form relationships with one another. It captures the various forms of social engagement, from brief encounters to deep personal bonds, and the behavioral patterns that characterize human social connection.
+## 6. [[Conflict and Cooperation]]
+This subdomain captures human understanding of the spectrum from collaborative to competitive social dynamics, including the recognition, management, and resolution of social tensions. It encompasses both constructive cooperation and destructive conflict as fundamental patterns of human social interaction.
+## 7. [[Group Dynamics and Collective Behavior]]
+This subdomain encompasses human understanding of how groups form, function, and influence individual behavior. It captures the emergent properties of collective action, group psychology, and the various ways that being part of a group changes individual cognition and behavior.
+
+# [[Cultural_domain]]
+A specialized subdomain within Social, focusing on symbolic systems, traditions, rituals, arts, heritage, narratives, belief systems, and the transmission of cultural knowledge and identity.
+## 1. [[Beliefs and Worldviews]]
+This subdomain encompasses human understanding of fundamental perspectives on reality, existence, and meaning that shape how individuals and groups interpret their world. It captures the deep cognitive frameworks, belief systems, and philosophical orientations that guide human understanding of life’s fundamental questions and provide interpretive lenses for experience.
+## 2. [[Rituals and Traditions]]
+This subdomain captures human understanding of ceremonial practices, customary behaviors, and repeated cultural activities that mark significant events, maintain social bonds, and transmit cultural knowledge. It encompasses both formal religious ceremonies and informal cultural practices that structure social life through symbolic action.
+## 3. [[Arts and Creative Practices]]
+This subdomain encompasses human understanding of creative expression, aesthetic appreciation, and the various forms of artistic production that communicate meaning, emotion, and cultural values through symbolic representation. It captures how humans conceptualize beauty, creativity, and the role of artistic expression in cultural life.
+## 4. [[Cultural Narratives and Memory]]
+This subdomain captures human understanding of the stories, histories, and collective memories that communities use to understand their past, define their identity, and guide their future. It encompasses how humans create, maintain, and transmit shared narratives that provide cultural continuity and meaning.
+## 5. [[Heritage and Identity]]
+This subdomain encompasses human understanding of cultural inheritance, group membership, and the various markers that define cultural identity and belonging. It captures how humans conceptualize their connection to cultural traditions, ancestral communities, and the symbols that represent cultural distinctiveness.
+
+# [[Psychological_domain]]
+Pertains to perceptual, emotional, and affective experiences. Frames model sensations, perceptions (visual, auditory, tactile, etc.), emotions (fear, joy, anger), and subjective mental states related to the felt experience of individuals.
+## 1. [[Perception and Sensation]]
+This subdomain encompasses human understanding of the processes through which sensory information is received, interpreted, and organized into meaningful experience. It captures how humans conceptualize the interface between their consciousness and the external world through the various sensory modalities and perceptual processes.
+## 2. [[Emotions and Affective States]]
+This subdomain captures human understanding of feeling states, emotional responses, and the complex affective experiences that color human consciousness. It encompasses how humans recognize, categorize, and experience the full spectrum of emotions and moods that influence cognition, behavior, and social interaction.
+## 3. [[Needs and Drives and Motivations]]
+This subdomain encompasses human understanding of the internal forces that energize, direct, and sustain behavior toward goals. It captures how humans conceptualize the various biological and psychological needs, drives, and motivational states that influence action, decision-making, and goal pursuit.
+## 4. [[Subjective Experience of the Body and Environment]]
+This subdomain captures human understanding of the felt, phenomenological aspects of embodied existence and environmental experience. It encompasses how humans conceptualize their immediate, first-person experience of being a conscious body situated in a physical and social environment.
+
+# [[Cognitive_domain]]
+Represents higher-order mental processes such as reasoning, memory, attention, decision-making, learning, problem-solving, planning, and belief formation. Frames here capture abstract thinking and intellectual activity.
+## 1. [[Attention and Awareness]]
+This subdomain encompasses human understanding of consciousness, selective attention, and the various states and processes through which humans become aware of and focus on particular aspects of their internal or external environment. It captures how humans conceptualize the dynamic, selective nature of conscious awareness and attentional control.
+## 2. [[Memory and Learning]]
+This subdomain captures human understanding of how information is acquired, stored, retrieved, and modified over time. It encompasses the various forms of memory and learning processes through which humans accumulate knowledge, develop skills, and benefit from experience to guide future behavior and understanding.
+## 3. [[Reasoning and Problem-Solving]]
+This subdomain encompasses human understanding of logical thinking, analytical processes, and the systematic approaches used to work through complex problems and arrive at conclusions. It captures how humans conceptualize rational thought, inference-making, and the various strategies for overcoming cognitive challenges.
+## 4. [[Decision-Making and Planning]]
+This subdomain captures human understanding of choice processes, future-oriented thinking, and the various mechanisms through which humans select among alternatives and organize actions toward future goals. It encompasses both immediate decision-making and long-term strategic planning.
+## 5. [[Beliefs and Knowledge and Assumptions]]
+This subdomain encompasses human understanding of the information, beliefs, and assumptions that constitute their knowledge base and worldview. It captures how humans conceptualize what they know, how they know it, and the various forms of knowledge and belief that guide their understanding and behavior.
+## 6. [[Intention and Goal-Oriented Action]]
+This subdomain captures human understanding of purposive behavior, goal formation, and the various processes through which humans translate desires and intentions into organized action. It encompasses how humans conceptualize agency, willpower, and the relationship between mental intentions and behavioral execution.
+## 7. [[Cognitive Judgments and Evaluations]]
+This subdomain encompasses human understanding of assessment processes, evaluative thinking, and the various ways humans form judgments about quality, value, truth, and significance. It captures how humans conceptualize evaluation, criticism, and the processes through which they assess and compare different options, ideas, or situations.
+
+# [[Representational_domain]]
+The domain of abstract representations, including information, knowledge, data, symbolic systems, formal languages, computational processes, algorithms, digital communication, artificial intelligence, and models. It captures both technological and conceptual representations of reality.
+## 1. [[Signs and Communication and Language]]
+This subdomain encompasses human understanding of symbolic systems, communicative processes, and the various means through which humans create, transmit, and interpret meaningful information. It captures how humans conceptualize language, signs, symbols, and the full spectrum of communicative acts that enable shared understanding and cultural transmission.
+## 2. [[Information Structures]]
+This subdomain captures human understanding of how information is organized, categorized, and structured to enable efficient storage, retrieval, and manipulation. It encompasses the various ways humans conceptualize the arrangement and relationship of information elements, from simple lists to complex hierarchical and network structures.
+## 3. [[Media and Digital Systems]]
+This subdomain encompasses human understanding of technological systems for creating, transmitting, and manipulating information and representations. It captures how humans conceptualize digital technologies, electronic media, and the various technological tools that extend human representational and communicative capabilities.
+## 4. [[Formal Systems and Abstract Representations]]
+This subdomain captures human understanding of systematic, rule-based representational systems that use abstract symbols and logical relationships to model reality or manipulate information. It encompasses mathematical systems, logical frameworks, and other formal representational tools that enable precise, systematic thinking and analysis.
+## 5. [[Knowledge Representation]]
+This subdomain encompasses human understanding of how knowledge, concepts, and meanings are encoded, stored, and expressed in various representational formats. It captures how humans conceptualize the relationship between mental content and its external representation, including the various ways knowledge can be captured, organized, and communicated.
+
+# [[Space-time_domain]]
+A cross-cutting domain capturing spatial and temporal structures: location, direction, movement, proximity, duration, sequence, periodicity, and temporal alignment. Space and time are inherent in many other domains but are treated as explicit semantic structures when needed.
+## 1. [[Spatial Configuration]]
+This subdomain encompasses human understanding of the arrangement, organization, and geometric relationships of objects and spaces. It captures how humans conceptualize spatial structures, layouts, and the various ways that entities can be positioned, oriented, and arranged in relation to one another within spatial frameworks.
+## 2. [[Temporal Structure]]
+This subdomain captures human understanding of how time is organized, structured, and experienced, including the various ways humans conceptualize temporal relationships, sequences, rhythms, and the organization of events within temporal frameworks. It encompasses both subjective time experience and objective temporal organization.
+## 3. [[Motion and Trajectory]]
+This subdomain encompasses human understanding of movement through space and time, including the paths, patterns, and dynamics of motion as experienced and conceptualized by humans. It captures how humans perceive, predict, and understand the temporal-spatial aspects of movement and the trajectories that moving entities follow.
+## 4. [[Change over Time]]
+This subdomain captures human understanding of transformation, development, and evolution as processes that unfold through time. It encompasses how humans conceptualize various forms of change, from gradual development to sudden transformation, and the temporal patterns that characterize different types of change processes.
+
+# [[Moral_domain]]
+Concerned with values, norms, moral judgments, ethical principles, obligations, responsibilities, fairness, and justice. This domain intersects with social, cognitive, and legal domains but is defined distinctly when ethical reasoning or moral evaluation is central.
+## 1. [[Conventions and Ethical Norms and Principles]]
+This subdomain encompasses human understanding of the rules, standards, and principles that guide moral behavior and define what is considered right, wrong, good, or bad within communities and cultures. It captures how humans conceptualize ethical frameworks, moral codes, and the normative systems that prescribe appropriate conduct and character.
+## 2. [[Moral Judgments and Evaluations]]
+This subdomain captures human understanding of the processes through which moral assessments are made, including the evaluation of actions, intentions, character, and outcomes according to moral criteria. It encompasses how humans conceptualize moral reasoning, ethical decision-making, and the formation of moral judgments about rightness and wrongness.
+## 3. [[Rights and Duties and Justice]]
+This subdomain encompasses human understanding of entitlements, obligations, and fair treatment within social relationships and institutional arrangements. It captures how humans conceptualize what individuals owe to each other, what they are entitled to receive, and what constitutes fair distribution of benefits, burdens, and treatment.
+## 4. [[Moral Emotions and Responses]]
+This subdomain captures human understanding of the emotional dimensions of moral experience, including the feelings that accompany moral judgments, moral violations, and moral achievements. It encompasses how humans conceptualize guilt, shame, pride, indignation, empathy, and other emotions that are specifically connected to moral situations and moral agency.
+
+# Nature
+
+## Perceptual: The concept can be perceived physically, using the five senses, or as an emotional state.
+## Conceptual: All concepts that are not perceptual. It is important to distinguish words used to categories from the objects they categorize.
+
+

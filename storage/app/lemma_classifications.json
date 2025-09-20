@@ -1,0 +1,46 @@
+{
+    "metadata": {
+        "created": "2025-09-20T19:56:43.040491Z",
+        "taxonomy_version": "fn3",
+        "total_processed": 6,
+        "last_updated": "2025-09-20T19:56:43.042992Z"
+    },
+    "classifications": [
+        {
+            "lemma": "turista",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "turista",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "dinheiro",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "dinheiro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "finalidade",
+            "domain": "Cognitive_domain",
+            "subdomain": "Reasoning and Problem-Solving",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "finalidade",
+            "domain": "Psychological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        }
+    ]
+}
