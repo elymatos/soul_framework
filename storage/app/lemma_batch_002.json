@@ -1,0 +1,162 @@
+{
+    "metadata": {
+        "created": "2025-09-21T14:13:08.731007Z",
+        "taxonomy_version": "fn3",
+        "batch_number": 2,
+        "batch_size": 100,
+        "total_processed": 25,
+        "last_updated": "2025-09-21T14:14:03.521159Z"
+    },
+    "classifications": [
+        {
+            "lemma": "abacate",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacate",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacateiro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacateiro",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacaxi",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacaxi",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacaxizeiro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacaxizeiro",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacelar",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacharelar",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abaciar",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacinar",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacisco",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ábaco",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abada",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abada",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abadar",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abade",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abadengo",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abaderna",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abadernar",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abadesar",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abadia",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abadiânia",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abadiar",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Perceptual"
+        }
+    ]
+}

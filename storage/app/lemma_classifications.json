@@ -1,27 +1,21 @@
 {
     "metadata": {
-        "created": "2025-09-20T19:56:43.040491Z",
+        "created": "2025-09-21T13:17:05.449092Z",
         "taxonomy_version": "fn3",
-        "total_processed": 6,
-        "last_updated": "2025-09-20T19:56:43.042992Z"
+        "total_processed": 280,
+        "last_updated": "2025-09-21T14:02:25.291559Z"
     },
     "classifications": [
         {
             "lemma": "turista",
-            "domain": "Social_domain",
-            "subdomain": "Social Roles and Identities",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
             "nature": "Conceptual"
         },
         {
             "lemma": "turista",
-            "domain": "Physical_domain",
-            "subdomain": "Motion and Location",
-            "nature": "Perceptual"
-        },
-        {
-            "lemma": "dinheiro",
             "domain": "Social_domain",
-            "subdomain": "Economic and Commercial Practices",
+            "subdomain": "Social Roles and Identities",
             "nature": "Conceptual"
         },
         {
@@ -31,15 +25,1665 @@
             "nature": "Perceptual"
         },
         {
+            "lemma": "dinheiro",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
             "lemma": "finalidade",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "finalidade",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "função",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "função",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "restante",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "restante",
+            "domain": "Cognitive_domain",
+            "subdomain": "Memory and Learning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "objetivo",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "objetivo",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alvo",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "alvo",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "intenção",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "intenção",
+            "domain": "Cognitive_domain",
+            "subdomain": "Intention and Goal-Oriented Action",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "uso",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "uso",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ambição",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ambição",
+            "domain": "Cognitive_domain",
+            "subdomain": "Intention and Goal-Oriented Action",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aspiração",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aspiração",
+            "domain": "Cognitive_domain",
+            "subdomain": "Intention and Goal-Oriented Action",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ânsia",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ânsia",
+            "domain": "Cognitive_domain",
+            "subdomain": "Emotions and Affective States",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "desejo",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "desejo",
+            "domain": "Cognitive_domain",
+            "subdomain": "Intention and Goal-Oriented Action",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abandono",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abandono",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aptidão",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aptidão",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "competência",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "competência",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "habilidade",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "habilidade",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abuso",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abuso",
+            "domain": "Moral_domain",
+            "subdomain": "Conventions and Ethical Norms and Principles",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alternativa",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alternativa",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "escolha",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "escolha",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "opção",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "opção",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "utilidade",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "utilidade",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "filha",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "filha",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "teatro",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "teatro",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "monte",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "monte",
+            "domain": "Natural_Phenomena",
+            "subdomain": "Geological events",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "existência",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "existência",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "peça",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "peça",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "atividade",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "atividade",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "leitura",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "leitura",
+            "domain": "Cognitive_domain",
+            "subdomain": "Memory and Learning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "interpretação",
             "domain": "Cognitive_domain",
             "subdomain": "Reasoning and Problem-Solving",
             "nature": "Conceptual"
         },
         {
+            "lemma": "interpretação",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "significado",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "significado",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "vergonha",
+            "domain": "Biological_domain",
+            "subdomain": "Emotions and Affective States",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "vergonha",
+            "domain": "Moral_domain",
+            "subdomain": "Conventions and Ethical Norms and Principles",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "movimento",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "movimento",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alongamento",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "alongamento",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "dança",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "dança",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "grupo",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "grupo",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ideia",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ideia",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "tiro",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "tiro",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "briga",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "briga",
+            "domain": "Moral_domain",
+            "subdomain": "Conventions and Ethical Norms and Principles",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "gorda",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "gorda",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "turista",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "turista",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "dinheiro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "dinheiro",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
             "lemma": "finalidade",
-            "domain": "Psychological_domain",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "finalidade",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "função",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "função",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "restante",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "restante",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "objetoivo",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "objetoivo",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alvo",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "alvo",
+            "domain": "Social_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "intenção",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "intenção",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "uso",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "uso",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ambição",
+            "domain": "Cognitive_domain",
             "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ambição",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aspiração",
+            "domain": "Cognitive_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aspiração",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ânsia",
+            "domain": "Cognitive_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ânsia",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "desejo",
+            "domain": "Cognitive_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "desejo",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abandono",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abandono",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aptidão",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aptidão",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "competência",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "competência",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "habilidade",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "habilidade",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abuso",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abuso",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alternativa",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alternativa",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "escolha",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "escolha",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "opção",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "opção",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "utilidade",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "utilidade",
+            "domain": "Social_domain",
+            "subdomain": "Economic and Commercial Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "filha",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "filha",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "teatro",
+            "domain": "Physical_domain",
+            "subdomain": "Spatial Configuration",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "teatro",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "monte",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "monte",
+            "domain": "Geological_domain",
+            "subdomain": "Natural Phenomena",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "existência",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "existência",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "peça",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "peça",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "atividade",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "atividade",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "leitura",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "leitura",
+            "domain": "Cognitive_domain",
+            "subdomain": "Memory and Learning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "interpretação",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "interpretação",
+            "domain": "Cognitive_domain",
+            "subdomain": "Reasoning and Problem-Solving",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "significado",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "significado",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "vergonha",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "vergonha",
+            "domain": "Social_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "movimento",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "movimento",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alongamento",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "alongamento",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "dança",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "dança",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "grupo",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "grupo",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ideia",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ideia",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "tiro",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "tiro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "briga",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "briga",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "gorda",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "gorda",
+            "domain": "Social_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "esquete",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "esquete",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "participação",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "participação",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "brigaiada",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "brigaiada",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "dificuldade",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "dificuldade",
+            "domain": "Cognitive_domain",
+            "subdomain": "Reasoning and Problem-Solving",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "acidente",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "acidente",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "acomodação",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "acomodação",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "acréscimo",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "acréscimo",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aeroporto",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aeroporto",
+            "domain": "Geographical_domain",
+            "subdomain": "Natural Phenomena",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ala",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ala",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "albergue",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "albergue",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "alemanha",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "alemanha",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "apito",
+            "domain": "Physical_domain",
+            "subdomain": "Sound and Acoustics",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "apito",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "arbitragem",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "arbitragem",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "árbitro",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "árbitro",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "área",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "área",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "arena corinthians",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "arena corinthians",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "arena",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "arena",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "argélia",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "argélia",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "argentina",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "argentina",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "arquibancada",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "arquibancada",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "artilheiro",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "artilheiro",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "atacante",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "atacante",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ataque",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ataque",
+            "domain": "Cognitive_domain",
+            "subdomain": "Decision-Making and Planning",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "atleta",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "atleta",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "atração",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "atração",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "austrália",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "austrália",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "auxiliar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "auxiliar",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "avião",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "avião",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "banco de reservas",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "banco de reservas",
+            "domain": "Economic_domain",
+            "subdomain": "Financial Institutions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "banco",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "banco",
+            "domain": "Economic_domain",
+            "subdomain": "Financial Institutions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bandeira",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bandeira",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bandeirinha",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bandeirinha",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bar",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "barca",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "barca",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "barco",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "barco",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "beira-rio",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "beira-rio",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bélgica",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bélgica",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "belo horizonte",
+            "domain": "Geographical_domain",
+            "subdomain": "Cities and Towns",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "belo horizonte",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bola",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bola",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "bósnia herzegovina",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "bósnia herzegovina",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "boteco",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "boteco",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "braçadeira",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "braçadeira",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "brasil",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "brasil",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "brasília",
+            "domain": "Geographical_domain",
+            "subdomain": "Cities and Towns",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "brasília",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "cabeça de chave",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "cabeça de chave",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "cabeceada",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "cabeceada",
+            "domain": "Cultural_domain",
+            "subdomain": "Arts and Creative Practices",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "calção",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "calção",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "camarões",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "camarões",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "câmbio",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "câmbio",
+            "domain": "Economic_domain",
+            "subdomain": "Financial Institutions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "campo",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "campo",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "capitão",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "capitão",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "carrinho",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "carrinho",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "carro",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "carro",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "cartão",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "cartão",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "casa",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "casa",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "cbf",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "cbf",
+            "domain": "Cultural_domain",
+            "subdomain": "Nationality and Ethnicity",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "centro-avante",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "centro-avante",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "chalé",
+            "domain": "Geographical_domain",
+            "subdomain": "Countries and Regions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "chalé",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "chance",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "chance",
+            "domain": "Economic_domain",
+            "subdomain": "Financial Institutions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "check-in",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "check-in",
+            "domain": "Economic_domain",
+            "subdomain": "Financial Institutions",
             "nature": "Conceptual"
         }
     ]

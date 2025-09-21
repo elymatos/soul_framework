@@ -18,7 +18,7 @@ class LemmaDomainClassificationCommand extends Command
                            {--language=1 : Language ID to process}
                            {--pos=NOUN,VERB : POS tags to include (comma-separated)}
                            {--model=llama3.2 : The Llama model to use}
-                           {--output-file=lemma_classifications.json : Output JSON file name}
+                           {--batch-number= : Process specific batch number (optional)}
                            {--test : Process only first 100 lemmas for testing}';
 
     /**
@@ -37,7 +37,7 @@ class LemmaDomainClassificationCommand extends Command
         $languageId = (int) $this->option('language');
         $posTypes = explode(',', $this->option('pos'));
         $model = $this->option('model');
-        $outputFile = $this->option('output-file');
+        $specificBatchNumber = $this->option('batch-number') ? (int) $this->option('batch-number') : null;
         $testMode = $this->option('test');
 
         $this->info('🔍 Starting Lemma Domain Classification...');
@@ -45,7 +45,11 @@ class LemmaDomainClassificationCommand extends Command
         $this->info('POS Types: '.implode(', ', $posTypes));
         $this->info("Batch Size: {$batchSize}");
         $this->info("Model: {$model}");
-        $this->info("Output File: storage/app/{$outputFile}");
+        if ($specificBatchNumber) {
+            $this->info("🎯 Processing specific batch: {$specificBatchNumber}");
+        } else {
+            $this->info('📦 Processing all batches sequentially');
+        }
         if ($testMode) {
             $this->info('🧪 TEST MODE: Processing only first 100 lemmas');
         }
@@ -84,44 +88,115 @@ class LemmaDomainClassificationCommand extends Command
                 return 0;
             }
 
-            $processedCount = 0;
-            $offset = 0;
-            $progressBar = $this->output->createProgressBar($totalCount);
-            $progressBar->start();
+            // Calculate total number of batches
+            $totalBatches = (int) ceil($totalCount / $batchSize);
+            $this->info("Total batches: {$totalBatches}");
 
-            // Process lemmas in batches
-            while ($processedCount < $totalCount) {
-                $remainingCount = $totalCount - $processedCount;
-                $currentBatchSize = min($batchSize, $remainingCount);
-
-                $lemmas = $this->getLemmasBatch($languageId, $posTypes, $currentBatchSize, $offset);
-
-                if (empty($lemmas)) {
-                    break;
+            // Determine which batches to process
+            $batchesToProcess = [];
+            if ($specificBatchNumber !== null) {
+                if ($specificBatchNumber < 1 || $specificBatchNumber > $totalBatches) {
+                    $this->error("Invalid batch number. Must be between 1 and {$totalBatches}");
+                    return 1;
                 }
-
-                // Process this batch with LLM
-                $classifications = $this->processBatch($lemmas, $baseUrl, $model, $domainTaxonomy);
-
-                // Save classifications to file
-                $this->saveClassifications($classifications, $outputFile);
-
-                $batchCount = count($lemmas);
-                $processedCount += $batchCount;
-                $offset += $batchSize;
-
-                $progressBar->advance($batchCount);
-
-                // Break if test mode and we've processed 100
-                if ($testMode && $processedCount >= 100) {
-                    break;
-                }
+                $batchesToProcess = [$specificBatchNumber];
+                $this->info("Processing batch {$specificBatchNumber} of {$totalBatches}");
+            } else {
+                $batchesToProcess = range(1, $totalBatches);
+                $this->info("Processing all {$totalBatches} batches");
             }
 
-            $progressBar->finish();
             $this->newLine();
-            $this->info("✅ Processed {$processedCount} lemmas successfully!");
-            $this->info("📁 Classifications saved to: storage/app/{$outputFile}");
+
+            // Initialize statistics
+            $conversationResets = 0;
+            $skippedBatches = 0;
+            $totalProcessedCount = 0;
+
+            // Process each batch
+            foreach ($batchesToProcess as $currentBatchNumber) {
+                $this->info("🔄 Processing batch {$currentBatchNumber}/{$totalBatches}...");
+                
+                // Calculate offset for this batch
+                $batchOffset = ($currentBatchNumber - 1) * $batchSize;
+                $currentBatchSize = min($batchSize, $totalCount - $batchOffset);
+                
+                if ($currentBatchSize <= 0) {
+                    break;
+                }
+
+                // Initialize conversation history for this batch
+                $conversationHistory = [];
+                $batchProcessedCount = 0;
+                $conversationalBatchNumber = 0;
+
+                // Process lemmas in conversational batches of 10 within this batch
+                while ($batchProcessedCount < $currentBatchSize) {
+                    $remainingInBatch = $currentBatchSize - $batchProcessedCount;
+                    $conversationalBatchSize = min(10, $remainingInBatch); // Fixed at 10 for conversational approach
+                    $conversationalOffset = $batchOffset + $batchProcessedCount;
+
+                    $lemmas = $this->getLemmasBatch($languageId, $posTypes, $conversationalBatchSize, $conversationalOffset);
+
+                    if (empty($lemmas)) {
+                        break;
+                    }
+
+                    $conversationalBatchNumber++;
+                    $isFirstConversationalBatch = ($conversationalBatchNumber === 1);
+                    $previousHistoryLength = count($conversationHistory);
+
+                    // Process this conversational batch
+                    $classifications = $this->processConversationalBatch(
+                        $lemmas,
+                        $baseUrl,
+                        $model,
+                        $domainTaxonomy,
+                        $conversationHistory,
+                        $isFirstConversationalBatch
+                    );
+
+                    // Check if conversation was reset during processing
+                    $currentHistoryLength = count($conversationHistory);
+                    if ($previousHistoryLength > 0 && $currentHistoryLength < $previousHistoryLength) {
+                        $conversationResets++;
+                        $this->line("📊 Conversation reset #$conversationResets for better context");
+                    }
+
+                    // Save classifications to batch-specific file (only if we got results)
+                    if (! empty($classifications)) {
+                        $this->saveClassifications($classifications, $currentBatchNumber);
+                    } else {
+                        $skippedBatches++;
+                    }
+
+                    $batchCount = count($lemmas);
+                    $batchProcessedCount += $batchCount;
+                    $totalProcessedCount += $batchCount;
+                }
+
+                $this->info("✅ Batch {$currentBatchNumber} completed: {$batchProcessedCount} lemmas processed");
+                $this->newLine();
+            }
+
+            $this->info("✅ Processed {$totalProcessedCount} lemmas successfully!");
+            if ($specificBatchNumber !== null) {
+                $this->info("📁 Classifications saved to: storage/app/lemma_batch_" . str_pad($specificBatchNumber, 3, '0', STR_PAD_LEFT) . ".json");
+            } else {
+                $this->info("📁 Classifications saved to batch files: storage/app/lemma_batch_*.json");
+            }
+
+            // Report conversation statistics
+            if ($conversationResets > 0 || $skippedBatches > 0) {
+                $this->newLine();
+                $this->info('📊 Processing Statistics:');
+                if ($conversationResets > 0) {
+                    $this->info("🔄 Conversation resets: {$conversationResets}");
+                }
+                if ($skippedBatches > 0) {
+                    $this->warn("⚠️  Skipped conversational batches: {$skippedBatches}");
+                }
+            }
 
             return 0;
 
@@ -152,6 +227,7 @@ class LemmaDomainClassificationCommand extends Command
             ->select('name')
             ->whereIn('udPOS', $posTypes)
             ->where('idLanguage', $languageId)
+            ->orderBy('name')
             ->limit($limit)
             ->offset($offset)
             ->all();
@@ -172,112 +248,225 @@ class LemmaDomainClassificationCommand extends Command
     }
 
     /**
-     * Process a batch of lemmas with LLM classification
+     * Process a batch of lemmas with conversational LLM classification
      */
-    private function processBatch(array $lemmas, string $baseUrl, string $model, string $domainTaxonomy): array
-    {
+    private function processConversationalBatch(
+        array $lemmas,
+        string $baseUrl,
+        string $model,
+        string $domainTaxonomy,
+        array &$conversationHistory,
+        bool $isFirstBatch,
+        int $retryCount = 0
+    ): array {
         $lemmaNames = array_map(fn ($lemma) => $lemma->name, $lemmas);
 
-        $prompt = $this->createClassificationPrompt($lemmaNames, $domainTaxonomy);
-
-        $payload = [
-            'model' => $model,
-            'messages' => [
+        if ($isFirstBatch) {
+            // Initialize conversation with system message and full taxonomy
+            $conversationHistory = [
                 [
                     'role' => 'system',
-                    'content' => 'You are an expert linguist specialized in semantic domain classification. You must classify words according to the provided taxonomy and respond only with valid JSON.',
+                    'content' => 'You are an expert linguist specialized in semantic domain classification. You must classify words according to the provided taxonomy and respond only with valid JSON. Remember the taxonomy for future classification requests in this conversation.',
                 ],
                 [
                     'role' => 'user',
-                    'content' => $prompt,
+                    'content' => $this->createInitialPrompt($lemmaNames, $domainTaxonomy),
                 ],
-            ],
-            'max_tokens' => 4000,
+            ];
+        } else {
+            // Add follow-up request to existing conversation
+            $conversationHistory[] = [
+                'role' => 'user',
+                'content' => $this->createFollowUpPrompt($lemmaNames),
+            ];
+        }
+
+        $payload = [
+            'model' => $model,
+            'messages' => $conversationHistory,
+            'max_tokens' => 6000,
             'temperature' => 0.3,
         ];
 
         $response = $this->makeCurlRequest("{$baseUrl}/v1/chat/completions", $payload);
 
         if ($response && isset($response['choices'][0]['message']['content'])) {
-            return $this->parseClassificationResponse($response['choices'][0]['message']['content'], $lemmaNames);
+            $responseContent = $response['choices'][0]['message']['content'];
+
+            try {
+                $classifications = $this->parseClassificationResponse($responseContent, $lemmaNames);
+
+                // Add LLM response to conversation history only if parsing succeeded
+                $conversationHistory[] = [
+                    'role' => 'assistant',
+                    'content' => $responseContent,
+                ];
+
+                // Log successful processing
+                if ($retryCount > 0) {
+                    $this->info('✅ Batch succeeded after conversation reset');
+                }
+
+                return $classifications;
+            } catch (Exception $e) {
+                // Handle JSON parsing errors with conversation reset
+                if ($retryCount < 2) { // Maximum 2 retries
+                    $this->info('🔄 Context window full, restarting conversation (attempt '.($retryCount + 1).'/2)');
+                    $this->warn("JSON error: {$e->getMessage()}");
+
+                    // Reset conversation history to start fresh
+                    $conversationHistory = [];
+
+                    // Retry with fresh context (recursive call)
+                    return $this->processConversationalBatch(
+                        $lemmas,
+                        $baseUrl,
+                        $model,
+                        $domainTaxonomy,
+                        $conversationHistory,
+                        true, // Force fresh start
+                        $retryCount + 1
+                    );
+                } else {
+                    // Maximum retries reached, log error and continue
+                    $this->error('❌ Failed after 2 retry attempts, skipping batch');
+                    $this->warn("Final error: {$e->getMessage()}");
+                    $this->warn('Response preview: '.substr($responseContent, 0, 200).'...');
+
+                    return [];
+                }
+            }
         }
 
         throw new Exception('Failed to get valid response from LLM');
     }
 
     /**
-     * Create classification prompt for batch of lemmas
+     * Create initial prompt with balanced taxonomy and first batch of lemmas
      */
-    private function createClassificationPrompt(array $lemmaNames, string $domainTaxonomy): string
+    private function createInitialPrompt(array $lemmaNames, string $domainTaxonomy): string
     {
         $lemmaList = implode(', ', $lemmaNames);
 
-        // Create a condensed version of the taxonomy for the prompt
-        $condensedTaxonomy = $this->createCondensedTaxonomy();
+        // Create a balanced taxonomy with key descriptions
+        $balancedTaxonomy = $this->createBalancedTaxonomy();
 
         return "
-Classify each word into semantic domains, considering POLYSEMY (multiple meanings).
+I need you to classify words into semantic domains using the taxonomy below. Please remember this taxonomy for our entire conversation.
 
-DOMAINS & SUBDOMAINS:
-{$condensedTaxonomy}
+SEMANTIC DOMAIN TAXONOMY:
+{$balancedTaxonomy}
 
-NATURE TYPES:
-- Perceptual: Can be perceived through the five senses or as an emotional state
-- Conceptual: Abstract categorization or concepts that are not perceptual
+CLASSIFICATION INSTRUCTIONS:
+1. Each word can have POLYSEMY (multiple meanings)
+2. Provide 1-3 different domain/subdomain classifications per word
+3. Nature types: 'Perceptual' (perceived through senses/emotions) or 'Conceptual' (abstract categorization)
+4. Use exact domain and subdomain names from the taxonomy above
 
-WORDS TO CLASSIFY: {$lemmaList}
-
-POLYSEMY INSTRUCTIONS:
-Due to polysemy, each word can have multiple meanings. Provide 1-3 different domain/subdomain classifications per word based on its different possible meanings or uses.
+FIRST BATCH OF WORDS TO CLASSIFY: {$lemmaList}
 
 Respond with ONLY valid JSON in this exact format:
 
 {
   \"classifications\": [
     {
-      \"lemma\": \"banco\",
+      \"lemma\": \"example\",
       \"classifications\": [
         {
           \"domain\": \"Physical_domain\",
-          \"subdomain\": \"Motion and Location\",
+          \"subdomain\": \"Matter and Substances\",
           \"nature\": \"Perceptual\"
-        },
-        {
-          \"domain\": \"Social_domain\",
-          \"subdomain\": \"Economic and Commercial Practices\",
-          \"nature\": \"Conceptual\"
         }
       ]
     }
   ]
 }
 
-Classify all ".count($lemmaNames).' words. Each word can have 1-3 classifications. Use exact domain/subdomain names above.';
+Please classify these ".count($lemmaNames).' words and remember the taxonomy for future requests in this conversation.';
     }
 
     /**
-     * Create condensed taxonomy for prompt
+     * Create balanced taxonomy with key descriptions
      */
-    private function createCondensedTaxonomy(): string
+    private function createBalancedTaxonomy(): string
     {
         return '
-Physical_domain: Matter and Substances, Motion and Location, Physical Transformation, Natural Phenomena, Manipulation and Interaction with Objects
+# Physical_domain - Material world, objects, matter, forces, energy, spatial configurations
+- Matter and Substances: Material composition, building blocks, observable characteristics
+- Motion and Location: Movement, positioning, spatial relationships
+- Physical Transformation: Changes in form, state, properties of matter
+- Natural Phenomena: Weather, geological events, astronomical phenomena
+- Manipulation and Interaction with Objects: Physical engagement, tools, arrangements
 
-Biological_domain: Biological Entities and Life Processes, Health and Illness, Body and Anatomy, Physiological Functions, Ecological Systems
+# Biological_domain - Living organisms, biological systems, anatomy, physiology
+- Biological Entities and Life Processes: Living beings, life cycles, essential activities
+- Health and Illness: Wellness to disease spectrum, health conditions
+- Body and Anatomy: Bodily structure, body parts, spatial relationships
+- Physiological Functions: Biological processes, vital functions, bodily activities
+- Ecological Systems: Interconnected relationships, habitats, environmental interdependence
 
-Social_domain: Social Roles and Identities, Institutions and Organizations, Economic and Commercial Practices, Governance and Law, Social Interaction and Relationships, Conflict and Cooperation, Group Dynamics and Collective Behavior
+# Social_domain - Interpersonal relationships, institutions, social roles, governance
+- Social Roles and Identities: Positions, functions, social personas, status
+- Institutions and Organizations: Formal/informal structures, collective activities
+- Economic and Commercial Practices: Exchange, trade, production, consumption
+- Governance and Law: Authority, rule-making, social control, legal obligations
+- Social Interaction and Relationships: Communication, connections, social engagement
+- Conflict and Cooperation: Competitive/collaborative dynamics, social tensions
+- Group Dynamics and Collective Behavior: Group formation, collective action
 
-Cultural_domain: Beliefs and Worldviews, Rituals and Traditions, Arts and Creative Practices, Cultural Narratives and Memory, Heritage and Identity
+# Cultural_domain - Symbolic systems, traditions, arts, heritage, belief systems
+- Beliefs and Worldviews: Perspectives on reality, philosophical orientations
+- Rituals and Traditions: Ceremonial practices, customary behaviors
+- Arts and Creative Practices: Creative expression, aesthetic appreciation, artistic production
+- Cultural Narratives and Memory: Stories, histories, collective memories
+- Heritage and Identity: Cultural inheritance, group membership, cultural markers
 
-Psychological_domain: Perception and Sensation, Emotions and Affective States, Needs and Drives and Motivations, Subjective Experience of the Body and Environment
+# Psychological_domain - Perceptual, emotional, affective experiences
+- Perception and Sensation: Sensory information processing, perceptual organization
+- Emotions and Affective States: Feeling states, emotional responses, moods
+- Needs and Drives and Motivations: Internal forces, biological/psychological needs
+- Subjective Experience of the Body and Environment: First-person embodied experience
 
-Cognitive_domain: Attention and Awareness, Memory and Learning, Reasoning and Problem-Solving, Decision-Making and Planning, Beliefs and Knowledge and Assumptions, Intention and Goal-Oriented Action, Cognitive Judgments and Evaluations
+# Cognitive_domain - Higher-order mental processes, reasoning, memory, decision-making
+- Attention and Awareness: Consciousness, selective attention, awareness states
+- Memory and Learning: Information acquisition, storage, retrieval, skill development
+- Reasoning and Problem-Solving: Logical thinking, analytical processes, inference
+- Decision-Making and Planning: Choice processes, future-oriented thinking
+- Beliefs and Knowledge and Assumptions: Information base, worldview, knowledge forms
+- Intention and Goal-Oriented Action: Purposive behavior, goal formation, agency
+- Cognitive Judgments and Evaluations: Assessment processes, evaluative thinking
 
-Representational_domain: Signs and Communication and Language, Information Structures, Media and Digital Systems, Formal Systems and Abstract Representations, Knowledge Representation
+# Representational_domain - Abstract representations, information, symbolic systems
+- Signs and Communication and Language: Symbolic systems, communicative processes
+- Information Structures: Organization, categorization of information
+- Media and Digital Systems: Technological systems, electronic media
+- Formal Systems and Abstract Representations: Rule-based systems, mathematical frameworks
+- Knowledge Representation: Encoding, storing, expressing knowledge
 
-Space-time_domain: Spatial Configuration, Temporal Structure, Motion and Trajectory, Change over Time
+# Space-time_domain - Spatial and temporal structures, location, duration
+- Spatial Configuration: Arrangement, geometric relationships, layouts
+- Temporal Structure: Time organization, temporal relationships, sequences
+- Motion and Trajectory: Movement through space-time, paths, dynamics
+- Change over Time: Transformation, development, evolution processes
 
-Moral_domain: Conventions and Ethical Norms and Principles, Moral Judgments and Evaluations, Rights and Duties and Justice, Moral Emotions and Responses';
+# Moral_domain - Values, norms, moral judgments, ethical principles
+- Conventions and Ethical Norms and Principles: Moral rules, ethical frameworks
+- Moral Judgments and Evaluations: Moral assessment, ethical decision-making
+- Rights and Duties and Justice: Entitlements, obligations, fair treatment
+- Moral Emotions and Responses: Guilt, shame, pride, empathy in moral contexts';
+    }
+
+    /**
+     * Create follow-up prompt for subsequent batches
+     */
+    private function createFollowUpPrompt(array $lemmaNames): string
+    {
+        $lemmaList = implode(', ', $lemmaNames);
+
+        return '
+Continue classifying these '.count($lemmaNames)." words using the same domain taxonomy and polysemy approach as before: {$lemmaList}
+
+Respond with the same JSON format as previous classifications.";
     }
 
     /**
@@ -333,10 +522,11 @@ Moral_domain: Conventions and Ethical Norms and Principles, Moral Judgments and 
     }
 
     /**
-     * Save classifications to JSON file
+     * Save classifications to batch-specific JSON file
      */
-    private function saveClassifications(array $classifications, string $filename): void
+    private function saveClassifications(array $classifications, int $batchNumber): void
     {
+        $filename = 'lemma_batch_' . str_pad($batchNumber, 3, '0', STR_PAD_LEFT) . '.json';
         $filepath = storage_path("app/{$filename}");
 
         $existingData = [];
@@ -351,6 +541,8 @@ Moral_domain: Conventions and Ethical Norms and Principles, Moral Judgments and 
                 'metadata' => [
                     'created' => now()->toISOString(),
                     'taxonomy_version' => 'fn3',
+                    'batch_number' => $batchNumber,
+                    'batch_size' => 100,
                     'total_processed' => 0,
                 ],
                 'classifications' => [],

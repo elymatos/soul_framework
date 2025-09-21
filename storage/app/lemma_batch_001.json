@@ -1,0 +1,384 @@
+{
+    "metadata": {
+        "created": "2025-09-21T14:08:09.706266Z",
+        "taxonomy_version": "fn3",
+        "batch_number": 1,
+        "batch_size": 100,
+        "total_processed": 62,
+        "last_updated": "2025-09-21T14:11:47.687648Z"
+    },
+    "classifications": [
+        {
+            "lemma": ",",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Space-time_domain",
+            "subdomain": "Temporal Structure",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "100 metros rasos masculino",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "100 metros rasos masculino",
+            "domain": "Biological_domain",
+            "subdomain": "Body and Anatomy",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Physical_domain",
+            "subdomain": "Motion and Location",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a favor",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a favor",
+            "domain": "Moral_domain",
+            "subdomain": "Conventions and Ethical Norms and Principles",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a pedido médico",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a pedido médico",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "à-vontade",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "à-vontade",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aarão",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aarão",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": ",",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "100 metros rasos masculino",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "100 metros rasos masculino",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Cultural_domain",
+            "subdomain": "Beliefs and Worldviews",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a",
+            "domain": "Representational_domain",
+            "subdomain": "Signs and Communication and Language",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a favor",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a favor",
+            "domain": "Cognitive_domain",
+            "subdomain": "Beliefs and Knowledge and Assumptions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "a pedido médico",
+            "domain": "Biological_domain",
+            "subdomain": "Health and Illness",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "a pedido médico",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "à-vontade",
+            "domain": "Biological_domain",
+            "subdomain": "Needs and Drives and Motivations",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "à-vontade",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aarão",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aarão",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aaron",
+            "domain": "Biological_domain",
+            "subdomain": "Biological Entities and Life Processes",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aaron",
+            "domain": "Social_domain",
+            "subdomain": "Social Roles and Identities",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "aba",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "aba",
+            "domain": "Social_domain",
+            "subdomain": "Institutions and Organizations",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ababadar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ababadar",
+            "domain": "Social_domain",
+            "subdomain": "Social Interaction and Relationships",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ababalhar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ababalhar",
+            "domain": "Social_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ababelar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ababelar",
+            "domain": "Social_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "ababosar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "ababosar",
+            "domain": "Social_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacá",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacá",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacado",
+            "domain": "Physical_domain",
+            "subdomain": "Matter and Substances",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacado",
+            "domain": "Biological_domain",
+            "subdomain": "Ecological Systems",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abacalhoar",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abacalhoar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        },
+        {
+            "lemma": "abaçanar",
+            "domain": "Physical_domain",
+            "subdomain": "Manipulation and Interaction with Objects",
+            "nature": "Conceptual"
+        },
+        {
+            "lemma": "abaçanar",
+            "domain": "Biological_domain",
+            "subdomain": "Physiological Functions",
+            "nature": "Perceptual"
+        }
+    ]
+}
