@@ -1,0 +1,105 @@
+Let's take a step back, and review the overall architecture of the proposal cognitive framework. The framework will be composed by 4 modules/components:
+(a) the conceptual/cognitive network, where each "node" is a simplified cortical column with 3 layers (layer 4: input, layer 2/3: features and layer 5: output). Input layer receive connections from other nodes (columns); processing feature layer agreggate information from input in "relations" or "clusters" that represents a festure of the concept; Output layer comprises one or more "cardinal nodes" that represents the concept and is used to connect other nodes input. As in the cortex, it is crucial to consider that no node alone contains "meaning": the "meaning" of a concept is expressed by the network activated by the concept. It is the fact that hundreds (or thousands) of nodes are activated that generates "meaning".
+(b) The interface with the framework is basically a linguistic one and it will use LLMs (Large Language Models). Inputs from user will be parsed with LLMs to generate structures relative to the conceptual network. Results os processing in the network will be expressed linguistically using LLMs to generate the output text.
+(c) A processing components. The dynamics of the framework will be implemented computationally using a programming language. The first approach is to use an Object Oriented language to implement processs like spread activation, reasoning, inference, interface to the database, etc. This will be represented by "agents", in the sense of "Society of Mind". We will need a lot of agents to specific and simple tasks, and a method to create cooperation between agents to execute complex tasks. In the same way that the basic structure of network is simple in essence and the power comes from the connectivity, the agents must be simple in essence but perfull when used colectivaly.
+(d) The interface with the human user will be implemented as a web application.
+
+Then, about your questions Architecture Design:
+Generally speaking, Frame Dynamics, Constraint Propagation, Failure Handling and Frame Composition are process that should be implemented programmatically, accessing and modifying the network structure, by a series of agents.
+Although it is not biologically plausible at the moment, the general idea is that the network represents the "brain" and the agents represents the "mind".
+
+Of course, during the development of the idea and the computational implementation many issus and questions will appear, so it is necessary to initially have a solid "phylosophycal" base to guide the decision along the way.
+
+
+====
+
+Your concerns about the boundaries between representational and processual components are very reasonable.
+What I have in mind is something like the hybrid process you have cited:
+- Basic operations (spread activation, thresholding) remain intrinsic to cortical columns.
+- Complex operations (reasoning chains, constraint satisfaction) are handled by agents.
+- Interface operations (LLM parsing/generation) are pure agent functions.
+
+Let's explore this a little more:
+- Recall that columns are "functional units", this is, they have functions. These functions need to be programmaticaly implemented. Spread activation, integration, brodcast (in a object oriented view) will be methods of the general "CorticalColumn" class. They will be implemented programmatically and will act over the network representation (stored in the Neo4j database). These are intrinsic to the columns and not a function for "agents".
+- "Agents" are meant to be used in the manutention of the network: read/register actual state, remove connections, create connections, implement control structures (if-then, loops), etc. Complex operations, like reasoning chains and constraint satisfaction would be implemented by a serie of agents (as a program could need to execute many functions to get a goal). At first, these complex task will be previously programmed, but the use of the system can show new needs.
+- Yes, LLM operations are meant to be pure agents functions.
+
+2. Activation Dynamics
+Question: What prevents runaway activation that might activate the entire network?
+Answer: The network will have inhibitory links, activated by "inhibitory cells" (like the ones present in the cortes, as SOM, PV, etc). But as you have pointed before, the defeasible logic through inhibitory connections could be enriched by: Competitive Inhibition: Alternative frame interpretations inhibiting each other / Contextual Gating: Some frame elements only active in specific contexts / Temporal Dynamics: Lamb's "wait elements" for sequential frame filling.
+
+3. Agent Coordination Mechanisms
+Minsy's "Society of Mind" outline four primary strategies for "accommodation" when a frame encounters a discrepancy or an important condition cannot be satisfied: matching, excuse,advice, summary. The initial idea is to study how to implement this strategies in the framework. Crucially there is no a "central processor". But I think we have solutions for this problem (coordination of distributed agents) in the literature.
+
+4.Implementation Strategy Questions
+
+Question: Incremental Development: Will you start with simple frame activation and gradually add reasoning agents?
+Answer: Yes.
+
+Question: Network Initialization: How do you bootstrap the initial network structure and connection patterns?
+Answer: My ideia is create a initial structure by hand, representing basic image schemas. After, using language, extend gradually the network, using commands like "A box is a container"... over the basic image schemas we put basic concepts, and over basic concept more complex concepts. I think about to build the world model step-by-step, but using LLMs in the process. For example, for a simple prompt like "what is a birds? What are the main features of a bird?" LLM will generate responses, this responses will be pre-processed and converted in concepts and this concepts will be created and linked in the network.
+
+Question: Learning vs. Engineering: Will agents modify the network structure through experience, or will it be primarily hand-engineered?
+Answer: the process is explained in the previous answer.
+
+Question: Validation Approach: How will you verify that the network+agents system produces coherent reasoning?
+Answer: in the initial phase, by human validation, while the network is at small scale.
+
+==
+
+Questions (Q) and answers (A):                                                                                                                                                                                                                                                │ │
+Q: Do you have Neo4j connection details ready (host, port, username, password)?
+A: Yes, I have
+│ │
+Q: Should we add Neo4j configuration to config/database.php or create a separate config/neo4j.php?
+A: create a separated configuration.
+│ │
+Q: What's the preferred connection pattern - should GraphCriteria follow the same static instantiation pattern as Criteria?
+A: if possible, use the same static instantiation pattern as Criteria.
+
+│ │
+│ │ Questions for GraphCriteria:                                                                                                                                                                                                                                             │ │
+Q: Should it follow similar static methods like GraphCriteria::node('Label') or GraphCriteria::match('pattern')?
+A: Yes.
+
+Q: How should Cypher query building work - should it mirror SQL patterns or be more graph-native?
+A: be more graph-native.
+
+
+Q: Do you want fluent interface like GraphCriteria::node('CorticalColumn')->where('layer', 4)->withRelations('CONNECTS_TO')?
+A: Yes.
+
+│ │ 3. Data Return Format                                                                                                                                                                                                                                                    │ │
+Q: Should GraphCriteria return objects similar to Criteria (stdClass) or custom data structures?
+A: if possible it is good to keep the same pattern. But I know that graph results has a more graph-like structure, so use nested objects if necessary.
+
+Q: How should graph relationships be represented in the returned data?
+A: as nested objects, using the type of relation as the name of the attribute that contains the related objects.
+
+Q: Do you want to maintain compatibility with existing patterns or optimize for graph operations?
+A: optimize for graph operations
+                                                                                                                                                                                                                                                                         │ │
+4. Error Handling & Logging
+Q: Should GraphCriteria use the same error handling patterns as Criteria?
+A: Yes.
+
+Q:How should Neo4j connection failures be handled?
+A: throwing exceptions.
+│ │
+Q: Should there be query logging similar to SQL query logging?
+A: Yes. controlled by a .env variable.│ │
+│ │                                                                                                                                                                                                                                                                          │ │
+5. Cortical Column Schema Decisions
+
+Q: What node labels should we use? (e.g., :CorticalColumn, :Layer4, :Layer23, :Layer5)?
+A: This is the most important question because it defines the structure of the network.
+All the nodes will have the same structure/shape. Roughly speaking, they are "neurons". It is the interconnection the define the layout of a "column".
+For each neuron (node) we will have (initially) the following attributes:
+- ID (must be unique in the network)
+- name (serving as label, just for easy identification)
+- layer: 4, 23 or 5
+- activation_level
+- threshold
+- created_at
+Strictly speaking, a neuron don't "know" that it belongs to a column. It is the its connections that define this "belonging".
+For relationships we can create initially the following types: :CONNECTS_TO, :ACTIVATES, :INHIBITS.

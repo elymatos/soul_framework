@@ -25,16 +25,6 @@ return new class extends Migration
 
             // Indexes for performance
             $table->index(['type', 'created_at']);
-
-            // Index for JSON attributes to support queries on 'really_exists'
-            $table->index([
-                \Illuminate\Support\Facades\DB::raw("(JSON_EXTRACT(attributes, '$.really_exists'))"),
-            ], 'idx_really_exists');
-
-            // Full-text search index for entity descriptions
-            $table->index([
-                \Illuminate\Support\Facades\DB::raw("(JSON_EXTRACT(attributes, '$.description'))"),
-            ], 'idx_description');
         });
     }
 

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'webtool'),
+    'default' => env('DB_CONNECTION', 'ccf'),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
 
     'connections' => [
 
-        'webtool' => [
+        'ccf' => [
             'driver' => 'mariadb',
             // 'platform' => 'pdo_mysql',
             'url' => env('DATABASE_URL'),
