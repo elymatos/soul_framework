@@ -170,14 +170,16 @@ class CorticalNetworkController extends Controller
         ]);
 
         try {
-            $neuron = $this->networkService->createNeuron([
-                'name' => $validated['name'],
-                'layer' => $validated['layer'],
-                'column_id' => $validated['column_id'],
-                'neuron_type' => $validated['neuron_type'],
-                'activation_level' => $validated['activation_level'] ?? 0.0,
-                'threshold' => $validated['threshold'] ?? 0.5,
-            ]);
+            $neuron = $this->networkService->createNeuron(
+                $validated['name'],
+                $validated['layer'],
+                [
+                    'column_id' => $validated['column_id'],
+                    'neuron_type' => $validated['neuron_type'],
+                    'activation_level' => $validated['activation_level'] ?? 0.0,
+                    'threshold' => $validated['threshold'] ?? 0.5,
+                ]
+            );
 
             return $this->renderNotify('success', "Neuron '{$validated['name']}' created in Layer {$validated['layer']}")
                 ->header('HX-Trigger', json_encode(['reload-cortical-network' => true]));
