@@ -74,3 +74,5 @@ This choice is motivated by the following requirements and capabilities:
 
 
 This holistic approach integrates linguistic, psychological, and computational principles into a unified framework for representing and reasoning about meaning.
+
+<!-- cache check 2026-10-20 -->
